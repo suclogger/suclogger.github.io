@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="We talk about Spring Boot integration with Dubbo this time.">
+<meta name="keywords" content="Spring-Boot,Dubbo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring-Boot相关及Dubbo集成">
+<meta property="og:url" content="https://suclogger.me/Spring-Boot相关及Dubbo集成/index.html">
+<meta property="og:site_name" content="Suclogger">
+<meta property="og:description" content="We talk about Spring Boot integration with Dubbo this time.">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://suclogger.me/image/2017-04-16-13-57-26.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2017-04-16-13-55-50.jpg">
+<meta property="og:updated_time" content="2017-04-16T06:21:56.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Spring-Boot相关及Dubbo集成">
+<meta name="twitter:description" content="We talk about Spring Boot integration with Dubbo this time.">
+<meta name="twitter:image" content="https://suclogger.me/image/2017-04-16-13-57-26.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://suclogger.me/Spring-Boot相关及Dubbo集成/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>Spring-Boot相关及Dubbo集成 | Suclogger</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Suclogger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">莆放</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories" rel="section">Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">Sitemap</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/Spring-Boot相关及Dubbo集成/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Spring-Boot相关及Dubbo集成
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2017-04-16 11:45:23 / Modified: 14:21:56" itemprop="dateCreated datePublished" datetime="2017-04-16T11:45:23+08:00">2017-04-16</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>We talk about Spring Boot integration with Dubbo this time.<br><a id="more"></a></p>
+<h1 id="Spring-Boot-Hello-World"><a href="#Spring-Boot-Hello-World" class="headerlink" title="Spring Boot Hello World"></a>Spring Boot Hello World</h1><p>一个Spirng Boot的Hello World：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpringBootSimpleApplication</span> &#123;</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> main(String[] args) &#123;</span><br><span class="line">		SpringApplication.run(SpringBootSimpleApplication.<span class="keyword">class</span>, args);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>基础注解：<code>@SpringBootApplication</code><br><figure class="highlight less"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@Target</span>(ElementType.TYPE)</span><br><span class="line"><span class="variable">@Retention</span>(RetentionPolicy.RUNTIME)</span><br><span class="line"><span class="variable">@Documented</span></span><br><span class="line"><span class="variable">@Inherited</span></span><br><span class="line"><span class="variable">@SpringBootConfiguration</span></span><br><span class="line"><span class="variable">@EnableAutoConfiguration</span></span><br><span class="line"><span class="variable">@ComponentScan</span>(excludeFilters = &#123;</span><br><span class="line">		<span class="variable">@Filter</span>(type = FilterType.CUSTOM, classes = TypeExcludeFilter.class),</span><br><span class="line">		<span class="variable">@Filter</span>(type = FilterType.CUSTOM, classes = AutoConfigurationExcludeFilter.class) &#125;)</span><br><span class="line">public <span class="variable">@interface</span> SpringBootApplication &#123;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Exclude specific auto-configuration classes such that they will never be applied.</span></span><br><span class="line"><span class="comment">	 * @return the classes to exclude</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="variable">@AliasFor</span>(annotation = EnableAutoConfiguration.class, attribute = <span class="string">"exclude"</span>)</span><br><span class="line">	Class&lt;?&gt;[] exclude() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Exclude specific auto-configuration class names such that they will never be</span></span><br><span class="line"><span class="comment">	 * applied.</span></span><br><span class="line"><span class="comment">	 * @return the class names to exclude</span></span><br><span class="line"><span class="comment">	 * @since 1.3.0</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="variable">@AliasFor</span>(annotation = EnableAutoConfiguration.class, attribute = <span class="string">"excludeName"</span>)</span><br><span class="line">	String[] excludeName() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Base packages to scan for annotated components. Use &#123;@link #scanBasePackageClasses&#125;</span></span><br><span class="line"><span class="comment">	 * for a type-safe alternative to String-based package names.</span></span><br><span class="line"><span class="comment">	 * @return base packages to scan</span></span><br><span class="line"><span class="comment">	 * @since 1.3.0</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="variable">@AliasFor</span>(annotation = ComponentScan.class, attribute = <span class="string">"basePackages"</span>)</span><br><span class="line">	String[] scanBasePackages() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * Type-safe alternative to &#123;@link #scanBasePackages&#125; for specifying the packages to</span></span><br><span class="line"><span class="comment">	 * scan for annotated components. The package of each class specified will be scanned.</span></span><br><span class="line"><span class="comment">	 * &lt;p&gt;</span></span><br><span class="line"><span class="comment">	 * Consider creating a special no-op marker class or interface in each package that</span></span><br><span class="line"><span class="comment">	 * serves no purpose other than being referenced by this attribute.</span></span><br><span class="line"><span class="comment">	 * @return base packages to scan</span></span><br><span class="line"><span class="comment">	 * @since 1.3.0</span></span><br><span class="line"><span class="comment">	 */</span></span><br><span class="line">	<span class="variable">@AliasFor</span>(annotation = ComponentScan.class, attribute = <span class="string">"basePackageClasses"</span>)</span><br><span class="line">	Class&lt;?&gt;[] scanBasePackageClasses() default &#123;&#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个一个组合注解，包含了<code>@SpringBootConfiguration</code>、<code>@EnableAutoConfiguration</code>和<code>@ComponentScan</code>。<br>关键是<code>@EnableAutoConfiguration</code>这个注解负责自动配置，依次检查类路径，注解，配置文件来为你创建所需的配置：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">EnableAutoConfigurationImportSelector</span></span></span><br><span class="line"><span class="class">		<span class="keyword">extends</span> <span class="title">AutoConfigurationImportSelector</span> &#123;</span></span><br><span class="line"></span><br><span class="line">	<span class="meta">@Override</span></span><br><span class="line">	<span class="keyword">protected</span> <span class="keyword">boolean</span> isEnabled(AnnotationMetadata metadata) &#123;</span><br><span class="line">		<span class="keyword">if</span> (getClass().equals(EnableAutoConfigurationImportSelector.<span class="keyword">class</span>)) &#123;</span><br><span class="line">			<span class="keyword">return</span> getEnvironment().getProperty(</span><br><span class="line">					EnableAutoConfiguration.ENABLED_OVERRIDE_PROPERTY, Boolean.<span class="keyword">class</span>,</span><br><span class="line">					<span class="literal">true</span>);</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>1.5之后，主要功能迁移到了<code>AutoConfigurationImportSelector</code>中，其中最为关键的是<code>getCandidateConfiguration</code>方法：<br><figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">protected</span> <span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; getCandidateConfigurations(AnnotationMetadata metadata,</span><br><span class="line">			AnnotationAttributes attributes) &#123;</span><br><span class="line">		<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; configurations = SpringFactoriesLoader.loadFactoryNames(</span><br><span class="line">				getSpringFactoriesLoaderFactoryClass(), getBeanClassLoader());</span><br><span class="line">		Assert.notEmpty(configurations,</span><br><span class="line">				<span class="string">"No auto configuration classes found in META-INF/spring.factories. If you "</span></span><br><span class="line">						+ <span class="string">"are using a custom packaging, make sure that file is correct."</span>);</span><br><span class="line">		<span class="keyword">return</span> configurations;</span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在这个方法中，使用了<code>SpringFactoriesLoader.loadFactoryNames</code>方法来加载候选配置：<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> List&lt;<span class="keyword">String</span>&gt; loadFactoryNames(Class&lt;?&gt; factoryClass, ClassLoader classLoader) &#123;</span><br><span class="line">        <span class="keyword">String</span> factoryClassName = factoryClass.getName();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            Enumeration&lt;URL&gt; urls = classLoader != <span class="literal">null</span>?classLoader.getResources(<span class="string">"META-INF/spring.factories"</span>):<span class="type">ClassLoader</span>.getSystemResources(<span class="string">"META-INF/spring.factories"</span>);</span><br><span class="line">            ArrayList result = <span class="keyword">new</span> <span class="type">ArrayList</span>();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">while</span>(urls.hasMoreElements()) &#123;</span><br><span class="line">                URL url = (URL)urls.nextElement();</span><br><span class="line">                Properties properties = PropertiesLoaderUtils.loadProperties(<span class="keyword">new</span> <span class="type">UrlResource</span>(url));</span><br><span class="line">                <span class="keyword">String</span> factoryClassNames = properties.getProperty(factoryClassName);</span><br><span class="line">                result.addAll(Arrays.asList(StringUtils.commaDelimitedListToStringArray(factoryClassNames)));</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> result;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException var8) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="type">IllegalArgumentException</span>(<span class="string">"Unable to load ["</span> + factoryClass.getName() + <span class="string">"] factories from location ["</span> + <span class="string">"META-INF/spring.factories"</span> + <span class="string">"]"</span>, var8);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个方法从类路径或者定义的资源路径下的<code>META-INF/spring.factories</code>文件中加载候选配置。<br>org.springframework.boot.autoconfigure包下的<code>spring.factories</code>如下：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Initializers</span></span><br><span class="line"><span class="keyword">org.springframework.context.ApplicationContextInitializer=\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer,\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.logging.AutoConfigurationReportLoggingInitializer</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword"># </span>Application Listeners</span><br><span class="line"><span class="keyword">org.springframework.context.ApplicationListener=\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.BackgroundPreinitializer</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword"># </span>Auto Configuration Import Listeners</span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.AutoConfigurationImportListener=\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.condition.ConditionEvaluationReportAutoConfigurationImportListener</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword"># </span>Auto Configuration Import Filters</span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.AutoConfigurationImportFilter=\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.condition.OnClassCondition</span></span><br><span class="line"><span class="keyword"></span></span><br><span class="line"><span class="keyword"># </span>Auto Configure</span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration,\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.aop.AopAutoConfiguration,\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration,\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration,\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration,\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.cassandra.CassandraAutoConfiguration,\</span></span><br><span class="line"><span class="keyword">org.springframework.boot.autoconfigure.cloud.CloudAutoConfiguration,\</span></span><br><span class="line"><span class="keyword">...</span></span><br></pre></td></tr></table></figure></p>
+<p><code>spring.factories</code>文件定义了所有用于推断当前运行的应用程序的类型的逻辑和对应各个程序类型的自动配置方法。<br>以<code>CloudAutoConfiguration</code>为例：<br><figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@Profile</span>(<span class="string">"cloud"</span>)</span><br><span class="line"><span class="meta">@AutoConfigureOrder</span>(CloudAutoConfiguration.ORDER)</span><br><span class="line"><span class="meta">@ConditionalOnClass</span>(CloudScanConfiguration.<span class="keyword">class</span>)</span><br><span class="line"><span class="meta">@ConditionalOnMissingBean</span>(Cloud.<span class="keyword">class</span>)</span><br><span class="line"><span class="meta">@ConditionalOnProperty</span>(prefix = <span class="string">"spring.cloud"</span>, name = <span class="string">"enabled"</span>, havingValue = <span class="string">"true"</span>, matchIfMissing = <span class="literal">true</span>)</span><br><span class="line"><span class="meta">@Import</span>(CloudScanConfiguration.<span class="keyword">class</span>)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CloudAutoConfiguration</span> &#123;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// Cloud configuration needs to happen early (before data, mongo etc.)</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> ORDER = Ordered.HIGHEST_PRECEDENCE + <span class="number">20</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个配置函数会将当前应用配置为一个cloud应用，判断依据是<code>@ConditionalOnClass</code>、<code>@ConditionalOnMissingBean</code>和<code>@ConditionalOnProperty</code>：类路径中存在<code>CloudScanConfiguration</code>、容器当前没有<code>Cloud</code>类的Bean实例而且配置参数中<code>spring.cloud</code>值为<code>true</code>或不存在这个配置项，即默认匹配。<br><code>@Profile</code>表示加载<code>cloud</code>配置，<code>@Import</code>表示如果上述条件满足，则加载<code>CloudScanConfiguration</code>。<br>看完了注解 ，再来看看main函数。<br><code>SpringApplication</code>这个类起到了引导（bootstrap）的作用。<br>除了最基本的<code>run</code>方法，还可以通过<code>SpringApplication</code>提供的更多方法对应用进行定制。</p>
+<h1 id="Spring-Boot-Starter"><a href="#Spring-Boot-Starter" class="headerlink" title="Spring Boot Starter"></a>Spring Boot Starter</h1><p>可以把Starter理解为一个完整功能的自动配置。例如通过引入spring-boot-starter-jdbc，我们就可以直接通过@Autowired引入DataSource的bean，不需要再手动创建DataSource的相关实例。</p>
+<h2 id="Custom-Starter"><a href="#Custom-Starter" class="headerlink" title="Custom Starter"></a>Custom Starter</h2><p>在上面我们可以看到，Spring Boot通过扫描<code>spring.factories</code>文件来加载自动配置。<br>所以我们只需自定义一个<code>CustomAutoConfiguration</code>，并添加到<code>spring.factories</code>文件中，即可被Spring Boot自动加载。<br>如果不想污染<code>spring.factories</code>文件，也可以通过<code>@Import</code>注解手动导入<code>CustomAutoConfiguration.class</code>。</p>
+<h2 id="Spring-Boot-Starter-Dubbo"><a href="#Spring-Boot-Starter-Dubbo" class="headerlink" title="Spring Boot Starter Dubbo"></a>Spring Boot Starter Dubbo</h2><p>通过创建一个Dubbo的starter，我们可以快速的给应用添加dubbo支持。<br>开源社区中主要有以下相关项目提供了dubbo的starter：</p>
+<ul>
+<li><a href="https://github.com/teaey/spring-boot-starter-dubbo" target="_blank" rel="noopener">spring-boot-starter-dubbo By teaey</a></li>
+<li><a href="https://github.com/linux-china/spring-boot-dubbo" target="_blank" rel="noopener">spring-boot-dubbo By 卷爷</a></li>
+</ul>
+<p>teaey的项目比较中规中矩，而卷爷的项目添加了很多好的想法，但是只支持他开发的dubbo 3，为了兼容现有的dubbo 2.x 版本，我们可以综合一下这两个项目。</p>
+<h2 id="Autowired-vs-Reference"><a href="#Autowired-vs-Reference" class="headerlink" title="Autowired vs Reference"></a>Autowired vs Reference</h2><p><code>@Reference</code>是Dubbo提供的用于标示dubbo服务的注解，而<code>@Autowired</code>是Spring原生支持的依赖注入的注解，为了减少侵入性，显然是后者更胜。<br>卷爷的项目中，巧妙的通过Provider额外提供的一个Starter，使得dubbo的Consumer可以直接使用<code>@Autowired</code>引入Dubbo服务。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="keyword">Bean</span></span><br><span class="line">    public ReferenceBean&lt;UicTemplate&gt; uicTemplate() &#123;</span><br><span class="line">        <span class="selector-tag">return</span> <span class="selector-tag">getConsumerBean</span>(<span class="selector-tag">UicTemplate</span><span class="selector-class">.class</span>, <span class="selector-tag">properties</span><span class="selector-class">.getVersion</span>(), <span class="selector-tag">properties</span><span class="selector-class">.getTimeout</span>());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>所以我们可以给teaey的项目引入卷爷项目中的<code>DubboBasedAutoConfiguration</code>来获得<code>getConsumerBean()</code>方法的支持。</p>
+<h1 id="Spring-Boot-With-Dubbo-Project"><a href="#Spring-Boot-With-Dubbo-Project" class="headerlink" title="Spring Boot With Dubbo Project"></a>Spring Boot With Dubbo Project</h1><p>Before Spring Boot：<br><img src="/image/2017-04-16-13-57-26.jpg" alt=""><br>After Spring Boot:<br><img src="/image/2017-04-16-13-55-50.jpg" alt=""></p>
+<p>一个提供Dubbo服务的Spring Boot项目应该包含以下模块：</p>
+<ul>
+<li>Dubbo服务的接口API，如图中的<code>infiniti-api</code></li>
+<li>Dubbo服务的实现模块（可以是Web服务，也可以不是），如图中的<code>spring-boot-infiniti-web</code></li>
+<li>Dubbo服务的Reference封装模块，如图中的<code>spring-boot-starter-infiniti</code></li>
+<li>（可选）Dubbo服务的Consumer示例，如图中的<code>spring-boot-infiniti-demo-client</code></li>
+</ul>
+<p>一个消费Dubbo服务的项目应该引入以下依赖：</p>
+<ul>
+<li>Dubbo Starter</li>
+<li>Dubbo服务的接口API</li>
+<li>对应Dubbo服务的Reference封装模块</li>
+</ul>
+<h1 id="Other"><a href="#Other" class="headerlink" title="Other"></a>Other</h1><p>因为一些意外的关系，博客停更了3个月，后面会继续保持更新，祝好。</p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>给我买杯咖啡吧～</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Spring-Boot/" rel="tag"># Spring-Boot</a>
+          
+            <a href="/tags/Dubbo/" rel="tag"># Dubbo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/在JAVA中执行shell/" rel="next" title="在JAVA中执行shell">
+                <i class="fa fa-chevron-left"></i> 在JAVA中执行shell
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/为什么这么慢？/" rel="prev" title="为什么这么慢？">
+                为什么这么慢？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Suclogger</p>
+              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot-Hello-World"><span class="nav-number">1.</span> <span class="nav-text">Spring Boot Hello World</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot-Starter"><span class="nav-number">2.</span> <span class="nav-text">Spring Boot Starter</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Custom-Starter"><span class="nav-number">2.1.</span> <span class="nav-text">Custom Starter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Spring-Boot-Starter-Dubbo"><span class="nav-number">2.2.</span> <span class="nav-text">Spring Boot Starter Dubbo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Autowired-vs-Reference"><span class="nav-number">2.3.</span> <span class="nav-text">Autowired vs Reference</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Spring-Boot-With-Dubbo-Project"><span class="nav-number">3.</span> <span class="nav-text">Spring Boot With Dubbo Project</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Other"><span class="nav-number">4.</span> <span class="nav-text">Other</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

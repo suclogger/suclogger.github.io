@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。这一期的支付开发主要接入支付宝，包含了入账和出账。">
+<meta name="keywords" content="支付">
+<meta property="og:type" content="article">
+<meta property="og:title" content="支付宝接入开发摘记">
+<meta property="og:url" content="https://suclogger.me/支付宝接入开发摘记/index.html">
+<meta property="og:site_name" content="Suclogger">
+<meta property="og:description" content="这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。这一期的支付开发主要接入支付宝，包含了入账和出账。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://suclogger.me/image/支付宝支付.png">
+<meta property="og:image" content="https://suclogger.me/image/支付宝提现.png">
+<meta property="og:image" content="https://suclogger.me/image/2016-11-02-02-20-18.jpg">
+<meta property="og:updated_time" content="2016-11-15T06:48:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="支付宝接入开发摘记">
+<meta name="twitter:description" content="这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。这一期的支付开发主要接入支付宝，包含了入账和出账。">
+<meta name="twitter:image" content="https://suclogger.me/image/支付宝支付.png">
+
+
+
+
+
+
+  <link rel="canonical" href="https://suclogger.me/支付宝接入开发摘记/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>支付宝接入开发摘记 | Suclogger</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Suclogger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">莆放</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories" rel="section">Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">Sitemap</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/支付宝接入开发摘记/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">支付宝接入开发摘记
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-11-01 23:40:58" itemprop="dateCreated datePublished" datetime="2016-11-01T23:40:58+08:00">2016-11-01</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2016-11-15 14:48:23" itemprop="dateModified" datetime="2016-11-15T14:48:23+08:00">2016-11-15</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。<br>这一期的支付开发主要接入支付宝，包含了入账和出账。<br><a id="more"></a></p>
+<h2 id="流程图"><a href="#流程图" class="headerlink" title="流程图"></a>流程图</h2><p>入账的流程图如下：</p>
+<p><img src="/image/支付宝支付.png" alt=""></p>
+<p>出账的流程图如下：</p>
+<p><img src="/image/支付宝提现.png" alt=""></p>
+<h2 id="支付宝接口"><a href="#支付宝接口" class="headerlink" title="支付宝接口"></a>支付宝接口</h2><h3 id="收款"><a href="#收款" class="headerlink" title="收款"></a>收款</h3><p>为APP集成收款功能支付宝提供了两个接口，分别是<code>App支付</code>和<code>移动支付</code>，据支付宝客服称<code>App支付</code>是新接口，移动支付会逐渐淡化。<br>这两个接口参数名大同小异，主要区别是<code>App支付</code>需要用<code>bizcontent</code>来包裹业务参数。<br>这里主要使用<code>App支付</code>。</p>
+<p>接口名称：<code>mobile.securitypay.pay</code><br>文档地址：<a href="https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.HKzvRR&amp;treeId=204&amp;articleId=105051&amp;docType=1" target="_blank" rel="noopener">App 支付</a><br>费率：<code>0.6%</code><br>额度：不限</p>
+<p>坑：</p>
+<ul>
+<li>文档中声称需要<code>对请求字符串的所有一级value（biz_content作为一个value）进行encode</code>，实际测试发现只有生成的签名字段<code>sign</code>需要做encode</li>
+<li>订单金额<code>total_amount</code>携带的金额不能用<code>,</code>分隔，比如¥1000元要传入<code>1000</code>，传入<code>1,000</code>会导致异常</li>
+<li>支付宝的回调中<code>total_amount</code>的金额是保留了2位小数表示的，比如订单金额¥0.5元，支付宝的回调会回传为<code>0.50</code></li>
+</ul>
+<h3 id="退款"><a href="#退款" class="headerlink" title="退款"></a>退款</h3><p>即时到帐的退款是有无密和有密之分的，官方提供的文档中只有<a href="https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.rSJ5uY&amp;treeId=66&amp;articleId=103571&amp;docType=1" target="_blank" rel="noopener">有密</a>。<br>无密接口需要联系客服开通，开通时间需要5天左右。<br>有密的接口需要在<code>window+ie</code>下输入密码才能完成退款操作。<br>这里主要使用无密接口。</p>
+<p>接口名称：<code>refund_fastpay_by_platform_nopwd</code><br>费率：0（不退服务费）</p>
+<p>坑：</p>
+<ul>
+<li>回调的参数用了<code>^</code>分隔，如果通过java来做split处理，需要做转义处理为<code>\\^</code></li>
+<li>回调的<code>gmt_refund</code>时间格式是<code>yyyy-MM-dd HH:mm:ss.S</code></li>
+<li>退款使用密钥与收款不同，是<code>合作伙伴</code>下的密钥</li>
+<li>如果对某一条支付记录申请了部分金额的退款，支付宝同时会发出一条类型为<code>trade_status_sync</code>属于付款通知的回调，状态为<code>TRADE_SUCCESS</code>，注意不要与原支付记录的回调混淆，不同之处在于多了<code>refund_fee</code>和<code>gmt_refund</code>两个字段</li>
+</ul>
+<h3 id="付款"><a href="#付款" class="headerlink" title="付款"></a>付款</h3><p>从支付宝账户付款出去分为到其他支付宝账户和到银行卡账户，官方提供的文档中只有<a href="https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.cPDNbc&amp;treeId=64&amp;articleId=103569&amp;docType=1" target="_blank" rel="noopener">到支付宝账户</a><br>到支付宝账户是有密接口，需要在<code>window+ie</code>下输入密码才能完成付款操作。<br>到银行卡账户是无密接口，需要联系客服开通，开通时间1-3天。</p>
+<p>到银行卡账户接口名称：<code>bptb_pay_file</code><br>费率分为<code>T0</code>和<code>T1</code>到账：<br><strong>T0</strong>： 0-2万元（不包含2万元）/2元每笔；2万元-5万元（不包含5万元）/4元每笔；5万元-10万元（不包含10万元）/6元每笔；10万元-20万元（不包含20万元）/10元每笔；20万元-50万元（不包含50万元）/20元每笔；50万元-100万元（不包含100万元）/30元每笔；100万元以上的/50元每笔<br><strong>T1</strong>： 0-2万元（不包含2万元）/1元每笔；2万元-5万元（不包含5万元）/3元每笔；5万元-100万元（不包含100万元）/5元每笔；100万元以上的/20元每笔<br>额度：默认到个人和单位都是单笔500万，单日累计1000万元</p>
+<p>坑：</p>
+<ul>
+<li>区分T0和T1的字段名为<code>bussiness_type</code>，是拼写错误的</li>
+</ul>
+<hr>
+<p>到支付宝的接口名称：<code>batch_trans_notify</code><br>费率：0 - 20000元／0.50元；20000（含） - 50000元／1.00元；50000元（含）以上／3.00元<br>额度：默认到个人是单笔500万，到单位是单笔500万，单日累计1000万元</p>
+<p>坑：</p>
+<ul>
+<li>回调的参数用了<code>^</code>和<code>|</code>分隔，如果通过java来做split处理，需要做转义处理为<code>\\^</code>和<code>\\|</code></li>
+<li>这个接口是有密的，表单提交之后需要在<code>window+ie</code>下输入密码才能完成付款操作，如果提交表单后未输入密码，这条付款记录会停留在待审核状态，没有超时或者关闭的回调，同一批次号无法重复提交，只能在支付宝网页端对已经提交的批次号进行审核处理：<br><img src="/image/2016-11-02-02-20-18.jpg" alt=""></li>
+</ul>
+<h3 id="查询"><a href="#查询" class="headerlink" title="查询"></a>查询</h3><p>支付宝的付款回调是很及时的，所以这里查询主要针对付款操作。<br>开通了付款功能就默认开通了对应的查询功能。<br>查询付款到银行卡接口：<code>bptb_file_query</code><br>查询付款到支付宝账户接口：<code>btn_status_query</code></p>
+<p>总体感受：<br><strong>支付宝 = 劳动密集型接口 + 高昂费率</strong></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div>给我买杯咖啡吧～</div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/支付/" rel="tag"># 支付</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/记一次反编译过程（二）/" rel="next" title="记一次反编译过程（二）">
+                <i class="fa fa-chevron-left"></i> 记一次反编译过程（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/并发下的Base64解码问题/" rel="prev" title="并发下的Base64解码问题">
+                并发下的Base64解码问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Suclogger</p>
+              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">29</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#流程图"><span class="nav-number">1.</span> <span class="nav-text">流程图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#支付宝接口"><span class="nav-number">2.</span> <span class="nav-text">支付宝接口</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#收款"><span class="nav-number">2.1.</span> <span class="nav-text">收款</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#退款"><span class="nav-number">2.2.</span> <span class="nav-text">退款</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#付款"><span class="nav-number">2.3.</span> <span class="nav-text">付款</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询"><span class="nav-number">2.4.</span> <span class="nav-text">查询</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
