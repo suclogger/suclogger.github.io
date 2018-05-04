@@ -305,6 +305,187 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/配置Erlang环境/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/配置Erlang环境/" itemprop="url">
+                  配置Erlang环境
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-10-21 21:24:15" itemprop="dateCreated datePublished" datetime="2016-10-21T21:24:15+08:00">2016-10-21</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2016-11-08 00:45:26" itemprop="dateModified" datetime="2016-11-08T00:45:26+08:00">2016-11-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- abstract -->
+<!-- 开始正文 -->
+<p>本文环境：macOS Sierra</p>
+<h3 id="安装-Erlang-OTP"><a href="#安装-Erlang-OTP" class="headerlink" title="安装 Erlang OTP"></a>安装 Erlang OTP</h3><p>通过homebrew安装erlang：<br><figure class="highlight mipsasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">brew </span><span class="keyword">install </span>erlang</span><br></pre></td></tr></table></figure></p>
+<p>成功页面：</p>
+<p><img src="/image/2016-11-07-15-41-12.jpg" alt=""><br>验证安装：<br>输入<code>erl</code>命令会返回：<br><img src="/image/2016-11-07-15-42-09.jpg" alt=""></p>
+<h3 id="安装Rebar"><a href="#安装Rebar" class="headerlink" title="安装Rebar"></a>安装Rebar</h3><p><a href="http://erlang.org/doc/getting_started/seq_prog.html#id60113" target="_blank" rel="noopener">Rebar</a>可以帮助我们编译和调试erlang程序，可以通过以下命令进行安装：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git clone git://github.com/rebar/rebar.git</span><br><span class="line"><span class="meta">$</span><span class="bash"> <span class="built_in">cd</span> rebar</span></span><br><span class="line"><span class="meta">$</span><span class="bash"> ./bootstrap</span></span><br><span class="line">Recompile: src/getopt</span><br><span class="line">...</span><br><span class="line">Recompile: src/rebar_utils</span><br><span class="line">==&gt; rebar (compile)</span><br><span class="line"><span class="meta">$</span><span class="bash"> mv ./rebar /usr/<span class="built_in">local</span>/bin/</span></span><br></pre></td></tr></table></figure></p>
+<p>成功页面如图：</p>
+<p><img src="/image/2016-11-07-15-45-25.jpg" alt=""></p>
+<h3 id="在idea中配置erlang-SDK"><a href="#在idea中配置erlang-SDK" class="headerlink" title="在idea中配置erlang SDK"></a>在idea中配置erlang SDK</h3><p>在插件仓库中搜索<a href="https://plugins.jetbrains.com/plugin/7083" target="_blank" rel="noopener">Erlang</a>进行 安装：<br><img src="/image/2016-11-07-15-48-21.jpg" alt=""><br>安装成功后在添加SDK列表中就会出现erlang选项：<br><img src="/image/2016-11-07-15-47-19.jpg" alt=""></p>
+<h3 id="在idea中配置Rebar"><a href="#在idea中配置Rebar" class="headerlink" title="在idea中配置Rebar"></a>在idea中配置Rebar</h3><p>在<code>Configure | Preferences | Other Settings → Erlang External Tools</code>中填写路径：<br><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/usr/</span>local<span class="regexp">/bin/</span>rebar</span><br></pre></td></tr></table></figure></p>
+<p><img src="/image/2016-11-07-15-52-55.png" alt=""></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://suclogger.me/通过Wireshark看MIM攻击/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -628,194 +809,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/应用接口的安全方案设计（二）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/应用接口的安全方案设计（二）/" itemprop="url">
-                  应用接口的安全方案设计（二）
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-10-14 00:17:27 / Modified: 10:04:34" itemprop="dateCreated datePublished" datetime="2016-10-14T00:17:27+08:00">2016-10-14</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<p>在<a href="http://suclogger.tech/2016/09/23/应用接口的安全方案设计/" target="_blank" rel="noopener">上一篇</a>文章中我说到：HTTPS是不安全的，因为存在MIM攻击。但是随着了解的深入，发现这个认识是有问题的，正确的认识应当是：<strong>HTTPS的设计是安全的，只是错误的用法导致了MIM攻击</strong>。</p>
-<p>关于SSL/TLS协议运行机制，阮一峰的<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">博客文章</a>做了很好的介绍。</p>
-<p>稍加了解，可以发现，其实上一篇文章中的设计就是参照了SSL/TLS协议运行机制，混合了非对称加密和对称加密，有几点需要注意：</p>
-<ol>
-<li>引入了证书机制来确保服务端下发的公钥不被窜改。</li>
-<li>引入三组随机数组成最后的随机数，保证了随机数的随机性。</li>
-</ol>
-<p>相比于一个正常的HTTPS通信过程，MIM攻击下的HTTPS通信过程如下（这里以Charles为例）：<br>第一步，客户端发送给服务器的HTTPS请求，<strong>Charles截获后伪装成客户端向服务器发送请求进行握手 </strong>。<br>第二步，服务器发回相应，<strong>Charles获取到服务器的CA证书和其中包含的证书公钥。然后Charles伪造自己的CA证书， 冒充服务器证书传递给客户端</strong>。<br>第三步，客户端校验接收到的证书，生成密码pre_master并用接收到的证书中包含的公钥加密，并生成HTTPS通信用的对称密钥enc_key。<br>第四步，客户端将加密后的pre_master传递给服务器， <strong>Charles截获后将密文用自己伪造证书的私钥解开， 获得pre_master并计算得到HTTPS通信用的对称密钥enc_key，伪装成客户端，用服务端证书中携带的公钥加密pre_master向服务器发送</strong>。<br>第五步，服务器用私钥解开后建立信任。</p>
-<p>成功建立”信任“之后，由于Charles持有通信用对称密钥enc_key，无论是客户端的请求密文或者是服务端的返回密文，对其都是可见的。</p>
-<p><strong>以上攻击发生的前提，就是客户端信任由Charles下发的证书，从而接受证书中包含的公钥信息</strong>。</p>
-<p>为了防御MIM攻击，只需客户端只信任CA颁发的证书即可，当然要求服务端的证书也是由CA颁发，这就意味着一笔高昂的费用（ 购买受信任机构颁发的证书每年要交 100 到 500 美元不等的费用）。<br>除了CA颁发的证书，还有两类证书：</p>
-<ul>
-<li>没有得到CA认可的证书颁发机构颁发的证书</li>
-<li>自己颁发的证书, 分临时性的(在开发阶段使用)或在发布的产品中永久性使用的两种</li>
-</ul>
-<p>所以很多产品，为了方便和实惠，采用了自签名证书来创建HTTPS链接。<br>而自签名证书的使用过程中可能因为存在下列问题而导致受到MIM攻击：</p>
-<ol>
-<li>客户端没有对SSL证书进行校验（因为自建证书的根CA的数字签名未在操作系统的信任列表中，如果添加校验肯定会返回失败）；</li>
-<li>客户端没有对域名进行校验；</li>
-<li>服务端遭受攻击，证书私钥泄漏。</li>
-</ol>
-<p>所以<strong>MIM中间人攻击漏洞并不是HTTPS设计的缺陷，而是人为使用过程中出现的漏洞</strong>。</p>
-<p> 相比之下，一个设计的比较好的APP在MIM攻击中则表现为：<br><img src="/image/2016-10-14-01-21-22.jpg" alt=""></p>
-<p>所以，在采用HTTPS给接口加固的时候，一定切记要<strong>在客户端校验服务端证书的合法性</strong>。<br>不论证书是由CA颁发，或者是自签名证书（自签名证书校验方法参见<a href="https://www.oschina.net/translate/android-security-implementation-of-self-signed-ssl" target="_blank" rel="noopener">这篇文章</a>）。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/16/">16</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/10/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -858,7 +856,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">48</span>
+                    <span class="site-state-item-count">49</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -972,7 +970,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">29</span>
+                      
+                    
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
