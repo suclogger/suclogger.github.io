@@ -112,12 +112,12 @@
 <meta property="og:site_name" content="Suclogger">
 <meta property="og:description" content="记录一下最近面试遇到的一些问题。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://suclogger.me/image/2018-05-04/2018-05-04-15-46-15.jpg">
-<meta property="og:updated_time" content="2018-05-04T08:09:47.133Z">
+<meta property="og:image" content="https://suclogger.me/image/2018-05-04/2018-05-04-16-22-32.jpg">
+<meta property="og:updated_time" content="2018-05-04T08:29:30.757Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于近期的面试情况">
 <meta name="twitter:description" content="记录一下最近面试遇到的一些问题。">
-<meta name="twitter:image" content="https://suclogger.me/image/2018-05-04/2018-05-04-15-46-15.jpg">
+<meta name="twitter:image" content="https://suclogger.me/image/2018-05-04/2018-05-04-16-22-32.jpg">
 
 
 
@@ -350,7 +350,7 @@
                 
               
 
-              <time title="Created: 2018-05-04 15:07:26 / Modified: 16:09:47" itemprop="dateCreated datePublished" datetime="2018-05-04T15:07:26+08:00">2018-05-04</time>
+              <time title="Created: 2018-05-04 15:07:26 / Modified: 16:29:30" itemprop="dateCreated datePublished" datetime="2018-05-04T15:07:26+08:00">2018-05-04</time>
             
 
             
@@ -426,7 +426,7 @@
 <li>延迟捕获：不要在还无能力处理这个异常的时候就捕获异常，你的程序要么可以从异常中有意义地恢复并继续下去，而不导致更 深入的错误；要么能够为用户提供明确的信息，包括引导他们从错误中恢复过来。如果你的方法无法胜任，那么就不要处理异常，把它留到后面捕获和在恰当的层面处理</li>
 </ul>
 <h1 id="mysql多栏索引的实现"><a href="#mysql多栏索引的实现" class="headerlink" title="mysql多栏索引的实现"></a>mysql多栏索引的实现</h1><p>我只了解过单栏索引是通过B+树来实现的，猜测多栏索引也是通过B+树来做的，也没引发面试官后续可能的问题，有点遗憾。<br>网上搜到的多栏索引的资料比较少，稍微列举一下：</p>
-<p><a href="https://www.zhihu.com/question/36996520" target="_blank" rel="noopener">mysql索引最左匹配原则的理解?</a><br><img src="./../image/2018-05-04/2018-05-04-15-46-15.jpg" alt=""></p>
+<p><a href="https://www.zhihu.com/question/36996520" target="_blank" rel="noopener">mysql索引最左匹配原则的理解?</a><br><img src="/image/2018-05-04/2018-05-04-16-22-32.jpg" alt=""></p>
 <h1 id="关于分布式应用数据库记录锁竞争的问题"><a href="#关于分布式应用数据库记录锁竞争的问题" class="headerlink" title="关于分布式应用数据库记录锁竞争的问题"></a>关于分布式应用数据库记录锁竞争的问题</h1><p>我回答的思路是根据场景来选择，如果大概率有竞争，可以通过<code>select ... for update</code>来加锁，如果小概率有竞争，可以通过添加乐观锁字段。面试官追问能否在不用redis等外部依赖的情况跨jvm实现，我回答不可以。希望大家有想法的可以指点一下。</p>
 <p>目前大致就是这些，其他一些常规的问题就没有记录了。</p>
 
@@ -444,12 +444,17 @@
     
       <div>
         <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div>给我买杯咖啡吧～</div>
+  <div></div>
   <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
     <span>Donate</span>
   </button>
   <div id="QR" style="display: none;">
 
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/image/wechatpay.jpg" alt="Suclogger WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
     
 
     
