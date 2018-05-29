@@ -305,6 +305,457 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/到底需不需要Manager层？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/到底需不需要Manager层？/" itemprop="url">
+                  到底需不需要Manager层？
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-05-18 00:09:55 / Modified: 00:48:33" itemprop="dateCreated datePublished" datetime="2016-05-18T00:09:55+08:00">2016-05-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/到底需不需要Manager层？/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="到底需不需要Manager层？/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- abstract -->
+<p>今天跟同事们一起主要就是否需要按照严格的分层架构来规范当前代码讨论了应用的几个架构问题。<br><!-- 开始正文 --><br>之前第一家公司采用的是经典的SpringMVC架构，主要划分为Controller，Service，DAO三层。Controller层控制页面逻辑，数据库操作通过自己编写hql在DAO层实现，事务控制在Service层。这样的架构容易理解和上手，但是无法对DAO层的代码逻辑进行控制，很容易出现以下问题：</p>
+<ol>
+<li>自定义的hql逻辑比较随意，容易出现多表关联查询导致数据库的执行效率很低。</li>
+<li>容易出现Service层方法的相互调用导致事务嵌套，容易出现很多比较难以排查的bug。</li>
+<li>Service层和DAO层的代码都很容易变动，导致编写单元测试的成本比较高，而且DAO层一旦出现bug对应用整体的影响很大，曾经有一次线上应用一直崩溃，查找了2天才发现是因为调用了一个很古老的有问题的DAO层方法。</li>
+</ol>
+<p>现在我司采用的架构沿袭自阿里，主要分为Controller，AO（Service），Manager，Mapper（DAO）四层，与经典的MVC3层架构相比多了一层Manager层。今天主要讨论了这一层的存在是否有必要。</p>
+<p><a href="https://twitter.com/bleedfly" target="_blank" rel="noopener">@bleedfly</a>的观点是，DAO层只负责CRUD的逻辑，Manager层用于处理多表关联，所有业务逻辑止步AO层。</p>
+<p>理论听起来是很有道理，但是如果没有严格的规范控制，就很难确保严格执行。<br>很常见的一种情况是，如果整个Service层只需要一个方法，该方法的逻辑只是从根据一个主键值从一张表中取一条记录，如果严格按照规范，就需要写一个Manager层方法和一个Mapper（DAO）层方法，而且这两层的方法逻辑是一样的，直接将Mapper注入Service可以达到同样的效果。如果不假思索的话，很容易打破上述代码规范。</p>
+<p>严格满足规范有什么好处呢？</p>
+<ol>
+<li>Mapper（DAO）层代码很固定，不容易出现文章开头出现的DAO层的严重事故。</li>
+<li>事务控制在Manager层，Manager层方法不允许相互调用，不会出现事务嵌套的问题。</li>
+<li>为了避免在数据库执行join操作，Manager层负责采用循环控制分别查询，可以有效缓解数据库压力。（PS.当前线上业务挂掉，最先挂的肯定都是数据库，尽管通过读写方式的形式简单隔离了一下数据库，但是数据库的瓶颈在代码依然中是着重考虑的方面）</li>
+</ol>
+<p>实际工作中经常出现效率和规范冲突的情况，但是满足规范才是保证代码质量和规避风险的最佳实践。所以下班之前把今天有争议的代码都重构了，感觉神清气爽。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/从webmagic着手浅析JAVA爬虫/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/从webmagic着手浅析JAVA爬虫/" itemprop="url">
+                  从webmagic着手浅析JAVA爬虫
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-05-17 11:41:07" itemprop="dateCreated datePublished" datetime="2016-05-17T11:41:07+08:00">2016-05-17</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-04-23 22:07:35" itemprop="dateModified" datetime="2018-04-23T22:07:35+08:00">2018-04-23</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/爬虫/" itemprop="url" rel="index"><span itemprop="name">爬虫</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/从webmagic着手浅析JAVA爬虫/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="从webmagic着手浅析JAVA爬虫/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- abstract -->
+<p>用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。<br><!-- 开始正文 --></p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>什么是爬虫？</p>
+<blockquote>
+<p><a href="https://zh.wikipedia.org/wiki/%E7%B6%B2%E8%B7%AF%E8%9C%98%E8%9B%9B" target="_blank" rel="noopener">网络蜘蛛</a></p>
+</blockquote>
+<p>关于爬虫是否合法的讨论？</p>
+<blockquote>
+<p><a href="https://www.v2ex.com/t/268607" target="_blank" rel="noopener">用爬虫抓取数据，这样的行为是否合法</a></p>
+</blockquote>
+<p>比较知名的开源的爬虫主要包括：<br>JAVA : <a href="https://github.com/code4craft/webmagic" title="Webmagic" target="_blank" rel="noopener">Webmagic</a>，<a href="https://github.com/CrawlScript/WebCollector" title="WebCollector" target="_blank" rel="noopener">WebCollector</a>，<a href="https://github.com/yasserg/crawler4j" title="Crawler4j" target="_blank" rel="noopener">Crawler4j</a><br>PYTHON :  <a href="https://github.com/scrapy/scrapy" title="Scrapy" target="_blank" rel="noopener"> Scrapy</a></p>
+<h2 id="简单的爬虫"><a href="#简单的爬虫" class="headerlink" title="简单的爬虫"></a>简单的爬虫</h2><p><code>简单的网络爬虫</code>可以只是遍历一个存放URL的集合并通过<code>HttpClient</code>发送网络请求：<br><figure class="highlight processing"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">    HttpGet httpget = <span class="keyword">new</span> HttpGet(<span class="string">"http://httpbin.org/"</span>);</span><br><span class="line">    ResponseHandler&lt;<span class="keyword">String</span>&gt; responseHandler = <span class="keyword">new</span> ResponseHandler&lt;<span class="keyword">String</span>&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">String</span> handleResponse( HttpResponse response) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">            <span class="built_in">int</span> status = response.getStatusLine().getStatusCode();</span><br><span class="line">            <span class="keyword">if</span> (status &gt;= <span class="number">200</span> &amp;&amp; status &lt; <span class="number">300</span>) &#123;</span><br><span class="line">                HttpEntity entity = response.getEntity();</span><br><span class="line">                <span class="keyword">return</span> entity != <span class="keyword">null</span> ? EntityUtils.toString(entity) : <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">String</span> responseBody = httpclient.execute(httpget, responseHandler);</span><br><span class="line">&#125; <span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125; <span class="keyword">finally</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        httpclient.close();</span><br><span class="line">    &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="好的爬虫"><a href="#好的爬虫" class="headerlink" title="好的爬虫"></a>好的爬虫</h2><p>一个<code>好的爬虫框架</code>相比简单的爬虫，应该包含了以下特性：</p>
+<ol>
+<li>支持多线程</li>
+<li>支持代理</li>
+<li>支持过滤重复URL</li>
+<li>支持爬取ajax返回信息</li>
+<li>支持爬取需要登录验证的网页信息（Cookie管理）</li>
+<li>支持持久化保存爬取到的信息</li>
+<li>支持错误处理（IP被封禁或者登录信息失效后的处理）</li>
+<li>支持停止后从断点继续</li>
+<li>准确，快速地抓取所需信息<br>为了给一个简单的爬虫整合这些特性，需要做一个简单的框架设计。</li>
+</ol>
+<h2 id="优雅的框架设计"><a href="#优雅的框架设计" class="headerlink" title="优雅的框架设计"></a>优雅的框架设计</h2><p><code>Scrapy</code>的框架：</p>
+<p><img src="/image/2016-05-18 at 上午9.33.jpeg" alt="Scrapy Structure"></p>
+<ul>
+<li><code>Spider</code>创建<code>Request</code>，处理<code>Response</code>,生成<code>Items</code>和后续<code>Request</code>。</li>
+<li><code>Items</code>是从Response中由抽取出的所需信息组合而成的一个个POJO。</li>
+<li>Spider生成的<code>Items</code>经<code>process_item()</code>方法交由一系列的<code>Item Pipelines</code>进行处理。</li>
+<li><code>Pipeline</code>处理<code>Items</code>，可以是保存到数据库，打印到控制台，提交给Elasticsearch等等。</li>
+<li><code>Downloader</code>负责实际的下载行为，接收传入的Request请求，输出Response。</li>
+</ul>
+<p><code>Webmagic</code>的框架：<br><img src="/image/2016-05-18 at 上午11.16.jpeg" alt="webmagic structure"></p>
+<p>Webmagic的框架设计大部分沿袭了Scrapy：</p>
+<ul>
+<li><code>Downloader</code>负责从互联网上下载页面，以便后续处理。WebMagic默认使用了Apache HttpClient作为下载工具。</li>
+<li><code>PageProcessor</code> 负责解析页面，抽取有用信息，以及发现新的链接。</li>
+<li><code>Scheduler</code>负责管理待抓取的URL，以及一些去重的工作。</li>
+<li><code>Pipeline</code>负责抽取结果的处理，包括计算、持久化到文件、数据库等。<br><strong><code>Webmagic</code>很好的贯彻了<code>面向接口</code>的设计思想，我们可以很容易地对上述的组件进行自定义和扩展。</strong><br>更进一步，可以通过修改webmgic的源代码来满足我们的定制化需求。</li>
+</ul>
+<h2 id="储备知识"><a href="#储备知识" class="headerlink" title="储备知识"></a>储备知识</h2><h3 id="通过XPath获取页面元素"><a href="#通过XPath获取页面元素" class="headerlink" title="通过XPath获取页面元素"></a>通过XPath获取页面元素</h3><p>常见的从html页面获取元素的方式是通过<code>Jsoup</code>，它支持用<code>CSS Selector</code>方式选择DOM元素，也可过滤HTML文本。</p>
+<blockquote>
+<p>参见<code>renault</code>中Craw168.java的实现</p>
+</blockquote>
+<p>这里主要介绍通过Xpath语法获取页面元素。Xpath语法介绍请见：<a href="http://www.w3school.com.cn/xpath/" target="_blank" rel="noopener">Xpath语法</a><br>由于Jsoup暂不支持Xpath语法，webmagic中集成了<a href="https://github.com/code4craft/xsoup" target="_blank" rel="noopener">Xsoup</a>来实现对Xpath语法的支持。但是由于Xsoup项目疏于维护，对Xpath的语法支持不全，我个人给webmgic添加了<code>JsoupXpath</code>来支持<code>Xpath</code>语法。JsoupXpath项目地址：<a href="https://github.com/zhegexiaohuozi/JsoupXpath" target="_blank" rel="noopener">JsoupXpath</a></p>
+<h4 id="在chrome中调试xpath"><a href="#在chrome中调试xpath" class="headerlink" title="在chrome中调试xpath"></a>在chrome中调试xpath</h4><p>通过 开发者工具-元素选择栏 可以快速获取所需元素的xpath路径：<br><img src="/image/2016-05-18 at 下午5.00.jpeg" alt="chrome xpath chose"></p>
+<p>在console中可以使用<code>$x(&quot;XPath路径&quot;)</code>来定位xpath对应的元素：<br><img src="/image/2016-05-18 at 下午5.04.jpeg" alt="get element by xpath in chrome"></p>
+<h4 id="在firefox中调试xpath"><a href="#在firefox中调试xpath" class="headerlink" title="在firefox中调试xpath"></a>在firefox中调试xpath</h4><p>通过安装插件<code>XPath Checker</code>来调试xpath：<br>查看：<br><img src="/image/2016-05-18 at 下午5.06.jpeg?r=42" alt="firefox xpath chose"><br>获取元素：<br><img src="/image/2016-05-18 at 下午5.07.jpeg?r=56" alt="get element by xpath in firefox"></p>
+<h4 id="使用xpath需要遵循的几个原则"><a href="#使用xpath需要遵循的几个原则" class="headerlink" title="使用xpath需要遵循的几个原则"></a>使用xpath需要遵循的几个原则</h4><ol>
+<li>避免使用数组的形式获取元素，如<code>//*[@id=&quot;myid&quot;]/div/div/div[1]/div[2]/div/div[1]/div[1]/a/img</code>。这种形式的xpath表达式是很脆弱的，因为页面的元素的排列很可能受到广告的插入，其他信息的存在与否而导致数组依赖的div的显示与否 等等因素的影响。通过chrome或者firefox自动获取的xpath通常是这种形式，要记得对得到的结果进行一定处理。<br>举个例子：<br>第一个页面上使用<code>li[9]</code>路径来获取页面上的<code>QQ</code>元素，但是第二页面中由于没有对应的元素，导致后面的元素使用了<code>li[9]</code>路径，这时候如果还用<code>li[9]</code>路径来获取页面上的<code>QQ</code>元素，就会得到错误的元素：<br><img src="/image/2016-05-20 16-26-24.jpg?f=1" alt="">  <img src="/image/2016-05-20 16-27-15.jpg?f=2" alt=""></li>
+<li>避免采用元素的<code>class</code>属性来获取元素，如<code>//div[@class=&quot;red&quot;]/a/img</code>。因为class通常用于控制页面元素的样式，一旦页面的样式风格发生变化，对应元素的class也极有可能发生变化。</li>
+<li>元素的<code>id</code>属性通常是最为可靠的，如<code>//*[@id=&quot;more_info&quot;]//text()</code>。</li>
+</ol>
+<p>接下来就用一个简单的实例进入实战：</p>
+<h2 id="一个简单的webmgic的例子"><a href="#一个简单的webmgic的例子" class="headerlink" title="一个简单的webmgic的例子"></a>一个简单的webmgic的例子</h2><h3 id="CaoLiuCraw"><a href="#CaoLiuCraw" class="headerlink" title="CaoLiuCraw"></a>CaoLiuCraw</h3><p>CaoLiuProcessor.java:<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CaoLiuProcessor</span> <span class="keyword"><span class="keyword">implements</span> <span class="type">PageProcessor</span></span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Site site = Site.me()</span><br><span class="line">            .setUserAgent(<span class="string">"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36"</span>)</span><br><span class="line">            .setCharset(<span class="string">"GBK"</span>).setDomain(<span class="string">"cl.pclmm.org"</span>).setSleepTime(<span class="number">5000</span>)</span><br><span class="line">            .setHttpProxy(<span class="keyword">new</span> <span class="type">HttpHost</span>(<span class="string">"localhost"</span>,<span class="number">6152</span>));</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> void process(Page page) &#123;</span><br><span class="line">        <span class="keyword">String</span> title = page.getHtml().selectDocument(<span class="keyword">new</span> <span class="type">JsoupXpathSelector</span>(<span class="string">"//title/text()"</span>));</span><br><span class="line">        List&lt;<span class="keyword">String</span>&gt; list = page.getHtml().selectDocumentForList(<span class="keyword">new</span> <span class="type">JsoupXpathSelector</span>(<span class="string">"//div[@class='tpc_content do_not_catch']/descendant::input[@type='image']/@src"</span>));</span><br><span class="line">        page.putField(<span class="string">"title"</span>, title);</span><br><span class="line">        page.putField(<span class="string">"images"</span>, list);</span><br><span class="line">        Selectable links = page.getHtml().links();</span><br><span class="line">        List&lt;<span class="keyword">String</span>&gt; targeturls = links.regex(<span class="string">"http:\\/\\/cl\\.pclmm\\.org\\/htm_data\\/\\d+\\/\\d+\\/\\d+\\.html"</span>).all();</span><br><span class="line">        List&lt;<span class="keyword">String</span>&gt; helpurls = links.regex(<span class="string">"http:\\/\\/cl\\.pclmm\\.org\\/thread0806\\.php\\?fid=16&amp;search=&amp;page=\\d+"</span>).all();</span><br><span class="line">        page.addTargetRequests(helpurls);</span><br><span class="line">        page.addTargetRequests(targeturls);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> Site getSite() &#123;</span><br><span class="line">        <span class="keyword">return</span> site;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> void main(<span class="keyword">String</span>[] args) throws FileNotFoundException, UnsupportedEncodingException &#123;</span><br><span class="line">        Spider.create(<span class="keyword">new</span> <span class="type">CaoLiuProcessor</span>())</span><br><span class="line"><span class="comment">//                .setScheduler(new FileCacheQueueScheduler("/Users/suclogger/MyWorkspace/caoliua"))</span></span><br><span class="line">                .addUrl(<span class="string">"http://cl.pclmm.org/thread0806.php?fid=16&amp;search=&amp;page=1"</span>)</span><br><span class="line">                .addPipeline(<span class="keyword">new</span> <span class="type">CaoLiuPip</span>())</span><br><span class="line">                .thread(<span class="number">2</span>)</span><br><span class="line">                .run();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>CaoLiuPip.java:<br><figure class="highlight arduino"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> class CaoLiuPip implements Pipeline&#123;</span><br><span class="line">    <span class="keyword">private</span> final <span class="keyword">static</span> <span class="keyword">String</span> path = <span class="string">"/Users/suclogger/MyWorkspace/caoliu/"</span>;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="built_in">process</span>(ResultItems resultItems, <span class="built_in">Task</span> task) &#123;</span><br><span class="line">        <span class="keyword">String</span> title = resultItems.<span class="built_in">get</span>(<span class="string">"title"</span>);</span><br><span class="line">        List&lt;<span class="keyword">String</span>&gt; list = resultItems.<span class="built_in">get</span>(<span class="string">"images"</span>);</span><br><span class="line">        <span class="built_in">if</span>(!StringUtils.isBlank(title) &amp;&amp; list.<span class="built_in">size</span>() &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            StringBuffer imgFileNameNewYuan =<span class="keyword">new</span> StringBuffer(path)</span><br><span class="line">                    .append(title) <span class="comment">//此处提取文件夹名，即之前采集的标题名</span></span><br><span class="line">                    .append(<span class="string">"/"</span>);</span><br><span class="line">            <span class="comment">//这里先判断文件夹名是否存在，不存在则建立相应文件夹</span></span><br><span class="line">            Path target = Paths.<span class="built_in">get</span>(imgFileNameNewYuan.toString());</span><br><span class="line">            <span class="built_in">if</span>(!Files.isReadable(target))&#123;</span><br><span class="line">                <span class="built_in">try</span> &#123;</span><br><span class="line">                    Files.createDirectory(target);</span><br><span class="line">                &#125; <span class="built_in">catch</span> (IOException e) &#123;</span><br><span class="line">                    logger.error(<span class="string">"folder exist &#123;&#125;"</span>, imgFileNameNewYuan.toString(),e);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="built_in">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;list.<span class="built_in">size</span>();i++)&#123;</span><br><span class="line">                <span class="built_in">try</span> &#123;</span><br><span class="line">                    ThreadPoolFactory.getThreadPool().execute(<span class="keyword">new</span> DownloadImg(imgFileNameNewYuan.toString(), title,list.<span class="built_in">get</span>(i)));</span><br><span class="line">                &#125; <span class="built_in">catch</span> (RejectedExecutionException e) &#123;</span><br><span class="line">                    logger.error(<span class="string">"image thread too many, hold on for a minuet"</span>);</span><br><span class="line">                    <span class="built_in">try</span> &#123;</span><br><span class="line">                        Thread.sleep(<span class="number">60000</span>);</span><br><span class="line">                        <span class="comment">// retry</span></span><br><span class="line">                        ThreadPoolFactory.getThreadPool().execute(<span class="keyword">new</span> DownloadImg(imgFileNameNewYuan.toString(), title,list.<span class="built_in">get</span>(i)));</span><br><span class="line">                    &#125; <span class="built_in">catch</span> (Exception e1) &#123;</span><br><span class="line">                        logger.error(<span class="string">"shit retry error. do nothing"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    class DownloadImg implements Runnable&#123;</span><br><span class="line">        <span class="keyword">private</span> final HttpHost proxy = <span class="keyword">new</span> HttpHost(<span class="string">"127.0.0.1"</span>, <span class="number">6152</span>, <span class="string">"http"</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">String</span> imgpath;</span><br><span class="line">        <span class="keyword">String</span> title;</span><br><span class="line">        <span class="keyword">String</span> link;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">public</span> DownloadImg(<span class="keyword">String</span> imgpath, <span class="keyword">String</span> title, <span class="keyword">String</span> link) &#123;</span><br><span class="line">            <span class="keyword">this</span>.imgpath = imgpath;</span><br><span class="line">            <span class="keyword">this</span>.title = title;</span><br><span class="line">            <span class="keyword">this</span>.link = link;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">void</span> <span class="built_in">run</span>() &#123;</span><br><span class="line">            <span class="built_in">try</span> &#123;</span><br><span class="line">                <span class="keyword">String</span> extName=com.google.common.io</span><br><span class="line">                        .Files.getFileExtension(link);</span><br><span class="line">                StringBuffer imgFileNameNew = <span class="keyword">new</span> StringBuffer(imgpath)</span><br><span class="line">                        .append((link)</span><br><span class="line">                                .replaceAll(<span class="string">"[\\pP‘’“”]"</span>, <span class="string">""</span>))</span><br><span class="line">                        .append(<span class="string">"."</span>)</span><br><span class="line">                        .append(extName);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//这里通过httpclient下载之前抓取到的图片网址，并放在对应的文件中</span></span><br><span class="line">                CloseableHttpClient httpclient = HttpClients.createDefault();</span><br><span class="line">                RequestConfig <span class="built_in">config</span> = RequestConfig.custom()</span><br><span class="line">                        .setProxy(proxy)</span><br><span class="line">                        .build();</span><br><span class="line">                HttpGet httpget = <span class="keyword">new</span> HttpGet(link);</span><br><span class="line">                httpget.setConfig(<span class="built_in">config</span>);</span><br><span class="line">                HttpResponse response = httpclient.execute(httpget);</span><br><span class="line">                HttpEntity entity = response.getEntity();</span><br><span class="line">                InputStream in = entity.getContent();</span><br><span class="line">                <span class="built_in">File</span> file = <span class="keyword">new</span> <span class="built_in">File</span>(imgFileNameNew.toString());</span><br><span class="line">                <span class="built_in">try</span> &#123;</span><br><span class="line">                    FileOutputStream fout = <span class="keyword">new</span> FileOutputStream(file);</span><br><span class="line">                    <span class="keyword">int</span> l = <span class="number">-1</span>;</span><br><span class="line">                    <span class="keyword">byte</span>[] tmp = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">1024</span>];</span><br><span class="line">                    <span class="built_in">while</span> ((l = in.<span class="built_in">read</span>(tmp)) != <span class="number">-1</span>) &#123;</span><br><span class="line">                        fout.<span class="built_in">write</span>(tmp,<span class="number">0</span>,l);</span><br><span class="line">                    &#125;</span><br><span class="line">                    fout.<span class="built_in">flush</span>();</span><br><span class="line">                    fout.<span class="built_in">close</span>();</span><br><span class="line">                    logger.info(<span class="string">"save image : &#123;&#125;"</span>, link);</span><br><span class="line">                &#125; finally &#123;</span><br><span class="line">                    in.<span class="built_in">close</span>();</span><br><span class="line">                &#125;</span><br><span class="line">                httpclient.<span class="built_in">close</span>();</span><br><span class="line">            &#125; <span class="built_in">catch</span> (Exception e) &#123;</span><br><span class="line">                logger.error(<span class="string">"fail saving image : &#123;&#125;"</span>,link);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="通过注解编写爬虫的例子"><a href="#通过注解编写爬虫的例子" class="headerlink" title="通过注解编写爬虫的例子"></a>通过注解编写爬虫的例子</h2><h3 id="EBookCraw"><a href="#EBookCraw" class="headerlink" title="EBookCraw"></a>EBookCraw</h3><p><code>EBookModel.java</code>（略去了get和set方法）:<br><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@TargetUrl</span>(<span class="string">"http:\\/\\/www.allitebooks.com\\/(?!read\\/read.php)*"</span>)</span><br><span class="line"><span class="meta">@HelpUrl</span>(&#123;<span class="string">"http://www.allitebooks.com/\\/page\\/\\d+"</span>&#125;)</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> EBookModel &#123;</span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//header[@class='entry-header']/h1[@class='single-title']/text()"</span>,notNull = <span class="literal">true</span>)</span><br><span class="line">    <span class="meta">@Formatter</span>(value = <span class="string">"author is %s"</span>,formatter = EBookTitleFormatter.class)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> title;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//header[@class='entry-header']/h4/text()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> brief;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//header[@class='entry-header']/div/div[@class*='entry-body-thumbnail']/a/img/@src"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> cover;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl/dd[1]/allText()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> author;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl/dd[2]/allText()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> isbn;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl/dd[3]/text()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> year;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl/dd[4]/text()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> pages;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl/dd[5]/allText()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> language;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl//dd[6]/allText()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> fileSize;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl/dd[7]/allText()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> fileFormat;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='book-detail']/dl/dd[8]/allText()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> category;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(value = <span class="string">"//div[@class='entry-content']/allText()"</span>,<span class="keyword">type</span> = ExtractBy.Type.JsoupXpath)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> description;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractBy</span>(<span class="string">"//span[@class='download-links'][1]/a/@href"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> downloadLink;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@ExtractByUrl</span>(<span class="string">"http://www.allitebooks.com/([\\w-]+)"</span>)</span><br><span class="line">    <span class="keyword">private</span> <span class="built_in">String</span> url;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>EBookPip.java:<br><figure class="highlight pony"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">@<span class="type">Component</span></span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">EBookPip</span> <span class="title">implements</span> <span class="title">PageModelPipeline</span> &#123;</span></span><br><span class="line"></span><br><span class="line">    @<span class="type">Autowired</span></span><br><span class="line">    private <span class="type">EBookAO</span> eBookAO;</span><br><span class="line"></span><br><span class="line">    @<span class="type">Override</span></span><br><span class="line">    public void process(<span class="type">Object</span> o, <span class="type">Task</span> task) &#123;</span><br><span class="line">        <span class="keyword">if</span>(o instanceof <span class="type">EBookModel</span>) &#123;</span><br><span class="line">            <span class="type">EBookModel</span> model = (<span class="type">EBookModel</span>) o;</span><br><span class="line">            <span class="type">EbookDO</span> edo = <span class="function"><span class="keyword">new</span> <span class="title">EbookDO</span>();</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setTitle</span>(model.getTitle());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setAuthor</span>(model.getAuthor());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setBrief</span>(model.getBrief());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setCategory</span>(model.getCategory());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setCover</span>(model.getCover());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setDescription</span>(model.getDescription());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setDownloadLink</span>(model.getDownloadLink());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setFileFormat</span>(model.getFileFormat());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setFileSize</span>(model.getFileSize());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setIsbn</span>(model.getIsbn());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setLanguage</span>(model.getLanguage());</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setYears</span>(model.getYear());</span></span><br><span class="line"><span class="function">            <span class="title">if</span>(!<span class="type">StringUtils</span>.isBlank(model.getPages()) &amp;&amp; <span class="title">StringUtils</span>.<span class="title">isNumeric</span>(model.getPages())) &#123;</span></span><br><span class="line"><span class="function">                <span class="title">edo</span>.<span class="title">setPages</span>(<span class="type">Integer</span>.valueOf(model.getPages()));</span></span><br><span class="line"><span class="function">            &#125;</span></span><br><span class="line"><span class="function">            <span class="title">edo</span>.<span class="title">setUrl</span>(model.getUrl());</span></span><br><span class="line"><span class="function">            <span class="title">try</span> &#123;</span></span><br><span class="line"><span class="function">                <span class="title">eBookAO</span>.<span class="title">save</span>(edo);</span></span><br><span class="line"><span class="function">            &#125; <span class="title">catch</span> (<span class="type">Exception</span> e) &#123;</span></span><br><span class="line"><span class="function">                <span class="title">e</span>.<span class="title">printStackTrace</span>();</span></span><br><span class="line"><span class="function">            &#125;</span></span><br><span class="line"><span class="function">        &#125;</span></span><br><span class="line"><span class="function">    &#125;</span></span><br><span class="line"><span class="function">&#125;</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="对一些特性的分析"><a href="#对一些特性的分析" class="headerlink" title="对一些特性的分析"></a>对一些特性的分析</h2><ul>
+<li><p>多线程的支持<br>多线程的支持是通过一个可监控的<code>TheadPool</code>实现的，用法是通过<code>Spider.thread(N)</code>来开启N个线程。</p>
+</li>
+<li><p>代理的支持<br>下文 <code>应对网站的反爬措施</code> 部分中会展开。</p>
+</li>
+<li><p>过滤重复URL的支持<br>过滤是通过实现<code>DuplicateRemover</code>接口实现的，默认实现是使用内存中的一个<code>HashSet</code>集来存放已添加进爬取队列的网址。<br>扩展中还添加了<a href="https://zh.wikipedia.org/wiki/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8" target="_blank" rel="noopener">布隆过滤器</a>的实现，适用于巨量网址的去重。</p>
+</li>
+<li><p>爬取ajax返回信息<br>通过采集页面链接，并将ajax链接放入爬取队列中可以实现。</p>
+</li>
+<li><p>支持爬取需要登录验证的网页信息（Cookie管理）<br><code>Scrapy</code>替我们托管了所有cookie操作，但是webmagic中没有实现。<br>通过<code>CookieProvider</code>管理Cookie。</p>
+</li>
+<li><p>持久信息的支持<br>如上面的<code>EBookCraw</code>例子，可以在PipeLine中添加数据持久化逻辑。</p>
+</li>
+<li><p>支持停止后从断点继续<br>采用<code>FileCacheQueueScheduler</code>来管理爬取链接，爬取中止后可以从文件中读取爬取进度。</p>
+</li>
+</ul>
+<h2 id="应对网站的反爬措施"><a href="#应对网站的反爬措施" class="headerlink" title="应对网站的反爬措施"></a>应对网站的反爬措施</h2><p>主要有下面三个方面 ：</p>
+<ol>
+<li>使用webmagic集成的<code>ProxyPool</code>来管理Proxy</li>
+<li>实现<code>CookieProvider</code>自定义管理Cookie</li>
+<li>实现<code>ErrorDetector</code>自定义捕获错误</li>
+</ol>
+<h3 id="使用webmagic集成的ProxyPool来管理Proxy"><a href="#使用webmagic集成的ProxyPool来管理Proxy" class="headerlink" title="使用webmagic集成的ProxyPool来管理Proxy"></a>使用webmagic集成的<code>ProxyPool</code>来管理Proxy</h3><p><code>ProxyPool</code>维护了一个代理的有序队列，在每次请求完成后，通过请求的状态码设置当前使用的代理的优先级别返还到队列中，每次请求从队列中根据优先级别重新获取新的代理。<br>这种方式适用于手上有很多前向代理资源的爬虫，切换起来比较方便，有些情况下可能需要与切换Cookie相互配合使用。</p>
+<h3 id="实现CookieProvider自定义管理Cookie"><a href="#实现CookieProvider自定义管理Cookie" class="headerlink" title="实现CookieProvider自定义管理Cookie"></a>实现<code>CookieProvider</code>自定义管理Cookie</h3><p>每次请求都会从<code>CookieProvider</code>中拿一个cookie放入本次请求头中，可以通过方法调用切换cookie。<br><strong>结合renault演示</strong></p>
+<h2 id="增量抓取"><a href="#增量抓取" class="headerlink" title="增量抓取"></a>增量抓取</h2><p>通过实现<code>ExistDetector</code>接口，在抓取后续链接的时候调用<code>detect()</code>方法进行判断是否需要抓取该链接。<br><strong>结合renault演示</strong></p>
+<h2 id="爬虫的运行监控"><a href="#爬虫的运行监控" class="headerlink" title="爬虫的运行监控"></a>爬虫的运行监控</h2><p>还在雏形阶段<br><img src="/image/2016-05-20 17-19-29.jpg?r=26" alt=""></p>
+<p>参考：<a href="http://my.oschina.net/flashsword/blog/202889" target="_blank" rel="noopener">WebMagic Avalon设计草图</a></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://suclogger.me/逆向解除TextNut内购限制/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -475,394 +926,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/打开了新世界的大门：Hopper-Disassembler/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/打开了新世界的大门：Hopper-Disassembler/" itemprop="url">
-                  打开了新世界的大门：Hopper Disassembler
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-05-13 22:45:28" itemprop="dateCreated datePublished" datetime="2016-05-13T22:45:28+08:00">2016-05-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-23 22:06:08" itemprop="dateModified" datetime="2018-04-23T22:06:08+08:00">2018-04-23</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/逆向/" itemprop="url" rel="index"><span itemprop="name">逆向</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/打开了新世界的大门：Hopper-Disassembler/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="打开了新世界的大门：Hopper-Disassembler/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<p>在<a href="https://twitter.com/bleedfly" target="_blank" rel="noopener">@bleedfly</a>的影响下，也想自己动手玩一下逆向。<br>记录一下第一个逆向的app ： <code>Interface Inspector</code> 的过程。</p>
-<p>使用工具：<code>Hopper Disassembler</code> Version 3.9.15 ，<code>Hex Fiend</code> Version 2.1.2 (200)<br>逆向APP：<code>Interface Inspector</code> Version 2.2 (17)</p>
-<ol>
-<li>通过检索关键字<code>register</code>定位到相关注册方法：SMLicenseManager registerLicenseWithName：<br><img src="/image/2016-05-13 22-49-54.jpg" alt=""></li>
-<li>此处通过<code>verifyLicenseWithName</code>方法判断是否为合法注册码，定位到对应汇编代码，将变更后的汇编代码翻译为字节码。<br>此处通过将判断条件置反，使得无效的注册码进入有效验证码的后续逻辑，即需要将汇编代码：<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">000000010010f</span>30e         je         <span class="number">0x10010f</span>39b</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>替换为：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">000000010010f</span>30e         jne         <span class="number">0x10010f</span>39b</span><br></pre></td></tr></table></figure></p>
-<ol start="3">
-<li>通过右侧的窗口查看汇编命令对应的字节码：</li>
-</ol>
-<p><img src="/image/2016-05-13 22-57-58.jpg" alt=""><br>根据汇编命令与字节码的对应关系：</p>
-<p><img src="/image/2016-05-13 23-00-28.jpg" alt=""></p>
-<p>需要将<code>je</code> 对应的<code>0F 84 87 00 00 00</code>替换为<code>0F 85 87 00 00 00</code></p>
-<ol start="4">
-<li><p>使用mac下的字节码编辑工具<code>Hex Fiend</code>打开MacOs目录下的可执行文件<br>执行替换时，因为<code>0F 84 87 00 00 00</code>对应了多个结果，这里将后一句汇编代码对应的字节码拼接上去确保结果唯一后执行替换：<br><img src="/image/2016-05-13 23-11-08.jpg" alt=""></p>
-</li>
-<li><p>保存替换之后还无法运行，因为修改过的可执行文件丢失了证书信息，需要重新对该文件进行签名操作。<br>详细步骤可以参考：<a href="http://forums.macnn.com/79/developer-center/355720/how-re-sign-apples-applications-once/" target="_blank" rel="noopener">re-sign-apples-applications</a></p>
-</li>
-<li>签名之后依然无法打开，查找提示信息<code>Signature of the Interface Inspector is broken</code>找到程序启动完毕触发事件的监听部分：</li>
-</ol>
-<p><img src="/image/2016-05-13 23-22-40.jpg" alt=""><br>找到跳转入口：<br><img src="/image/2016-05-13 23-23-31.jpg" alt=""><br>按照刚才的处理方法，替换此处的判断条件。</p>
-<ol start="7">
-<li>至此可以打开软件并用任意字符成功注册。</li>
-</ol>
-<p><img src="/image/2016-05-13 23-25-18.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/《万历十五年》有感/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/《万历十五年》有感/" itemprop="url">
-                  《万历十五年》有感
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-05-11 21:07:53 / Modified: 21:54:36" itemprop="dateCreated datePublished" datetime="2016-05-11T21:07:53+08:00">2016-05-11</time>
-            
-
-            
-              
-
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/reading/" itemprop="url" rel="index"><span itemprop="name">读书</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/《万历十五年》有感/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="《万历十五年》有感/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>全书分别从人君，文官，武官，文人的角度描绘了万历十五年这个明朝的统治末年下的方方面面。</p>
-<!-- abstract -->
-<!-- 开始正文 -->
-<p>人君受到文官集团的钳制，形同傀儡，无法自由发挥天性，或放浪形骸，或消极处事。</p>
-<p>文官就算位极人臣，也要小心制衡百官和人君，稍有变革，触及文官集团的利益，便有杀身之祸。</p>
-<p>武官在这样一个重文轻武的朝代，经济制度混乱，文官对武官的权力时刻警惕，更是难有建树。</p>
-<p>文人被牢牢束缚在儒学和传统宗族集团制度的枷锁之下，妄图放弃正统的儒学观念，则是威胁到王朝根基安全的大逆之举。</p>
-<p>政府的施政方针和个人的行动完全凭借道德的指导，而不依靠公正而周详的法律，这样带来的后果是社会越来越趋于凝固，政府的政治措施无法适应时代的需要，个人的独创精神也难以得到发挥。</p>
-<p>文极必开动乱之机，由乱复归于治。努尔哈赤在白山黑水之间起家，带着“质”上的纯真，征服了这样一个庞大的帝国。</p>
-<blockquote>
-<p>当一个人口众多的国家，各人行动全凭儒家简单粗浅而又无法固定的原则所限制，而法律又缺乏创造性，则其社会发展的程度，必然受到限制。即便是宗旨善良，也不能补助技术之不及。1587年，是为万历十五年，丁亥次岁，表面上似乎是四海升平，无事可记，实际上我们的大明帝国却已经走到了它发展的尽头。在这个时候，皇帝的励精图治或者宴安耽乐，首辅的独裁或者调和，高级将领的富于创造或者习于苟安，文官的廉洁奉公或者贪污舞弊，思想家的极端进步或者绝对保守，最后的结果，都是无分善恶，统统不能在事业上取得有意义的发展，有的身败，有的名裂，还有的人则身败而兼名裂。</p>
-</blockquote>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -910,7 +973,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">49</span>
+                    <span class="site-state-item-count">51</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1026,7 +1089,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">30</span>
+                      
+                    
+                    <span class="site-state-item-count">31</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
