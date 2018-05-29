@@ -441,10 +441,10 @@
 <p>使用工具：<code>Hopper Disassembler</code> Version 3.9.15 ，<code>Hex Fiend</code> Version 2.1.2 (200)<br>逆向APP：<code>Interface Inspector</code> Version 2.2 (17)</p>
 <ol>
 <li>通过检索关键字<code>register</code>定位到相关注册方法：SMLicenseManager registerLicenseWithName：<br><img src="/image/2016-05-13 22-49-54.jpg" alt=""></li>
-<li>此处通过<code>verifyLicenseWithName</code>方法判断是否为合法注册码，定位到对应汇编代码，将变更后的汇编代码翻译为字节码。<br>此处通过将判断条件置反，使得无效的注册码进入有效验证码的后续逻辑，即需要将汇编代码：<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">000000010010f</span>30e         je         <span class="number">0x10010f</span>39b</span><br></pre></td></tr></table></figure>
+<li>此处通过<code>verifyLicenseWithName</code>方法判断是否为合法注册码，定位到对应汇编代码，将变更后的汇编代码翻译为字节码。<br>此处通过将判断条件置反，使得无效的注册码进入有效验证码的后续逻辑，即需要将汇编代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">000000010010f30e         je         0x10010f39b</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
-<p>替换为：<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">000000010010f</span>30e         jne         <span class="number">0x10010f</span>39b</span><br></pre></td></tr></table></figure></p>
+<p>替换为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">000000010010f30e         jne         0x10010f39b</span><br></pre></td></tr></table></figure></p>
 <ol start="3">
 <li>通过右侧的窗口查看汇编命令对应的字节码：</li>
 </ol>

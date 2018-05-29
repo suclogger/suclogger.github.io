@@ -105,7 +105,7 @@
 
 
   <meta name="description" content="鉴于当前日益严峻的行业竞争和用户的安全忧虑，我司近期上线了对全接口的安全监控，以下记录了方案设计过程中的一些想法。 HTTPS安全吗？HTTPS可以在一定程度上隐藏接口调用的路径和参数，但是如果使用不当，依然会暴露在MIM攻击下，现在流行的网络调试工具都可以支持MIM。如Charles：  Surge: 在MIM攻击下，通过HTTPS的请求依旧一览无余。所以我们需要一个更为可靠的接口加密方案，">
-<meta name="keywords" content="加密,安全">
+<meta name="keywords" content="安全,加密">
 <meta property="og:type" content="article">
 <meta property="og:title" content="应用接口的安全方案设计">
 <meta property="og:url" content="https://suclogger.me/应用接口的安全方案设计/index.html">
@@ -466,9 +466,9 @@
 <p>同时满足着三个条件是有可能的，但是不同于上文中介绍的案例，在接口重放成本上是有很显著的差距的，如果配合后台监控得当，基本可以把恶意用户及时禁用。<br>如果客户端配合得当，通过代码混淆等方式增加反编译的难度，保护加密公钥，就能很大程度拦住恶意用户。</p>
 <h3 id="服务端如何无痛的接入当前的应用"><a href="#服务端如何无痛的接入当前的应用" class="headerlink" title="服务端如何无痛的接入当前的应用"></a>服务端如何无痛的接入当前的应用</h3><p>想必所有接触过spring的用户脑袋里面都冒出了三个字：<code>AOP</code>。<br>没错，这个方案通过<code>AOP</code>可以做到很好的无痛接入，将切点定义在所有需要加密的请求方法，将解密逻辑存放在对应的<code>Advise</code> 中即可。主要有以下注意的地方：</p>
 <h4 id="确保这个切面具有最高的优先级"><a href="#确保这个切面具有最高的优先级" class="headerlink" title="确保这个切面具有最高的优先级"></a>确保这个切面具有最高的优先级</h4><p>除了这个切面，系统中还存在很多业务相关的切面，比如校验登录，记录日志等，都需要明文的请求参数，所以我们要确保这个切面具有最高的优先级。<br>如果通过<code>@Aspect</code>注解来定义切面，有一个对应的注解<code>@Order</code>可以用于定义切面的优先级，值越小意味着优先级越高，在触发的时候会越早被执行。</p>
-<h4 id="兼容spring的表单校验"><a href="#兼容spring的表单校验" class="headerlink" title="兼容spring的表单校验"></a>兼容spring的表单校验</h4><p>如果在接口方法参数中带了<code>@Valid</code>注解，spring会对对应的表单参数执行校验，校验结果存放在接口方法的<code>Errors</code>或者<code>BindingResult</code>中，因为加密之后，这个校验是肯定不会通过的（因为明文参数字段的值都为空），所以需要在<code>Advise</code>方法中重新执行校验：<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Errors errors = <span class="keyword">new</span> <span class="type">BeanPropertyBindingResult</span>(<span class="keyword">new</span><span class="type">Form</span>, formClazz.getName());</span><br><span class="line">validator.validate(<span class="keyword">new</span><span class="type">Form</span>, errors);</span><br><span class="line">args[i] = errors;</span><br></pre></td></tr></table></figure></p>
-<p>或者：<br><figure class="highlight haxe"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BindingResult result = <span class="keyword">new</span> <span class="type">BeanPropertyBindingResult</span>(<span class="keyword">new</span><span class="type">Form</span>, formClazz.getName());</span><br><span class="line">validator.validate(<span class="keyword">new</span><span class="type">Form</span>, result);</span><br><span class="line">args[i] = result;</span><br></pre></td></tr></table></figure></p>
-<p>这个<code>validator</code>在spirng容器中定义，注入到当前<code>Aspect</code>。<br><figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean <span class="built_in">id</span>=<span class="string">"validator"</span> <span class="built_in">class</span>=<span class="string">"org.springframework.validation.beanvalidation.LocalValidatorFactoryBean"</span> /&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="兼容spring的表单校验"><a href="#兼容spring的表单校验" class="headerlink" title="兼容spring的表单校验"></a>兼容spring的表单校验</h4><p>如果在接口方法参数中带了<code>@Valid</code>注解，spring会对对应的表单参数执行校验，校验结果存放在接口方法的<code>Errors</code>或者<code>BindingResult</code>中，因为加密之后，这个校验是肯定不会通过的（因为明文参数字段的值都为空），所以需要在<code>Advise</code>方法中重新执行校验：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Errors errors = new BeanPropertyBindingResult(newForm, formClazz.getName());</span><br><span class="line">validator.validate(newForm, errors);</span><br><span class="line">args[i] = errors;</span><br></pre></td></tr></table></figure></p>
+<p>或者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BindingResult result = new BeanPropertyBindingResult(newForm, formClazz.getName());</span><br><span class="line">validator.validate(newForm, result);</span><br><span class="line">args[i] = result;</span><br></pre></td></tr></table></figure></p>
+<p>这个<code>validator</code>在spirng容器中定义，注入到当前<code>Aspect</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;validator&quot; class=&quot;org.springframework.validation.beanvalidation.LocalValidatorFactoryBean&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
@@ -518,9 +518,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/加密/" rel="tag"># 加密</a>
-          
             <a href="/tags/安全/" rel="tag"># 安全</a>
+          
+            <a href="/tags/加密/" rel="tag"># 加密</a>
           
         </div>
       
