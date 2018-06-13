@@ -305,6 +305,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/应用接口的安全方案设计（二）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/应用接口的安全方案设计（二）/" itemprop="url">
+                  应用接口的安全方案设计（二）
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-10-14 00:17:27 / Modified: 10:04:34" itemprop="dateCreated datePublished" datetime="2016-10-14T00:17:27+08:00">2016-10-14</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/应用接口的安全方案设计（二）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="应用接口的安全方案设计（二）/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- abstract -->
+<!-- 开始正文 -->
+<p>在<a href="http://suclogger.tech/2016/09/23/应用接口的安全方案设计/" target="_blank" rel="noopener">上一篇</a>文章中我说到：HTTPS是不安全的，因为存在MIM攻击。但是随着了解的深入，发现这个认识是有问题的，正确的认识应当是：<strong>HTTPS的设计是安全的，只是错误的用法导致了MIM攻击</strong>。</p>
+<p>关于SSL/TLS协议运行机制，阮一峰的<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">博客文章</a>做了很好的介绍。</p>
+<p>稍加了解，可以发现，其实上一篇文章中的设计就是参照了SSL/TLS协议运行机制，混合了非对称加密和对称加密，有几点需要注意：</p>
+<ol>
+<li>引入了证书机制来确保服务端下发的公钥不被窜改。</li>
+<li>引入三组随机数组成最后的随机数，保证了随机数的随机性。</li>
+</ol>
+<p>相比于一个正常的HTTPS通信过程，MIM攻击下的HTTPS通信过程如下（这里以Charles为例）：<br>第一步，客户端发送给服务器的HTTPS请求，<strong>Charles截获后伪装成客户端向服务器发送请求进行握手 </strong>。<br>第二步，服务器发回相应，<strong>Charles获取到服务器的CA证书和其中包含的证书公钥。然后Charles伪造自己的CA证书， 冒充服务器证书传递给客户端</strong>。<br>第三步，客户端校验接收到的证书，生成密码pre_master并用接收到的证书中包含的公钥加密，并生成HTTPS通信用的对称密钥enc_key。<br>第四步，客户端将加密后的pre_master传递给服务器， <strong>Charles截获后将密文用自己伪造证书的私钥解开， 获得pre_master并计算得到HTTPS通信用的对称密钥enc_key，伪装成客户端，用服务端证书中携带的公钥加密pre_master向服务器发送</strong>。<br>第五步，服务器用私钥解开后建立信任。</p>
+<p>成功建立”信任“之后，由于Charles持有通信用对称密钥enc_key，无论是客户端的请求密文或者是服务端的返回密文，对其都是可见的。</p>
+<p><strong>以上攻击发生的前提，就是客户端信任由Charles下发的证书，从而接受证书中包含的公钥信息</strong>。</p>
+<p>为了防御MIM攻击，只需客户端只信任CA颁发的证书即可，当然要求服务端的证书也是由CA颁发，这就意味着一笔高昂的费用（ 购买受信任机构颁发的证书每年要交 100 到 500 美元不等的费用）。<br>除了CA颁发的证书，还有两类证书：</p>
+<ul>
+<li>没有得到CA认可的证书颁发机构颁发的证书</li>
+<li>自己颁发的证书, 分临时性的(在开发阶段使用)或在发布的产品中永久性使用的两种</li>
+</ul>
+<p>所以很多产品，为了方便和实惠，采用了自签名证书来创建HTTPS链接。<br>而自签名证书的使用过程中可能因为存在下列问题而导致受到MIM攻击：</p>
+<ol>
+<li>客户端没有对SSL证书进行校验（因为自建证书的根CA的数字签名未在操作系统的信任列表中，如果添加校验肯定会返回失败）；</li>
+<li>客户端没有对域名进行校验；</li>
+<li>服务端遭受攻击，证书私钥泄漏。</li>
+</ol>
+<p>所以<strong>MIM中间人攻击漏洞并不是HTTPS设计的缺陷，而是人为使用过程中出现的漏洞</strong>。</p>
+<p> 相比之下，一个设计的比较好的APP在MIM攻击中则表现为：<br><img src="/image/2016-10-14-01-21-22.jpg" alt=""></p>
+<p>所以，在采用HTTPS给接口加固的时候，一定切记要<strong>在客户端校验服务端证书的合法性</strong>。<br>不论证书是由CA颁发，或者是自签名证书（自签名证书校验方法参见<a href="https://www.oschina.net/translate/android-security-implementation-of-self-signed-ssl" target="_blank" rel="noopener">这篇文章</a>）。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://suclogger.me/记一次反编译过程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -704,204 +898,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/AES和RSA的JavaScript实现/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/AES和RSA的JavaScript实现/" itemprop="url">
-                  AES和RSA的JavaScript实现
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-09-12 01:30:28" itemprop="dateCreated datePublished" datetime="2016-09-12T01:30:28+08:00">2016-09-12</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2016-10-25 22:08:05" itemprop="dateModified" datetime="2016-10-25T22:08:05+08:00">2016-10-25</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/AES和RSA的JavaScript实现/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="AES和RSA的JavaScript实现/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<h2 id="创建node工程"><a href="#创建node工程" class="headerlink" title="创建node工程"></a>创建node工程</h2><p>新建node工程，导入<code>crypto-js</code>和<code>crypto-browserify</code>的npm包。<br>代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var CryptoJS = require(&apos;crypto-js&apos;);</span><br><span class="line">var crypto = require(&apos;crypto-browserify&apos;);</span><br><span class="line"></span><br><span class="line">var key = &apos;16位密钥&apos;;</span><br><span class="line">var rsaKeyStr = &apos;&apos;RSA公钥&apos;;</span><br><span class="line">var rsaBuffer = new Buffer(key);</span><br><span class="line">// 使用RSA公钥加密AES的密钥</span><br><span class="line">var cryptedData = crypto.publicEncrypt(rsaKeyStr, rsaBuffer);</span><br><span class="line"></span><br><span class="line">//定义向量</span><br><span class="line">var iv = &apos;qwertyuiasdfghjk&apos;;</span><br><span class="line">key = CryptoJS.enc.Utf8.parse(key);</span><br><span class="line">iv = CryptoJS.enc.Utf8.parse(iv);</span><br><span class="line">//使用AES加密加密内容，这里用new Object 代替</span><br><span class="line">var encrypted = CryptoJS.AES.encrypt(JSON.stringify(new Object(), key, &#123;</span><br><span class="line">    iv: iv,</span><br><span class="line">    mode: CryptoJS.mode.CBC,</span><br><span class="line">    padding: CryptoJS.pad.Pkcs7</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">var encryptedObj = new Object();</span><br><span class="line">encryptedObj.mhcParams = encrypted.toString();</span><br><span class="line">encryptedObj.mhcToken = cryptedData.toString(&quot;base64&quot;);</span><br></pre></td></tr></table></figure></p>
-<p>注意有一个坑：<br> <code>crypto.publicEncrypt(public_key, buffer)</code>传入的<code>public_key</code>参数可以是一个Object，<strong> If public_key is a string, it is treated as the key with no passphrase and will use RSA_PKCS1_OAEP_PADDING</strong> ：如果是个string，默认采用<code>RSA_PKCS1_OAEP_PADDING</code>的padding方式。</p>
-<h2 id="通过webpack打包"><a href="#通过webpack打包" class="headerlink" title="通过webpack打包"></a>通过webpack打包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">const name = &apos;SomeDemo&apos;;</span><br><span class="line">const config = &#123;</span><br><span class="line">  target: &apos;web&apos;,</span><br><span class="line">  entry: [</span><br><span class="line">    &apos;./src/SomeDemo.js&apos;</span><br><span class="line">  ],</span><br><span class="line">  output:&#123;</span><br><span class="line">    path: path.join(__dirname, &apos;./build/tech.suclogger.SomeDemo&apos;),</span><br><span class="line">    pathInfo: true,</span><br><span class="line">    publicPath: &apos;/build/&apos;,</span><br><span class="line">    filename: name + &apos;.js&apos;</span><br><span class="line">  &#125;,</span><br><span class="line">  module: &#123;</span><br><span class="line">    loaders: [</span><br><span class="line">      &#123;</span><br><span class="line">        loader: &apos;babel-loader&apos;,</span><br><span class="line">        include: [</span><br><span class="line">          path.resolve(__dirname, &apos;src&apos;)</span><br><span class="line">        ],</span><br><span class="line">        test: /\.js$/</span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        loader: &apos;json-loader&apos;,</span><br><span class="line">        include: [</span><br><span class="line">          path.resolve(__dirname, &apos;node_modules&apos;)</span><br><span class="line">        ],</span><br><span class="line">        test: /\.json$/</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">module.exports = config;</span><br></pre></td></tr></table></figure>
-<p>注意有一个坑：</p>
-<blockquote>
-<p>webpack does not natively support the loading of JSON files such as /constants-browserify/constants.json. What you should do is to use the json-loader plugin for webpack (<a href="https://www.npmjs.com/package/json-loader" target="_blank" rel="noopener">https://www.npmjs.com/package/json-loader</a></p>
-</blockquote>
-<p>webpack并不原生支持打包json格式文件，需要通过<code>json-loader</code>这个插件来打包<code>constants</code>。</p>
-<h2 id="非node环境下执行"><a href="#非node环境下执行" class="headerlink" title="非node环境下执行"></a>非node环境下执行</h2><p>发现报错：<code>Error: secure random number generation not supported by this browser</code></p>
-<p>非node环境不带<code>crypto</code>，所以缺失<code>crypto.getRandomValues()</code>方法，可以通过给打包出的js文件中添加：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var crypto = &#123;</span><br><span class="line">getRandomValues: function getRandomValues(array) &#123;</span><br><span class="line">var result = []</span><br><span class="line">for (var i = 0, l = array.length; i &lt; l ; i++)&#123;</span><br><span class="line">result.push(Math.floor(Math.random()*256))</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">return result</span><br><span class="line">&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>模拟一个随机数的生成方法。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/10/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/12/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -944,7 +945,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">51</span>
+                    <span class="site-state-item-count">52</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1062,7 +1063,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">31</span>
+                      
+                    
+                    <span class="site-state-item-count">32</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '6.2.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="记录一下JAVA IO库（java version “1.8.0_131”）的一个坑。">
+<meta name="keywords" content="IO">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从一个锁死的RUNNABLE谈UNIX的I&#x2F;O模型">
+<meta property="og:url" content="https://suclogger.me/a-not-running-runnable/index.html">
+<meta property="og:site_name" content="Suclogger">
+<meta property="og:description" content="记录一下JAVA IO库（java version “1.8.0_131”）的一个坑。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-13-23-59-53.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-00-51-55.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-01-03-29.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-01-23-26.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-01-32-48.jpg">
+<meta property="og:updated_time" content="2018-06-13T17:36:02.058Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="从一个锁死的RUNNABLE谈UNIX的I&#x2F;O模型">
+<meta name="twitter:description" content="记录一下JAVA IO库（java version “1.8.0_131”）的一个坑。">
+<meta name="twitter:image" content="https://suclogger.me/image/2018-06-13/2018-06-13-23-59-53.jpg">
+
+
+
+
+
+
+  <link rel="canonical" href="https://suclogger.me/a-not-running-runnable/"/>
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>从一个锁死的RUNNABLE谈UNIX的I/O模型 | Suclogger</title>
+  
+
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Suclogger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">莆放</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="Toggle navigation bar">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+    <a href="/" rel="section">Home</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+    <a href="/archives/" rel="section">Archives</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+    <a href="/categories" rel="section">Categories</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+    <a href="/tags" rel="section">Tags</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-about">
+    <a href="/about" rel="section">About</a>
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-sitemap">
+    <a href="/sitemap.xml" rel="section">Sitemap</a>
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+    
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/a-not-running-runnable/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">从一个锁死的RUNNABLE谈UNIX的I/O模型
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2018-06-13 09:48:16" itemprop="dateCreated datePublished" datetime="2018-06-13T09:48:16+08:00">2018-06-13</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2018-06-14 01:36:02" itemprop="dateModified" datetime="2018-06-14T01:36:02+08:00">2018-06-14</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/a-not-running-runnable/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="a-not-running-runnable/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>记录一下JAVA IO库（java version “1.8.0_131”）的一个坑。</p>
+<a id="more"></a>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>背景是一个爬虫，实际执行网络请求是通过共用一个固定核心线程数的线程池（FixedThreadPool）做下载操作，但是每次运行一段时间后，线程池就被僵尸进程塞满了，表现为新提交到线程池的下载操作都无法被执行。</p>
+<h2 id="排查"><a href="#排查" class="headerlink" title="排查"></a>排查</h2><p>问题是线程池中的线程僵死，很明显要dump出应用的栈信息来分析一下，一般通过jdk的<code>jstack</code>工具：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack -l &lt;应用进程号&gt; &gt;&gt; /path/jstack.log</span><br></pre></td></tr></table></figure>
+<p>jstack输出内容的分析可以参考<a href="https://blog.csdn.net/fred_lzy/article/details/53064673" target="_blank" rel="noopener"><br>怎么分析线程栈</a>，这里就不赘述。</p>
+<p>机械化的操作可以通过高效的工具来完成，直接将输出文件提交到在线堆栈分析的<a href="http://fastthread.io/" target="_blank" rel="noopener">fastthread</a></p>
+<p>各个线程的状态如下：</p>
+<p><img src="/image/2018-06-13/2018-06-13-23-59-53.jpg" alt=""></p>
+<p>其中<code>download</code>ThreadGroup即为我的下载线程池，可以看到其中8个核心线程都是<code>RUNNABLE</code>状态。</p>
+<blockquote>
+<p>Runnable：一般指该线程正在执行状态中，该线程占用了资源，正在处理某个请求</p>
+</blockquote>
+<p>一个HTTP请求，要么请求成功，要么请求失败，要么超时，为什么会停留在<code>RUNNABLE</code>状态僵死呢？<br>查看堆栈详情如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">download-thread - priority:5 - threadId:0x00007fa7bc003800 - nativeId:0x42c4 - state:RUNNABLE</span><br><span class="line">stackTrace:</span><br><span class="line">java.lang.Thread.State: RUNNABLE</span><br><span class="line">at java.net.SocketInputStream.socketRead0(Native Method)</span><br><span class="line">at java.net.SocketInputStream.socketRead(SocketInputStream.java:116)</span><br><span class="line">at java.net.SocketInputStream.read(SocketInputStream.java:171)</span><br><span class="line">at java.net.SocketInputStream.read(SocketInputStream.java:141)</span><br><span class="line">at sun.security.ssl.InputRecord.readFully(InputRecord.java:465)</span><br><span class="line">at sun.security.ssl.InputRecord.read(InputRecord.java:503)</span><br><span class="line">at sun.security.ssl.SSLSocketImpl.readRecord(SSLSocketImpl.java:983)</span><br><span class="line">- locked &lt;0x00000000c81da728&gt; (a java.lang.Object)</span><br><span class="line">at sun.security.ssl.SSLSocketImpl.readDataRecord(SSLSocketImpl.java:940)</span><br><span class="line">at sun.security.ssl.AppInputStream.read(AppInputStream.java:105)</span><br><span class="line">- locked &lt;0x00000000c81f73c8&gt; (a sun.security.ssl.AppInputStream)</span><br><span class="line">at org.apache.http.impl.io.SessionInputBufferImpl.streamRead(SessionInputBufferImpl.java:137)</span><br><span class="line">at org.apache.http.impl.io.SessionInputBufferImpl.fillBuffer(SessionInputBufferImpl.java:153)</span><br><span class="line">at org.apache.http.impl.io.SessionInputBufferImpl.readLine(SessionInputBufferImpl.java:282)</span><br><span class="line">at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:138)</span><br><span class="line">at org.apache.http.impl.conn.DefaultHttpResponseParser.parseHead(DefaultHttpResponseParser.java:56)</span><br><span class="line">at org.apache.http.impl.io.AbstractMessageParser.parse(AbstractMessageParser.java:259)</span><br><span class="line">at org.apache.http.impl.DefaultBHttpClientConnection.receiveResponseHeader(DefaultBHttpClientConnection.java:163)</span><br><span class="line">at org.apache.http.impl.conn.CPoolProxy.receiveResponseHeader(CPoolProxy.java:165)</span><br><span class="line">at org.apache.http.protocol.HttpRequestExecutor.doReceiveResponse(HttpRequestExecutor.java:273)</span><br><span class="line">at org.apache.http.protocol.HttpRequestExecutor.execute(HttpRequestExecutor.java:125)</span><br><span class="line">at org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:272)</span><br><span class="line">at org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:185)</span><br><span class="line">at org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)</span><br><span class="line">at org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:111)</span><br><span class="line">at org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)</span><br><span class="line">at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)</span><br><span class="line">at org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)</span><br><span class="line">...</span><br><span class="line">at java.util.concurrent.FutureTask.run(FutureTask.java:266)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)</span><br><span class="line">at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)</span><br><span class="line">at java.lang.Thread.run(Thread.java:748)</span><br><span class="line">Locked ownable synchronizers:</span><br><span class="line">- &lt;0x00000000c6e6fb08&gt; (a java.util.concurrent.ThreadPoolExecutor$Worker)</span><br></pre></td></tr></table></figure>
+<p>看到这8个线程都是阻塞在了<code>socketRead0</code>方法上。<br><code>socketRead0</code>是jdk提供的native方法，方法签名为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Reads into an array of bytes at the specified offset using</span></span><br><span class="line"><span class="comment"> * the received socket primitive.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> fd the FileDescriptor</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> b the buffer into which the data is read</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> off the start offset of the data</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> len the maximum number of bytes read</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> timeout the read timeout in ms</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> the actual number of bytes read, -1 is</span></span><br><span class="line"><span class="comment"> *          returned when the end of the stream is reached.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@exception</span> IOException If an I/O error has occurred.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">native</span> <span class="keyword">int</span> <span class="title">socketRead0</span><span class="params">(FileDescriptor fd,</span></span></span><br><span class="line"><span class="function"><span class="params">                               <span class="keyword">byte</span> b[], <span class="keyword">int</span> off, <span class="keyword">int</span> len,</span></span></span><br><span class="line"><span class="function"><span class="params">                               <span class="keyword">int</span> timeout)</span></span></span><br><span class="line"><span class="function">    <span class="keyword">throws</span> IOException</span>;</span><br></pre></td></tr></table></figure>
+<p>具体查看jdk中的实现细节（SocketInputStream.c）：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">JNIEXPORT jint JNICALL</span><br><span class="line">Java_java_net_SocketInputStream_socketRead0(JNIEnv *env, jobject <span class="keyword">this</span>,</span><br><span class="line">                                            jobject fdObj, jbyteArray data,</span><br><span class="line">                                            jint off, jint len, jint timeout)</span><br><span class="line">&#123;</span><br><span class="line">..</span><br><span class="line">    <span class="keyword">if</span> (timeout) &#123;</span><br><span class="line">        nread = NET_Timeout(fd, timeout);</span><br><span class="line">       ...</span><br><span class="line">    &#125;</span><br><span class="line">...</span><br><span class="line">    nread = NET_Read(fd, bufP, len);</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果设置了超时时间，具体调用的是<code>NET_Timeout</code>方法，位于<code>aix_close.c</code>:</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NET_Timeout</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">long</span> timeout)</span> </span>&#123;</span><br><span class="line">       ...</span><br><span class="line">        rv = poll(&amp;pfd, <span class="number">1</span>, timeout);</span><br><span class="line">        ...</span><br></pre></td></tr></table></figure>
+<p>直接调用了<code>poll</code>函数。</p>
+<blockquote>
+<p>poll提供的功能与select类似，不过在处理流设备时，它能够提供额外的信息。</p>
+</blockquote>
+<p><code>poll</code>函数在<code>POLLIN</code>和<code>POLLERR</code>时返回，分别指代<code>普通或优先级带数据可读</code>和<code>发生错误</code>的情况。<br>如果是可读，调用<code>NET_Read</code>方法阻塞读取：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">NET_Read</span><span class="params">(<span class="keyword">int</span> s, <span class="keyword">void</span>* buf, <span class="keyword">size_t</span> len)</span> </span>&#123;</span><br><span class="line">    BLOCKING_IO_RETURN_INT( s, recv(s, buf, len, <span class="number">0</span>) );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/************** Basic I/O operations here ***************/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Macro to perform a blocking IO operation. Restarts</span></span><br><span class="line"><span class="comment"> * automatically if interrupted by signal (other than</span></span><br><span class="line"><span class="comment"> * our wakeup signal)</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> BLOCKING_IO_RETURN_INT(FD, FUNC) &#123;      \</span></span><br><span class="line">    <span class="keyword">int</span> ret;                                    \</span><br><span class="line">    threadEntry_t self;                         \</span><br><span class="line">    fdEntry_t *fdEntry = getFdEntry(FD);        \</span><br><span class="line">    <span class="keyword">if</span> (fdEntry == <span class="literal">NULL</span>) &#123;                      \</span><br><span class="line">        errno = EBADF;                          \</span><br><span class="line">        <span class="keyword">return</span> <span class="number">-1</span>;                              \</span><br><span class="line">    &#125;                                           \</span><br><span class="line">    <span class="keyword">do</span> &#123;                                        \</span><br><span class="line">        startOp(fdEntry, &amp;self);                \</span><br><span class="line">        ret = FUNC;                             \</span><br><span class="line">        endOp(fdEntry, &amp;self);                  \</span><br><span class="line">    &#125; <span class="keyword">while</span> (ret == <span class="number">-1</span> &amp;&amp; errno == EINTR);      \</span><br><span class="line">    <span class="keyword">return</span> ret;                                 \</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>好了，代码都看完了，所以为什么<code>poll</code>函数返回可读之后，阻塞的读取操作会永远阻塞下去呢？<br>参考man page中关于<code>poll</code>的bug描述：</p>
+<blockquote>
+<p>See the discussion of spurious readiness notifications under the BUGS section of select(2).</p>
+</blockquote>
+<p>再看man page中关于<code>select(2)</code>的bug描述：</p>
+<blockquote>
+<p>Under Linux, select() may report a socket file descriptor as “ready for reading”, while nevertheless a subsequent read blocks. This could for example happen when data has arrived but upon examination has wrong checksum and is discarded. There may be other circumstances in which a file descriptor is spuriously reported as ready. Thus it may be safer to use O_NONBLOCK on sockets that should not block.</p>
+</blockquote>
+<p>大致意思是在某些极端情况下，poll/select返回可读标识不代表真的有数据处于可读状态，一种典型场景就是数据包到达，但是由于checksum校验没有通过而被抛弃（这是由TCP的可靠机制决定的）。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>由于某些请求的TCP包传输过程中出现异常导致<code>poll</code>在没有真实可读数据情况下返回可读标识，使得阻塞的<code>recv</code>方法永远阻塞下去，从而使得当前线程一直处于<code>RUNNABLE</code>，当线程池的核心线程都被这种线程占据之后，就再也无法处理新提交的任务了。</p>
+<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>在不更新JDK而且继续使用HttpClient的前提下，可以参考apache提供的<a href="https://hc.apache.org/httpcomponents-client-4.3.x/tutorial/html/connmgmt.html#d5e405" target="_blank" rel="noopener">文档</a>实现某种<code>Connection eviction</code>机制，新启一个守护进程定时移除idle长达一定时间的连接。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ThreadPoolFactory.getThreadpoll().submit(() -&gt; &#123;</span><br><span class="line">    Thread.currentThread().setName(<span class="string">"idle-evict-thread"</span>);</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">                wait(<span class="number">5000</span>);</span><br><span class="line">                <span class="comment">// Close expired connections</span></span><br><span class="line">                poolingHttpClientConnectionManager.closeExpiredConnections();</span><br><span class="line">                <span class="comment">// Optionally, close connections</span></span><br><span class="line">                <span class="comment">// that have been idle longer than 30 sec</span></span><br><span class="line">                poolingHttpClientConnectionManager.closeIdleConnections(<span class="number">30</span>, TimeUnit.SECONDS);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (InterruptedException ex) &#123;</span><br><span class="line">        <span class="comment">// terminate</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>另一种方式，就是用异步IO取代现有的阻塞IO，也是JDK修复这个bug的方式，具体代码可以参考<a href="https://bugs.openjdk.java.net/browse/JDK-8075484" target="_blank" rel="noopener">openJDK</a></p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>Unix下共有5中可用的I/O模型：</p>
+<ul>
+<li>阻塞I/O</li>
+<li>非阻塞I/O</li>
+<li>I/O复用（select和poll）</li>
+<li>信号驱动式I/O（SIGIO）</li>
+<li>异步I/O（POSIX的aio_系列函数）</li>
+</ul>
+<p>主要介绍下常见的几种I/O。</p>
+<h3 id="阻塞I-O"><a href="#阻塞I-O" class="headerlink" title="阻塞I/O"></a>阻塞I/O</h3><p>即blocking I/O，体现在JDK的源码中的<code>NET_RecvFrom</code>方法，进程调用<code>recvfrom</code>函数，其系统调用知道数据报到达且被复制到应用进程的缓冲区中或者发生错误才返回。进程在从调用<code>recvfrom</code>函数开始到它返回的整段时间内饰被阻塞的。</p>
+<p><img src="/image/2018-06-13/2018-06-14-00-51-55.jpg" alt=""></p>
+<h3 id="非阻塞I-O"><a href="#非阻塞I-O" class="headerlink" title="非阻塞I/O"></a>非阻塞I/O</h3><p>即nonblocking I/O，应用进程持续轮询（polling）内核，即对一个非阻塞描述符循环调用上述的<code>recvfrom</code>方法，以查看某个操作是否就绪。这么做往往耗费大量的CPU时间。</p>
+<p><img src="/image/2018-06-13/2018-06-14-01-03-29.jpg" alt=""></p>
+<h3 id="I-O复用模型"><a href="#I-O复用模型" class="headerlink" title="I/O复用模型"></a>I/O复用模型</h3><p>即I/O multiplexing，上述介绍的select/poll采用了这一模型。这一模型相对以上，阻塞发生在这两个系统调用之上，而不是真正的I/O系统调用上。看起来由于需要使用select+recvfrom两组命令，这一模型还稍有劣势，而优势就体现在，<strong>使用select/poll可以等待多个描述符就绪</strong>，这样就可以做到用单个线程管理监听多个I/O操作的事件。与其密切相关的阻塞的变种是在多线程中使用阻塞I/O。</p>
+<p><img src="/image/2018-06-13/2018-06-14-01-23-26.jpg" alt=""></p>
+<h3 id="异步I-O"><a href="#异步I-O" class="headerlink" title="异步I/O"></a>异步I/O</h3><p>即asynchronous I/O，由POSIX规范定义。告知内核启动某个操作，并在<strong>整个操作</strong>（包括将数据从内核复制到用户空间）完成后调用回调函数。</p>
+<p><img src="/image/2018-06-13/2018-06-14-01-32-48.jpg" alt=""></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      <div>
+        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+  <div></div>
+  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+    <span>Donate</span>
+  </button>
+  <div id="QR" style="display: none;">
+
+    
+      <div id="wechat" style="display: inline-block">
+        <img id="wechat_qr" src="/image/wechatpay.jpg" alt="Suclogger WeChat Pay"/>
+        <p>WeChat Pay</p>
+      </div>
+    
+
+    
+      <div id="alipay" style="display: inline-block">
+        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
+        <p>Alipay</p>
+      </div>
+    
+
+    
+
+  </div>
+</div>
+
+      </div>
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/IO/" rel="tag"># IO</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/weak-reference/" rel="next" title="Micrometer使用小记：对象弱引用的一种使用场景">
+                <i class="fa fa-chevron-left"></i> Micrometer使用小记：对象弱引用的一种使用场景
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Suclogger</p>
+              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">52</span>
+                    <span class="site-state-item-name">posts</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">6</span>
+                    <span class="site-state-item-name">categories</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">32</span>
+                    <span class="site-state-item-name">tags</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#排查"><span class="nav-number">2.</span> <span class="nav-text">排查</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解决"><span class="nav-number">4.</span> <span class="nav-text">解决</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">5.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#阻塞I-O"><span class="nav-number">5.1.</span> <span class="nav-text">阻塞I/O</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非阻塞I-O"><span class="nav-number">5.2.</span> <span class="nav-text">非阻塞I/O</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#I-O复用模型"><span class="nav-number">5.3.</span> <span class="nav-text">I/O复用模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#异步I-O"><span class="nav-number">5.4.</span> <span class="nav-text">异步I/O</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+
+  
+
+  
+</div>
+
+
+  
+
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+
+
+
+  
+
+  
+    <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+  
+
+  
+    <script type="text/javascript">
+      var disqus_config = function () {
+        this.page.url = 'https://suclogger.me/a-not-running-runnable/';
+        this.page.identifier = 'a-not-running-runnable/';
+        this.page.title = '从一个锁死的RUNNABLE谈UNIX的I/O模型';
+      };
+      function loadComments () {
+        var d = document, s = d.createElement('script');
+        s.src = 'https://suclogger.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      }
+      
+        $(function () {
+          var offsetTop = $('#comments').offset().top - $(window).height();
+          if (offsetTop <= 0) {
+            // load directly when there's no a scrollbar
+            loadComments();
+          } else {
+            $(window).on('scroll.disqus_scroll', function () {
+              var scrollTop = document.documentElement.scrollTop;
+              if (scrollTop >= offsetTop) {
+                $(window).off('.disqus_scroll');
+                loadComments();
+              }
+            });
+          }
+        });
+      
+    </script>
+  
+
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
