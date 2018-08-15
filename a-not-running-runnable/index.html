@@ -112,18 +112,18 @@
 <meta property="og:site_name" content="Suclogger">
 <meta property="og:description" content="记录一下JAVA IO库（java version “1.8.0_131”）的一个坑。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-13-23-59-53.jpg">
-<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-00-51-55.jpg">
-<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-01-03-29.jpg">
-<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-01-23-26.jpg">
-<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-01-32-48.jpg">
-<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-14-43-23.jpg">
-<meta property="og:image" content="https://suclogger.me/image/2018-06-13/2018-06-14-14-47-28.jpg">
-<meta property="og:updated_time" content="2018-06-14T06:53:50.034Z">
+<meta property="og:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-13-23-59-53.jpg">
+<meta property="og:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-14-00-51-55.jpg">
+<meta property="og:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-14-01-03-29.jpg">
+<meta property="og:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-14-01-23-26.jpg">
+<meta property="og:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-14-01-32-48.jpg">
+<meta property="og:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-14-14-43-23.jpg">
+<meta property="og:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-14-14-47-28.jpg">
+<meta property="og:updated_time" content="2018-06-14T09:48:07.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="从锁死的RUNNABLE线程谈UNIX的I&#x2F;O模型">
 <meta name="twitter:description" content="记录一下JAVA IO库（java version “1.8.0_131”）的一个坑。">
-<meta name="twitter:image" content="https://suclogger.me/image/2018-06-13/2018-06-13-23-59-53.jpg">
+<meta name="twitter:image" content="https://suclogger.me/a-not-running-runnable/image/2018-06-13/2018-06-13-23-59-53.jpg">
 
 
 
@@ -373,7 +373,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-06-14 14:53:50" itemprop="dateModified" datetime="2018-06-14T14:53:50+08:00">2018-06-14</time>
+                <time title="Modified: 2018-06-14 17:48:07" itemprop="dateModified" datetime="2018-06-14T17:48:07+08:00">2018-06-14</time>
               
             
           </span>
@@ -443,7 +443,7 @@
 <p>jstack输出内容的分析可以参考<a href="https://blog.csdn.net/fred_lzy/article/details/53064673" target="_blank" rel="noopener"><br>怎么分析线程栈</a>，这里就不赘述。</p>
 <p>机械化的操作可以通过高效的工具来完成，直接将输出文件提交到在线堆栈分析的<a href="http://fastthread.io/" target="_blank" rel="noopener">fastthread</a></p>
 <p>各个线程的状态如下：</p>
-<p><img src="/image/2018-06-13/2018-06-13-23-59-53.jpg" alt=""></p>
+<p><img src="./image/2018-06-13/2018-06-13-23-59-53.jpg" alt=""></p>
 <p>其中<code>download</code>ThreadGroup即为我的下载线程池，可以看到其中8个核心线程都是<code>RUNNABLE</code>状态。</p>
 <blockquote>
 <p>Runnable：一般指该线程正在执行状态中，该线程占用了资源，正在处理某个请求</p>
@@ -485,13 +485,13 @@
 </ul>
 <p>主要介绍下常见的几种I/O。</p>
 <h4 id="阻塞I-O"><a href="#阻塞I-O" class="headerlink" title="阻塞I/O"></a>阻塞I/O</h4><p>即blocking I/O，体现在JDK的源码中的<code>NET_RecvFrom</code>方法，进程调用<code>recvfrom</code>函数，其系统调用知道数据报到达且被复制到应用进程的缓冲区中或者发生错误才返回。进程在从调用<code>recvfrom</code>函数开始到它返回的整段时间内饰被阻塞的。</p>
-<p><img src="/image/2018-06-13/2018-06-14-00-51-55.jpg" alt=""></p>
+<p><img src="./image/2018-06-13/2018-06-14-00-51-55.jpg" alt=""></p>
 <h4 id="非阻塞I-O"><a href="#非阻塞I-O" class="headerlink" title="非阻塞I/O"></a>非阻塞I/O</h4><p>即nonblocking I/O，应用进程持续轮询（polling）内核，即对一个非阻塞描述符循环调用上述的<code>recvfrom</code>方法，以查看某个操作是否就绪。这么做往往耗费大量的CPU时间。</p>
-<p><img src="/image/2018-06-13/2018-06-14-01-03-29.jpg" alt=""></p>
+<p><img src="./image/2018-06-13/2018-06-14-01-03-29.jpg" alt=""></p>
 <h4 id="I-O复用模型"><a href="#I-O复用模型" class="headerlink" title="I/O复用模型"></a>I/O复用模型</h4><p>即I/O multiplexing，上述介绍的select/poll采用了这一模型。这一模型相对以上，阻塞发生在这两个系统调用之上，而不是真正的I/O系统调用上。看起来由于需要使用select+recvfrom两组命令，这一模型还稍有劣势，而优势就体现在，<strong>使用select/poll可以等待多个描述符就绪</strong>，这样就可以做到用单个线程管理监听多个I/O操作的事件。与其密切相关的阻塞的变种是在多线程中使用阻塞I/O。</p>
-<p><img src="/image/2018-06-13/2018-06-14-01-23-26.jpg" alt=""></p>
+<p><img src="./image/2018-06-13/2018-06-14-01-23-26.jpg" alt=""></p>
 <h4 id="异步I-O"><a href="#异步I-O" class="headerlink" title="异步I/O"></a>异步I/O</h4><p>即asynchronous I/O，由POSIX规范定义。告知内核启动某个操作，并在<strong>整个操作</strong>（包括将数据从内核复制到用户空间）完成后调用回调函数。</p>
-<p><img src="/image/2018-06-13/2018-06-14-01-32-48.jpg" alt=""></p>
+<p><img src="./image/2018-06-13/2018-06-14-01-32-48.jpg" alt=""></p>
 <h3 id="I-O模型对应的设计模式"><a href="#I-O模型对应的设计模式" class="headerlink" title="I/O模型对应的设计模式"></a>I/O模型对应的设计模式</h3><h4 id="Reactor"><a href="#Reactor" class="headerlink" title="Reactor"></a>Reactor</h4><p><code>select/poll</code> 实现的I/O复用技术归纳起来有两个关键实现点：</p>
 <ul>
 <li>当多条连接共用一个阻塞对象后，进程只需要在一个阻塞对象上等待，而无须再轮询所有连接。</li>
@@ -499,7 +499,7 @@
 </ul>
 <p>I/O复用结合线程池使用，就是俗称的<code>Reactor</code>模式，中文是“反应堆”。有的地方也称为<code>Dispatcher</code>模式（在很多开源的系统里面会看到这个名称的类，其实就是实现 Reactor 模式的），更加贴近模式本身的含义，即 I/O 多路复用统一监听事件，收到事件后分配（Dispatch）给某个进程。</p>
 <p>Reactor 模式的核心组成部分包括 Reactor 和处理资源池（进程池或线程池），其中 Reactor 负责监听和分配事件，处理资源池负责处理事件。根据Reactor和资源池的数量可以引申出多种组合，以多 Reactor 多进程为例：</p>
-<p><img src="/image/2018-06-13/2018-06-14-14-43-23.jpg" alt=""></p>
+<p><img src="./image/2018-06-13/2018-06-14-14-43-23.jpg" alt=""></p>
 <ol>
 <li>父进程中 mainReactor 对象通过 select 监控连接建立事件，收到事件后通过 Acceptor 接收，将新的连接分配给某个子进程。</li>
 <li>子进程的 subReactor 将 mainReactor 分配的连接加入连接队列进行监听，并创建一个 Handler 用于处理连接的各种事件。</li>
@@ -509,7 +509,7 @@
 <p>目前著名的开源系统 Nginx 采用的是多 Reactor 多进程，采用多 Reactor 多线程的实现有 Memcache 和 Netty</p>
 <h4 id="Proactor"><a href="#Proactor" class="headerlink" title="Proactor"></a>Proactor</h4><p>Reactor 是非阻塞同步网络模型，因为真正的 read 和 send 操作都需要用户进程同步操作。这里的“同步”指用户进程在执行 read 和 send 这类 I/O 操作的时候是同步的，如果把 I/O 操作改为异步就能够进一步提升性能，这就是异步网络模型 Proactor。</p>
 <p>Proactor 称为“前摄器”或者“主动器”。Reactor 可以理解为“来了事件我通知你，你来处理”，而 Proactor 可以理解为“来了事件我来处理，处理完了我通知你”。这里的“我”就是操作系统内核，“事件”就是有新连接、有数据可读、有数据可写的这些 I/O 事件，“你”就是我们的程序代码。</p>
-<p><img src="/image/2018-06-13/2018-06-14-14-47-28.jpg" alt=""></p>
+<p><img src="./image/2018-06-13/2018-06-14-14-47-28.jpg" alt=""></p>
 <ol>
 <li>Proactor Initiator 负责创建 Proactor 和 Handler，并将 Proactor 和 Handler 都通过 Asynchronous Operation Processor 注册到内核。</li>
 <li>Asynchronous Operation Processor 负责处理注册请求，并完成 I/O 操作。</li>
@@ -593,6 +593,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/beginning-blockchain/" rel="prev" title="初识区块链">
+                初识区块链 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -675,7 +679,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">52</span>
+                    <span class="site-state-item-count">53</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -706,7 +710,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">6</span>
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">categories</span>
                   </a>
                 </div>
@@ -795,7 +801,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">32</span>
+                      
+                    
+                    <span class="site-state-item-count">33</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
