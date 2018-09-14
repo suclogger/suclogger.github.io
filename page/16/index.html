@@ -305,6 +305,191 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/到底需不需要Manager层？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/到底需不需要Manager层？/" itemprop="url">
+                  到底需不需要Manager层？
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-05-18 00:09:55 / Modified: 00:48:33" itemprop="dateCreated datePublished" datetime="2016-05-18T00:09:55+08:00">2016-05-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/到底需不需要Manager层？/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="到底需不需要Manager层？/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- abstract -->
+<p>今天跟同事们一起主要就是否需要按照严格的分层架构来规范当前代码讨论了应用的几个架构问题。<br><!-- 开始正文 --><br>之前第一家公司采用的是经典的SpringMVC架构，主要划分为Controller，Service，DAO三层。Controller层控制页面逻辑，数据库操作通过自己编写hql在DAO层实现，事务控制在Service层。这样的架构容易理解和上手，但是无法对DAO层的代码逻辑进行控制，很容易出现以下问题：</p>
+<ol>
+<li>自定义的hql逻辑比较随意，容易出现多表关联查询导致数据库的执行效率很低。</li>
+<li>容易出现Service层方法的相互调用导致事务嵌套，容易出现很多比较难以排查的bug。</li>
+<li>Service层和DAO层的代码都很容易变动，导致编写单元测试的成本比较高，而且DAO层一旦出现bug对应用整体的影响很大，曾经有一次线上应用一直崩溃，查找了2天才发现是因为调用了一个很古老的有问题的DAO层方法。</li>
+</ol>
+<p>现在我司采用的架构沿袭自阿里，主要分为Controller，AO（Service），Manager，Mapper（DAO）四层，与经典的MVC3层架构相比多了一层Manager层。今天主要讨论了这一层的存在是否有必要。</p>
+<p><a href="https://twitter.com/bleedfly" target="_blank" rel="noopener">@bleedfly</a>的观点是，DAO层只负责CRUD的逻辑，Manager层用于处理多表关联，所有业务逻辑止步AO层。</p>
+<p>理论听起来是很有道理，但是如果没有严格的规范控制，就很难确保严格执行。<br>很常见的一种情况是，如果整个Service层只需要一个方法，该方法的逻辑只是从根据一个主键值从一张表中取一条记录，如果严格按照规范，就需要写一个Manager层方法和一个Mapper（DAO）层方法，而且这两层的方法逻辑是一样的，直接将Mapper注入Service可以达到同样的效果。如果不假思索的话，很容易打破上述代码规范。</p>
+<p>严格满足规范有什么好处呢？</p>
+<ol>
+<li>Mapper（DAO）层代码很固定，不容易出现文章开头出现的DAO层的严重事故。</li>
+<li>事务控制在Manager层，Manager层方法不允许相互调用，不会出现事务嵌套的问题。</li>
+<li>为了避免在数据库执行join操作，Manager层负责采用循环控制分别查询，可以有效缓解数据库压力。（PS.当前线上业务挂掉，最先挂的肯定都是数据库，尽管通过读写方式的形式简单隔离了一下数据库，但是数据库的瓶颈在代码依然中是着重考虑的方面）</li>
+</ol>
+<p>实际工作中经常出现效率和规范冲突的情况，但是满足规范才是保证代码质量和规避风险的最佳实践。所以下班之前把今天有争议的代码都重构了，感觉神清气爽。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://suclogger.me/从webmagic着手浅析JAVA爬虫/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -741,214 +926,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/打开了新世界的大门：Hopper-Disassembler/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/打开了新世界的大门：Hopper-Disassembler/" itemprop="url">
-                  打开了新世界的大门：Hopper Disassembler
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-05-13 22:45:28" itemprop="dateCreated datePublished" datetime="2016-05-13T22:45:28+08:00">2016-05-13</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2018-04-23 22:06:08" itemprop="dateModified" datetime="2018-04-23T22:06:08+08:00">2018-04-23</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/逆向/" itemprop="url" rel="index"><span itemprop="name">逆向</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/打开了新世界的大门：Hopper-Disassembler/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="打开了新世界的大门：Hopper-Disassembler/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<p>在<a href="https://twitter.com/bleedfly" target="_blank" rel="noopener">@bleedfly</a>的影响下，也想自己动手玩一下逆向。<br>记录一下第一个逆向的app ： <code>Interface Inspector</code> 的过程。</p>
-<p>使用工具：<code>Hopper Disassembler</code> Version 3.9.15 ，<code>Hex Fiend</code> Version 2.1.2 (200)<br>逆向APP：<code>Interface Inspector</code> Version 2.2 (17)</p>
-<ol>
-<li>通过检索关键字<code>register</code>定位到相关注册方法：SMLicenseManager registerLicenseWithName：<br><img src="/image/2016-05-13 22-49-54.jpg" alt=""></li>
-<li>此处通过<code>verifyLicenseWithName</code>方法判断是否为合法注册码，定位到对应汇编代码，将变更后的汇编代码翻译为字节码。<br>此处通过将判断条件置反，使得无效的注册码进入有效验证码的后续逻辑，即需要将汇编代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">000000010010f30e         je         0x10010f39b</span><br></pre></td></tr></table></figure>
-</li>
-</ol>
-<p>替换为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">000000010010f30e         jne         0x10010f39b</span><br></pre></td></tr></table></figure></p>
-<ol start="3">
-<li>通过右侧的窗口查看汇编命令对应的字节码：</li>
-</ol>
-<p><img src="/image/2016-05-13 22-57-58.jpg" alt=""><br>根据汇编命令与字节码的对应关系：</p>
-<p><img src="/image/2016-05-13 23-00-28.jpg" alt=""></p>
-<p>需要将<code>je</code> 对应的<code>0F 84 87 00 00 00</code>替换为<code>0F 85 87 00 00 00</code></p>
-<ol start="4">
-<li><p>使用mac下的字节码编辑工具<code>Hex Fiend</code>打开MacOs目录下的可执行文件<br>执行替换时，因为<code>0F 84 87 00 00 00</code>对应了多个结果，这里将后一句汇编代码对应的字节码拼接上去确保结果唯一后执行替换：<br><img src="/image/2016-05-13 23-11-08.jpg" alt=""></p>
-</li>
-<li><p>保存替换之后还无法运行，因为修改过的可执行文件丢失了证书信息，需要重新对该文件进行签名操作。<br>详细步骤可以参考：<a href="http://forums.macnn.com/79/developer-center/355720/how-re-sign-apples-applications-once/" target="_blank" rel="noopener">re-sign-apples-applications</a></p>
-</li>
-<li>签名之后依然无法打开，查找提示信息<code>Signature of the Interface Inspector is broken</code>找到程序启动完毕触发事件的监听部分：</li>
-</ol>
-<p><img src="/image/2016-05-13 23-22-40.jpg" alt=""><br>找到跳转入口：<br><img src="/image/2016-05-13 23-23-31.jpg" alt=""><br>按照刚才的处理方法，替换此处的判断条件。</p>
-<ol start="7">
-<li>至此可以打开软件并用任意字符成功注册。</li>
-</ol>
-<p><img src="/image/2016-05-13 23-25-18.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -996,7 +973,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-count">54</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1120,7 +1097,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

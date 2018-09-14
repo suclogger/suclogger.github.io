@@ -305,6 +305,200 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/spring解决循环依赖/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/spring解决循环依赖/" itemprop="url">
+                  谈谈spring中的循环依赖问题
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-07-19 16:41:40" itemprop="dateCreated datePublished" datetime="2016-07-19T16:41:40+08:00">2016-07-19</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">Edited on</span>
+                
+                <time title="Modified: 2016-10-09 19:19:49" itemprop="dateModified" datetime="2016-10-09T19:19:49+08:00">2016-10-09</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/spring解决循环依赖/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="spring解决循环依赖/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- abstract -->
+<!-- 开始正文 -->
+<p>昨天听到同事谈到，代码架构的同层不应该存在相互调用，因为会出现循环依赖。<br>这个编码规范我是支持的，但是这个原因我是拒绝的。</p>
+<p>首先看一下下面这两段代码（不完整，仅用于表达意思）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class AService&#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    BService bService;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Class BService&#123;</span><br><span class="line">    @Autowired</span><br><span class="line">    AService aService;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你觉的上面两段代码放到spring中，可以正常运行吗？</p>
+<p>可能乍一看，AService实例化需要BService的实例，但是实例化BService的时候，有需要AService的实例，这不就出现循环依赖，陷入调用的死循环中了吗？</p>
+<p>然而Spring对于循环依赖的出现做了考虑和处理，如果在spring中这样使用的话是不会出现问题的，具体是怎么处理的呢？</p>
+<p>首先写一个简化版的<code>BeanFactory</code>帮助大家理解：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public Class BeanFactory &#123;</span><br><span class="line">    private HashMap&lt;String, BeanDefinition&gt; beanMap;</span><br><span class="line">    public Object getBean(String beanName)&#123;</span><br><span class="line">        BeanDefinition beanDefinition = beanMap.get(beanName);</span><br><span class="line">        if(beanDefinition.getObject == null) &#123;</span><br><span class="line">            return createBean(beanDefinition);</span><br><span class="line">        &#125;</span><br><span class="line">        return beanDefinition.getObject;</span><br><span class="line">    &#125;</span><br><span class="line">    private Object createBean(BeanDefinition beanDefinition) &#123;</span><br><span class="line">        Object bean = beanDefinition.getBeanClass().newInstance();</span><br><span class="line">        beanDefinition.setBean(bean);</span><br><span class="line">		setProperty(bean, beanDefinition);</span><br><span class="line">		return bean;</span><br><span class="line">    &#125;</span><br><span class="line">    private Object registerBeanDefinition() &#123;</span><br><span class="line">        this.beanMap = new HashMap();</span><br><span class="line">        for(~someting read from xml file or else~) &#123;</span><br><span class="line">            BeanDifinition beanDefinitino = new BeanDefinition();</span><br><span class="line">            beanDefinition.setBeanName(~some name~);</span><br><span class="line">            beanDefinition.setBeanClass(~some class full name~);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个BeanFactory通过一个map存放了当前容器中维护的所有bean，通过某种registerBeanDefinition往这个map里面写入了当前定义的所有bean（典型的情况是从一个xml文件中读取），并提供一个getBean方法用于从容器中提取所需的Bean。<br>spring主要通过选择在getBean的时候才进行createBean的操作来规避循环依赖，在registerBeanDefinition的时候只注册了这个bean对应class全类名。<br>刚开始执行getBean(“aService”)的时候，会首先通过<code>beanDefinition.getBeanClass().newInstance();</code>创建AService的一个实例，放入BeanDefinition中，然后通过setProperty方法将注入的BService的实例注入进去，在获取BService的实例时，会调用getBean方法获取AService的BeanDefinition，在调用getObject方法获取AService的实例，这时是可以获取到的，因为AService的实例刚才已经创建过了，所以这里不会出现依赖冲突的状况。</p>
+<p>那什么时候会出现依赖冲突呢？</p>
+<p>就是通过构造函数注入的时候，AService的实例化过程与BService的实例化过程相互依赖，所以从当前的map中也无从获取其中一个Service的实例。</p>
+<p>以上就是今天思考的结果。</p>
+<p>但是需要说明的是，尽管在spring中通过自动注入的方式可以实现循环调用，但是这种代码风格是不被推荐的。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://suclogger.me/买好车搜索的Elasticsearch实践：初体验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -763,206 +957,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/Elasticsearch中文社区20160618杭州线下聚会纪要/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/Elasticsearch中文社区20160618杭州线下聚会纪要/" itemprop="url">
-                  Elasticsearch中文社区20160618杭州线下聚会纪要
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-06-18 22:56:21" itemprop="dateCreated datePublished" datetime="2016-06-18T22:56:21+08:00">2016-06-18</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2016-06-26 17:26:30" itemprop="dateModified" datetime="2016-06-26T17:26:30+08:00">2016-06-26</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/搜索/" itemprop="url" rel="index"><span itemprop="name">搜索</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/Elasticsearch中文社区20160618杭州线下聚会纪要/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="Elasticsearch中文社区20160618杭州线下聚会纪要/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<h2 id="汪兴－Elasticsearch结合hbase的应用"><a href="#汪兴－Elasticsearch结合hbase的应用" class="headerlink" title="汪兴－Elasticsearch结合hbase的应用"></a>汪兴－Elasticsearch结合hbase的应用</h2><p>介绍中使用的存储介质是HBase，我司目前还未达到迁移到NoSQL的数据量级，而且后面的分享中大都采用hadoop（hive，spark）作为mysql数据的全量备份，目前看来参考的价值不大。<br>不过后面也有一些具有参考意义的，比如提到的可以将若干条件作为一组进行分组条件逻辑查询，还涉及到备份方式的讨论，脑裂问题的解决。</p>
-<h2 id="万斌－ElasticSearch在gooagoo的实践"><a href="#万斌－ElasticSearch在gooagoo的实践" class="headerlink" title="万斌－ElasticSearch在gooagoo的实践"></a>万斌－ElasticSearch在gooagoo的实践</h2><p>算是对于搜索的另一个方面的应用：数据统计，将传统BI的工作用elasticsearch来实现。<br>提到了Sense插件，可以自动补全查询的json。<br>提到了terms  Aggregation无法精确统计的问题。</p>
-<h2 id="曾勇－Introduction-to-Beats-and-extending"><a href="#曾勇－Introduction-to-Beats-and-extending" class="headerlink" title="曾勇－Introduction to Beats and extending"></a>曾勇－Introduction to Beats and extending</h2><p>作为中文鼎鼎大名IK分词器的作者，medcl给我们带来了一个新的产品线Beats系列，是将来能很大程度取代logstash的一个产品，大部分还在开发验证阶段。</p>
-<h2 id="洪斌－有赞搜索引擎实践"><a href="#洪斌－有赞搜索引擎实践" class="headerlink" title="洪斌－有赞搜索引擎实践"></a>洪斌－有赞搜索引擎实践</h2><p>是今天干货最多的一个topic了，虽然在量级上不如淘宝，但是设计中需要考虑到的方面基本覆盖到了。<br>印象很深的地方就是很大程度依赖hadoop来全量备份线上数据和进行索引构建。</p>
-<ol>
-<li>通过监控mysql的binlog，产生消息到kafka，消费消息实时将mysql的事务同步到搜索中。<img src="/image/2016-06-19 00-25-41.jpg" alt=""></li>
-<li>商用搜索引擎的AdvancedSearch的概念，将反向代理和通用算法层抽离出来。</li>
-<li>提到了评分体系的静态分和动态分的概念，静态分需要稳定和线性，动态分体现搜索的相关度。</li>
-<li>商品去重的问题，使用spark进行矢量相似度计算，在搜索时有限搜索去重之后的主库，只在出现召回等情况时搜索辅库。<img src="/image/2016-06-19 00-24-10.jpg" alt=""></li>
-<li>店铺去重的问题，通过分bucket的方式，在匹配度高的店铺和匹配度低的店铺中做了折衷。<img src="/image/2016-06-19 00-22-44.jpg" alt=""></li>
-<li>Query分析，通过分析搜索日志和购买日志画出query转化图，进行后续的同义词扩展，核心词提取和智能纠错方面的应用。</li>
-<li>将搜索输入的关键字转化为不同权重的同义词输入es查询。<img src="/image/2016-06-19 00-21-16.jpg" alt=""></li>
-<li>使用rolling技术替代性能很差的分页操作。</li>
-<li>优先采用filtered_query。</li>
-<li>使用用bulk。 </li>
-</ol>
-<h2 id="宁海元－基于ELK的云日志产品实践"><a href="#宁海元－基于ELK的云日志产品实践" class="headerlink" title="宁海元－基于ELK的云日志产品实践"></a>宁海元－基于ELK的云日志产品实践</h2><p>主要介绍ELK的日志实现，技术细节不多。</p>
-<h2 id="卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案"><a href="#卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案" class="headerlink" title="卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案"></a>卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案</h2><p>算是最贴近我司现有起步阶段的topic，介绍了elasticsearch-jdbc的使用。<br>提到了elasticsearch-jdbc使用中的一些痛点，如定时轮询的操作会影响mysql的性能，多数据源配置比较麻烦和sql的增量控制的时间条件不准确，从而提出了通过监听binlog来实现实时同步的方案简单有效，很受启发。<br><img src="/image/2016-06-19 00-31-14.jpg" alt=""><br>还提到了通过alias不停机迁移来做定时的全量，也很受启发。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1010,7 +1004,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-count">54</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1134,7 +1128,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

@@ -305,6 +305,181 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/通过Wireshark看MIM攻击/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/通过Wireshark看MIM攻击/" itemprop="url">
+                  通过Wireshark看MIM攻击
+                </a>
+              
+            
+          </h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2016-10-18 22:41:14 / Modified: 23:50:20" itemprop="dateCreated datePublished" datetime="2016-10-18T22:41:14+08:00">2016-10-18</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/通过Wireshark看MIM攻击/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="通过Wireshark看MIM攻击/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <!-- abstract -->
+<!-- 开始正文 -->
+<p>本文中，服务端IP地址是<code>120.55.246.173</code>，移动端（我的手机）的IP地址是<code>192.168.1.226</code>，中间人（我的电脑）的IP地址是<code>192.168.1.158</code>，电脑通过Charles监听8888端口，转发移动端发来的数据包。</p>
+<h2 id="正常的HTTPS通信过程"><a href="#正常的HTTPS通信过程" class="headerlink" title="正常的HTTPS通信过程"></a>正常的HTTPS通信过程</h2><p><img src="/image/2016-10-18-23-12-10.png" alt=""><br>正如在上文<a href="http://suclogger.tech/2016/10/14/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_blank" rel="noopener">应用接口的安全方案设计（二）</a> 中分析的，是否存在MIM攻击关键在于客户端接收到的证书，是否是服务端下发的原始证书。<br>着重看编号<code>156</code>和<code>158</code>两个包。<br><code>156</code>携带着服务端下发的原始证书信息：<br><img src="/image/2016-10-18-23-35-55.png" alt=""><br><code>158</code>是Charles处理后发送给客户端的包：</p>
+<p><img src="/image/2016-10-18-23-37-13.png" alt=""><br>可以看到传递的证书是一致的，意味着这个HTTPS通信是安全的。</p>
+<h2 id="MIM攻击下的HTTPS通信过程"><a href="#MIM攻击下的HTTPS通信过程" class="headerlink" title="MIM攻击下的HTTPS通信过程"></a>MIM攻击下的HTTPS通信过程</h2><p><code>276</code>号包表示服务端下发给Charles合法的证书：<br><img src="/image/2016-10-18-23-38-14.png" alt=""><br><code>352</code>号包表示Charles传递自己的证书给客户端：</p>
+<p><img src="/image/2016-10-18-23-41-52.png" alt=""><br>Wireshark已经贴心的给我们加上了黄色的警告提示，这个证书已经由原来由wosign签发的证书被替换成了Charles的证书：<br><img src="/image/2016-10-18-23-43-15.jpg" alt=""><br>如果客户端接收了Charles的证书，整个通信内容就都暴露在Charles中了。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://suclogger.me/有关“架构师”/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -669,205 +844,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/记一次反编译过程/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/记一次反编译过程/" itemprop="url">
-                  记一次反编译过程
-                </a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-09-25 19:43:27" itemprop="dateCreated datePublished" datetime="2016-09-25T19:43:27+08:00">2016-09-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2016-09-26 15:20:49" itemprop="dateModified" datetime="2016-09-26T15:20:49+08:00">2016-09-26</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/逆向/" itemprop="url" rel="index"><span itemprop="name">逆向</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-                <a href="/记一次反编译过程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="记一次反编译过程/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<p><strong>此文不涉及任何道义和伦理的讨论</strong></p>
-<h2 id="尝试旧版本APP，查看对应的旧版本接口是否加密"><a href="#尝试旧版本APP，查看对应的旧版本接口是否加密" class="headerlink" title="尝试旧版本APP，查看对应的旧版本接口是否加密"></a>尝试旧版本APP，查看对应的旧版本接口是否加密</h2><p>安卓的历史版本可以通过<a href="http://apk.hiapk.com" target="_blank" rel="noopener">hiapk</a>下载，资源的链接一般类似这种形式： <a href="http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805" target="_blank" rel="noopener">http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805</a>，最后的数字用于标识不同的版本号。<br>IOS的历史版本可以通过itunes下载，只需修改请求中携带的版本号即可下载不同版本，具体参见：<a href="http://bbs.itools.cn/thread-93616-1-1.html" target="_blank" rel="noopener">iTunes下载 App Store 任意历史版本应用</a>。</p>
-<p><img src="/image/2016-09-25-19-55-38.jpg" alt=""><br>在mac上通过<code>Genymotion</code>可以安装安卓apk，在虚拟中配置代理地址<code>10.0.3.2</code>，端口8888，配合<code>charles</code>即可将虚拟机中请求拦截到<code>charles</code>中。</p>
-<p><img src="/image/2016-09-25-19-59-25.png" alt=""></p>
-<p><img src="/image/2016-09-25-20-01-47.jpg" alt=""></p>
-<p>分析了若干历史版本之后，发现该的App2.X版本未进行加密，但是对应的域名和接口也已经停用，所以这条路走不通。</p>
-<h2 id="尝试反编译APP"><a href="#尝试反编译APP" class="headerlink" title="尝试反编译APP"></a>尝试反编译APP</h2><p>apk的反编译可以使用：<a href="https://github.com/lxdvs/apk2gold" target="_blank" rel="noopener">apk2gold</a><br>反编译之后，可以看到解析出的java代码。<br>得到代码之后如何定位到加密部分的逻辑因场景而定，在这个app中，定位到一个关键类<strong>BaseWeb</strong>，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">protected static TreeMap&lt;String, Object&gt; jiaMi(TreeMap&lt;String, Object&gt; treeMap, boolean z) &#123;</span><br><span class="line">        ...</span><br><span class="line">        try &#123;</span><br><span class="line">            String sha1 = sha1(treeMap, z);</span><br><span class="line">            if (sha1 == null) &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line">            treeMap2.put(&quot;key&quot;, sha1);</span><br><span class="line">            return treeMap2;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            u.a(e);</span><br><span class="line">            treeMap2.put(&quot;key&quot;, &quot;&quot;);</span><br><span class="line">            return treeMap2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
-<p>可以看到<code>key</code>字段是通过<code>sha1</code>函数生成，具体代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public static String sha1(TreeMap&lt;String, Object&gt; treeMap, boolean z) &#123;</span><br><span class="line">        if (treeMap == null) &#123;</span><br><span class="line">            treeMap = new TreeMap();</span><br><span class="line">        &#125;</span><br><span class="line">        if (!z) &#123;</span><br><span class="line">            treeMap.put(&quot;publicKey&quot;, Info.a().getMoreStrInfo(AppContext.getInstance(), 345));</span><br><span class="line">        &#125; else if (!mApplication.isLogin()) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            treeMap.put(&quot;publicKey&quot;, mApplication.getUser().getPrivateKey());</span><br><span class="line">        &#125;</span><br><span class="line">        if (treeMap == null || treeMap.size() &lt;= 0) &#123;</span><br><span class="line">            return &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        String str = &quot;&quot;;</span><br><span class="line">        int i = 0;</span><br><span class="line">        for (String str2 : treeMap.keySet()) &#123;</span><br><span class="line">            Object obj = treeMap.get(str2);</span><br><span class="line">            if (obj != null) &#123;</span><br><span class="line">                if (i &gt; 0) &#123;</span><br><span class="line">                    str = str + &quot;^_~&quot;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                ...                    </span><br><span class="line">                str = str + str2 + &quot;=&quot; + formaterFloat(Double.parseDouble(obj.toString()));</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // 标准的sha1加密</span><br><span class="line">        return i.e(str);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>这个方法根据<code>z</code>的取值决定<code>publicKey</code>是通过<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法来生成，还是直接取<code>mApplication.getUser().getPrivateKey()</code> 。<br>因为我们感兴趣的接口的<code>z</code>取值都是<code>false</code>，所以要深入探究一下<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法。<br>反编译发现这个方法是包裹在so中，也是常见的保护敏感信息的方式。<br>Hopper反编译 结果：<br><img src="/image/2016-09-26-15-01-36.png" alt=""></p>
-<p>祭出神器<code>IDA Pro</code>，代码可读性提高很多：</p>
-<p><img src="/image/2016-09-26-01-58-38.jpg" alt=""><br>汇编无力，直接F5:<br>找到传入参数为345时候的对应逻辑：<br><img src="/image/2016-09-26-02-00-24.png" alt=""></p>
-<p>其实就是简单取得了一个字符串：<strong>4cbce54e——17c70193</strong></p>
-<h2 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h2><p>因为参数是完全明文的，将参数和反编译获取的<code>publicKey</code>放入<code>TreeMap</code>，拼接成字符串之后执行标准sha1，即可获取一个合法的<code>key</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TreeMap&lt;String,Object&gt; treeMap = new TreeMap();</span><br><span class="line">treeMap.put(&quot;publicKey&quot;, &quot;4cbce54---------70193&quot;);</span><br><span class="line">treeMap.put(&quot;参数key&quot;, &quot;参数value&quot;);</span><br><span class="line"></span><br><span class="line">String str = &quot;&quot;;</span><br><span class="line">int i = 0;</span><br><span class="line">for (String str2 : treeMap.keySet()) &#123;</span><br><span class="line">    Object obj = treeMap.get(str2);</span><br><span class="line">    if (obj != null) &#123;</span><br><span class="line">        if (i &gt; 0) &#123;</span><br><span class="line">            str = str + &quot;^_~&quot;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        if (obj instanceof String) &#123;</span><br><span class="line">            str = str + str2 + &quot;=&quot; + obj;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(e(str));</span><br></pre></td></tr></table></figure>
-<h2 id="对比结果"><a href="#对比结果" class="headerlink" title="对比结果"></a>对比结果</h2><p>真实请求：<br><img src="/image/2016-09-26-14-57-11.jpg" alt=""></p>
-<p>模拟 key ：<br><img src="/image/2016-09-26-14-56-46.jpg" alt=""></p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -915,7 +891,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-count">54</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1039,7 +1015,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>

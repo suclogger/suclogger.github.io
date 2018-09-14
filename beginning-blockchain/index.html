@@ -134,7 +134,7 @@
 <meta property="og:image" content="https://suclogger.me/image/2018-08-15/2018-08-16-13-44-27.jpg">
 <meta property="og:image" content="https://suclogger.me/image/2018-08-15/2018-08-16-13-53-51.jpg">
 <meta property="og:image" content="https://suclogger.me/image/2018-08-15/2018-08-16-14-03-52.jpg">
-<meta property="og:updated_time" content="2018-08-16T06:12:24.962Z">
+<meta property="og:updated_time" content="2018-09-02T05:05:58.405Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="初识区块链">
 <meta name="twitter:description" content="初识区块链。">
@@ -388,7 +388,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2018-08-16 14:12:24" itemprop="dateModified" datetime="2018-08-16T14:12:24+08:00">2018-08-16</time>
+                <time title="Modified: 2018-09-02 13:05:58" itemprop="dateModified" datetime="2018-09-02T13:05:58+08:00">2018-09-02</time>
               
             
           </span>
@@ -546,7 +546,7 @@
 <p>由于工作量证明需要消耗大量的算力，同时比特币大约 10min 才会产生一个区块，区块的大小也只有 1MB，仅仅能够包含 3、4000 笔交易，平均下来每秒只能够处理 5~7（个位数）笔交易，所以比特币网络的拥堵状况非常严重，也催生了Off-Chain计算和Lightning Network等概念。</p>
 <h4 id="PoS"><a href="#PoS" class="headerlink" title="PoS"></a>PoS</h4><p>PoS用一个数字签名代替了PoW中的hash函数，这个数字签名代表对应的担保资产。即用已有的币挖矿。<br>简单来说，就是一个根据你持有货币的量和时间，给你发利息的一个制度，在股权证明POS模式下，有一个名词叫币龄，每个币每天产生1币龄，比如你持有100个币，总共持有了30天，那么，此时你的币龄就为3000，这个时候，如果你发现了一个POS区块，你的币龄就会被清空为0。你每被清空365币龄，你将会从区块中获得0.05个币的利息(假定利息可理解为年利率5%)，那么在这个案例中，利息 = 3000 * 5% / 365 = 0.41个币。<br>与工作量证明相比，权益证明不需要消耗大量的电力就能够保证区块链网络的安全性，同时也不需要在每个区块中创建新的货币来激励矿工参与当前网络的运行，这也就在一定程度上缩短了达成共识所需要的时间。<br>由于整个网络只会奖励创建区块的节点，不存在任何惩罚，即便是诚实节点，如果它足够理性，那么它也会在所有它收到的链上同时挖矿。POW里，没人挖的分支很快就会变成孤块被丢弃，但在POS里，如果整个网络足够理性，会出现的情况反而是每条分支都会永远存在因为理性的矿工会同时在所有分支上挖矿。如果只用最长链共识的话，POS本身是没法应对分叉的，必须通过惩罚。总而言之就是通过算法之外的事情解决这个问题，引入激励和惩罚。</p>
 <p>更多资料参考：<a href="https://github.com/ethereum/wiki/wiki/Proof-of-Stake-FAQs" target="_blank" rel="noopener">Proof of Stake FAQs</a></p>
-<h4 id="DPoS"><a href="#DPoS" class="headerlink" title="DPoS"></a>DPoS</h4><p>在DPoS中，每个节点都可以投票选出自己的代理节点参与生成新区块的争夺，得票最多的前 N 个节点会被选择成为区块的创建者，下一个区块的创建者就会从这样一组当选者中随机选取。这就避免了PoS中拥有少数资产的节点没有话语权的问题，而且网络中进行新区块创建争夺的节点越少，网络的处理能力就会越强，性能就会越快。使用委托权益证明的 EOS 能够每秒处理几十万笔交易。</p>
+<h4 id="DPoS"><a href="#DPoS" class="headerlink" title="DPoS"></a>DPoS</h4><p>在DPoS中，每个节点都可以投票选出自己的代理节点参与生成新区块的争夺，得票最多的前 N 个节点会被选择成为区块的创建者，下一个区块的创建者就会从这样一组当选者中随机选取。这就避免了PoS中拥有少数资产的节点没有话语权的问题，而且网络中进行新区块创建争夺的节点越少，网络的处理能力就会越强，性能就会越快。使用委托权益证明的 EOS 能够每秒处理几十万笔交易。缺乏严谨的数学证明。</p>
 <p><img src="/image/2018-08-15/2018-08-16-02-17-49.jpg" alt=""></p>
 <p>更多资料参考：<a href="https://steemit.com/dpos/@legendx/dpos" target="_blank" rel="noopener">DPOS共识算法 – 缺失的白皮书</a></p>
 <h2 id="不仅仅是加密货币：智能合约"><a href="#不仅仅是加密货币：智能合约" class="headerlink" title="不仅仅是加密货币：智能合约"></a>不仅仅是加密货币：智能合约</h2><p>智能合约：在区块链中，正如所有账本数据是分布式，公开且不可篡改，部署在区块链上的代码片段也有同样的特性，称之为智能合约。区别于传统应用，基于智能合约的DApps无需托管在服务器上，而是以交易Payload的形式存在于区块链网络的所有节点上。</p>
@@ -583,7 +583,7 @@
 <p>运行node server：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
 <p><a href="https://git.dawanju.net/pufang/election" target="_blank" rel="noopener">election</a></p>
-<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><p><a href="https://github.com/bitcoinbook/bitcoinbook" target="_blank" rel="noopener">Mastering Bitcoin</a><br><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">Bitcoin 白皮书</a><br><a href="https://trustsql.qq.com/chain_oss/TrustSQL_WhitePaper.html" target="_blank" rel="noopener">腾讯区块链方案白皮书</a></p>
+<h2 id="推荐阅读"><a href="#推荐阅读" class="headerlink" title="推荐阅读"></a>推荐阅读</h2><p><a href="https://github.com/bitcoinbook/bitcoinbook" target="_blank" rel="noopener">Mastering Bitcoin</a><br><a href="https://bitcoin.org/bitcoin.pdf" target="_blank" rel="noopener">Bitcoin 白皮书</a><br><a href="https://trustsql.qq.com/chain_oss/TrustSQL_WhitePaper.html" target="_blank" rel="noopener">腾讯区块链方案白皮书</a><br>区块链核心技术与应用</p>
 <h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><blockquote>
 <p>原则没变啊，不支持发币，不给发币的站台，坚决不碰ico。 –CaoZ</p>
 </blockquote>
@@ -659,6 +659,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/took-me-four-years-to-find/" rel="prev" title="归来吧，少年">
+                归来吧，少年 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -742,7 +746,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">53</span>
+                    <span class="site-state-item-count">54</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -866,7 +870,9 @@
                     
                       
                     
-                    <span class="site-state-item-count">33</span>
+                      
+                    
+                    <span class="site-state-item-count">34</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
