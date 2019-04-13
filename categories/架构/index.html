@@ -5,14 +5,20 @@
 
 
 
+
+
+
+
+
+
   
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -26,18 +32,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,23 +46,21 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
 
 
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -76,13 +68,15 @@
 
 
 
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -119,12 +113,13 @@
 
 
 
+  
+  
+  <link rel="canonical" href="https://suclogger.me/categories/架构/">
 
-  <link rel="canonical" href="https://suclogger.me/categories/架构/"/>
 
 
-
-<script type="text/javascript" id="page.configurations">
+<script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
   };
@@ -141,30 +136,31 @@
 
 
 
+
+
+
   <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
@@ -182,7 +178,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -192,9 +188,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
       
         <h1 class="site-subtitle" itemprop="description">莆放</h1>
       
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -208,7 +207,6 @@
 
 
 
-
 <nav class="site-nav">
   
     <ul id="menu" class="menu">
@@ -218,42 +216,90 @@
         
           
           <li class="menu-item menu-item-home">
+
+    
+    
+    
+
+    
+
     <a href="/" rel="section">Home</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-archives">
+
+    
+    
+    
+
+    
+
     <a href="/archives/" rel="section">Archives</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-categories menu-item-active">
+
+    
+    
+    
+
+    
+
     <a href="/categories" rel="section">Categories</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-tags">
+
+    
+    
+    
+
+    
+
     <a href="/tags" rel="section">Tags</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-about">
+
+    
+    
+    
+
+    
+
     <a href="/about" rel="section">About</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+
+    
+
     <a href="/sitemap.xml" rel="section">Sitemap</a>
+
   </li>
 
       
@@ -332,18 +378,16 @@
 
       <h3 class="post-title">
         
-            <a class="post-title-link" href="/qcon-beijing-2018/" itemprop="url">
-              
-                <span itemprop="name">有关“架构师”之二</span>
-              
-            </a>
+          <a class="post-title-link" href="/qcon-beijing-2018/" itemprop="url">
+            
+              <span itemprop="name">有关“架构师”之二</span>
+            
+          </a>
         
       </h3>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-04-23T22:05:25+08:00"
-              content="2018-04-23" >
+        <time class="post-time" itemprop="dateCreated" datetime="2018-04-23T22:05:25+08:00" content="2018-04-23">
           04-23
         </time>
       </div>
@@ -360,18 +404,16 @@
 
       <h3 class="post-title">
         
-            <a class="post-title-link" href="/有关“架构师”/" itemprop="url">
-              
-                <span itemprop="name">有关“架构师”</span>
-              
-            </a>
+          <a class="post-title-link" href="/有关“架构师”/" itemprop="url">
+            
+              <span itemprop="name">有关“架构师”</span>
+            
+          </a>
         
       </h3>
 
       <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2016-10-16T16:45:28+08:00"
-              content="2016-10-16" >
+        <time class="post-time" itemprop="dateCreated" datetime="2016-10-16T16:45:28+08:00" content="2016-10-16">
           10-16
         </time>
       </div>
@@ -408,19 +450,18 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">Suclogger</p>
-              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
           </div>
 
           
@@ -440,7 +481,11 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
+                  
+                    
+                      <a href="/categories">
+                    
+                  
                     
                     
                       
@@ -473,7 +518,11 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
                     
                     
                       
@@ -569,6 +618,7 @@
           
 
           
+
           
 
           
@@ -580,7 +630,7 @@
           
 
         </div>
-      </section>
+      </div>
 
       
 
@@ -588,6 +638,7 @@
 
     </div>
   </aside>
+  
 
 
         
@@ -596,7 +647,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -608,11 +659,7 @@
 </div>
 
 
-  
-
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -620,7 +667,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
 
 
 
@@ -647,11 +694,14 @@
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -683,66 +733,49 @@
 
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+  <script src="/js/motion.js?v=7.1.0"></script>
 
 
 
   
   
 
-  
 
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
 
 
 
   
 
   
-    <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
-  
-
-  
 
 
-
-
-
-	
-
-
-
+  <script src="/js/next-boot.js?v=7.1.0"></script>
 
 
   
 
+  
 
+  
 
-
-
+  
+  
+  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
 
 
 
@@ -755,31 +788,22 @@
 
 
 
+  
+
+  
+
+  
 
   
 
   
 
   
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
-</script>
-
 
   
 
   
+
   
 
   

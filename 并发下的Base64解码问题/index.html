@@ -5,14 +5,20 @@
 
 
 
+
+
+
+
+
+
   
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -26,18 +32,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,23 +46,21 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
 
 
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -76,13 +68,15 @@
 
 
 
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -126,12 +120,13 @@
 
 
 
+  
+  
+  <link rel="canonical" href="https://suclogger.me/并发下的Base64解码问题/">
 
-  <link rel="canonical" href="https://suclogger.me/并发下的Base64解码问题/"/>
 
 
-
-<script type="text/javascript" id="page.configurations">
+<script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
   };
@@ -148,30 +143,31 @@
 
 
 
+
+
+
   <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
@@ -189,7 +185,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -199,9 +195,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
       
         <h1 class="site-subtitle" itemprop="description">莆放</h1>
       
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -215,7 +214,6 @@
 
 
 
-
 <nav class="site-nav">
   
     <ul id="menu" class="menu">
@@ -225,42 +223,90 @@
         
           
           <li class="menu-item menu-item-home">
+
+    
+    
+    
+
+    
+
     <a href="/" rel="section">Home</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-archives">
+
+    
+    
+    
+
+    
+
     <a href="/archives/" rel="section">Archives</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-categories">
+
+    
+    
+    
+
+    
+
     <a href="/categories" rel="section">Categories</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-tags">
+
+    
+    
+    
+
+    
+
     <a href="/tags" rel="section">Tags</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-about">
+
+    
+    
+    
+
+    
+
     <a href="/about" rel="section">About</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+
+    
+
     <a href="/sitemap.xml" rel="section">Sitemap</a>
+
   </li>
 
       
@@ -315,7 +361,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -329,6 +375,7 @@
         
         
           <h2 class="post-title" itemprop="name headline">并发下的Base64解码问题
+
               
             
           </h2>
@@ -357,26 +404,10 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2016-11-15 14:49:18" itemprop="dateModified" datetime="2016-11-15T14:49:18+08:00">2016-11-15</time>
-              
-            
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -397,14 +428,17 @@
 
           
             
+            
+              
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
                 <a href="/并发下的Base64解码问题/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="并发下的Base64解码问题/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="并发下的Base64解码问题/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -432,8 +466,8 @@
       
 
       
-        <p><a href="http://suclogger.tech/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/" target="_blank" rel="noopener">上一篇文章</a>中介绍的接口加密方案上线至今已有月余，考虑到加密后影响业务的风险以及用户的升级体验，近两个版本采用了明文和密文并存的灰度升级方式，这次发布的版本中决定完全移除明文请求，所以看了一眼近一个月加密逻辑中记录的日志，发现了一些问题。<br><a id="more"></a><br>在日志中存在很多以下报错信息：<br><img src="/image/2016-11-03-23-31-03.jpg" alt=""></p>
-<p><img src="/image/2016-11-03-23-35-33.jpg" alt=""></p>
+        <p><a href="http://suclogger.tech/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/" target="_blank" rel="noopener">上一篇文章</a>中介绍的接口加密方案上线至今已有月余，考虑到加密后影响业务的风险以及用户的升级体验，近两个版本采用了明文和密文并存的灰度升级方式，这次发布的版本中决定完全移除明文请求，所以看了一眼近一个月加密逻辑中记录的日志，发现了一些问题。<br><a id="more"></a><br>在日志中存在很多以下报错信息：<br><img src="/image/2016-11-03-23-31-03.jpg" alt></p>
+<p><img src="/image/2016-11-03-23-35-33.jpg" alt></p>
 <p>错误最终从RSA解密方法中抛出，错误类型有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">javax.crypto.BadPaddingException: data hash wrong</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_10]</span><br></pre></td></tr></table></figure></p>
 <p>也有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">org.bouncycastle.crypto.DataLengthException: input too large for RSA cipher.</span><br><span class="line">	at org.bouncycastle.crypto.engines.RSACoreEngine.convertInput(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at org.bouncycastle.crypto.engines.RSAEngine.processBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at org.bouncycastle.crypto.encodings.OAEPEncoding.decodeBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at org.bouncycastle.crypto.encodings.OAEPEncoding.processBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_10]</span><br></pre></td></tr></table></figure></p>
 <p>处理密文的切面中代码逻辑大致如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">logger.info(&quot;enToken  : &#123;&#125;&quot;, enToken);</span><br><span class="line">logger.info(&quot;enParams  : &#123;&#125;&quot;, enParams);</span><br><span class="line">String deKey = RSAUtil.decrypt(enToken, RSAUtil.privateKey);</span><br></pre></td></tr></table></figure></p>
@@ -442,7 +476,7 @@
 <p>今天突然想到是不是因为并发的原因导致的本地无法复现，只在线上环境出现，所以写了一小段代码模拟了一下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">public void testdecrypt() &#123;</span><br><span class="line">    List&lt;String&gt; enTokenList = new ArrayList&lt;&gt;(100);</span><br><span class="line">    for(int i=0; i&lt;100; i++) &#123;</span><br><span class="line">        String result = RSAUtil.encrypt(String.valueOf(i), RSAUtil.publicKey);</span><br><span class="line">        enTokenList.add(result);</span><br><span class="line">    &#125;</span><br><span class="line">    for(String enToken : enTokenList) &#123;</span><br><span class="line">        ThreadPoolFactory.getThreadPool().execute(new TeEncrypt(enToken));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class TeEncrypt implements Runnable&#123;</span><br><span class="line"></span><br><span class="line">    private String enToken;</span><br><span class="line"></span><br><span class="line">    public TeEncrypt(String enToken) &#123;</span><br><span class="line">        this.enToken = enToken;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        String deco = RSAUtil.decrypt(enToken, RSAUtil.privateKey);</span><br><span class="line">        System.out.println(deco);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>代码的逻辑比较简单，预先生成了100条密文，然后通过线程池不加任何同步锁来模拟并发的情况，果然复现了线上的报错：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br></pre></td><td class="code"><pre><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">2</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">18</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">50</span><br><span class="line">49</span><br><span class="line">46</span><br><span class="line">48</span><br><span class="line">23:49:24.522 [pool-1-thread-1] ERROR tech.suclogger.common.utils.RSAUtil - 解密发生异常</span><br><span class="line">javax.crypto.BadPaddingException: data hash wrong</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_71]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:195) [classes/:na]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:220) [classes/:na]</span><br><span class="line">	at tech.suclogger.web.encrypt.EncryptTest$TeEncrypt.run(EncryptTest.java:39) [test-classes/:na]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_75]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_75]</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_75]</span><br><span class="line">52</span><br><span class="line">51</span><br><span class="line">53</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">null</span><br><span class="line">62</span><br><span class="line">23:49:24.524 [pool-1-thread-43] ERROR tech.suclogger.common.utils.RSAUtil - 解密发生异常</span><br><span class="line">javax.crypto.BadPaddingException: data hash wrong</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_71]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:195) [classes/:na]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:220) [classes/:na]</span><br><span class="line">	at tech.suclogger.web.encrypt.EncryptTest$TeEncrypt.run(EncryptTest.java:39) [test-classes/:na]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_75]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_75]</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_75]</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">null</span><br><span class="line">23:49:24.523 [pool-1-thread-4] ERROR tech.suclogger.common.utils.RSAUtil - 解密发生异常</span><br><span class="line">javax.crypto.BadPaddingException: data hash wrong</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_71]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:195) [classes/:na]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:220) [classes/:na]</span><br><span class="line">	at tech.suclogger.web.encrypt.EncryptTest$TeEncrypt.run(EncryptTest.java:39) [test-classes/:na]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_75]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_75]</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_75]</span><br><span class="line">null</span><br><span class="line">23:49:24.523 [pool-1-thread-2] ERROR tech.suclogger.common.utils.RSAUtil - 解密发生异常</span><br><span class="line">javax.crypto.BadPaddingException: data hash wrong</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_71]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:195) [classes/:na]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:220) [classes/:na]</span><br><span class="line">	at tech.suclogger.web.encrypt.EncryptTest$TeEncrypt.run(EncryptTest.java:39) [test-classes/:na]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_75]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_75]</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_75]</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">null</span><br><span class="line">23:49:24.523 [pool-1-thread-42] ERROR tech.suclogger.common.utils.RSAUtil - 解密发生异常</span><br><span class="line">javax.crypto.BadPaddingException: data hash wrong</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_71]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:195) [classes/:na]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:220) [classes/:na]</span><br><span class="line">	at tech.suclogger.web.encrypt.EncryptTest$TeEncrypt.run(EncryptTest.java:39) [test-classes/:na]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_75]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_75]</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_75]</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">null</span><br><span class="line">23:49:24.526 [pool-1-thread-48] ERROR tech.suclogger.common.utils.RSAUtil - 解密发生异常</span><br><span class="line">javax.crypto.BadPaddingException: data hash wrong</span><br><span class="line">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]</span><br><span class="line">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_71]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:195) [classes/:na]</span><br><span class="line">	at tech.suclogger.common.utils.RSAUtil.decrypt(RSAUtil.java:220) [classes/:na]</span><br><span class="line">	at tech.suclogger.web.encrypt.EncryptTest$TeEncrypt.run(EncryptTest.java:39) [test-classes/:na]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145) [na:1.7.0_75]</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615) [na:1.7.0_75]</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745) [na:1.7.0_75]</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">92</span><br><span class="line">91</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">null</span><br><span class="line">87</span><br></pre></td></tr></table></figure></p>
 <p>给异常添加断点：</p>
-<p><img src="/image/2016-11-03-23-59-11.jpg" alt=""></p>
+<p><img src="/image/2016-11-03-23-59-11.jpg" alt></p>
 <p>原因就在于，<strong><code>sun.misc.BASE64Decoder</code>并不是线程安全的</strong>，并发的情况下，可以使用替代方案：</p>
 <ul>
 <li>java.util.Base64.Decoder （需要java8）</li>
@@ -450,7 +484,7 @@
 <li>org.apache.commons.codec.binary.Base64<br>…</li>
 </ul>
 <p>各个方案的性能比较可以看<a href="http://java-performance.info/base64-encoding-and-decoding-performance/" target="_blank" rel="noopener">这篇文章</a>。</p>
-<p>修改之后用容量为1000的线程池通过了上面的测试代码：<br><img src="/image/2016-11-04-00-10-42.jpg" alt=""></p>
+<p>修改之后用容量为1000的线程池通过了上面的测试代码：<br><img src="/image/2016-11-04-00-10-42.jpg" alt></p>
 
       
     </div>
@@ -464,34 +498,8 @@
     
 
     
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div></div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
+      
     
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/image/wechatpay.jpg" alt="Suclogger WeChat Pay"/>
-        <p>WeChat Pay</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
     
 
     
@@ -543,10 +551,6 @@
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -556,10 +560,7 @@
   
     <div class="comments" id="comments">
       <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
       </div>
     </div>
 
@@ -580,19 +581,18 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
     <div class="sidebar-inner">
 
       
 
       
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">Suclogger</p>
-              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
           </div>
 
           
@@ -612,7 +612,11 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
+                  
+                    
+                      <a href="/categories">
+                    
+                  
                     
                     
                       
@@ -645,7 +649,11 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
                     
                     
                       
@@ -741,6 +749,7 @@
           
 
           
+
           
 
           
@@ -752,7 +761,7 @@
           
 
         </div>
-      </section>
+      </div>
 
       
 
@@ -760,6 +769,7 @@
 
     </div>
   </aside>
+  
 
 
         
@@ -768,7 +778,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -780,11 +790,7 @@
 </div>
 
 
-  
-
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -792,7 +798,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
 
 
 
@@ -819,11 +825,14 @@
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -855,138 +864,118 @@
 
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+  <script src="/js/motion.js?v=7.1.0"></script>
 
 
 
   
   
 
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
 
 
 
   
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
 
 
 
   
 
-  
-    <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
   
 
   
-    <script type="text/javascript">
-      var disqus_config = function () {
-        this.page.url = 'https://suclogger.me/并发下的Base64解码问题/';
-        this.page.identifier = '并发下的Base64解码问题/';
-        this.page.title = '并发下的Base64解码问题';
-      };
-      function loadComments () {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://suclogger.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      }
-      
-        $(function () {
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://suclogger.me/并发下的Base64解码问题/";
+    this.page.identifier = "并发下的Base64解码问题/";
+    this.page.title = '并发下的Base64解码问题';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        loadComments();
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
           var offsetTop = $('#comments').offset().top - $(window).height();
-          if (offsetTop <= 0) {
-            // load directly when there's no a scrollbar
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
             loadComments();
-          } else {
-            $(window).on('scroll.disqus_scroll', function () {
-              var scrollTop = document.documentElement.scrollTop;
-              if (scrollTop >= offsetTop) {
-                $(window).off('.disqus_scroll');
-                loadComments();
-              }
-            });
           }
         });
-      
-    </script>
+      }
+    });
   
-
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
 </script>
 
 
+
+
+
+  
+
+
+  
+
+
+
+
   
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
   
 
   

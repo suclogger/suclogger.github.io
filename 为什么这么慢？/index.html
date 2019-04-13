@@ -5,14 +5,20 @@
 
 
 
+
+
+
+
+
+
   
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -26,18 +32,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,23 +46,21 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
 
 
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -76,13 +68,15 @@
 
 
 
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -130,12 +124,13 @@
 
 
 
+  
+  
+  <link rel="canonical" href="https://suclogger.me/为什么这么慢？/">
 
-  <link rel="canonical" href="https://suclogger.me/为什么这么慢？/"/>
 
 
-
-<script type="text/javascript" id="page.configurations">
+<script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
   };
@@ -152,30 +147,31 @@
 
 
 
+
+
+
   <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
@@ -193,7 +189,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -203,9 +199,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
       
         <h1 class="site-subtitle" itemprop="description">莆放</h1>
       
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -219,7 +218,6 @@
 
 
 
-
 <nav class="site-nav">
   
     <ul id="menu" class="menu">
@@ -229,42 +227,90 @@
         
           
           <li class="menu-item menu-item-home">
+
+    
+    
+    
+
+    
+
     <a href="/" rel="section">Home</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-archives">
+
+    
+    
+    
+
+    
+
     <a href="/archives/" rel="section">Archives</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-categories">
+
+    
+    
+    
+
+    
+
     <a href="/categories" rel="section">Categories</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-tags">
+
+    
+    
+    
+
+    
+
     <a href="/tags" rel="section">Tags</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-about">
+
+    
+    
+    
+
+    
+
     <a href="/about" rel="section">About</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+
+    
+
     <a href="/sitemap.xml" rel="section">Sitemap</a>
+
   </li>
 
       
@@ -319,7 +365,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -333,6 +379,7 @@
         
         
           <h2 class="post-title" itemprop="name headline">为什么这么慢？
+
               
             
           </h2>
@@ -357,18 +404,14 @@
                 
               
 
-              <time title="Created: 2017-06-09 17:26:33 / Modified: 18:42:38" itemprop="dateCreated datePublished" datetime="2017-06-09T17:26:33+08:00">2017-06-09</time>
+              <time title="Created: 2017-06-09 17:26:33" itemprop="dateCreated datePublished" datetime="2017-06-09T17:26:33+08:00">2017-06-09</time>
             
 
-            
-              
-
-              
             
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -389,14 +432,17 @@
 
           
             
+            
+              
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
                 <a href="/为什么这么慢？/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="为什么这么慢？/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="为什么这么慢？/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -427,21 +473,21 @@
         <p>昨天差点引发了一个严重线上bug，以此为记。<br><a id="more"></a></p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我们现在采用的是logstash的jdbc插件同步mysql的数据。<br>这次上线的功能需要多关联一张表查询数据进入索引，直接体现在logstash jdbc配置文件中定义的SQL多了一个left join。</p>
 <h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>应用发布之后，tomcat启动耗时很长时间，很<strong>慢</strong>。<br>进入应用，索引重建后依照惯例执行了全量索引的logstash脚本，但是索引迟迟没有创建成功，很<strong>慢</strong>。</p>
-<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><h3 id="Tomcat启动慢"><a href="#Tomcat启动慢" class="headerlink" title="Tomcat启动慢"></a>Tomcat启动慢</h3><p><img src="/image/login.dawanju.net - SecureCRT 2017-06-08 18-43-27.png" alt=""><br>从日志中找到罪魁祸首：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [*,*] milliseconds.</span><br></pre></td></tr></table></figure></p>
+<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><h3 id="Tomcat启动慢"><a href="#Tomcat启动慢" class="headerlink" title="Tomcat启动慢"></a>Tomcat启动慢</h3><p><img src="/image/login.dawanju.net - SecureCRT 2017-06-08 18-43-27.png" alt><br>从日志中找到罪魁祸首：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [*,*] milliseconds.</span><br></pre></td></tr></table></figure></p>
 <p>当时因为一次打不开页面，做了多次刷新操作，生成session ID的过程一只阻塞到完成所有session ID的创建，耗时接近4分钟。<br><a href="https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source" target="_blank" rel="noopener">Tomcat官方文档</a>也给出了说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Tomcat 7+ heavily relies on SecureRandom class to provide random values for its session ids and in other places. Depending on your JRE it can cause delays during startup if entropy source that is used to initialize SecureRandom is short of entropy. You will see warning in the logs when this happens, e.g.:</span><br><span class="line"></span><br><span class="line">&lt;DATE&gt; org.apache.catalina.util.SessionIdGenerator createSecureRandom</span><br><span class="line">INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [5172] milliseconds.</span><br><span class="line">There is a way to configure JRE to use a non-blocking entropy source by setting the following system property: -Djava.security.egd=file:/dev/./urandom</span><br><span class="line"></span><br><span class="line">Note the &quot;/./&quot; characters in the value. They are needed to work around known Oracle JRE bug #6202721. See also JDK Enhancement Proposal 123. It is known that implementation of SecureRandom was improved in Java 8 onwards.</span><br><span class="line"></span><br><span class="line">Also note that replacing the blocking entropy source (/dev/random) with a non-blocking one actually reduces security because you are getting less-random data. If you have a problem generating entropy on your server (which is common), consider looking into entropy-generating hardware products such as &quot;EntropyKey&quot;.</span><br></pre></td></tr></table></figure></p>
-<p>Tomcat也给出了解决方案：<strong>在启动的jvm参数中加入<code>-Djava.security.egd=file:/dev/./urandom</code></strong>，同时也警告说这种方式存在一些安全隐患。<br>添加jvm参数后启动就正常了：<br><img src="/image/login.dawanju.net - SecureCRT 2017-06-08 18-42-47.png" alt=""></p>
-<h3 id="创建索引慢：数据库"><a href="#创建索引慢：数据库" class="headerlink" title="创建索引慢：数据库"></a>创建索引慢：数据库</h3><p>怀疑因为多关联了一张表导致数据库查询耗时增加，进入RDS监控查看发现CPU出现峰值：<br><img src="/image/RDS管理控制台 2017-06-08 20-04-51.png" alt=""></p>
+<p>Tomcat也给出了解决方案：<strong>在启动的jvm参数中加入<code>-Djava.security.egd=file:/dev/./urandom</code></strong>，同时也警告说这种方式存在一些安全隐患。<br>添加jvm参数后启动就正常了：<br><img src="/image/login.dawanju.net - SecureCRT 2017-06-08 18-42-47.png" alt></p>
+<h3 id="创建索引慢：数据库"><a href="#创建索引慢：数据库" class="headerlink" title="创建索引慢：数据库"></a>创建索引慢：数据库</h3><p>怀疑因为多关联了一张表导致数据库查询耗时增加，进入RDS监控查看发现CPU出现峰值：<br><img src="/image/RDS管理控制台 2017-06-08 20-04-51.png" alt></p>
 <p>结合之前RDS出现CPU飙升阿里工程师给出的解释：</p>
 <blockquote>
 <p>CPU高主要是由于这些慢查询导致，建议您先优化下这慢查询再观察下。</p>
 </blockquote>
-<p>（小插曲，惊觉配置文件中写入的数据库地址被从备库误写为主库）<br>第一时间通过mysql的<code>show processlist</code>找到创建索引的SQL进程执行<code>kill</code>，保障其他业务不受影响。<br>然后，进入慢日志查询中，发现果然是创建索引的SQL执行时间超长，这条SQL执行时间长达492s：<br><img src="/image/2017-06-09-17-54-16.jpg" alt=""><br>接着，分析sql，怀疑新关联的表没有为关联的字段创建索引，马上在这个字段上创建索引。<br>随后创建索引，输出以下日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[2017-06-08T19:36:22,802][INFO ][logstash.pipeline        ] Starting pipeline &#123;&quot;id&quot;=&gt;&quot;main&quot;, &quot;pipeline.workers&quot;=&gt;2, &quot;pipeline.batch.size&quot;=&gt;125, &quot;pipeline.batch.delay&quot;=&gt;5</span><br><span class="line">[2017-06-08T19:36:22,850][INFO ][logstash.pipeline        ] Pipeline main started</span><br><span class="line">[2017-06-08T19:36:22,920][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br><span class="line">[2017-06-08T19:36:32,053][INFO ][logstash.inputs.jdbc     ] (9.767000s) SELECT car.car_id AS car_id,</span><br><span class="line">...</span><br><span class="line">[2017-06-08T19:42:51,136][WARN ][logstash.agent           ] stopping pipeline &#123;:id=&gt;&quot;main&quot;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>看到logstash的日志中，执行SQL的时间为<code>9.7s</code>，虽然时间略长，但是考虑到是多表关联+全表扫描，所以暂且任务数据库的问题已经处理完成。<br>但是还是没解决索引创建为什么这么慢的问题。<br>单次全量耗时为6分20s，系统资源冗余较多。<br><img src="/image/2017-06-09-18-26-34.jpg" alt=""></p>
+<p>（小插曲，惊觉配置文件中写入的数据库地址被从备库误写为主库）<br>第一时间通过mysql的<code>show processlist</code>找到创建索引的SQL进程执行<code>kill</code>，保障其他业务不受影响。<br>然后，进入慢日志查询中，发现果然是创建索引的SQL执行时间超长，这条SQL执行时间长达492s：<br><img src="/image/2017-06-09-17-54-16.jpg" alt><br>接着，分析sql，怀疑新关联的表没有为关联的字段创建索引，马上在这个字段上创建索引。<br>随后创建索引，输出以下日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[2017-06-08T19:36:22,802][INFO ][logstash.pipeline        ] Starting pipeline &#123;&quot;id&quot;=&gt;&quot;main&quot;, &quot;pipeline.workers&quot;=&gt;2, &quot;pipeline.batch.size&quot;=&gt;125, &quot;pipeline.batch.delay&quot;=&gt;5</span><br><span class="line">[2017-06-08T19:36:22,850][INFO ][logstash.pipeline        ] Pipeline main started</span><br><span class="line">[2017-06-08T19:36:22,920][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br><span class="line">[2017-06-08T19:36:32,053][INFO ][logstash.inputs.jdbc     ] (9.767000s) SELECT car.car_id AS car_id,</span><br><span class="line">...</span><br><span class="line">[2017-06-08T19:42:51,136][WARN ][logstash.agent           ] stopping pipeline &#123;:id=&gt;&quot;main&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看到logstash的日志中，执行SQL的时间为<code>9.7s</code>，虽然时间略长，但是考虑到是多表关联+全表扫描，所以暂且任务数据库的问题已经处理完成。<br>但是还是没解决索引创建为什么这么慢的问题。<br>单次全量耗时为6分20s，系统资源冗余较多。<br><img src="/image/2017-06-09-18-26-34.jpg" alt></p>
 <h3 id="创建索引慢：EL"><a href="#创建索引慢：EL" class="headerlink" title="创建索引慢：EL"></a>创建索引慢：EL</h3><p>通过上面的日志输出看到logstash采用的是默认配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pipeline.workers =&gt; 2 // 并行的线程数</span><br><span class="line">pipeline.batch.size=&gt;125 // 单个线程单次处理的最大索引数</span><br><span class="line">pipeline.batch.delay=&gt;5 // 如果在这里定义的时间内没有达到最大索引数，也执行提交</span><br></pre></td></tr></table></figure></p>
 <p>更多配置项参见<a href="https://www.elastic.co/guide/en/logstash/current/logstash-settings-file.html" target="_blank" rel="noopener">官网文档</a>。</p>
 <p>尝试更改配置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pipeline.workers =&gt; 4 // 2*cpu</span><br><span class="line">pipeline.batch.size=&gt;20000</span><br><span class="line">pipeline.batch.delay=&gt;3</span><br></pre></td></tr></table></figure></p>
 <p>日志如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[2017-06-09T15:11:09,088][INFO ][logstash.pipeline        ] Starting pipeline &#123;&quot;id&quot;=&gt;&quot;main&quot;, &quot;pipeline.workers&quot;=&gt;4, &quot;pipeline.batch.size&quot;=&gt;20000, &quot;pipeline.batch.delay&quot;=&gt;3, &quot;pipeline.max_inflight&quot;=&gt;80000&#125;</span><br><span class="line">[2017-06-09T15:11:09,088][WARN ][logstash.pipeline        ] CAUTION: Recommended inflight events max exceeded! Logstash will run with up to 80000 events in memory in your current configuration. If your message sizes are large this may cause instability with the default heap size. Please consider setting a non-standard heap size, changing the batch size (currently 20000), or changing the number of pipeline workers (currently 4)</span><br><span class="line">[2017-06-09T15:11:09,109][INFO ][logstash.pipeline        ] Pipeline main started</span><br><span class="line">[2017-06-09T15:11:09,154][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9601&#125;</span><br><span class="line">[2017-06-09T15:11:18,651][INFO ][logstash.inputs.jdbc     ] (10.100000s) SELECT car.car_id AS car_id,</span><br><span class="line">...</span><br><span class="line">[2017-06-09T15:15:49,619][WARN ][logstash.agent           ] stopping pipeline &#123;:id=&gt;&quot;main&quot;&#125;</span><br></pre></td></tr></table></figure></p>
-<p>单次全量耗时4分30秒，docker容器显示的系统负载峰值（使用命令<code>docker stats</code>）：<br><img src="/image/2017-06-09-18-27-35.jpg" alt=""><br>对应的系统负载峰值（使用命令<code>vmstat -n 1</code>）：<br><img src="/image/@iZ23qcuujszZ::tmp 2017-06-09 16-16-37.png" alt=""><br>基本已经榨干了ecs的所有计算资源。<br>尝试更多配置：</p>
+<p>单次全量耗时4分30秒，docker容器显示的系统负载峰值（使用命令<code>docker stats</code>）：<br><img src="/image/2017-06-09-18-27-35.jpg" alt><br>对应的系统负载峰值（使用命令<code>vmstat -n 1</code>）：<br><img src="/image/@iZ23qcuujszZ::tmp 2017-06-09 16-16-37.png" alt><br>基本已经榨干了ecs的所有计算资源。<br>尝试更多配置：</p>
 <table>
 <thead>
 <tr>
@@ -461,7 +507,7 @@
 </tbody>
 </table>
 <p>可以发现不管是提升worker数还是提升单次提交的数据，都无法继续提升性能，基本是这台2核ECS的极限了，而且同时ES的集群（2台2核4g）也出现了CPU的负载峰值：</p>
-<p><img src="/image/search_load.png" alt=""></p>
+<p><img src="/image/search_load.png" alt></p>
 <p>看来在现有的计算资源之下，我们只能暂且容忍这么长的全量时间了，后面继续调整ES的配置，看看会不会有提升。</p>
 
       
@@ -476,34 +522,8 @@
     
 
     
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div></div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
+      
     
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/image/wechatpay.jpg" alt="Suclogger WeChat Pay"/>
-        <p>WeChat Pay</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
     
 
     
@@ -555,10 +575,6 @@
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -568,10 +584,7 @@
   
     <div class="comments" id="comments">
       <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
       </div>
     </div>
 
@@ -592,7 +605,6 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
     <div class="sidebar-inner">
 
       
@@ -608,12 +620,12 @@
         </ul>
       
 
-      <section class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">Suclogger</p>
-              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
           </div>
 
           
@@ -633,7 +645,11 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
+                  
+                    
+                      <a href="/categories">
+                    
+                  
                     
                     
                       
@@ -666,7 +682,11 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
                     
                     
                       
@@ -762,6 +782,7 @@
           
 
           
+
           
 
           
@@ -773,15 +794,16 @@
           
 
         </div>
-      </section>
+      </div>
 
       
       <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
 
             
-              
+            
+            
             
 
             
@@ -789,7 +811,7 @@
             
 
           </div>
-        </section>
+        </div>
       <!--/noindex-->
       
 
@@ -797,6 +819,7 @@
 
     </div>
   </aside>
+  
 
 
         
@@ -805,7 +828,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -817,11 +840,7 @@
 </div>
 
 
-  
-
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -829,7 +848,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
 
 
 
@@ -856,11 +875,14 @@
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -892,138 +914,118 @@
 
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+  <script src="/js/motion.js?v=7.1.0"></script>
 
 
 
   
   
 
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
 
 
 
   
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
 
 
 
   
 
-  
-    <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
   
 
   
-    <script type="text/javascript">
-      var disqus_config = function () {
-        this.page.url = 'https://suclogger.me/为什么这么慢？/';
-        this.page.identifier = '为什么这么慢？/';
-        this.page.title = '为什么这么慢？';
-      };
-      function loadComments () {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://suclogger.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      }
-      
-        $(function () {
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://suclogger.me/为什么这么慢？/";
+    this.page.identifier = "为什么这么慢？/";
+    this.page.title = '为什么这么慢？';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        loadComments();
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
           var offsetTop = $('#comments').offset().top - $(window).height();
-          if (offsetTop <= 0) {
-            // load directly when there's no a scrollbar
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
             loadComments();
-          } else {
-            $(window).on('scroll.disqus_scroll', function () {
-              var scrollTop = document.documentElement.scrollTop;
-              if (scrollTop >= offsetTop) {
-                $(window).off('.disqus_scroll');
-                loadComments();
-              }
-            });
           }
         });
-      
-    </script>
+      }
+    });
   
-
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
 </script>
 
 
+
+
+
+  
+
+
+  
+
+
+
+
   
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
   
 
   

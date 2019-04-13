@@ -5,14 +5,20 @@
 
 
 
+
+
+
+
+
+
   
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -26,18 +32,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,23 +46,21 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
 
 
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -76,13 +68,15 @@
 
 
 
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -130,12 +124,13 @@
 
 
 
+  
+  
+  <link rel="canonical" href="https://suclogger.me/记一次反编译过程/">
 
-  <link rel="canonical" href="https://suclogger.me/记一次反编译过程/"/>
 
 
-
-<script type="text/javascript" id="page.configurations">
+<script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
   };
@@ -152,30 +147,31 @@
 
 
 
+
+
+
   <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
@@ -193,7 +189,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -203,9 +199,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
       
         <h1 class="site-subtitle" itemprop="description">莆放</h1>
       
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -219,7 +218,6 @@
 
 
 
-
 <nav class="site-nav">
   
     <ul id="menu" class="menu">
@@ -229,42 +227,90 @@
         
           
           <li class="menu-item menu-item-home">
+
+    
+    
+    
+
+    
+
     <a href="/" rel="section">Home</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-archives">
+
+    
+    
+    
+
+    
+
     <a href="/archives/" rel="section">Archives</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-categories">
+
+    
+    
+    
+
+    
+
     <a href="/categories" rel="section">Categories</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-tags">
+
+    
+    
+    
+
+    
+
     <a href="/tags" rel="section">Tags</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-about">
+
+    
+    
+    
+
+    
+
     <a href="/about" rel="section">About</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+
+    
+
     <a href="/sitemap.xml" rel="section">Sitemap</a>
+
   </li>
 
       
@@ -319,7 +365,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -333,6 +379,7 @@
         
         
           <h2 class="post-title" itemprop="name headline">记一次反编译过程
+
               
             
           </h2>
@@ -361,26 +408,10 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2016-09-26 15:20:49" itemprop="dateModified" datetime="2016-09-26T15:20:49+08:00">2016-09-26</time>
-              
-            
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -401,14 +432,17 @@
 
           
             
+            
+              
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
                 <a href="/记一次反编译过程/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="记一次反编译过程/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="记一次反编译过程/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -440,21 +474,21 @@
 <!-- 开始正文 -->
 <p><strong>此文不涉及任何道义和伦理的讨论</strong></p>
 <h2 id="尝试旧版本APP，查看对应的旧版本接口是否加密"><a href="#尝试旧版本APP，查看对应的旧版本接口是否加密" class="headerlink" title="尝试旧版本APP，查看对应的旧版本接口是否加密"></a>尝试旧版本APP，查看对应的旧版本接口是否加密</h2><p>安卓的历史版本可以通过<a href="http://apk.hiapk.com" target="_blank" rel="noopener">hiapk</a>下载，资源的链接一般类似这种形式： <a href="http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805" target="_blank" rel="noopener">http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805</a>，最后的数字用于标识不同的版本号。<br>IOS的历史版本可以通过itunes下载，只需修改请求中携带的版本号即可下载不同版本，具体参见：<a href="http://bbs.itools.cn/thread-93616-1-1.html" target="_blank" rel="noopener">iTunes下载 App Store 任意历史版本应用</a>。</p>
-<p><img src="/image/2016-09-25-19-55-38.jpg" alt=""><br>在mac上通过<code>Genymotion</code>可以安装安卓apk，在虚拟中配置代理地址<code>10.0.3.2</code>，端口8888，配合<code>charles</code>即可将虚拟机中请求拦截到<code>charles</code>中。</p>
-<p><img src="/image/2016-09-25-19-59-25.png" alt=""></p>
-<p><img src="/image/2016-09-25-20-01-47.jpg" alt=""></p>
+<p><img src="/image/2016-09-25-19-55-38.jpg" alt><br>在mac上通过<code>Genymotion</code>可以安装安卓apk，在虚拟中配置代理地址<code>10.0.3.2</code>，端口8888，配合<code>charles</code>即可将虚拟机中请求拦截到<code>charles</code>中。</p>
+<p><img src="/image/2016-09-25-19-59-25.png" alt></p>
+<p><img src="/image/2016-09-25-20-01-47.jpg" alt></p>
 <p>分析了若干历史版本之后，发现该的App2.X版本未进行加密，但是对应的域名和接口也已经停用，所以这条路走不通。</p>
 <h2 id="尝试反编译APP"><a href="#尝试反编译APP" class="headerlink" title="尝试反编译APP"></a>尝试反编译APP</h2><p>apk的反编译可以使用：<a href="https://github.com/lxdvs/apk2gold" target="_blank" rel="noopener">apk2gold</a><br>反编译之后，可以看到解析出的java代码。<br>得到代码之后如何定位到加密部分的逻辑因场景而定，在这个app中，定位到一个关键类<strong>BaseWeb</strong>，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">protected static TreeMap&lt;String, Object&gt; jiaMi(TreeMap&lt;String, Object&gt; treeMap, boolean z) &#123;</span><br><span class="line">        ...</span><br><span class="line">        try &#123;</span><br><span class="line">            String sha1 = sha1(treeMap, z);</span><br><span class="line">            if (sha1 == null) &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line">            treeMap2.put(&quot;key&quot;, sha1);</span><br><span class="line">            return treeMap2;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            u.a(e);</span><br><span class="line">            treeMap2.put(&quot;key&quot;, &quot;&quot;);</span><br><span class="line">            return treeMap2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
 <p>可以看到<code>key</code>字段是通过<code>sha1</code>函数生成，具体代码如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public static String sha1(TreeMap&lt;String, Object&gt; treeMap, boolean z) &#123;</span><br><span class="line">        if (treeMap == null) &#123;</span><br><span class="line">            treeMap = new TreeMap();</span><br><span class="line">        &#125;</span><br><span class="line">        if (!z) &#123;</span><br><span class="line">            treeMap.put(&quot;publicKey&quot;, Info.a().getMoreStrInfo(AppContext.getInstance(), 345));</span><br><span class="line">        &#125; else if (!mApplication.isLogin()) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            treeMap.put(&quot;publicKey&quot;, mApplication.getUser().getPrivateKey());</span><br><span class="line">        &#125;</span><br><span class="line">        if (treeMap == null || treeMap.size() &lt;= 0) &#123;</span><br><span class="line">            return &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        String str = &quot;&quot;;</span><br><span class="line">        int i = 0;</span><br><span class="line">        for (String str2 : treeMap.keySet()) &#123;</span><br><span class="line">            Object obj = treeMap.get(str2);</span><br><span class="line">            if (obj != null) &#123;</span><br><span class="line">                if (i &gt; 0) &#123;</span><br><span class="line">                    str = str + &quot;^_~&quot;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                ...                    </span><br><span class="line">                str = str + str2 + &quot;=&quot; + formaterFloat(Double.parseDouble(obj.toString()));</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // 标准的sha1加密</span><br><span class="line">        return i.e(str);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>这个方法根据<code>z</code>的取值决定<code>publicKey</code>是通过<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法来生成，还是直接取<code>mApplication.getUser().getPrivateKey()</code> 。<br>因为我们感兴趣的接口的<code>z</code>取值都是<code>false</code>，所以要深入探究一下<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法。<br>反编译发现这个方法是包裹在so中，也是常见的保护敏感信息的方式。<br>Hopper反编译 结果：<br><img src="/image/2016-09-26-15-01-36.png" alt=""></p>
+<p>这个方法根据<code>z</code>的取值决定<code>publicKey</code>是通过<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法来生成，还是直接取<code>mApplication.getUser().getPrivateKey()</code> 。<br>因为我们感兴趣的接口的<code>z</code>取值都是<code>false</code>，所以要深入探究一下<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法。<br>反编译发现这个方法是包裹在so中，也是常见的保护敏感信息的方式。<br>Hopper反编译 结果：<br><img src="/image/2016-09-26-15-01-36.png" alt></p>
 <p>祭出神器<code>IDA Pro</code>，代码可读性提高很多：</p>
-<p><img src="/image/2016-09-26-01-58-38.jpg" alt=""><br>汇编无力，直接F5:<br>找到传入参数为345时候的对应逻辑：<br><img src="/image/2016-09-26-02-00-24.png" alt=""></p>
+<p><img src="/image/2016-09-26-01-58-38.jpg" alt><br>汇编无力，直接F5:<br>找到传入参数为345时候的对应逻辑：<br><img src="/image/2016-09-26-02-00-24.png" alt></p>
 <p>其实就是简单取得了一个字符串：<strong>4cbce54e——17c70193</strong></p>
 <h2 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h2><p>因为参数是完全明文的，将参数和反编译获取的<code>publicKey</code>放入<code>TreeMap</code>，拼接成字符串之后执行标准sha1，即可获取一个合法的<code>key</code>：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TreeMap&lt;String,Object&gt; treeMap = new TreeMap();</span><br><span class="line">treeMap.put(&quot;publicKey&quot;, &quot;4cbce54---------70193&quot;);</span><br><span class="line">treeMap.put(&quot;参数key&quot;, &quot;参数value&quot;);</span><br><span class="line"></span><br><span class="line">String str = &quot;&quot;;</span><br><span class="line">int i = 0;</span><br><span class="line">for (String str2 : treeMap.keySet()) &#123;</span><br><span class="line">    Object obj = treeMap.get(str2);</span><br><span class="line">    if (obj != null) &#123;</span><br><span class="line">        if (i &gt; 0) &#123;</span><br><span class="line">            str = str + &quot;^_~&quot;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        if (obj instanceof String) &#123;</span><br><span class="line">            str = str + str2 + &quot;=&quot; + obj;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(e(str));</span><br></pre></td></tr></table></figure>
-<h2 id="对比结果"><a href="#对比结果" class="headerlink" title="对比结果"></a>对比结果</h2><p>真实请求：<br><img src="/image/2016-09-26-14-57-11.jpg" alt=""></p>
-<p>模拟 key ：<br><img src="/image/2016-09-26-14-56-46.jpg" alt=""></p>
+<h2 id="对比结果"><a href="#对比结果" class="headerlink" title="对比结果"></a>对比结果</h2><p>真实请求：<br><img src="/image/2016-09-26-14-57-11.jpg" alt></p>
+<p>模拟 key ：<br><img src="/image/2016-09-26-14-56-46.jpg" alt></p>
 
       
     </div>
@@ -468,34 +502,8 @@
     
 
     
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div></div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
+      
     
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/image/wechatpay.jpg" alt="Suclogger WeChat Pay"/>
-        <p>WeChat Pay</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
     
 
     
@@ -545,10 +553,6 @@
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -558,10 +562,7 @@
   
     <div class="comments" id="comments">
       <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
       </div>
     </div>
 
@@ -582,7 +583,6 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
     <div class="sidebar-inner">
 
       
@@ -598,12 +598,12 @@
         </ul>
       
 
-      <section class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">Suclogger</p>
-              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
           </div>
 
           
@@ -623,7 +623,11 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
+                  
+                    
+                      <a href="/categories">
+                    
+                  
                     
                     
                       
@@ -656,7 +660,11 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
                     
                     
                       
@@ -752,6 +760,7 @@
           
 
           
+
           
 
           
@@ -763,15 +772,16 @@
           
 
         </div>
-      </section>
+      </div>
 
       
       <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
 
             
-              
+            
+            
             
 
             
@@ -779,7 +789,7 @@
             
 
           </div>
-        </section>
+        </div>
       <!--/noindex-->
       
 
@@ -787,6 +797,7 @@
 
     </div>
   </aside>
+  
 
 
         
@@ -795,7 +806,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -807,11 +818,7 @@
 </div>
 
 
-  
-
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -819,7 +826,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
 
 
 
@@ -846,11 +853,14 @@
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -882,138 +892,118 @@
 
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+  <script src="/js/motion.js?v=7.1.0"></script>
 
 
 
   
   
 
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
 
 
 
   
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
 
 
 
   
 
-  
-    <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
   
 
   
-    <script type="text/javascript">
-      var disqus_config = function () {
-        this.page.url = 'https://suclogger.me/记一次反编译过程/';
-        this.page.identifier = '记一次反编译过程/';
-        this.page.title = '记一次反编译过程';
-      };
-      function loadComments () {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://suclogger.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      }
-      
-        $(function () {
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://suclogger.me/记一次反编译过程/";
+    this.page.identifier = "记一次反编译过程/";
+    this.page.title = '记一次反编译过程';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        loadComments();
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
           var offsetTop = $('#comments').offset().top - $(window).height();
-          if (offsetTop <= 0) {
-            // load directly when there's no a scrollbar
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
             loadComments();
-          } else {
-            $(window).on('scroll.disqus_scroll', function () {
-              var scrollTop = document.documentElement.scrollTop;
-              if (scrollTop >= offsetTop) {
-                $(window).off('.disqus_scroll');
-                loadComments();
-              }
-            });
           }
         });
-      
-    </script>
+      }
+    });
   
-
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
 </script>
 
 
+
+
+
+  
+
+
+  
+
+
+
+
   
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
   
 
   

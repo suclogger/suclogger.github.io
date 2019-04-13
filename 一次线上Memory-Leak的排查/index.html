@@ -5,14 +5,20 @@
 
 
 
+
+
+
+
+
+
   
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -26,18 +32,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,23 +46,21 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
 
 
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -76,13 +68,15 @@
 
 
 
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -125,12 +119,13 @@
 
 
 
+  
+  
+  <link rel="canonical" href="https://suclogger.me/一次线上Memory-Leak的排查/">
 
-  <link rel="canonical" href="https://suclogger.me/一次线上Memory-Leak的排查/"/>
 
 
-
-<script type="text/javascript" id="page.configurations">
+<script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
   };
@@ -147,30 +142,31 @@
 
 
 
+
+
+
   <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
@@ -188,7 +184,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -198,9 +194,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
       
         <h1 class="site-subtitle" itemprop="description">莆放</h1>
       
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -214,7 +213,6 @@
 
 
 
-
 <nav class="site-nav">
   
     <ul id="menu" class="menu">
@@ -224,42 +222,90 @@
         
           
           <li class="menu-item menu-item-home">
+
+    
+    
+    
+
+    
+
     <a href="/" rel="section">Home</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-archives">
+
+    
+    
+    
+
+    
+
     <a href="/archives/" rel="section">Archives</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-categories">
+
+    
+    
+    
+
+    
+
     <a href="/categories" rel="section">Categories</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-tags">
+
+    
+    
+    
+
+    
+
     <a href="/tags" rel="section">Tags</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-about">
+
+    
+    
+    
+
+    
+
     <a href="/about" rel="section">About</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+
+    
+
     <a href="/sitemap.xml" rel="section">Sitemap</a>
+
   </li>
 
       
@@ -314,7 +360,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -328,6 +374,7 @@
         
         
           <h2 class="post-title" itemprop="name headline">一次线上Memory Leak的排查
+
               
             
           </h2>
@@ -356,26 +403,10 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2017-12-05 19:58:35" itemprop="dateModified" datetime="2017-12-05T19:58:35+08:00">2017-12-05</time>
-              
-            
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -396,14 +427,17 @@
 
           
             
+            
+              
               <span class="post-comments-count">
                 <span class="post-meta-divider">|</span>
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
+            
+                <span class="post-meta-item-text">Comments: </span>
                 <a href="/一次线上Memory-Leak的排查/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="一次线上Memory-Leak的排查/" itemprop="commentCount"></span>
+                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="一次线上Memory-Leak的排查/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -434,7 +468,7 @@
         <p>很久很久没有更新博客了，最近遇到了一个线上内存泄露问题，简单记录一下排查的过程。<br><a id="more"></a></p>
 <p>很早前就有小伙伴反馈调用我们的一个应用响应非常慢，往往更新到最新的部署代码之后就恢复正常了，所以一直没有重视这个问题。这次出现用户反馈，严重影响了正常业务。<br>现象是：</p>
 <ol>
-<li>应用响应时间非常长（17s）：<br><img src="/image/2017-11-24-13-28-41.jpg" alt=""></li>
+<li>应用响应时间非常长（17s）：<br><img src="/image/2017-11-24-13-28-41.jpg" alt></li>
 <li>CPU使用率非常高，JAVA进程的CPU占用在200%以上；</li>
 <li>应用日志正常，没有任何报错信息。</li>
 </ol>
@@ -595,7 +629,7 @@
 </tbody>
 </table>
 <p>进一步拉了GC日志下来，通过GCEasy分析了一下：</p>
-<p><img src="/image/2017-11-24-13-33-17.jpg" alt=""></p>
+<p><img src="/image/2017-11-24-13-33-17.jpg" alt></p>
 <p>可以看到Full GC后的堆空间一直在持续增长(理想情况下，这个值应该是稳定的)，到了Nov 19之后，一直在持续进行Full GC，却无法回收足够的堆空间，导致应用吞吐量急剧下降，CPU资源都在做GC操作。<br>内存无法被垃圾回收，显然存在内存泄露，内存泄露大致有两种情况：</p>
 <ol>
 <li>新生代内存泄露导致频繁触发Young GC</li>
@@ -609,7 +643,7 @@
 <li>如果应用是docker应用，要进入docker容器中（docker exec -it docker镜像id bash）操作，直接在宿主机中执行<code>jmap</code>命令会返回<code>Error attaching to core file: cannot open binary file</code>异常</li>
 </ul>
 <p>获取到dump文件之后通过Eclipse的<code>Memory Analyzer</code>打开（如果dump文件较大，记得先编辑配置文件中的启动jvm参数<code>mat.app/Contents/Eclipse/MemoryAnalyzer.ini</code>），选择分析可能的内存泄露（Leak Suspects Report），会将占用的空间最多的对象列举出来：</p>
-<p><img src="/image/2017-11-24-13-56-01.jpg" alt=""></p>
+<p><img src="/image/2017-11-24-13-56-01.jpg" alt></p>
 <p>可以看到<code>CommonMessageConsumer</code>持有的<code>ConcurrentSkipListMap</code>占用了69.37%的堆空间。<br>下面是代码片段：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">private final Set&lt;String&gt; messageKeys = new ConcurrentSkipListSet&lt;&gt;();</span><br><span class="line">...</span><br><span class="line">public void b(Message message)  &#123;</span><br><span class="line">            String hashed = MD5.sum(message.getBody());</span><br><span class="line">            if (!messageKeys.contains(hashed)) &#123;</span><br><span class="line">                messageKeys.add(hashed);</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>代码维护了一个去重Set，Set又是通过Map实现的，所以随着Set中内容增长，堆空间会被逐渐耗尽。</p>
@@ -630,34 +664,8 @@
     
 
     
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div></div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
+      
     
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/image/wechatpay.jpg" alt="Suclogger WeChat Pay"/>
-        <p>WeChat Pay</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
     
 
     
@@ -707,10 +715,6 @@
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -720,10 +724,7 @@
   
     <div class="comments" id="comments">
       <div id="disqus_thread">
-        <noscript>
-          Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-        </noscript>
+        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
       </div>
     </div>
 
@@ -744,7 +745,6 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
     <div class="sidebar-inner">
 
       
@@ -760,12 +760,12 @@
         </ul>
       
 
-      <section class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">Suclogger</p>
-              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
           </div>
 
           
@@ -785,7 +785,11 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
+                  
+                    
+                      <a href="/categories">
+                    
+                  
                     
                     
                       
@@ -818,7 +822,11 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
                     
                     
                       
@@ -914,6 +922,7 @@
           
 
           
+
           
 
           
@@ -925,15 +934,16 @@
           
 
         </div>
-      </section>
+      </div>
 
       
       <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
 
             
-              
+            
+            
             
 
             
@@ -941,7 +951,7 @@
             
 
           </div>
-        </section>
+        </div>
       <!--/noindex-->
       
 
@@ -949,6 +959,7 @@
 
     </div>
   </aside>
+  
 
 
         
@@ -957,7 +968,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -969,11 +980,7 @@
 </div>
 
 
-  
-
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -981,7 +988,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
 
 
 
@@ -1008,11 +1015,14 @@
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -1044,138 +1054,118 @@
 
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+  <script src="/js/motion.js?v=7.1.0"></script>
 
 
 
   
   
 
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
 
 
 
   
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
 
 
 
   
 
-  
-    <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+  <script src="/js/next-boot.js?v=7.1.0"></script>
+
+
   
 
   
-    <script type="text/javascript">
-      var disqus_config = function () {
-        this.page.url = 'https://suclogger.me/一次线上Memory-Leak的排查/';
-        this.page.identifier = '一次线上Memory-Leak的排查/';
-        this.page.title = '一次线上Memory Leak的排查';
-      };
-      function loadComments () {
-        var d = document, s = d.createElement('script');
-        s.src = 'https://suclogger.disqus.com/embed.js';
-        s.setAttribute('data-timestamp', '' + +new Date());
-        (d.head || d.body).appendChild(s);
-      }
-      
-        $(function () {
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
+
+
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://suclogger.me/一次线上Memory-Leak的排查/";
+    this.page.identifier = "一次线上Memory-Leak的排查/";
+    this.page.title = '一次线上Memory Leak的排查';
+    };
+  function loadComments() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', '' + +new Date());
+    (d.head || d.body).appendChild(s);
+  }
+  
+    $(function() {
+      var offsetTop = $('#comments').offset().top - $(window).height();
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        loadComments();
+      } else {
+        $(window).on('scroll.disqus_scroll', function() {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
           var offsetTop = $('#comments').offset().top - $(window).height();
-          if (offsetTop <= 0) {
-            // load directly when there's no a scrollbar
+          var scrollTop = $(window).scrollTop();
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            $(window).off('.disqus_scroll');
             loadComments();
-          } else {
-            $(window).on('scroll.disqus_scroll', function () {
-              var scrollTop = document.documentElement.scrollTop;
-              if (scrollTop >= offsetTop) {
-                $(window).off('.disqus_scroll');
-                loadComments();
-              }
-            });
           }
         });
-      
-    </script>
+      }
+    });
   
-
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
 </script>
 
 
+
+
+
+  
+
+
+  
+
+
+
+
   
 
   
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
   
 
   

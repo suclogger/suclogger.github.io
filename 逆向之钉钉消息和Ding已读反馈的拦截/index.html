@@ -5,14 +5,20 @@
 
 
 
+
+
+
+
+
+
   
 
 
 <html class="theme-next muse use-motion" lang="zh-Hans">
-<head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
 
 
@@ -26,18 +32,6 @@
 
 
 
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -52,23 +46,21 @@
 
   
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
 
-<link href="/css/main.css?v=6.2.0" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.2.0">
+<link rel="stylesheet" href="/css/main.css?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.2.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.2.0" color="#222">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
 
 
+  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
 
 
 
@@ -76,13 +68,15 @@
 
 
 
-<script type="text/javascript" id="hexo.configurations">
+<script id="hexo.configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Muse',
-    version: '6.2.0',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    version: '7.1.0',
+    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
+    back2top: true,
+    back2top_sidebar: false,
     fancybox: false,
     fastclick: false,
     lazyload: false,
@@ -131,12 +125,13 @@
 
 
 
+  
+  
+  <link rel="canonical" href="https://suclogger.me/逆向之钉钉消息和Ding已读反馈的拦截/">
 
-  <link rel="canonical" href="https://suclogger.me/逆向之钉钉消息和Ding已读反馈的拦截/"/>
 
 
-
-<script type="text/javascript" id="page.configurations">
+<script id="page.configurations">
   CONFIG.page = {
     sidebar: "",
   };
@@ -153,30 +148,31 @@
 
 
 
+
+
+
   <noscript>
-  <style type="text/css">
-    .use-motion .motion-element,
-    .use-motion .brand,
-    .use-motion .menu-item,
-    .sidebar-inner,
-    .use-motion .post-block,
-    .use-motion .pagination,
-    .use-motion .comments,
-    .use-motion .post-header,
-    .use-motion .post-body,
-    .use-motion .collection-title { opacity: initial; }
+  <style>
+  .use-motion .motion-element,
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-title { opacity: initial; }
 
-    .use-motion .logo,
-    .use-motion .site-title,
-    .use-motion .site-subtitle {
-      opacity: initial;
-      top: initial;
-    }
+  .use-motion .logo,
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
 
-    .use-motion {
-      .logo-line-before i { left: initial; }
-      .logo-line-after i { right: initial; }
-    }
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
   </style>
 </noscript>
 
@@ -194,7 +190,7 @@
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
+  <div class="site-meta">
     
 
     <div class="custom-logo-site-title">
@@ -204,9 +200,12 @@
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
+    
       
         <h1 class="site-subtitle" itemprop="description">莆放</h1>
       
+    
+    
   </div>
 
   <div class="site-nav-toggle">
@@ -220,7 +219,6 @@
 
 
 
-
 <nav class="site-nav">
   
     <ul id="menu" class="menu">
@@ -230,42 +228,90 @@
         
           
           <li class="menu-item menu-item-home">
+
+    
+    
+    
+
+    
+
     <a href="/" rel="section">Home</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-archives">
+
+    
+    
+    
+
+    
+
     <a href="/archives/" rel="section">Archives</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-categories">
+
+    
+    
+    
+
+    
+
     <a href="/categories" rel="section">Categories</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-tags">
+
+    
+    
+    
+
+    
+
     <a href="/tags" rel="section">Tags</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-about">
+
+    
+    
+    
+
+    
+
     <a href="/about" rel="section">About</a>
+
   </li>
         
         
         
           
           <li class="menu-item menu-item-sitemap">
+
+    
+    
+    
+
+    
+
     <a href="/sitemap.xml" rel="section">Sitemap</a>
+
   </li>
 
       
@@ -320,7 +366,7 @@
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
@@ -334,6 +380,7 @@
         
         
           <h2 class="post-title" itemprop="name headline">逆向之钉钉消息和Ding已读反馈的拦截
+
               
             
           </h2>
@@ -362,26 +409,10 @@
             
 
             
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2017-06-15 13:36:52" itemprop="dateModified" datetime="2017-06-15T13:36:52+08:00">2017-06-15</time>
-              
-            
           </span>
 
           
-            <span class="post-category" >
+            <span class="post-category">
             
               <span class="post-meta-divider">|</span>
             
@@ -457,17 +488,17 @@
 </tbody>
 </table>
 <p>首先是砸壳，细节不表，有个trick就是先使用mac端itunes下载应用同步到手机后砸壳，这样可以同时得到<code>arm v7</code>和<code>AArch64</code>版本，32位反编译后的代码可读性高，64位用于读取偏移量设置断点。</p>
-<p><img src="/image/2017-06-14-23-42-45.jpg" alt=""> </p>
-<p><img src="/image/2017-06-14-23-43-10.jpg" alt=""></p>
+<p><img src="/image/2017-06-14-23-42-45.jpg" alt> </p>
+<p><img src="/image/2017-06-14-23-43-10.jpg" alt></p>
 <h2 id="拦截Ding已读反馈"><a href="#拦截Ding已读反馈" class="headerlink" title="拦截Ding已读反馈"></a>拦截Ding已读反馈</h2><p>从Ding列表点击一条未读的Ding进入这条Ding的详情，这条Ding就被标为已读，同时发送方收到已读的反馈：</p>
-<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bbd.jpg?r=47" alt=""></p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bbd.jpg?r=47" alt></p>
 <p>猜测已读逻辑是放在详情页中处理，视图加载完成即执行已读相关逻辑。<br>通过<code>Flipboard FLEX Loader</code>查看Ding详情对应的视图：</p>
-<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bbf.jpg?r=54" alt=""></p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bbf.jpg?r=54" alt></p>
 <p>可以看到对应的视图是<code>DTDingDetailViewControllerV2</code>，打开<code>Hopper Disassemble</code>中查看对应代码逻辑：</p>
-<p><img src="/image/2017-06-15-00-06-04.png" alt=""><br>延续之前的猜测，自然先看<code>viewDidAppear</code>方法，反编译后的代码也是一目了然：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void -[DTDingDetailViewControllerV2 viewDidAppear:](void * self, void * _cmd, char arg2) &#123;</span><br><span class="line">    sp = sp - 0x1c;</span><br><span class="line">    r4 = self;</span><br><span class="line">    loc_1c0a398(sp, @selector(viewDidAppear:), arg2);</span><br><span class="line">    loc_1c0a38c(r4, @selector(dingModel));</span><br><span class="line">    r6 = loc_1c0a38c(loc_1c0a390(), @selector(confirmStatus));</span><br><span class="line">    sub_1c0a388();</span><br><span class="line">    if (r6 == 0x0) &#123;</span><br><span class="line">            loc_1c0a38c(r4, @selector(confirmDing));</span><br><span class="line">    &#125;</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><img src="/image/2017-06-15-00-06-04.png" alt><br>延续之前的猜测，自然先看<code>viewDidAppear</code>方法，反编译后的代码也是一目了然：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">void -[DTDingDetailViewControllerV2 viewDidAppear:](void * self, void * _cmd, char arg2) &#123;</span><br><span class="line">    sp = sp - 0x1c;</span><br><span class="line">    r4 = self;</span><br><span class="line">    loc_1c0a398(sp, @selector(viewDidAppear:), arg2);</span><br><span class="line">    loc_1c0a38c(r4, @selector(dingModel));</span><br><span class="line">    r6 = loc_1c0a38c(loc_1c0a390(), @selector(confirmStatus));</span><br><span class="line">    sub_1c0a388();</span><br><span class="line">    if (r6 == 0x0) &#123;</span><br><span class="line">            loc_1c0a38c(r4, @selector(confirmDing));</span><br><span class="line">    &#125;</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>大致是先判断用户的登陆状态，然后调用<code>confirmDing</code>来执行已读逻辑：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">void -[DTDingDetailViewControllerV2 confirmDing](void * self, void * _cmd) &#123;</span><br><span class="line">    ...</span><br><span class="line">    loc_1c0a38c(stack[2009], @selector(confirmDing:successBlock:failureBlock:), r8, r10, sp + 0x34, sp + 0x1c);</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>猜测关键逻辑在这个<code>confirmDing</code>的调用处。<br><code>Hopper Disassemble</code>帮我们解析出了方法名字符串：<code>confirmDing</code>，但是没有打印出对象名，打个断点确认一下：<br>先回到64位确认偏移量：</p>
-<p><img src="/image/2017-06-15-13-16-40.jpg" alt=""></p>
+<p><img src="/image/2017-06-15-13-16-40.jpg" alt></p>
 <p>获取ASLR (地址空间配置随机加载) 偏移量：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) image list -o -f | grep DingTalk</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>[  0] 0x0000000000084000 /var/containers/Bundle/Application/E1551D09-5D65-485B-A283-A8E6393C4345/DingTalk.app/DingTalk(0x0000000100084000)</p>
@@ -477,7 +508,7 @@
 <p>Breakpoint 1: where = DingTalk`_mh_execute_header + 18632932, address = 0x000000010124f348</p>
 </blockquote>
 <p>点击Ding消息进入详情，断点触发：</p>
-<p><img src="/image/2017-06-15-13-17-58.jpg" alt=""><br>messageSend的第一个参数就是对象了，我们通过<code>po</code>命令打印对象的类名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po [$arg1 class]</span><br></pre></td></tr></table></figure></p>
+<p><img src="/image/2017-06-15-13-17-58.jpg" alt><br>messageSend的第一个参数就是对象了，我们通过<code>po</code>命令打印对象的类名：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po [$arg1 class]</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>DTDingServiceIMP</p>
 </blockquote>
@@ -487,9 +518,9 @@
 </blockquote>
 <p>这样我们就确认了关键逻辑在<code>DTDingServiceIMP confirmDing</code>中，简单起见我们直接hook这个方法返回即可。</p>
 <h2 id="拦截消息已读反馈"><a href="#拦截消息已读反馈" class="headerlink" title="拦截消息已读反馈"></a>拦截消息已读反馈</h2><p>跟上述大同小异，大致分析路径为：<br><code>DTMessageOTOViewcontroller reivedMessageNotification</code> -&gt; <code>DTMessageBaseViewController receivedMessageNotification</code><br>-&gt; <code>DTMessageControllerDataSource sendMessageReadStatusWithMessage</code> </p>
-<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bc2.jpg?r=47" alt=""></p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bc2.jpg?r=47" alt></p>
 <h2 id="Tweak"><a href="#Tweak" class="headerlink" title="Tweak"></a>Tweak</h2><p>定位到对应方法之后，当然你可以通过theos环境来写一个tweak，但是有两个不好，一个是麻烦，要dump头文件，然后写xm，打包，传到手机上安装，再是不好控制开关（除非写一个开关到设置中），不然只能卸载插件才能停止hook。<br>更方便快捷的方式是通过<code>Flex 3</code> ：</p>
-<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bc8.jpg" alt=""></p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bc8.jpg" alt></p>
 <p>我已经把Patch提交到市场，欢迎下载体验。</p>
 
       
@@ -504,34 +535,8 @@
     
 
     
-      <div>
-        <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
-  <div></div>
-  <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
-    <span>Donate</span>
-  </button>
-  <div id="QR" style="display: none;">
-
+      
     
-      <div id="wechat" style="display: inline-block">
-        <img id="wechat_qr" src="/image/wechatpay.jpg" alt="Suclogger WeChat Pay"/>
-        <p>WeChat Pay</p>
-      </div>
-    
-
-    
-      <div id="alipay" style="display: inline-block">
-        <img id="alipay_qr" src="/image/alipay.png" alt="Suclogger Alipay"/>
-        <p>Alipay</p>
-      </div>
-    
-
-    
-
-  </div>
-</div>
-
-      </div>
     
 
     
@@ -581,10 +586,6 @@
   </article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
   </div>
 
 
@@ -604,7 +605,6 @@
   </div>
 
   <aside id="sidebar" class="sidebar">
-    
     <div class="sidebar-inner">
 
       
@@ -620,12 +620,12 @@
         </ul>
       
 
-      <section class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
               <p class="site-author-name" itemprop="name">Suclogger</p>
-              <p class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</p>
+              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
           </div>
 
           
@@ -645,7 +645,11 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  <a href="/categories/index.html">
+                  
+                    
+                      <a href="/categories">
+                    
+                  
                     
                     
                       
@@ -678,7 +682,11 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  <a href="/tags/index.html">
+                  
+                    
+                      <a href="/tags">
+                    
+                  
                     
                     
                       
@@ -774,6 +782,7 @@
           
 
           
+
           
 
           
@@ -785,15 +794,16 @@
           
 
         </div>
-      </section>
+      </div>
 
       
       <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
           <div class="post-toc">
 
             
-              
+            
+            
             
 
             
@@ -801,7 +811,7 @@
             
 
           </div>
-        </section>
+        </div>
       <!--/noindex-->
       
 
@@ -809,6 +819,7 @@
 
     </div>
   </aside>
+  
 
 
         
@@ -817,7 +828,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love" id="animate">
     <i class="fa fa-user"></i>
   </span>
@@ -829,11 +840,7 @@
 </div>
 
 
-  
-
-
-
-  <div class="powered-by">Powered by <a class="theme-link" target="_blank" rel="external nofollow" href="https://hexo.io">Hexo</a> v3.7.1</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
 
 
 
@@ -841,7 +848,7 @@
 
 
 
-  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" rel="external nofollow" href="https://github.com/theme-next/hexo-theme-next">NexT.Muse</a> v6.2.0</div>
+  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
 
 
 
@@ -868,11 +875,14 @@
 
     
 
+    
+
+    
   </div>
 
   
 
-<script type="text/javascript">
+<script>
   if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
     window.Promise = null;
   }
@@ -904,70 +914,53 @@
 
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
 
   
-  
-    <script type="text/javascript" src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-  
+  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
 
 
   
 
 
-  <script type="text/javascript" src="/js/src/utils.js?v=6.2.0"></script>
+  <script src="/js/utils.js?v=7.1.0"></script>
 
-  <script type="text/javascript" src="/js/src/motion.js?v=6.2.0"></script>
+  <script src="/js/motion.js?v=7.1.0"></script>
 
 
 
   
   
 
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.2.0"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=6.2.0"></script>
+
+  <script src="/js/schemes/muse.js?v=7.1.0"></script>
 
 
 
   
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.2.0"></script>
-
-
-
-  
-
-  
-    <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
-  
-
-  
-
-
-
-
-
-	
-
-
+  <script src="/js/scrollspy.js?v=7.1.0"></script>
+<script src="/js/post-details.js?v=7.1.0"></script>
 
 
 
   
 
 
+  <script src="/js/next-boot.js?v=7.1.0"></script>
 
 
+  
 
+  
+
+  
+
+  
+  
+  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
 
 
 
@@ -980,31 +973,22 @@
 
 
 
+  
+
+  
+
+  
 
   
 
   
 
   
-<script>
-(function(){
-    var bp = document.createElement('script');
-    var curProtocol = window.location.protocol.split(':')[0];
-    if (curProtocol === 'https') {
-        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
-    }
-    else {
-        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
-    }
-    var s = document.getElementsByTagName("script")[0];
-    s.parentNode.insertBefore(bp, s);
-})();
-</script>
-
 
   
 
   
+
   
 
   
