@@ -1,102 +1,49 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <link rel="mask-icon" href="/image/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
-
-<link rel="stylesheet" href="/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    hostname: new URL('https://suclogger.me').hostname,
     root: '/',
     scheme: 'Muse',
-    version: '7.1.0',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: false,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
-
-
-  
-
-
-
 
   <meta name="description" content="人生如逆旅，我亦是行人">
 <meta property="og:type" content="website">
@@ -109,19 +56,17 @@
 <meta name="twitter:title" content="Suclogger">
 <meta name="twitter:description" content="人生如逆旅，我亦是行人">
 
+<link rel="canonical" href="https://suclogger.me/page/15/">
 
 
-
-
-  
-  
-  <link rel="canonical" href="https://suclogger.me/page/15/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: true,
+    isPost: false,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
@@ -133,15 +78,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -150,9 +88,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -166,292 +103,150 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left 
-  page-home">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
-    
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Suclogger</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
-      
-        <h1 class="site-subtitle" itemprop="description">莆放</h1>
-      
-    
-    
+        <p class="site-subtitle">莆放</p>
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
   </div>
 </div>
-
 
 
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-
-    
-
-    <a href="/" rel="section">Home</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-
-    
-
-    <a href="/archives/" rel="section">Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-
-    
-
-    <a href="/categories" rel="section">Categories</a>
+    <a href="/categories" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-
-    
-
-    <a href="/tags" rel="section">Tags</a>
+    <a href="/tags" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-
-    
-
-    <a href="/about" rel="section">About</a>
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-sitemap">
+        <li class="menu-item menu-item-sitemap">
 
-    
-    
-    
-
-    
-
-    <a href="/sitemap.xml" rel="section">Sitemap</a>
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content">
             
-  <section id="posts" class="posts-expand">
-    
-      
 
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <div class="posts-expand">
+        
   
   
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/Elasticsearch中文社区20160618杭州线下聚会纪要/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/应用接口的安全方案设计（二）/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
       <meta itemprop="name" content="Suclogger">
       <meta itemprop="description" content="人生如逆旅，我亦是行人">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Suclogger">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/Elasticsearch中文社区20160618杭州线下聚会纪要/" class="post-title-link" itemprop="url">Elasticsearch中文社区20160618杭州线下聚会纪要</a>
-              
-            
-          </h2>
-        
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/应用接口的安全方案设计（二）/" class="post-title-link" itemprop="url">应用接口的安全方案设计（二）</a>
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
+              <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2016-06-18 22:56:21" itemprop="dateCreated datePublished" datetime="2016-06-18T22:56:21+08:00">2016-06-18</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
+              <time title="Created: 2016-10-14 00:17:27 / Modified: 10:04:34" itemprop="dateCreated datePublished" datetime="2016-10-14T00:17:27+08:00">2016-10-14</time>
+            </span>
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/搜索/" itemprop="url" rel="index"><span itemprop="name">搜索</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/Elasticsearch中文社区20160618杭州线下聚会纪要/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="Elasticsearch中文社区20160618杭州线下聚会纪要/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/应用接口的安全方案设计（二）/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="应用接口的安全方案设计（二）/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -459,476 +254,284 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        
-          
-            <!-- abstract -->
+          <!-- abstract -->
 <!-- 开始正文 -->
-<h2 id="汪兴－Elasticsearch结合hbase的应用"><a href="#汪兴－Elasticsearch结合hbase的应用" class="headerlink" title="汪兴－Elasticsearch结合hbase的应用"></a>汪兴－Elasticsearch结合hbase的应用</h2><p>介绍中使用的存储介质是HBase，我司目前还未达到迁移到NoSQL的数据量级，而且后面的分享中大都采用hadoop（hive，spark）作为mysql数据的全量备份，目前看来参考的价值不大。<br>不过后面也有一些具有参考意义的，比如提到的可以将若干条件作为一组进行分组条件逻辑查询，还涉及到备份方式的讨论，脑裂问题的解决。</p>
-<h2 id="万斌－ElasticSearch在gooagoo的实践"><a href="#万斌－ElasticSearch在gooagoo的实践" class="headerlink" title="万斌－ElasticSearch在gooagoo的实践"></a>万斌－ElasticSearch在gooagoo的实践</h2><p>算是对于搜索的另一个方面的应用：数据统计，将传统BI的工作用elasticsearch来实现。<br>提到了Sense插件，可以自动补全查询的json。<br>提到了terms  Aggregation无法精确统计的问题。</p>
-<h2 id="曾勇－Introduction-to-Beats-and-extending"><a href="#曾勇－Introduction-to-Beats-and-extending" class="headerlink" title="曾勇－Introduction to Beats and extending"></a>曾勇－Introduction to Beats and extending</h2><p>作为中文鼎鼎大名IK分词器的作者，medcl给我们带来了一个新的产品线Beats系列，是将来能很大程度取代logstash的一个产品，大部分还在开发验证阶段。</p>
-<h2 id="洪斌－有赞搜索引擎实践"><a href="#洪斌－有赞搜索引擎实践" class="headerlink" title="洪斌－有赞搜索引擎实践"></a>洪斌－有赞搜索引擎实践</h2><p>是今天干货最多的一个topic了，虽然在量级上不如淘宝，但是设计中需要考虑到的方面基本覆盖到了。<br>印象很深的地方就是很大程度依赖hadoop来全量备份线上数据和进行索引构建。</p>
+<p>在<a href="http://suclogger.tech/2016/09/23/应用接口的安全方案设计/" target="_blank" rel="noopener">上一篇</a>文章中我说到：HTTPS是不安全的，因为存在MIM攻击。但是随着了解的深入，发现这个认识是有问题的，正确的认识应当是：<strong>HTTPS的设计是安全的，只是错误的用法导致了MIM攻击</strong>。</p>
+<p>关于SSL/TLS协议运行机制，阮一峰的<a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="noopener">博客文章</a>做了很好的介绍。</p>
+<p>稍加了解，可以发现，其实上一篇文章中的设计就是参照了SSL/TLS协议运行机制，混合了非对称加密和对称加密，有几点需要注意：</p>
 <ol>
-<li>通过监控mysql的binlog，产生消息到kafka，消费消息实时将mysql的事务同步到搜索中。<img src="/image/2016-06-19 00-25-41.jpg" alt></li>
-<li>商用搜索引擎的AdvancedSearch的概念，将反向代理和通用算法层抽离出来。</li>
-<li>提到了评分体系的静态分和动态分的概念，静态分需要稳定和线性，动态分体现搜索的相关度。</li>
-<li>商品去重的问题，使用spark进行矢量相似度计算，在搜索时有限搜索去重之后的主库，只在出现召回等情况时搜索辅库。<img src="/image/2016-06-19 00-24-10.jpg" alt></li>
-<li>店铺去重的问题，通过分bucket的方式，在匹配度高的店铺和匹配度低的店铺中做了折衷。<img src="/image/2016-06-19 00-22-44.jpg" alt></li>
-<li>Query分析，通过分析搜索日志和购买日志画出query转化图，进行后续的同义词扩展，核心词提取和智能纠错方面的应用。</li>
-<li>将搜索输入的关键字转化为不同权重的同义词输入es查询。<img src="/image/2016-06-19 00-21-16.jpg" alt></li>
-<li>使用rolling技术替代性能很差的分页操作。</li>
-<li>优先采用filtered_query。</li>
-<li>使用用bulk。 </li>
+<li>引入了证书机制来确保服务端下发的公钥不被窜改。</li>
+<li>引入三组随机数组成最后的随机数，保证了随机数的随机性。</li>
 </ol>
-<h2 id="宁海元－基于ELK的云日志产品实践"><a href="#宁海元－基于ELK的云日志产品实践" class="headerlink" title="宁海元－基于ELK的云日志产品实践"></a>宁海元－基于ELK的云日志产品实践</h2><p>主要介绍ELK的日志实现，技术细节不多。</p>
-<h2 id="卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案"><a href="#卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案" class="headerlink" title="卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案"></a>卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案</h2><p>算是最贴近我司现有起步阶段的topic，介绍了elasticsearch-jdbc的使用。<br>提到了elasticsearch-jdbc使用中的一些痛点，如定时轮询的操作会影响mysql的性能，多数据源配置比较麻烦和sql的增量控制的时间条件不准确，从而提出了通过监听binlog来实现实时同步的方案简单有效，很受启发。<br><img src="/image/2016-06-19 00-31-14.jpg" alt><br>还提到了通过alias不停机迁移来做定时的全量，也很受启发。</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/elasticsearch上手指南/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="人生如逆旅，我亦是行人">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/elasticsearch上手指南/" class="post-title-link" itemprop="url">elasticsearch上手指南</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-06-10 19:09:26" itemprop="dateCreated datePublished" datetime="2016-06-10T19:09:26+08:00">2016-06-10</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/搜索/" itemprop="url" rel="index"><span itemprop="name">搜索</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/elasticsearch上手指南/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="elasticsearch上手指南/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<h2 id="CentOS上安装elasticsearch"><a href="#CentOS上安装elasticsearch" class="headerlink" title="CentOS上安装elasticsearch"></a>CentOS上安装elasticsearch</h2><p>首先需要JAVA环境，这里不再详述。<br>在<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">官网下载页面</a>找到RMP包的下载路径，通过wget命令下载安装包到本地：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/rpm/elasticsearch/2.3.3/elasticsearch-2.3.3.rpm</span><br></pre></td></tr></table></figure></p>
-<p>执行安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -ivh elasticsearch-2.3.3.rpm</span><br></pre></td></tr></table></figure></p>
-<p>默认安装到<code>/usr/share/elasticsearch/</code>，配置文件在<code>/etc/elasticsearch</code>，init脚本在<code>/etc/init.d/elasticsearch</code>。<br>添加为服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable elasticsearch.service</span><br></pre></td></tr></table></figure></p>
-<p>启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/elasticsearch start</span><br></pre></td></tr></table></figure></p>
-<p>查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:9200</span><br></pre></td></tr></table></figure></p>
-<h2 id="创建一个文稿"><a href="#创建一个文稿" class="headerlink" title="创建一个文稿"></a>创建一个文稿</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &apos;localhost:9200/get-together/group/1?pretty&apos; -d &apos;&#123; &quot;name&quot;: &quot;Elasticsearch Denver&quot;, &quot;organizer&quot;: &quot;Lee&quot; &#125;&apos;</span><br></pre></td></tr></table></figure>
-<p>可以看到返回信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;_index&quot; : &quot;get-together&quot;,</span><br><span class="line">  &quot;_type&quot; : &quot;group&quot;,</span><br><span class="line">  &quot;_id&quot; : &quot;1&quot;,</span><br><span class="line">  &quot;_version&quot; : 1,</span><br><span class="line">  &quot;_shards&quot; : &#123;</span><br><span class="line">    &quot;total&quot; : 2,</span><br><span class="line">    &quot;successful&quot; : 1,</span><br><span class="line">    &quot;failed&quot; : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;created&quot; : true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>Elasticsearch自动添加了<code>get-together</code>索引，并创建了一个到类型<code>group</code>的映射。<br>当然你也可以手动创建一个索引：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &apos;localhost:9200/new-index&apos;</span><br></pre></td></tr></table></figure></p>
-<p>Elasticsearch自动将<code>name</code>和<code>organizer</code>检测为<code>string</code>类型，如果你又添加了一个文稿，包含除了<code>name</code>和 <code>organizer</code>的其他字段，Elasticsearch也会自动检测它的类型并添加到映射。<br>可以查看这个映射的详细信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">curl &apos;localhost:9200/get-together/_mapping/group?pretty</span><br><span class="line">&#123;</span><br><span class="line">  &quot;get-together&quot; : &#123;</span><br><span class="line">    &quot;mappings&quot; : &#123;</span><br><span class="line">      &quot;group&quot; : &#123;</span><br><span class="line">        &quot;properties&quot; : &#123;</span><br><span class="line">          &quot;name&quot; : &#123;</span><br><span class="line">            &quot;type&quot; : &quot;string&quot;</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;organizer&quot; : &#123;</span><br><span class="line">            &quot;type&quot; : &quot;string&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="开始搜索"><a href="#开始搜索" class="headerlink" title="开始搜索"></a>开始搜索</h2><p>添加一些示例文稿：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:suclogger/elasticsearch-in-action.git</span><br><span class="line">sh elasticsearch-in-action/populate.sh</span><br></pre></td></tr></table></figure></p>
-<p>这个脚本会重建我们之前创建的<code>get-together</code>索引。<br>一个简单的搜索：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &quot;localhost:9200/get-together/group/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</span><br></pre></td></tr></table></figure></p>
-<p>curl请求的链接中，<code>get-together/group</code>指定了范围：<code>get-together</code>索引下的<code>group</code>类型。<br>常见的关键词格式是：<code>q=name:elasticsearch</code>，这里没有指定group下的某个参数，elasticsearch会默认指定为<code>q=_all:elasticsearch</code>来搜索所有参数字段。<br>也可以通过<code>,</code>分隔来同时搜索多个类型，如：<code>curl &quot;localhost:9200/get-together/group,event/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</code>，或者完全忽略类型部分来搜索所有类型：<code>curl &quot;localhost:9200/get-together/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</code>。<br>类似的，也可以通过<code>,</code>分隔来同时搜索多个索引，如：<code>curl &quot;localhost:9200/get-together,other-index/_search\ ?q=elasticsearch&amp;pretty&quot;</code>，当然这个请求会失败，因为我们还没创建<code>other-index</code>索引。也可以指定<code>_all</code>来搜索所有索引。<br>返回的结果中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;took&quot; : 5,</span><br><span class="line">  &quot;timed_out&quot; : false,</span><br><span class="line">  &quot;_shards&quot; : &#123;</span><br><span class="line">    &quot;total&quot; : 2,</span><br><span class="line">    &quot;successful&quot; : 2,</span><br><span class="line">    &quot;failed&quot; : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;hits&quot; : &#123;</span><br><span class="line">    &quot;total&quot; : 2,</span><br><span class="line">    &quot;max_score&quot; : 0.83339834,</span><br><span class="line">    &quot;hits&quot; : [ &#123;</span><br><span class="line">      &quot;_index&quot; : &quot;get-together&quot;,</span><br><span class="line">      &quot;_type&quot; : &quot;group&quot;,</span><br><span class="line">      &quot;_id&quot; : &quot;2&quot;,</span><br><span class="line">      &quot;_score&quot; : 0.83339834,</span><br><span class="line">      &quot;fields&quot; : &#123;</span><br><span class="line">        &quot;name&quot; : [ &quot;Elasticsearch Denver&quot; ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p><code>took</code>表示查询耗时5ms，<code>timed_out</code>为false表示查询未超时（默认下查询永远不会超时，可以在curl链接后附带<code>&amp;timeout=3s</code>来指定超时时间为3s）</p>
-
-          
-        
-      
-    </div>
-
-    
-
-    
-    
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/记一个线上bug的解决/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Suclogger">
-      <meta itemprop="description" content="人生如逆旅，我亦是行人">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Suclogger">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/记一个线上bug的解决/" class="post-title-link" itemprop="url">记一个线上bug的解决</a>
-              
-            
-          </h2>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
-
-              <time title="Created: 2016-05-27 22:56:03" itemprop="dateCreated datePublished" datetime="2016-05-27T22:56:03+08:00">2016-05-27</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
-                </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/记一个线上bug的解决/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="记一个线上bug的解决/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <!-- abstract -->
-<!-- 开始正文 -->
-<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我司的爬虫现在运行在一个通过ADSL拨号联网的VPS上，通过重新拨号切换IP来应对目标网站的防爬措施。</p>
-<h2 id="问题现象"><a href="#问题现象" class="headerlink" title="问题现象"></a>问题现象</h2><p>应用通过<a href="https://github.com/alibaba/druid" target="_blank" rel="noopener">druid</a>数据源连接到mysql保存数据，每次切换IP后，会通过下面这条简单sql尝试获取数据源连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT &apos;1&apos; FROM DUAL;</span><br></pre></td></tr></table></figure></p>
-<p>但是通过查看日志这条sql每次都要等待长达17分钟才能执行完成：<br><img src="/image/3c91ebb0cbc84db0befa2f276df8fa19.jpg?r=59" alt></p>
-<h2 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h2><p>数据库的连接是长连接，IP切换之后原先的TCP长连接也都被断开，需要重新获取数据库连接，但是VPS到数据的连接延时稳定在20ms以内，ADSL拨号重建连接的耗时也在2s以内，重建TCP链路不应该耗时17分钟之久：<br>    <img src="/image/2016-05-27 23-28-05.jpg" alt></p>
-<h3 id="bleedfly猜测mysql服务器可能受到DNS污染。"><a href="#bleedfly猜测mysql服务器可能受到DNS污染。" class="headerlink" title="@bleedfly猜测mysql服务器可能受到DNS污染。"></a><a href="https://twitter.com/bleedfly" target="_blank" rel="noopener">@bleedfly</a>猜测mysql服务器可能受到DNS污染。</h3><p>手动重新拨号之后ping接mysql域名，发现解析正确。<br>通过<code>yum install mysql</code>命令在VPS（CentOS）主机上安装mysql客户端后也可以在拨号之后迅速正常连接到mysql，遂排除这一可能。</p>
-<h3 id="尝试根据内存dump文件发现问题"><a href="#尝试根据内存dump文件发现问题" class="headerlink" title="尝试根据内存dump文件发现问题"></a>尝试根据内存dump文件发现问题</h3><p>通过以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo jmap -dump:live,format=b,file=/root/log.bin `pgrep java`</span><br></pre></td></tr></table></figure></p>
-<p>获取内存dump文件，放入<a href="http://www.eclipse.org/mat/downloads.php" target="_blank" rel="noopener">MAT</a>中分析：</p>
-<p><img src="/image/2016-05-28 00-00-55.jpg" alt></p>
-<p>可以看到停顿时内存的使用量很小，不存在内存泄露的可能。<br>列出的<code>suspect problem</code>中也看只反映了当时内存中主要存活的对象是<code>org.apache.ibatis.session.Configuration</code>。</p>
-<h3 id="分析堆栈日志"><a href="#分析堆栈日志" class="headerlink" title="分析堆栈日志"></a>分析堆栈日志</h3><p>通过以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack `pgrep java` &gt; jstack.log</span><br></pre></td></tr></table></figure></p>
-<p>获取方法调用堆栈进行分析。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br></pre></td><td class="code"><pre><span class="line">2016-05-27 20:14:56</span><br><span class="line">Full thread dump OpenJDK 64-Bit Server VM (24.95-b01 mixed mode):</span><br><span class="line"></span><br><span class="line">&quot;Attach Listener&quot; daemon prio=10 tid=0x00007f1b14001000 nid=0x28a2 waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">&quot;pool-3-thread-1&quot; prio=10 tid=0x00007f1af80c0800 nid=0x274b runnable [0x00007f1b02286000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line">	at java.net.SocketInputStream.socketRead0(Native Method)</span><br><span class="line">	at java.net.SocketInputStream.read(SocketInputStream.java:152)</span><br><span class="line">	at java.net.SocketInputStream.read(SocketInputStream.java:122)</span><br><span class="line">	at com.mysql.jdbc.util.ReadAheadInputStream.fill(ReadAheadInputStream.java:114)</span><br><span class="line">	at com.mysql.jdbc.util.ReadAheadInputStream.readFromUnderlyingStreamIfNecessary(ReadAheadInputStream.java:161)</span><br><span class="line">	at com.mysql.jdbc.util.ReadAheadInputStream.read(ReadAheadInputStream.java:189)</span><br><span class="line">	- locked &lt;0x0000000785ce9b80&gt; (a com.mysql.jdbc.util.ReadAheadInputStream)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.readFully(MysqlIO.java:2536)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:2989)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.reuseAndReadPacket(MysqlIO.java:2978)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3526)</span><br><span class="line">	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1989)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.pingInternal(ConnectionImpl.java:4051)</span><br><span class="line">	at com.mysql.jdbc.ConnectionImpl.ping(ConnectionImpl.java:4028)</span><br><span class="line">	at sun.reflect.GeneratedMethodAccessor14.invoke(Unknown Source)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:606)</span><br><span class="line">	at com.alibaba.druid.pool.vendor.MySqlValidConnectionChecker.isValidConnection(MySqlValidConnectionChecker.java:79)</span><br><span class="line">	at com.alibaba.druid.pool.DruidAbstractDataSource.testConnectionInternal(DruidAbstractDataSource.java:1166)</span><br><span class="line">	at com.alibaba.druid.pool.DruidDataSource.getConnectionDirect(DruidDataSource.java:668)</span><br><span class="line">	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:628)</span><br><span class="line">	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:618)</span><br><span class="line">	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:79)</span><br><span class="line">	at org.springframework.jdbc.datasource.DataSourceUtils.doGetConnection(DataSourceUtils.java:111)</span><br><span class="line">	at org.springframework.jdbc.datasource.DataSourceUtils.getConnection(DataSourceUtils.java:77)</span><br><span class="line">	at org.mybatis.spring.transaction.SpringManagedTransaction.openConnection(SpringManagedTransaction.java:83)</span><br><span class="line">	at org.mybatis.spring.transaction.SpringManagedTransaction.getConnection(SpringManagedTransaction.java:69)</span><br><span class="line">	at org.apache.ibatis.executor.BaseExecutor.getConnection(BaseExecutor.java:271)</span><br><span class="line">	at org.apache.ibatis.executor.SimpleExecutor.prepareStatement(SimpleExecutor.java:69)</span><br><span class="line">	at org.apache.ibatis.executor.SimpleExecutor.doQuery(SimpleExecutor.java:56)</span><br><span class="line">	at org.apache.ibatis.executor.BaseExecutor.queryFromDatabase(BaseExecutor.java:259)</span><br><span class="line">	at org.apache.ibatis.executor.BaseExecutor.query(BaseExecutor.java:132)</span><br><span class="line">	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:105)</span><br><span class="line">	at org.apache.ibatis.executor.CachingExecutor.query(CachingExecutor.java:81)</span><br><span class="line">	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:104)</span><br><span class="line">	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectList(DefaultSqlSession.java:98)</span><br><span class="line">	at org.apache.ibatis.session.defaults.DefaultSqlSession.selectOne(DefaultSqlSession.java:62)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:606)</span><br><span class="line">	at org.mybatis.spring.SqlSessionTemplate$SqlSessionInterceptor.invoke(SqlSessionTemplate.java:358)</span><br><span class="line">	at com.sun.proxy.$Proxy13.selectOne(Unknown Source)</span><br><span class="line">	at org.mybatis.spring.SqlSessionTemplate.selectOne(SqlSessionTemplate.java:163)</span><br><span class="line">	at org.apache.ibatis.binding.MapperMethod.execute(MapperMethod.java:63)</span><br><span class="line">	at org.apache.ibatis.binding.MapperProxy.invoke(MapperProxy.java:43)</span><br><span class="line">	at com.sun.proxy.$Proxy27.initCookie(Unknown Source)</span><br><span class="line">	at com.renault.cookie.manager.impl.CookieManagerImpl.getCookie(CookieManagerImpl.java:127)</span><br><span class="line">	at com.renault.core.webmagic.cookie.WcXcCookieProvider.getCookie(WcXcCookieProvider.java:40)</span><br><span class="line">	at us.codecraft.webmagic.downloader.HttpClientGenerator.generateCookie(HttpClientGenerator.java:92)</span><br><span class="line">	at us.codecraft.webmagic.downloader.HttpClientGenerator.generateClient(HttpClientGenerator.java:73)</span><br><span class="line">	at us.codecraft.webmagic.downloader.HttpClientGenerator.getClient(HttpClientGenerator.java:45)</span><br><span class="line">	at us.codecraft.webmagic.downloader.HttpClientDownloader.getHttpClient(HttpClientDownloader.java:69)</span><br><span class="line">	at us.codecraft.webmagic.downloader.HttpClientDownloader.download(HttpClientDownloader.java:97)</span><br><span class="line">	at us.codecraft.webmagic.Spider.processRequest(Spider.java:409)</span><br><span class="line">	at us.codecraft.webmagic.Spider$1.run(Spider.java:322)</span><br><span class="line">	at us.codecraft.webmagic.thread.CountableThreadPool$1.run(CountableThreadPool.java:74)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745)</span><br><span class="line"></span><br><span class="line">&quot;DestroyJavaVM&quot; prio=10 tid=0x00007f1b4c00c000 nid=0x2723 waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">&quot;pool-2-thread-1&quot; prio=10 tid=0x00007f1b4c1d2800 nid=0x2743 waiting on condition [0x00007f1b03518000]</span><br><span class="line">   java.lang.Thread.State: WAITING (parking)</span><br><span class="line">	at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">	- parking to wait for  &lt;0x00000007831c9fd8&gt; (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)</span><br><span class="line">	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:186)</span><br><span class="line">	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2043)</span><br><span class="line">	at us.codecraft.webmagic.thread.CountableThreadPool.execute(CountableThreadPool.java:61)</span><br><span class="line">	at us.codecraft.webmagic.Spider.run(Spider.java:318)</span><br><span class="line">	at com.renault.core.webmagic.craw.WcXcCrawler.crawl(WcXcCrawler.java:66)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)</span><br><span class="line">	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)</span><br><span class="line">	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)</span><br><span class="line">	at java.lang.reflect.Method.invoke(Method.java:606)</span><br><span class="line">	at org.springframework.scheduling.support.ScheduledMethodRunnable.run(ScheduledMethodRunnable.java:65)</span><br><span class="line">	at org.springframework.scheduling.support.DelegatingErrorHandlingRunnable.run(DelegatingErrorHandlingRunnable.java:54)</span><br><span class="line">	at org.springframework.scheduling.concurrent.ReschedulingRunnable.run(ReschedulingRunnable.java:81)</span><br><span class="line">	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:471)</span><br><span class="line">	at java.util.concurrent.FutureTask.run(FutureTask.java:262)</span><br><span class="line">	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$201(ScheduledThreadPoolExecutor.java:178)</span><br><span class="line">	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:292)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)</span><br><span class="line">	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)</span><br><span class="line">	at java.lang.Thread.run(Thread.java:745)</span><br><span class="line"></span><br><span class="line">&quot;commons-pool-EvictionTimer&quot; daemon prio=10 tid=0x00007f1b4cb7d000 nid=0x2742 in Object.wait() [0x00007f1b034d8000]</span><br><span class="line">   java.lang.Thread.State: TIMED_WAITING (on object monitor)</span><br><span class="line">	at java.lang.Object.wait(Native Method)</span><br><span class="line">	- waiting on &lt;0x0000000782824838&gt; (a java.util.TaskQueue)</span><br><span class="line">	at java.util.TimerThread.mainLoop(Timer.java:552)</span><br><span class="line">	- locked &lt;0x0000000782824838&gt; (a java.util.TaskQueue)</span><br><span class="line">	at java.util.TimerThread.run(Timer.java:505)</span><br><span class="line"></span><br><span class="line">&quot;Druid-ConnectionPool-Destory&quot; daemon prio=10 tid=0x00007f1b4ca8f000 nid=0x273f waiting on condition [0x00007f1b1804e000]</span><br><span class="line">   java.lang.Thread.State: TIMED_WAITING (sleeping)</span><br><span class="line">	at java.lang.Thread.sleep(Native Method)</span><br><span class="line">	at com.alibaba.druid.pool.DruidDataSource$DestroyConnectionThread.run(DruidDataSource.java:1292)</span><br><span class="line"></span><br><span class="line">&quot;Druid-ConnectionPool-Create&quot; daemon prio=10 tid=0x00007f1b4ca88800 nid=0x273e waiting on condition [0x00007f1b1808f000]</span><br><span class="line">   java.lang.Thread.State: WAITING (parking)</span><br><span class="line">	at sun.misc.Unsafe.park(Native Method)</span><br><span class="line">	- parking to wait for  &lt;0x0000000785a217a8&gt; (a java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject)</span><br><span class="line">	at java.util.concurrent.locks.LockSupport.park(LockSupport.java:186)</span><br><span class="line">	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.await(AbstractQueuedSynchronizer.java:2043)</span><br><span class="line">	at com.alibaba.druid.pool.DruidDataSource$CreateConnectionThread.run(DruidDataSource.java:1195)</span><br><span class="line"></span><br><span class="line">&quot;Service Thread&quot; daemon prio=10 tid=0x00007f1b4c1b1800 nid=0x2730 runnable [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">&quot;C2 CompilerThread1&quot; daemon prio=10 tid=0x00007f1b4c1ae800 nid=0x272f waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">&quot;C2 CompilerThread0&quot; daemon prio=10 tid=0x00007f1b4c1ac800 nid=0x272e waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">&quot;Signal Dispatcher&quot; daemon prio=10 tid=0x00007f1b4c1aa000 nid=0x272d runnable [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">&quot;Surrogate Locker Thread (Concurrent GC)&quot; daemon prio=10 tid=0x00007f1b4c1a8000 nid=0x272c waiting on condition [0x0000000000000000]</span><br><span class="line">   java.lang.Thread.State: RUNNABLE</span><br><span class="line"></span><br><span class="line">&quot;Finalizer&quot; daemon prio=10 tid=0x00007f1b4c17b800 nid=0x272b in Object.wait() [0x00007f1b4854b000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">	at java.lang.Object.wait(Native Method)</span><br><span class="line">	- waiting on &lt;0x0000000785a217c0&gt; (a java.lang.ref.ReferenceQueue$Lock)</span><br><span class="line">	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:135)</span><br><span class="line">	- locked &lt;0x0000000785a217c0&gt; (a java.lang.ref.ReferenceQueue$Lock)</span><br><span class="line">	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:151)</span><br><span class="line">	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:209)</span><br><span class="line"></span><br><span class="line">&quot;Reference Handler&quot; daemon prio=10 tid=0x00007f1b4c179800 nid=0x272a in Object.wait() [0x00007f1b50078000]</span><br><span class="line">   java.lang.Thread.State: WAITING (on object monitor)</span><br><span class="line">	at java.lang.Object.wait(Native Method)</span><br><span class="line">	- waiting on &lt;0x0000000785a217f0&gt; (a java.lang.ref.Reference$Lock)</span><br><span class="line">	at java.lang.Object.wait(Object.java:503)</span><br><span class="line">	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:133)</span><br><span class="line">	- locked &lt;0x0000000785a217f0&gt; (a java.lang.ref.Reference$Lock)</span><br><span class="line"></span><br><span class="line">&quot;VM Thread&quot; prio=10 tid=0x00007f1b4c175000 nid=0x2729 runnable </span><br><span class="line"></span><br><span class="line">&quot;Gang worker#0 (Parallel GC Threads)&quot; prio=10 tid=0x00007f1b4c01d800 nid=0x2724 runnable </span><br><span class="line"></span><br><span class="line">&quot;Gang worker#1 (Parallel GC Threads)&quot; prio=10 tid=0x00007f1b4c01f800 nid=0x2725 runnable </span><br><span class="line"></span><br><span class="line">&quot;Gang worker#2 (Parallel GC Threads)&quot; prio=10 tid=0x00007f1b4c021000 nid=0x2726 runnable </span><br><span class="line"></span><br><span class="line">&quot;Gang worker#3 (Parallel GC Threads)&quot; prio=10 tid=0x00007f1b4c023000 nid=0x2727 runnable </span><br><span class="line"></span><br><span class="line">&quot;Concurrent Mark-Sweep GC Thread&quot; prio=10 tid=0x00007f1b4c0a3800 nid=0x2728 runnable </span><br><span class="line">&quot;VM Periodic Task Thread&quot; prio=10 tid=0x00007f1b4c1bc800 nid=0x2731 waiting on condition </span><br><span class="line"></span><br><span class="line">JNI global references: 150</span><br></pre></td></tr></table></figure></p>
-<p>排除了标明为<code>RUNNABLE</code>的线程之后，首先寻找是否有处于<code>Deadlock</code>状态的线程。<br>没有发现Deadlock，如果有可能等待时间就不止17分钟了。</p>
-<p>接下来罗列处于<code>WAITING</code>状态的线程：</p>
+<p>相比于一个正常的HTTPS通信过程，MIM攻击下的HTTPS通信过程如下（这里以Charles为例）：<br>第一步，客户端发送给服务器的HTTPS请求，<strong>Charles截获后伪装成客户端向服务器发送请求进行握手 </strong>。<br>第二步，服务器发回相应，<strong>Charles获取到服务器的CA证书和其中包含的证书公钥。然后Charles伪造自己的CA证书， 冒充服务器证书传递给客户端</strong>。<br>第三步，客户端校验接收到的证书，生成密码pre_master并用接收到的证书中包含的公钥加密，并生成HTTPS通信用的对称密钥enc_key。<br>第四步，客户端将加密后的pre_master传递给服务器， <strong>Charles截获后将密文用自己伪造证书的私钥解开， 获得pre_master并计算得到HTTPS通信用的对称密钥enc_key，伪装成客户端，用服务端证书中携带的公钥加密pre_master向服务器发送</strong>。<br>第五步，服务器用私钥解开后建立信任。</p>
+<p>成功建立”信任“之后，由于Charles持有通信用对称密钥enc_key，无论是客户端的请求密文或者是服务端的返回密文，对其都是可见的。</p>
+<p><strong>以上攻击发生的前提，就是客户端信任由Charles下发的证书，从而接受证书中包含的公钥信息</strong>。</p>
+<p>为了防御MIM攻击，只需客户端只信任CA颁发的证书即可，当然要求服务端的证书也是由CA颁发，这就意味着一笔高昂的费用（ 购买受信任机构颁发的证书每年要交 100 到 500 美元不等的费用）。<br>除了CA颁发的证书，还有两类证书：</p>
+<ul>
+<li>没有得到CA认可的证书颁发机构颁发的证书</li>
+<li>自己颁发的证书, 分临时性的(在开发阶段使用)或在发布的产品中永久性使用的两种</li>
+</ul>
+<p>所以很多产品，为了方便和实惠，采用了自签名证书来创建HTTPS链接。<br>而自签名证书的使用过程中可能因为存在下列问题而导致受到MIM攻击：</p>
 <ol>
-<li>“pool-2-thread-1” prio=10 tid=0x00007f1b4c1d2800 nid=0x2743 waiting on condition [0x00007f1b03518000] java.lang.Thread.State: WAITING (parking)</li>
-<li>“commons-pool-EvictionTimer” daemon prio=10 tid=0x00007f1b4cb7d000 nid=0x2742 in Object.wait() [0x00007f1b034d8000] java.lang.Thread.State: TIMED_WAITING (on object monitor)</li>
-<li>“Druid-ConnectionPool-Destory” daemon prio=10 tid=0x00007f1b4ca8f000 nid=0x273f waiting on condition [0x00007f1b1804e000] java.lang.Thread.State: TIMED_WAITING (sleeping)</li>
-<li>“Druid-ConnectionPool-Create” daemon prio=10 tid=0x00007f1b4ca88800 nid=0x273e waiting on condition [0x00007f1b1808f000] java.lang.Thread.State: WAITING (parking)</li>
-<li>“Finalizer” daemon prio=10 tid=0x00007f1b4c17b800 nid=0x272b in Object.wait() [0x00007f1b4854b000]  java.lang.Thread.State: WAITING (on object monitor)</li>
-<li>“Reference Handler” daemon prio=10 tid=0x00007f1b4c179800 nid=0x272a in Object.wait() [0x00007f1b50078000]  java.lang.Thread.State: WAITING (on object monitor)</li>
+<li>客户端没有对SSL证书进行校验（因为自建证书的根CA的数字签名未在操作系统的信任列表中，如果添加校验肯定会返回失败）；</li>
+<li>客户端没有对域名进行校验；</li>
+<li>服务端遭受攻击，证书私钥泄漏。</li>
 </ol>
-<p>其中，第2个：”commons-pool-EvictionTimer” 用于空闲对象的驱逐，第5个：”Finalizer”线程用于在垃圾收集前，调用对象的finalize()方法，第6个：”Reference Handler”用于处理引用对象本身（软引用、弱引用、虚引用）的垃圾回收问题 ，这3个线程都从属于JVM，暂时忽略。</p>
-<p>粗略看来剩下的3个线程中，第1个和第4个都处于<code>WAITING (parking)</code>的状态，即依赖于<code>特定condition</code>的发生，而第3个处于<code>TIMED_WAITING (sleeping)</code>，很可能是方法调用了Thread.wait()或者Thread.sleep()。</p>
-<p>查看pom文件，找到版本号<code>0.2.9</code>，在druid目录通过check out到对应版本号的tag定位源代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public class DestroyConnectionThread extends Thread &#123;</span><br><span class="line"></span><br><span class="line">    public DestroyConnectionThread(String name)&#123;</span><br><span class="line">        super(name);</span><br><span class="line">        this.setDaemon(true);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void run() &#123;</span><br><span class="line">        initedLatch.countDown();</span><br><span class="line"></span><br><span class="line">        for (;;) &#123;</span><br><span class="line">            // 从前面开始删除</span><br><span class="line">            try &#123;</span><br><span class="line">                if (closed) &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (timeBetweenEvictionRunsMillis &gt; 0) &#123;</span><br><span class="line">                    Thread.sleep(timeBetweenEvictionRunsMillis);</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    Thread.sleep(1000); // 这里是1292行</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                if (Thread.interrupted()) &#123;</span><br><span class="line">                    break;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                shrink(true);</span><br><span class="line"></span><br><span class="line">                if (isRemoveAbandoned()) &#123;</span><br><span class="line">                    removeAbandoned();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (InterruptedException e) &#123;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这里的代码逻辑是这个独立的线程是用于回收关闭的链接，由于run方法一开始已经调用了<code>initedLatch.countDown();</code>，应该不会影响主线程，所以第3个线程也不是罪魁祸首。</p>
-<p>找来找去，怀疑的目光又落在了<code>pool-3-thread-1</code>这个最早看来人畜无害的<code>Runable</code>线程。<br>猛烈google之后，发现了相关的讨论：<a href="https://bugs.mysql.com/bug.php?id=9515" target="_blank" rel="noopener">Long response waiting using Connector</a></p>
-<blockquote>
-<p>always close the connection and use Socket.setSoTimeout(int) on every connection, I solve my problem. the hanging does never appear again.</p>
-</blockquote>
-<p>又返回去看druid的源码，发现方法调用堆栈中<code>isValidConnection</code>是支持设置超时时间的，需要在<code>DruidDataSource</code>实例化时作为参数传入。</p>
-<h2 id="尝试"><a href="#尝试" class="headerlink" title="尝试"></a>尝试</h2><p>修改xml配置，给<code>datasource</code>的bean中加上下列配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;property name=&quot;validationQueryTimeout&quot; value=&quot;1000&quot;/&gt;</span><br></pre></td></tr></table></figure></p>
-<p>但是实际发现没有起作用，底层的socket连接依然在等待。又发现druid最新版本（1.0.20）中已经给<code>validationQueryTimeout</code>设置了默认值<code>1000ms</code>，尝试更新druid，最新版依然存在问题。</p>
-<h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>又认真想了一遍。<br>druid通过<code>MySqlValidConnectionChecker</code>调用<code>com.mysql.jdbc.ConnectionImpl.pingInternal(boolean checkForClosedConnection, int timeoutMillis)</code>方法，并将validationQueryTimeout作为它的超时值。</p>
-<p>druid作为一个datasource pool，不管是选择在收回connection到pool的时候检验connection，还是从poll拿connection的时候检验connection，选择信任<code>pingInternal()</code>方法是无可厚非的。</p>
-<p>那锅是要由JDBC的驱动里面的<code>pingInternal()</code>方法来背吗？也不尽然：<a href="https://bugs.mysql.com/bug.php?id=31353" target="_blank" rel="noopener">mysq上的讨论</a></p>
-<blockquote>
-<p><em>Socket timeouts</em>:<br>UNCLOSED socket connection; JVM specs tell us GC does NOT release these resources thus they exhaust JVM resources related to socket operation, leading to SocketInputStream hanging your program. Always close the connection and use Socket.setSoTimeout(int) on every connection.</p>
-</blockquote>
-<blockquote>
-<p>Now this is in relation with <em>pooled connections</em> and DBCP (or “why does 1.2.1 work”, from Bug#30990):<br>If you’re using a connection pool that <em>doesn’t</em> use the ConnectionPoolDataSource API to create connections that have lifecycle callbacks, then it is the <em>pool’s</em> responsibility to cleanup “logical” pooled connections when they’re returned to the pool. Otherwise there is no way for a JDBC driver to tell that a connection is being pooled “above” it, and thus no event/method call where one can hook in to determine that you’ve been “logically” closed and returned to the pool.<br>More recent version of DBCP automatically call rollback() on connections that are returned to the pool.</p>
-</blockquote>
-<p>所以，如果我们还想继续使用druid，还是老老实实在重新切换IP断网之前，调用一下<code>DruidDataDource.close()</code>方法显式地关闭connection好了。</p>
-<p>其实刚开始我们就通过将数据源切换到<code>DriverManagerDataSource</code>已经歪打正着解决了问题，但是<code>DriverManagerDataSource</code>不是一个连接池，每次都要重新创建connection，所以既然定位了问题，还是用druid更为优雅一些。</p>
-<p>解决后可以实现切换动作在1s内完成。<br><img src="/image/2016-05-30 14-17-50.jpg" alt></p>
+<p>所以<strong>MIM中间人攻击漏洞并不是HTTPS设计的缺陷，而是人为使用过程中出现的漏洞</strong>。</p>
+<p> 相比之下，一个设计的比较好的APP在MIM攻击中则表现为：<br><img src="/image/2016-10-14-01-21-22.jpg" alt></p>
+<p>所以，在采用HTTPS给接口加固的时候，一定切记要<strong>在客户端校验服务端证书的合法性</strong>。<br>不论证书是由CA颁发，或者是自签名证书（自签名证书校验方法参见<a href="https://www.oschina.net/translate/android-security-implementation-of-self-signed-ssl" target="_blank" rel="noopener">这篇文章</a>）。</p>
 
-          
-        
       
     </div>
 
     
-
     
     
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
+      </footer>
   </article>
+  
+  
+  
 
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/记一次反编译过程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/记一次反编译过程/" class="post-title-link" itemprop="url">记一次反编译过程</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-25 19:43:27" itemprop="dateCreated datePublished" datetime="2016-09-25T19:43:27+08:00">2016-09-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-09-26 15:20:49" itemprop="dateModified" datetime="2016-09-26T15:20:49+08:00">2016-09-26</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/逆向/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/记一次反编译过程/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="记一次反编译过程/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
 
     
-  </section>
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- abstract -->
+<!-- 开始正文 -->
+<p><strong>此文不涉及任何道义和伦理的讨论</strong></p>
+<h2 id="尝试旧版本APP，查看对应的旧版本接口是否加密"><a href="#尝试旧版本APP，查看对应的旧版本接口是否加密" class="headerlink" title="尝试旧版本APP，查看对应的旧版本接口是否加密"></a>尝试旧版本APP，查看对应的旧版本接口是否加密</h2><p>安卓的历史版本可以通过<a href="http://apk.hiapk.com" target="_blank" rel="noopener">hiapk</a>下载，资源的链接一般类似这种形式： <a href="http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805" target="_blank" rel="noopener">http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805</a>，最后的数字用于标识不同的版本号。<br>IOS的历史版本可以通过itunes下载，只需修改请求中携带的版本号即可下载不同版本，具体参见：<a href="http://bbs.itools.cn/thread-93616-1-1.html" target="_blank" rel="noopener">iTunes下载 App Store 任意历史版本应用</a>。</p>
+<p><img src="/image/2016-09-25-19-55-38.jpg" alt><br>在mac上通过<code>Genymotion</code>可以安装安卓apk，在虚拟中配置代理地址<code>10.0.3.2</code>，端口8888，配合<code>charles</code>即可将虚拟机中请求拦截到<code>charles</code>中。</p>
+<p><img src="/image/2016-09-25-19-59-25.png" alt></p>
+<p><img src="/image/2016-09-25-20-01-47.jpg" alt></p>
+<p>分析了若干历史版本之后，发现该的App2.X版本未进行加密，但是对应的域名和接口也已经停用，所以这条路走不通。</p>
+<h2 id="尝试反编译APP"><a href="#尝试反编译APP" class="headerlink" title="尝试反编译APP"></a>尝试反编译APP</h2><p>apk的反编译可以使用：<a href="https://github.com/lxdvs/apk2gold" target="_blank" rel="noopener">apk2gold</a><br>反编译之后，可以看到解析出的java代码。<br>得到代码之后如何定位到加密部分的逻辑因场景而定，在这个app中，定位到一个关键类<strong>BaseWeb</strong>，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">protected static TreeMap&lt;String, Object&gt; jiaMi(TreeMap&lt;String, Object&gt; treeMap, boolean z) &#123;</span><br><span class="line">        ...</span><br><span class="line">        try &#123;</span><br><span class="line">            String sha1 = sha1(treeMap, z);</span><br><span class="line">            if (sha1 == null) &#123;</span><br><span class="line">                return null;</span><br><span class="line">            &#125;</span><br><span class="line">            treeMap2.put(&quot;key&quot;, sha1);</span><br><span class="line">            return treeMap2;</span><br><span class="line">        &#125; catch (Exception e) &#123;</span><br><span class="line">            u.a(e);</span><br><span class="line">            treeMap2.put(&quot;key&quot;, &quot;&quot;);</span><br><span class="line">            return treeMap2;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>可以看到<code>key</code>字段是通过<code>sha1</code>函数生成，具体代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public static String sha1(TreeMap&lt;String, Object&gt; treeMap, boolean z) &#123;</span><br><span class="line">        if (treeMap == null) &#123;</span><br><span class="line">            treeMap = new TreeMap();</span><br><span class="line">        &#125;</span><br><span class="line">        if (!z) &#123;</span><br><span class="line">            treeMap.put(&quot;publicKey&quot;, Info.a().getMoreStrInfo(AppContext.getInstance(), 345));</span><br><span class="line">        &#125; else if (!mApplication.isLogin()) &#123;</span><br><span class="line">            return null;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            treeMap.put(&quot;publicKey&quot;, mApplication.getUser().getPrivateKey());</span><br><span class="line">        &#125;</span><br><span class="line">        if (treeMap == null || treeMap.size() &lt;= 0) &#123;</span><br><span class="line">            return &quot;&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">        String str = &quot;&quot;;</span><br><span class="line">        int i = 0;</span><br><span class="line">        for (String str2 : treeMap.keySet()) &#123;</span><br><span class="line">            Object obj = treeMap.get(str2);</span><br><span class="line">            if (obj != null) &#123;</span><br><span class="line">                if (i &gt; 0) &#123;</span><br><span class="line">                    str = str + &quot;^_~&quot;;</span><br><span class="line">                &#125; else &#123;</span><br><span class="line">                    i++;</span><br><span class="line">                &#125;</span><br><span class="line">                ...                    </span><br><span class="line">                str = str + str2 + &quot;=&quot; + formaterFloat(Double.parseDouble(obj.toString()));</span><br><span class="line">                ...</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        // 标准的sha1加密</span><br><span class="line">        return i.e(str);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这个方法根据<code>z</code>的取值决定<code>publicKey</code>是通过<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法来生成，还是直接取<code>mApplication.getUser().getPrivateKey()</code> 。<br>因为我们感兴趣的接口的<code>z</code>取值都是<code>false</code>，所以要深入探究一下<code>Info.a().getMoreStrInfo(AppContext.getInstance(), 345)</code>这个方法。<br>反编译发现这个方法是包裹在so中，也是常见的保护敏感信息的方式。<br>Hopper反编译 结果：<br><img src="/image/2016-09-26-15-01-36.png" alt></p>
+<p>祭出神器<code>IDA Pro</code>，代码可读性提高很多：</p>
+<p><img src="/image/2016-09-26-01-58-38.jpg" alt><br>汇编无力，直接F5:<br>找到传入参数为345时候的对应逻辑：<br><img src="/image/2016-09-26-02-00-24.png" alt></p>
+<p>其实就是简单取得了一个字符串：<strong>4cbce54e——17c70193</strong></p>
+<h2 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h2><p>因为参数是完全明文的，将参数和反编译获取的<code>publicKey</code>放入<code>TreeMap</code>，拼接成字符串之后执行标准sha1，即可获取一个合法的<code>key</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TreeMap&lt;String,Object&gt; treeMap = new TreeMap();</span><br><span class="line">treeMap.put(&quot;publicKey&quot;, &quot;4cbce54---------70193&quot;);</span><br><span class="line">treeMap.put(&quot;参数key&quot;, &quot;参数value&quot;);</span><br><span class="line"></span><br><span class="line">String str = &quot;&quot;;</span><br><span class="line">int i = 0;</span><br><span class="line">for (String str2 : treeMap.keySet()) &#123;</span><br><span class="line">    Object obj = treeMap.get(str2);</span><br><span class="line">    if (obj != null) &#123;</span><br><span class="line">        if (i &gt; 0) &#123;</span><br><span class="line">            str = str + &quot;^_~&quot;;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            i++;</span><br><span class="line">        &#125;</span><br><span class="line">        if (obj instanceof String) &#123;</span><br><span class="line">            str = str + str2 + &quot;=&quot; + obj;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(e(str));</span><br></pre></td></tr></table></figure>
+<h2 id="对比结果"><a href="#对比结果" class="headerlink" title="对比结果"></a>对比结果</h2><p>真实请求：<br><img src="/image/2016-09-26-14-57-11.jpg" alt></p>
+<p>模拟 key ：<br><img src="/image/2016-09-26-14-56-46.jpg" alt></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+        
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/应用接口的安全方案设计/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/应用接口的安全方案设计/" class="post-title-link" itemprop="url">应用接口的安全方案设计</a>
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-09-23 18:42:22" itemprop="dateCreated datePublished" datetime="2016-09-23T18:42:22+08:00">2016-09-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-10-14 01:39:13" itemprop="dateModified" datetime="2016-10-14T01:39:13+08:00">2016-10-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/应用接口的安全方案设计/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="应用接口的安全方案设计/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <!-- abstract -->
+<!-- 开始正文 -->
+<p>鉴于当前日益严峻的行业竞争和用户的安全忧虑，我司近期上线了对全接口的安全监控，以下记录了方案设计过程中的一些想法。</p>
+<h2 id="HTTPS安全吗？"><a href="#HTTPS安全吗？" class="headerlink" title="HTTPS安全吗？"></a>HTTPS安全吗？</h2><p>HTTPS可以在一定程度上隐藏接口调用的路径和参数，但是如果使用不当，依然会暴露在<a href="https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB" target="_blank" rel="noopener">MIM攻击</a>下，现在流行的网络调试工具都可以支持MIM。如Charles：</p>
+<p><img src="/image/2016-09-24-19-11-21.png" alt></p>
+<p>Surge:<br><img src="/image/2016-09-24-19-10-30.png" alt></p>
+<p>在MIM攻击下，通过HTTPS的请求依旧一览无余。所以我们需要一个更为可靠的接口加密方案，来抵御爬虫等针对接口的攻击。</p>
+<h2 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h2><p>先来看看当前市面上一个比较成熟的产品的接口机密方案。</p>
+<p><img src="/image/2016-09-24-22-48-57.jpg" alt></p>
+<p><img src="/image/2016-09-24-22-52-21.jpg" alt></p>
+<p>可以看到所有的接口请求都带着一个<code>key</code>字段，这个字段用于验证这个请求是否合法，无论是修改  <code>key</code>字段或者<code>param</code>中携带的请求参数，都会返回<code>签名认证失败</code>的提示。<br><img src="/image/2016-09-24-22-53-11.jpg" alt></p>
+<p>我们通过反编译部分代码后了解到，这个方案通过给明文参数添加一个混淆值之后执行一个单向hash算法<code>sha1</code>获取一个用于校验的字段key。</p>
+<p>这个方案安全吗？</p>
+<p>单向hash的缺点就在于不可逆（排除碰撞的可能），由于http是无状态的，计算单向hash传入的参数都需要显式传递给后端，或者取前后端预先约定好的一个值，这就意味着，如果计算单向hash的算法暴露了，只需要根据算法计算对应的hash值，就可以很容易的构造出一个合法的请求。<br>而且，如果方案暴露，所有接口都无一幸免，因为参数都是明文，对于所有请求加密都形同虚设。<br>在反编译技术已经非常非常成熟的今天，这个算法的暴露基本是时间问题。<br>具体反编译和分析过程在<a href="http://suclogger.tech/2016/09/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/" target="_blank" rel="noopener">下一篇博文中</a>介绍。</p>
+<h2 id="我们的方案设计"><a href="#我们的方案设计" class="headerlink" title="我们的方案设计"></a>我们的方案设计</h2><p>如图所示：</p>
+<p><img src="/image/加密.png" alt></p>
+<p>这里就不详叙<a href="https://zh.wikipedia.org/wiki/%E9%AB%98%E7%BA%A7%E5%8A%A0%E5%AF%86%E6%A0%87%E5%87%86" target="_blank" rel="noopener">AES</a>和<a href="https://zh.wikipedia.org/wiki/RSA%E5%8A%A0%E5%AF%86%E6%BC%94%E7%AE%97%E6%B3%95" target="_blank" rel="noopener">RSA</a>的相关细节。<br>大致可以认为，AES是一种对称加密算法，RSA是一种非对称加密算法，仅仅通过密文来试图解密明文都是不可能的（密钥长度足够）。<br>读懂了这张图，就基本能明白这个方案的设计。补充几点设计的细节：</p>
+<h3 id="为什么不采用案例中的方案"><a href="#为什么不采用案例中的方案" class="headerlink" title="为什么不采用案例中的方案"></a>为什么不采用案例中的方案</h3><p>案例中的参数以明文的方式传输，如果hash值的计算算法被通过反编译暴露，所有接口都同时受到威胁。<br>这个方案可以在加密方案暴露之后，通过保护明文请求参数提高接口的安全。</p>
+<h3 id="为什么不直接对请求参数采用非对称加密"><a href="#为什么不直接对请求参数采用非对称加密" class="headerlink" title="为什么不直接对请求参数采用非对称加密"></a>为什么不直接对请求参数采用非对称加密</h3><p>对称加密和非对称加密在计算消耗上存在显著的差距，具体可以参见：<a href="http://blog.csdn.net/wgw335363240/article/details/8878584" target="_blank" rel="noopener">AES和RSA加密算法调研</a><br>如果所有接口都采用非对称加密，对客户端和服务器端都会带来巨大的计算压力，从而严重影响用户体验。</p>
+<h3 id="AES密钥的生成技巧"><a href="#AES密钥的生成技巧" class="headerlink" title="AES密钥的生成技巧"></a>AES密钥的生成技巧</h3><ul>
+<li>AES可以由客户端在每次请求的时候生成，确保每个请求生成的AES密钥的唯一性，后台通过校验AES密钥的唯一性可以监控到爬虫的重放攻击。为了监控AES密钥的唯一性，后台存放和查询的压力会逐渐提升，所以可以通过存放在redis的方式，并通过ttl来控制记录的存活时间。</li>
+<li>如上一条所述后台记录的AES密钥是有一定存活时间的，意味着超过这个存活时间，就无法监控到重放攻击，所以可以在AES密钥中携带时间信息，如果后台监控到当前时间和AES密钥中携带的时间超过了后台记录的存活时间，也可以记录为可疑请求。</li>
+</ul>
+<h3 id="是否安全？"><a href="#是否安全？" class="headerlink" title="是否安全？"></a>是否安全？</h3><p>如果要破解这个方案，需要同时满足以下条件：</p>
+<ul>
+<li>通过反编译或者其他方式获取了RSA的加密公钥</li>
+<li>通过反编译或者其他方式获取了AES密钥的生成规则</li>
+<li>通过反编译或者其他方式获取了请求参数的结构</li>
+</ul>
+<p>同时满足着三个条件是有可能的，但是不同于上文中介绍的案例，在接口重放成本上是有很显著的差距的，如果配合后台监控得当，基本可以把恶意用户及时禁用。<br>如果客户端配合得当，通过代码混淆等方式增加反编译的难度，保护加密公钥，就能很大程度拦住恶意用户。</p>
+<h3 id="服务端如何无痛的接入当前的应用"><a href="#服务端如何无痛的接入当前的应用" class="headerlink" title="服务端如何无痛的接入当前的应用"></a>服务端如何无痛的接入当前的应用</h3><p>想必所有接触过spring的用户脑袋里面都冒出了三个字：<code>AOP</code>。<br>没错，这个方案通过<code>AOP</code>可以做到很好的无痛接入，将切点定义在所有需要加密的请求方法，将解密逻辑存放在对应的<code>Advise</code> 中即可。主要有以下注意的地方：</p>
+<h4 id="确保这个切面具有最高的优先级"><a href="#确保这个切面具有最高的优先级" class="headerlink" title="确保这个切面具有最高的优先级"></a>确保这个切面具有最高的优先级</h4><p>除了这个切面，系统中还存在很多业务相关的切面，比如校验登录，记录日志等，都需要明文的请求参数，所以我们要确保这个切面具有最高的优先级。<br>如果通过<code>@Aspect</code>注解来定义切面，有一个对应的注解<code>@Order</code>可以用于定义切面的优先级，值越小意味着优先级越高，在触发的时候会越早被执行。</p>
+<h4 id="兼容spring的表单校验"><a href="#兼容spring的表单校验" class="headerlink" title="兼容spring的表单校验"></a>兼容spring的表单校验</h4><p>如果在接口方法参数中带了<code>@Valid</code>注解，spring会对对应的表单参数执行校验，校验结果存放在接口方法的<code>Errors</code>或者<code>BindingResult</code>中，因为加密之后，这个校验是肯定不会通过的（因为明文参数字段的值都为空），所以需要在<code>Advise</code>方法中重新执行校验：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Errors errors = new BeanPropertyBindingResult(newForm, formClazz.getName());</span><br><span class="line">validator.validate(newForm, errors);</span><br><span class="line">args[i] = errors;</span><br></pre></td></tr></table></figure></p>
+<p>或者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">BindingResult result = new BeanPropertyBindingResult(newForm, formClazz.getName());</span><br><span class="line">validator.validate(newForm, result);</span><br><span class="line">args[i] = result;</span><br></pre></td></tr></table></figure></p>
+<p>这个<code>validator</code>在spirng容器中定义，注入到当前<code>Aspect</code>。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;validator&quot; class=&quot;org.springframework.validation.beanvalidation.LocalValidatorFactoryBean&quot; /&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+  </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/18/">18</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -937,239 +540,96 @@
           
 
         </div>
-        
           
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-inner">
 
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
 
-      
-
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Suclogger</p>
-              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">54</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                      <a href="/categories">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">7</span>
-                    <span class="site-state-item-name">categories</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">34</span>
-                    <span class="site-state-item-name">tags</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
       </div>
+      <!--/noindex-->
 
-      
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Suclogger" src="/image/avatar.png">
+  <p class="site-author-name" itemprop="name">Suclogger</p>
+  <div class="site-description" itemprop="description">人生如逆旅，我亦是行人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suclogger" title="GitHub → https://github.com/suclogger" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
-      
+
+
+      </div>
 
     </div>
   </aside>
-  
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
-    <footer id="footer" class="footer">
+    <footer class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
-  <span class="with-love" id="animate">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Suclogger</span>
-
-  
-
-  
 </div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
-
-
-
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
   <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
-
-
-
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
 
         
 
@@ -1180,140 +640,50 @@
 
 
 
-        
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
   }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.0"></script>
-
-  <script src="/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/schemes/muse.js?v=7.1.0"></script>
-
-
-
-  
-
-  
-
-
-  <script src="/js/next-boot.js?v=7.1.0"></script>
-
-
-  
-
-  
-
-  
-
-  
-  
-  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

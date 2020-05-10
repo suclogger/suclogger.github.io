@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <link rel="mask-icon" href="/image/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://suclogger.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="有感于跟旁人提及越狱时的反应，先试着从一个普通消费者的视角谈谈iPhone越狱的What，How，Why。">
+<meta name="keywords" content="jailbreak">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iPhone越狱的What，How，Why【普通消费者篇】">
+<meta property="og:url" content="https://suclogger.me/jailbreak-for-consumer/index.html">
+<meta property="og:site_name" content="Suclogger">
+<meta property="og:description" content="有感于跟旁人提及越狱时的反应，先试着从一个普通消费者的视角谈谈iPhone越狱的What，How，Why。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://suclogger.me/image/20E389C320F42F88D9BA434042C0C2C7.png">
+<meta property="og:image" content="https://suclogger.me/image/CB1615F2FAC4FA33BD7F4B6370A8E108.png">
+<meta property="og:image" content="https://suclogger.me/image/1DAC508D5D83AE02DC16E941713EDEB4.png">
+<meta property="og:image" content="https://suclogger.me/image/18260EF25108DA0C51ED40FA71B72D1F.jpg">
+<meta property="og:image" content="https://suclogger.me/image/669C948E0D88E61398EB981A5DF37462.png">
+<meta property="og:image" content="https://suclogger.me/image/ED78BC64BAC04033A92A0FF0010B8F04.png">
+<meta property="og:updated_time" content="2019-12-13T12:43:42.912Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iPhone越狱的What，How，Why【普通消费者篇】">
+<meta name="twitter:description" content="有感于跟旁人提及越狱时的反应，先试着从一个普通消费者的视角谈谈iPhone越狱的What，How，Why。">
+<meta name="twitter:image" content="https://suclogger.me/image/20E389C320F42F88D9BA434042C0C2C7.png">
+
+<link rel="canonical" href="https://suclogger.me/jailbreak-for-consumer/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>iPhone越狱的What，How，Why【普通消费者篇】 | Suclogger</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Suclogger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">莆放</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/jailbreak-for-consumer/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          iPhone越狱的What，How，Why【普通消费者篇】
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2019-12-13 20:42:07 / Modified: 20:43:42" itemprop="dateCreated datePublished" datetime="2019-12-13T20:42:07+08:00">2019-12-13</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/jailbreak/" itemprop="url" rel="index">
+                    <span itemprop="name">jailbreak</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/jailbreak-for-consumer/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="jailbreak-for-consumer/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>有感于跟旁人提及越狱时的反应，先试着从一个普通消费者的视角谈谈iPhone越狱的What，How，Why。</p>
+<a id="more"></a>
+<p>有感于跟旁人提及越狱时的反应，先试着从一个普通消费者的视角谈谈iPhone越狱的What，How，Why。</p>
+<p><img src="/image/20E389C320F42F88D9BA434042C0C2C7.png" alt></p>
+<h2 id="WHAT"><a href="#WHAT" class="headerlink" title="WHAT"></a>WHAT</h2><p>越狱（Jailbreak）在iPhone（iPad）设备上，简单讲就是突破苹果的系统约束，获取系统最高权限，从而获得定制系统以的能力。</p>
+<p>用汽车改装打个比方，你买了一台汽车回家，后来看腻了汽车的轮毂颜色，你可以自己涂装，对汽车安装的音箱不满意，你可以自己换成Bose的，你的改装不需要经过汽车厂家的同意，因为你拥有这辆汽车。</p>
+<p><img src="/image/CB1615F2FAC4FA33BD7F4B6370A8E108.png" alt></p>
+<p>【这也是思域被号为神车的原因】</p>
+<p>但是在苹果系统上，你无法更换系统的主题/字体，无法自由安装非官方商店（AppStore）上架的应用，无法看到剩余电量的百分比等。</p>
+<p><img src="/image/1DAC508D5D83AE02DC16E941713EDEB4.png" alt></p>
+<p>在应用层面上也是，你安装了一个应用就得接受他的全部，你无法屏蔽应用的启动广告，无法将视频应用后台播放等。</p>
+<p><img src="/image/18260EF25108DA0C51ED40FA71B72D1F.jpg" alt></p>
+<p>越狱之后，你可以获得这些自由。</p>
+<h2 id="HOW"><a href="#HOW" class="headerlink" title="HOW"></a>HOW</h2><p>常常我们忍受某些痛苦，是因为我们假想要解决这些痛苦，需要付出加倍的痛苦。但是给你的iPhone手机越狱，如果你满足以下条件，则只需要5分钟时间，请看以下问题：</p>
+<ol>
+<li>手机型号是否早于（或包含）iPhone X 是 -> 满足，否 -> 问题 2</li>
+<li>系统版本是否早于 12.4.1 是 -> 满足，否 -> 不满足</li>
+</ol>
+<p><img src="/image/669C948E0D88E61398EB981A5DF37462.png" alt></p>
+<p>如果你得到的答案是满足而且你决定要花5分钟试试，请继续往下看。如果你的答案是不满足但是你仍然对越狱很感兴趣，请停留在你的当前系统版本不要升级，并关注这里的消息。</p>
+<p>注意：你需要一台电脑才能顺利进行下列步骤</p>
+<p>Mac电脑：<a href="https://checkra.in/" target="_blank" rel="noopener">https://checkra.in/</a></p>
+<p>Windows电脑：<a href="https://www.youtube.com/watch?v=aRmRqOOJO4k" target="_blank" rel="noopener">Checkra1n WINDOWS iOS 13 Jailbreak FULL TUTORIAL! (Ra1nStorm)</a></p>
+<p><img src="/image/ED78BC64BAC04033A92A0FF0010B8F04.png" alt></p>
+<p>通过以上步骤越狱之后，会多出两个应用，其中一个Cydia就是越狱插件市场（类似AppStore），你可以在其中随意挑选你需要的插件定制你的系统，也可以参考我的系列推荐文章。</p>
+<h2 id="WHY"><a href="#WHY" class="headerlink" title="WHY"></a>WHY</h2><p>消费者是否应当享有对已购买设备的全部自由？苹果与越狱社区长期以来的对峙早已经有了法律的答案：越狱享有DCMA的豁免权，即越狱是合乎法律的。</p>
+<p>苹果为什么不期望看到越狱的出现，因为越狱后的系统无法防御恶意软件对系统的损害和对用户信息的窃取。</p>
+<p>消费者为什么期望越狱，因为越狱能释放苹果系统的所有潜能，真正把所有权掌握在自己手里。</p>
+<p>希望你作为一个消费者能够通过越狱自由定制你想要的系统，同时，也不要通过越狱提供的能力侵害软件开发者的利益。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加入星球与我交流</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/image/alipay.png" alt="Suclogger WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/jailbreak/" rel="tag"># jailbreak</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/tweak-list-icontweak/" rel="prev" title="【插件推荐】IconTweak：定制应用的瑞士军刀">
+      <i class="fa fa-chevron-left"></i> 【插件推荐】IconTweak：定制应用的瑞士军刀
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/tweak-list-carbridge/" rel="next" title="【插件推荐】Carbridge：在车载大屏上使用任意iOS应用">
+      【插件推荐】Carbridge：在车载大屏上使用任意iOS应用 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#WHAT"><span class="nav-number">1.</span> <span class="nav-text">WHAT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HOW"><span class="nav-number">2.</span> <span class="nav-text">HOW</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WHY"><span class="nav-number">3.</span> <span class="nav-text">WHY</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Suclogger" src="/image/avatar.png">
+  <p class="site-author-name" itemprop="name">Suclogger</p>
+  <div class="site-description" itemprop="description">人生如逆旅，我亦是行人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suclogger" title="GitHub → https://github.com/suclogger" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "https://suclogger.me/jailbreak-for-consumer/",
+            identifier: "jailbreak-for-consumer/",
+            title: "iPhone越狱的What，How，Why【普通消费者篇】"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://suclogger.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    (function() {
+      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        var disqus_scroll = () => {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+          var scrollTop = window.scrollY;
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            window.removeEventListener('scroll', disqus_scroll);
+            loadComments();
+          }
+        };
+        window.addEventListener('scroll', disqus_scroll);
+      }
+    })();
+  
+</script>
+
+</body>
+</html>

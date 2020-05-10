@@ -1,102 +1,49 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <link rel="mask-icon" href="/image/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
-
-<link rel="stylesheet" href="/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    hostname: new URL('https://suclogger.me').hostname,
     root: '/',
     scheme: 'Muse',
-    version: '7.1.0',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: false,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
-
-
-  
-
-
-
 
   <meta name="description" content="人生如逆旅，我亦是行人">
 <meta property="og:type" content="website">
@@ -109,19 +56,17 @@
 <meta name="twitter:title" content="Suclogger">
 <meta name="twitter:description" content="人生如逆旅，我亦是行人">
 
+<link rel="canonical" href="https://suclogger.me/page/18/">
 
 
-
-
-  
-  
-  <link rel="canonical" href="https://suclogger.me/page/18/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: true,
+    isPost: false,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
@@ -133,15 +78,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -150,9 +88,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -166,292 +103,156 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left 
-  page-home">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
-    
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Suclogger</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
-      
-        <h1 class="site-subtitle" itemprop="description">莆放</h1>
-      
-    
-    
+        <p class="site-subtitle">莆放</p>
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
   </div>
 </div>
-
 
 
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-
-    
-
-    <a href="/" rel="section">Home</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-
-    
-
-    <a href="/archives/" rel="section">Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-
-    
-
-    <a href="/categories" rel="section">Categories</a>
+    <a href="/categories" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-
-    
-
-    <a href="/tags" rel="section">Tags</a>
+    <a href="/tags" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-
-    
-
-    <a href="/about" rel="section">About</a>
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-sitemap">
+        <li class="menu-item menu-item-sitemap">
 
-    
-    
-    
-
-    
-
-    <a href="/sitemap.xml" rel="section">Sitemap</a>
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content">
             
-  <section id="posts" class="posts-expand">
-    
-      
 
-  
-
-  
-  
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  <div class="posts-expand">
+        
   
   
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/《人皮论语》有感/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/《悟空传》有感/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
       <meta itemprop="name" content="Suclogger">
       <meta itemprop="description" content="人生如逆旅，我亦是行人">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Suclogger">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/《人皮论语》有感/" class="post-title-link" itemprop="url">《人皮论语》有感</a>
-              
-            
-          </h2>
-        
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/《悟空传》有感/" class="post-title-link" itemprop="url">《悟空传》有感</a>
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
+              <span class="post-meta-item-text">Posted on</span>
 
-              
-                
-              
-
-              <time title="Created: 2016-04-24 00:27:03" itemprop="dateCreated datePublished" datetime="2016-04-24T00:27:03+08:00">2016-04-24</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
+              <time title="Created: 2016-06-20 01:04:12" itemprop="dateCreated datePublished" datetime="2016-06-20T01:04:12+08:00">2016-06-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-08-25 10:14:23" itemprop="dateModified" datetime="2016-08-25T10:14:23+08:00">2016-08-25</time>
+              </span>
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/reading/" itemprop="url" rel="index"><span itemprop="name">读书</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/reading/" itemprop="url" rel="index">
+                    <span itemprop="name">读书</span>
+                  </a>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/《人皮论语》有感/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="《人皮论语》有感/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/《悟空传》有感/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="《悟空传》有感/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -459,186 +260,102 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        
-          
-            <!-- abstract -->
+          <!-- abstract -->
 <!-- 开始正文 -->
-<p>如同作者的写作手记所述：</p>
+<p>很久没有被一本书的序言打动了。</p>
 <blockquote>
-<p>..</p>
-<p>（4）权本位是这个民族悲剧不断循环的宿命之根，但很多人将矛头指向儒家，心中始终愤愤不平。 　　</p>
-<p>（5）中国历史命运的转折是从汉武帝独尊儒术开始。儒学和中国文化从此定型，两千年延续不断。</p>
-<p>..</p>
+<p>西游就是一场被精心安排成自杀的谋杀。</p>
 </blockquote>
-<p>这本书大有为儒学鸣不平之意。</p>
-<p>回望高中的时候，语文老师强迫我们背下通篇《论语》，我背下之后，就在早读课上记诵 老、庄。当时仅仅是下意识的更喜欢老、庄，很大程度跟自己的性格有关：不喜与人争。</p>
-<p>这本书将命题上升到民族的高度，把儒学放在一个特定的时间点：汉武帝独尊儒术 上来打量，试图得到这样一个结论，儒学并不是权本位的根源，恰恰相反，<strong>儒学也是权本位的牺牲品</strong>，从真正的圣人之言，成为了当权者操纵思想的工具。</p>
+<p>书中的每一个人都失败了。无敌的孙悟空杀死了自己。哪咤也选择了自杀。金蝉子堕入了虚空。<br>最终他们都是败给了神，逃不过自己的宿命。</p>
+<p>正如作者序言中所说的，每个人都在奔向自己的宿命，每个人都无法挣脱。<br>西游中宿命的终点是成佛，成佛意味着放弃一切。<br>现实中宿命的终点是死亡。</p>
+<p>但是他们都失败的轰轰烈烈。</p>
 <blockquote>
-<p>君子谋道不谋食。耕也，馁在其中矣；学也，禄在 其中矣。</p>
+<p>我要让这天，再遮不住我的眼，要这地，再埋不了我心，要这众生，都明白我的意，要那诸佛，都烟消云散。</p>
 </blockquote>
-<p>出自论语中的这类词句在本书中是被当权者强加到论语中的，并非出自孔子。当权者通过篡改论语达到了操纵思想的目的。</p>
-<p>同样的，本书中通过同一时期司马迁和他所著《史记》的命运也印证了这一点。</p>
-<p>且不管作者有关儒学的申辩，<code>这里本来有一句话,但是最终还是没敢写出来，俗称，自我审查，自我和谐</code>。</p>
+<p>孙悟空终会失败，但是整个神界会记住这个名字一万年，为这个名字战栗。</p>
+<p>每个人都有自己的一条西游路，我们都在向西走，无法选择，无法回头。能做的，就是在这条路上尽量走的精彩一些，等到走到尽头的时候，能做到无愧于心。</p>
 
-          
-        
       
     </div>
 
     
-
     
     
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
+      </footer>
   </article>
-
-
-    
-      
-
-  
-
   
   
   
 
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+        
   
   
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/solr上手指南/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/Elasticsearch中文社区20160618杭州线下聚会纪要/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
       <meta itemprop="name" content="Suclogger">
       <meta itemprop="description" content="人生如逆旅，我亦是行人">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Suclogger">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/solr上手指南/" class="post-title-link" itemprop="url">solr上手指南</a>
-              
-            
-          </h2>
-        
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/Elasticsearch中文社区20160618杭州线下聚会纪要/" class="post-title-link" itemprop="url">Elasticsearch中文社区20160618杭州线下聚会纪要</a>
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
+              <span class="post-meta-item-text">Posted on</span>
 
-              
-                
-              
-
-              <time title="Created: 2016-04-23 22:10:59" itemprop="dateCreated datePublished" datetime="2016-04-23T22:10:59+08:00">2016-04-23</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
+              <time title="Created: 2016-06-18 22:56:21" itemprop="dateCreated datePublished" datetime="2016-06-18T22:56:21+08:00">2016-06-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-06-26 17:26:30" itemprop="dateModified" datetime="2016-06-26T17:26:30+08:00">2016-06-26</time>
+              </span>
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/搜索/" itemprop="url" rel="index"><span itemprop="name">搜索</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/搜索/" itemprop="url" rel="index">
+                    <span itemprop="name">搜索</span>
+                  </a>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/solr上手指南/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="solr上手指南/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/Elasticsearch中文社区20160618杭州线下聚会纪要/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="Elasticsearch中文社区20160618杭州线下聚会纪要/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -646,193 +363,108 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
-        
-          
-            <ol>
-<li><p>通过homebrew安装solr:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install solr</span><br></pre></td></tr></table></figure>
-<p>安装在<code>/usr/local/Cellar/solr/</code>下对应版本号的目录</p>
-</li>
-<li><p>启动solr cloud:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">solr start -e cloud -noprompt</span><br></pre></td></tr></table></figure>
-<p><del>或者solr单个节点:</del></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">solr start</span><br></pre></td></tr></table></figure>
-<p>启动后通过访问:<a href="http://localhost:8983/solr/#/~cloud" target="_blank" rel="noopener">http://localhost:8983/solr/#/~cloud</a> 可以看到系统拓扑图:<br><img src="/image/B30F4FC6D27D77B47CEF0E3E8241C4E4.jpg" alt="2016-04-12 at 下午9.20.jpg"></p>
-</li>
-<li><p>导入数据<br>3.1 导入富文本文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post -c gettingstarted /usr/local/Cellar/solr/5.5.0/libexec/docs/</span><br></pre></td></tr></table></figure>
-<p>以上命令将导入solr目录下的示例数据文件夹包含的富文本文件.<br>导入之后,就可以通过访问solr的搜索界面:<a href="http://localhost:8983/solr/#/gettingstarted_shard1_replica2/query" target="_blank" rel="noopener">http://localhost:8983/solr/#/gettingstarted_shard1_replica2/query</a> 进行搜索:<br><img src="/image/62A148F2E36F570A76B83CF1E9AA8998.jpg" alt="2016-04-12 at 下午9.34.jpg"><br>3.2 通过solr xml格式文件导入数据<br>solr xml文件的定义参见:<a href="https://cwiki.apache.org/confluence/display/solr/Uploading+Data+with+Index+Handlers#UploadingDatawithIndexHandlers-XMLFormattedIndexUpdates" target="_blank" rel="noopener">apache wiki</a><br>导入示例文件命令为:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post -c gettingstarted example/exampledocs/*.xml</span><br></pre></td></tr></table></figure>
-<p>通过访问:<a href="http://localhost:8983/solr/gettingstarted/browse" target="_blank" rel="noopener">http://localhost:8983/solr/gettingstarted/browse</a> 可以看到当前已导入的文件列表,同样可以通过搜索界面进行搜索.<br>3.3 通过json格式文件导入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post -c gettingstarted example/exampledocs/books.json</span><br></pre></td></tr></table></figure>
-<p>3.4 通过csv格式文件导入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">post -c gettingstarted example/exampledocs/books.csv</span><br></pre></td></tr></table></figure>
-<p>3.5 其他导入方式<br>通过DIH从数据库导入,使用SolrJ插件通过java等基于jvm的代码导入,使用Admin UI …</p>
-</li>
-<li>通过关键词进行搜索<br>4.1 单个条件搜索<br>通过替换搜索界面中q的默认值:<code>*:*</code>为’foudation’或者访问地址:<a href="http://localhost:8983/solr/gettingstarted/select?wt=json&amp;indent=true&amp;q=foundation" target="_blank" rel="noopener">http://localhost:8983/solr/gettingstarted/select?wt=json&amp;indent=true&amp;q=foundation</a> 可以得到搜索结果.<br><strong>访问搜索界面需要执行sharding,但是请求搜索结果可以忽略</strong><br>可以看到返回的结果几乎包含了所有的记录,因为刚才的搜索包含了所有的字段,通过将q设置为<code>name:foudation</code>可以仅仅搜索<code>name</code>属性中中包含foudation的记录,同理可以试试q设置为<code>cat:software</code>搜索cat属性中包含software的记录.<br>4.2 词组搜索<br>例如需要搜索<code>CAS latency</code>,在搜索界面中可以直接录入<code>CAS latency</code>,但是如果通过url,需要将空格替换为<code>+</code>.<br><img src="/image/64ACBB392AD1C988DBDBBE74381E0896.jpg" alt="2016-04-12 at 下午10.17.jpg"><br>4.3 组合搜索条件<br>需要条件出现使用<code>+</code>,需要条件不出现使用<code>-</code><br>例如:<a href="http://localhost:8983/solr/gettingstarted/select?wt=json&amp;indent=true&amp;q=%2Bone+%2Bthree" target="_blank" rel="noopener">http://localhost:8983/solr/gettingstarted/select?wt=json&amp;indent=true&amp;q=%2Bone+%2Bthree</a> 这个链接搜索包含one但是不包含three的记录<br>4.4 更多<br>访问<a href="https://cwiki.apache.org/confluence/display/solr/Searching" target="_blank" rel="noopener">apache wiki</a>获取更多有关搜索的细节.</li>
-<li>清理<br>到现在我们已经大致接触了solr,要将solr恢复到初始状态,执行以下命令:<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/solr stop -all ; rm -Rf example/cloud/</span><br></pre></td></tr></table></figure>
-</li>
+          <!-- abstract -->
+<!-- 开始正文 -->
+<h2 id="汪兴－Elasticsearch结合hbase的应用"><a href="#汪兴－Elasticsearch结合hbase的应用" class="headerlink" title="汪兴－Elasticsearch结合hbase的应用"></a>汪兴－Elasticsearch结合hbase的应用</h2><p>介绍中使用的存储介质是HBase，我司目前还未达到迁移到NoSQL的数据量级，而且后面的分享中大都采用hadoop（hive，spark）作为mysql数据的全量备份，目前看来参考的价值不大。<br>不过后面也有一些具有参考意义的，比如提到的可以将若干条件作为一组进行分组条件逻辑查询，还涉及到备份方式的讨论，脑裂问题的解决。</p>
+<h2 id="万斌－ElasticSearch在gooagoo的实践"><a href="#万斌－ElasticSearch在gooagoo的实践" class="headerlink" title="万斌－ElasticSearch在gooagoo的实践"></a>万斌－ElasticSearch在gooagoo的实践</h2><p>算是对于搜索的另一个方面的应用：数据统计，将传统BI的工作用elasticsearch来实现。<br>提到了Sense插件，可以自动补全查询的json。<br>提到了terms  Aggregation无法精确统计的问题。</p>
+<h2 id="曾勇－Introduction-to-Beats-and-extending"><a href="#曾勇－Introduction-to-Beats-and-extending" class="headerlink" title="曾勇－Introduction to Beats and extending"></a>曾勇－Introduction to Beats and extending</h2><p>作为中文鼎鼎大名IK分词器的作者，medcl给我们带来了一个新的产品线Beats系列，是将来能很大程度取代logstash的一个产品，大部分还在开发验证阶段。</p>
+<h2 id="洪斌－有赞搜索引擎实践"><a href="#洪斌－有赞搜索引擎实践" class="headerlink" title="洪斌－有赞搜索引擎实践"></a>洪斌－有赞搜索引擎实践</h2><p>是今天干货最多的一个topic了，虽然在量级上不如淘宝，但是设计中需要考虑到的方面基本覆盖到了。<br>印象很深的地方就是很大程度依赖hadoop来全量备份线上数据和进行索引构建。</p>
+<ol>
+<li>通过监控mysql的binlog，产生消息到kafka，消费消息实时将mysql的事务同步到搜索中。<img src="/image/2016-06-19 00-25-41.jpg" alt></li>
+<li>商用搜索引擎的AdvancedSearch的概念，将反向代理和通用算法层抽离出来。</li>
+<li>提到了评分体系的静态分和动态分的概念，静态分需要稳定和线性，动态分体现搜索的相关度。</li>
+<li>商品去重的问题，使用spark进行矢量相似度计算，在搜索时有限搜索去重之后的主库，只在出现召回等情况时搜索辅库。<img src="/image/2016-06-19 00-24-10.jpg" alt></li>
+<li>店铺去重的问题，通过分bucket的方式，在匹配度高的店铺和匹配度低的店铺中做了折衷。<img src="/image/2016-06-19 00-22-44.jpg" alt></li>
+<li>Query分析，通过分析搜索日志和购买日志画出query转化图，进行后续的同义词扩展，核心词提取和智能纠错方面的应用。</li>
+<li>将搜索输入的关键字转化为不同权重的同义词输入es查询。<img src="/image/2016-06-19 00-21-16.jpg" alt></li>
+<li>使用rolling技术替代性能很差的分页操作。</li>
+<li>优先采用filtered_query。</li>
+<li>使用用bulk。 </li>
 </ol>
+<h2 id="宁海元－基于ELK的云日志产品实践"><a href="#宁海元－基于ELK的云日志产品实践" class="headerlink" title="宁海元－基于ELK的云日志产品实践"></a>宁海元－基于ELK的云日志产品实践</h2><p>主要介绍ELK的日志实现，技术细节不多。</p>
+<h2 id="卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案"><a href="#卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案" class="headerlink" title="卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案"></a>卢栋－elasticsearch-jdbc介绍及基于binlog的增量同步方案</h2><p>算是最贴近我司现有起步阶段的topic，介绍了elasticsearch-jdbc的使用。<br>提到了elasticsearch-jdbc使用中的一些痛点，如定时轮询的操作会影响mysql的性能，多数据源配置比较麻烦和sql的增量控制的时间条件不准确，从而提出了通过监听binlog来实现实时同步的方案简单有效，很受启发。<br><img src="/image/2016-06-19 00-31-14.jpg" alt><br>还提到了通过alias不停机迁移来做定时的全量，也很受启发。</p>
 
-          
-        
       
     </div>
 
     
-
     
     
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
+      </footer>
   </article>
-
-
-    
-      
-
-  
-
   
   
   
 
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+        
   
   
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://suclogger.me/项目添加CXF的WebService支持/">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block home" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/elasticsearch上手指南/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
       <meta itemprop="name" content="Suclogger">
       <meta itemprop="description" content="人生如逆旅，我亦是行人">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Suclogger">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">
-                
-                
-                <a href="/项目添加CXF的WebService支持/" class="post-title-link" itemprop="url">项目添加CXF的WebService支持</a>
-              
-            
-          </h2>
-        
+        <h1 class="post-title" itemprop="name headline">
+          
+            <a href="/elasticsearch上手指南/" class="post-title-link" itemprop="url">elasticsearch上手指南</a>
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
+              <span class="post-meta-item-text">Posted on</span>
 
-              
-                
-              
-
-              <time title="Created: 2016-03-01 18:10:59" itemprop="dateCreated datePublished" datetime="2016-03-01T18:10:59+08:00">2016-03-01</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
+              <time title="Created: 2016-06-10 19:09:26" itemprop="dateCreated datePublished" datetime="2016-06-10T19:09:26+08:00">2016-06-10</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-07-28 01:34:21" itemprop="dateModified" datetime="2016-07-28T01:34:21+08:00">2016-07-28</time>
+              </span>
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/programming/" itemprop="url" rel="index"><span itemprop="name">编程</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/搜索/" itemprop="url" rel="index">
+                    <span itemprop="name">搜索</span>
+                  </a>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/项目添加CXF的WebService支持/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="项目添加CXF的WebService支持/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/elasticsearch上手指南/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="elasticsearch上手指南/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
@@ -840,76 +472,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
+          <!-- abstract -->
+<!-- 开始正文 -->
+<h2 id="CentOS上安装elasticsearch"><a href="#CentOS上安装elasticsearch" class="headerlink" title="CentOS上安装elasticsearch"></a>CentOS上安装elasticsearch</h2><p>首先需要JAVA环境，这里不再详述。<br>在<a href="https://www.elastic.co/downloads/elasticsearch" target="_blank" rel="noopener">官网下载页面</a>找到RMP包的下载路径，通过wget命令下载安装包到本地：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/rpm/elasticsearch/2.3.3/elasticsearch-2.3.3.rpm</span><br></pre></td></tr></table></figure></p>
+<p>执行安装<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rpm -ivh elasticsearch-2.3.3.rpm</span><br></pre></td></tr></table></figure></p>
+<p>默认安装到<code>/usr/share/elasticsearch/</code>，配置文件在<code>/etc/elasticsearch</code>，init脚本在<code>/etc/init.d/elasticsearch</code>。<br>添加为服务：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl enable elasticsearch.service</span><br></pre></td></tr></table></figure></p>
+<p>启动：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo /etc/init.d/elasticsearch start</span><br></pre></td></tr></table></figure></p>
+<p>查看：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://localhost:9200</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建一个文稿"><a href="#创建一个文稿" class="headerlink" title="创建一个文稿"></a>创建一个文稿</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &apos;localhost:9200/get-together/group/1?pretty&apos; -d &apos;&#123; &quot;name&quot;: &quot;Elasticsearch Denver&quot;, &quot;organizer&quot;: &quot;Lee&quot; &#125;&apos;</span><br></pre></td></tr></table></figure>
+<p>可以看到返回信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;_index&quot; : &quot;get-together&quot;,</span><br><span class="line">  &quot;_type&quot; : &quot;group&quot;,</span><br><span class="line">  &quot;_id&quot; : &quot;1&quot;,</span><br><span class="line">  &quot;_version&quot; : 1,</span><br><span class="line">  &quot;_shards&quot; : &#123;</span><br><span class="line">    &quot;total&quot; : 2,</span><br><span class="line">    &quot;successful&quot; : 1,</span><br><span class="line">    &quot;failed&quot; : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;created&quot; : true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Elasticsearch自动添加了<code>get-together</code>索引，并创建了一个到类型<code>group</code>的映射。<br>当然你也可以手动创建一个索引：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -XPUT &apos;localhost:9200/new-index&apos;</span><br></pre></td></tr></table></figure></p>
+<p>Elasticsearch自动将<code>name</code>和<code>organizer</code>检测为<code>string</code>类型，如果你又添加了一个文稿，包含除了<code>name</code>和 <code>organizer</code>的其他字段，Elasticsearch也会自动检测它的类型并添加到映射。<br>可以查看这个映射的详细信息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">curl &apos;localhost:9200/get-together/_mapping/group?pretty</span><br><span class="line">&#123;</span><br><span class="line">  &quot;get-together&quot; : &#123;</span><br><span class="line">    &quot;mappings&quot; : &#123;</span><br><span class="line">      &quot;group&quot; : &#123;</span><br><span class="line">        &quot;properties&quot; : &#123;</span><br><span class="line">          &quot;name&quot; : &#123;</span><br><span class="line">            &quot;type&quot; : &quot;string&quot;</span><br><span class="line">          &#125;,</span><br><span class="line">          &quot;organizer&quot; : &#123;</span><br><span class="line">            &quot;type&quot; : &quot;string&quot;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="开始搜索"><a href="#开始搜索" class="headerlink" title="开始搜索"></a>开始搜索</h2><p>添加一些示例文稿：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:suclogger/elasticsearch-in-action.git</span><br><span class="line">sh elasticsearch-in-action/populate.sh</span><br></pre></td></tr></table></figure></p>
+<p>这个脚本会重建我们之前创建的<code>get-together</code>索引。<br>一个简单的搜索：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl &quot;localhost:9200/get-together/group/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</span><br></pre></td></tr></table></figure></p>
+<p>curl请求的链接中，<code>get-together/group</code>指定了范围：<code>get-together</code>索引下的<code>group</code>类型。<br>常见的关键词格式是：<code>q=name:elasticsearch</code>，这里没有指定group下的某个参数，elasticsearch会默认指定为<code>q=_all:elasticsearch</code>来搜索所有参数字段。<br>也可以通过<code>,</code>分隔来同时搜索多个类型，如：<code>curl &quot;localhost:9200/get-together/group,event/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</code>，或者完全忽略类型部分来搜索所有类型：<code>curl &quot;localhost:9200/get-together/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</code>。<br>类似的，也可以通过<code>,</code>分隔来同时搜索多个索引，如：<code>curl &quot;localhost:9200/get-together,other-index/_search\ ?q=elasticsearch&amp;pretty&quot;</code>，当然这个请求会失败，因为我们还没创建<code>other-index</code>索引。也可以指定<code>_all</code>来搜索所有索引。<br>返回的结果中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;took&quot; : 5,</span><br><span class="line">  &quot;timed_out&quot; : false,</span><br><span class="line">  &quot;_shards&quot; : &#123;</span><br><span class="line">    &quot;total&quot; : 2,</span><br><span class="line">    &quot;successful&quot; : 2,</span><br><span class="line">    &quot;failed&quot; : 0</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;hits&quot; : &#123;</span><br><span class="line">    &quot;total&quot; : 2,</span><br><span class="line">    &quot;max_score&quot; : 0.83339834,</span><br><span class="line">    &quot;hits&quot; : [ &#123;</span><br><span class="line">      &quot;_index&quot; : &quot;get-together&quot;,</span><br><span class="line">      &quot;_type&quot; : &quot;group&quot;,</span><br><span class="line">      &quot;_id&quot; : &quot;2&quot;,</span><br><span class="line">      &quot;_score&quot; : 0.83339834,</span><br><span class="line">      &quot;fields&quot; : &#123;</span><br><span class="line">        &quot;name&quot; : [ &quot;Elasticsearch Denver&quot; ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>took</code>表示查询耗时5ms，<code>timed_out</code>为false表示查询未超时（默认下查询永远不会超时，可以在curl链接后附带<code>&amp;timeout=3s</code>来指定超时时间为3s）</p>
 
-      
-        
-          
-            <ul>
-<li><p>在<code>web.xml</code>文件中添加：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置Context --&gt;</span><br><span class="line">&lt;context-param&gt;</span><br><span class="line">&lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;</span><br><span class="line">&lt;param-value&gt;classpath:conf/spring-cxf-core.xml&lt;/param-value&gt;</span><br><span class="line">&lt;/context-param&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>在<code>web.xml</code>文件中添加：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 配置CXFServlet --&gt;</span><br><span class="line">&lt;servlet&gt;</span><br><span class="line">&lt;servlet-name&gt;CXFServlet&lt;/servlet-name&gt;</span><br><span class="line">&lt;servlet-<span class="class"><span class="keyword">class</span>&gt;<span class="title">org</span>.<span class="title">apache</span>.<span class="title">cxf</span>.<span class="title">transport</span>.<span class="title">servlet</span>.<span class="title">CXFServlet</span>&lt;/<span class="title">servlet</span>-<span class="title">class</span>&gt;</span></span><br><span class="line"><span class="class">&lt;<span class="title">load</span>-<span class="title">on</span>-<span class="title">startup</span>&gt;4&lt;/<span class="title">load</span>-<span class="title">on</span>-<span class="title">startup</span>&gt;</span></span><br><span class="line"><span class="class">&lt;/<span class="title">servlet</span>&gt;</span></span><br><span class="line"><span class="class">&lt;<span class="title">servlet</span>-<span class="title">mapping</span>&gt;</span></span><br><span class="line"><span class="class">&lt;<span class="title">servlet</span>-<span class="title">name</span>&gt;<span class="title">CXFServlet</span>&lt;/<span class="title">servlet</span>-<span class="title">name</span>&gt;</span></span><br><span class="line"><span class="class">&lt;<span class="title">url</span>-<span class="title">pattern</span>&gt;/<span class="title">ws</span>/*&lt;/<span class="title">url</span>-<span class="title">pattern</span>&gt;</span></span><br><span class="line"><span class="class">&lt;/<span class="title">servlet</span>-<span class="title">mapping</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-<li><p>添加<code>spring-cxd-core.xml</code>配置文件：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span> ?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">"http://www.springframework.org/schema/beans"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span></span><br><span class="line">xsi:schemaLocation=<span class="string">"http://www.springframework.org/schema/beans</span></span><br><span class="line"><span class="string">     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"</span> <span class="keyword">default</span>-autowire=<span class="string">"byName"</span>&gt;</span><br><span class="line">&lt;!-- 导入CXF核心配置 --&gt;</span><br><span class="line">&lt;<span class="keyword">import</span> resource=<span class="string">"classpath:META-INF/cxf/cxf.xml"</span> /&gt;</span><br><span class="line">&lt;<span class="keyword">import</span> resource=<span class="string">"classpath:META-INF/cxf/cxf-servlet.xml"</span> /&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加<code>spring-cxf-jaxrs.xml</code>配置文件</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=<span class="string">"1.0"</span> encoding=<span class="string">"UTF-8"</span> ?&gt;</span><br><span class="line">&lt;beans xmlns=<span class="string">"http://www.springframework.org/schema/beans"</span> xmlns:xsi=<span class="string">"http://www.w3.org/2001/XMLSchema-instance"</span> xmlns:jaxrs=<span class="string">"http://cxf.apache.org/jaxrs"</span></span><br><span class="line">xsi:schemaLocation=<span class="string">"http://www.springframework.org/schema/beans</span></span><br><span class="line"><span class="string">     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd</span></span><br><span class="line"><span class="string">     http://cxf.apache.org/jaxrs</span></span><br><span class="line"><span class="string">     http://cxf.apache.org/schemas/jaxrs.xsd"</span></span><br><span class="line"><span class="keyword">default</span>-autowire=<span class="string">"byName"</span>&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- JSON相关配置 --&gt;</span><br><span class="line">&lt;bean id=<span class="string">"jsonProvider"</span> <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.wondersgroup.core.util.ext.JsonProvider"</span>&gt;</span><br><span class="line">&lt;property name=<span class="string">"dateFormat"</span> value=<span class="string">"yyyy-MM-dd"</span> /&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 使用JAX-RS发布RESTful服务 --&gt;</span><br><span class="line">&lt;!-- </span><br><span class="line">&lt;jaxrs:server address=<span class="string">"/data"</span>&gt;</span><br><span class="line">&lt;jaxrs:serviceBeans&gt;</span><br><span class="line">&lt;bean <span class="class"><span class="keyword">class</span></span>=<span class="string">"com.wondersgroup.notice.webservice.NoticeWebService"</span> /&gt;</span><br><span class="line">&lt;/jaxrs:serviceBeans&gt;</span><br><span class="line">&lt;jaxrs:providers&gt;</span><br><span class="line">&lt;ref bean=<span class="string">"jsonProvider"</span> /&gt;</span><br><span class="line">&lt;/jaxrs:providers&gt;</span><br><span class="line">&lt;/jaxrs:server&gt;</span><br><span class="line">--&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>添加4个jar包：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span>.cxf-core-<span class="number">3.0</span>.1.jar</span><br><span class="line"><span class="number">2</span>.cxf-rt-frontend-jaxrs-<span class="number">3.0</span>.1.jar</span><br><span class="line"><span class="number">3</span>.cxf-rt-rs-service-description-<span class="number">3.0</span>.1.jar</span><br><span class="line"><span class="number">4</span>.cxf-rt-transports-http-<span class="number">3.0</span>.1.jar</span><br></pre></td></tr></table></figure>
-<p>​</p>
-</li>
-</ul>
-
-          
-        
       
     </div>
 
     
-
     
     
-    
-
-    
-
-    
-      
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
+      </footer>
   </article>
+  
+  
+  
 
-
-    
-  </section>
+  </div>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span>
+    <a class="extend prev" rel="prev" href="/page/17/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><span class="page-number current">18</span><a class="page-number" href="/page/19/">19</a><span class="space">&hellip;</span><a class="page-number" href="/page/22/">22</a><a class="extend next" rel="next" href="/page/19/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -918,239 +515,96 @@
           
 
         </div>
-        
           
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-inner">
 
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
 
-      
-
-      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Suclogger</p>
-              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">54</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                      <a href="/categories">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">7</span>
-                    <span class="site-state-item-name">categories</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">34</span>
-                    <span class="site-state-item-name">tags</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
       </div>
+      <!--/noindex-->
 
-      
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Suclogger" src="/image/avatar.png">
+  <p class="site-author-name" itemprop="name">Suclogger</p>
+  <div class="site-description" itemprop="description">人生如逆旅，我亦是行人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suclogger" title="GitHub → https://github.com/suclogger" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
-      
+
+
+      </div>
 
     </div>
   </aside>
-  
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
-    <footer id="footer" class="footer">
+    <footer class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
-  <span class="with-love" id="animate">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">Suclogger</span>
-
-  
-
-  
 </div>
-
-
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
-
-
-
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
   <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
-
-
-
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
 
         
 
@@ -1161,140 +615,50 @@
 
 
 
-        
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
   }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
 </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.0"></script>
-
-  <script src="/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/schemes/muse.js?v=7.1.0"></script>
-
-
-
-  
-
-  
-
-
-  <script src="/js/next-boot.js?v=7.1.0"></script>
-
-
-  
-
-  
-
-  
-
-  
-  
-  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
-
-
-
-
-
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>

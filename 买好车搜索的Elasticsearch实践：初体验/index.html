@@ -1,102 +1,49 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next muse use-motion" lang="zh-Hans">
-<head><meta name="generator" content="Hexo 3.8.0">
+<html lang="zh-Hans">
+<head>
   <meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <link rel="mask-icon" href="/image/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.6.2/css/font-awesome.min.css">
-
-<link rel="stylesheet" href="/css/main.css?v=7.1.0">
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=7.1.0">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=7.1.0">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=7.1.0">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=7.1.0" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
+    hostname: new URL('https://suclogger.me').hostname,
     root: '/',
     scheme: 'Muse',
-    version: '7.1.0',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: false,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
   };
 </script>
-
-
-  
-
-
-
 
   <meta name="description" content="回顾历史直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点收费索引自创建完成就开始计费，就算或者没有新数据需要进入索引，依然在被收费。 重建索引的速度非常慢1W条记录，每条记录5个20字符以内字段，重建一次索引需要半个小时。 黑盒，不可见，不可控分词的不可控分词是搜索中最重要的一个环节，在索引创建和搜索关键词的产生">
 <meta name="keywords" content="elasticsearch">
@@ -141,19 +88,17 @@
 <meta name="twitter:description" content="回顾历史直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点收费索引自创建完成就开始计费，就算或者没有新数据需要进入索引，依然在被收费。 重建索引的速度非常慢1W条记录，每条记录5个20字符以内字段，重建一次索引需要半个小时。 黑盒，不可见，不可控分词的不可控分词是搜索中最重要的一个环节，在索引创建和搜索关键词的产生">
 <meta name="twitter:image" content="https://suclogger.me/image/8df3e6e2de2fb132c165498fb4f87ee8.png?r=27">
 
+<link rel="canonical" href="https://suclogger.me/买好车搜索的Elasticsearch实践：初体验/">
 
 
-
-
-  
-  
-  <link rel="canonical" href="https://suclogger.me/买好车搜索的Elasticsearch实践：初体验/">
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
@@ -165,15 +110,8 @@
 
 
 
-
-
-
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -182,9 +120,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -198,297 +135,160 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
-    
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">Suclogger</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
-      
-        <h1 class="site-subtitle" itemprop="description">莆放</h1>
-      
-    
-    
+        <p class="site-subtitle">莆放</p>
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="Toggle navigation bar">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
   </div>
 </div>
-
 
 
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-
-    
-
-    <a href="/" rel="section">Home</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-
-    
-
-    <a href="/archives/" rel="section">Archives</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-
-    
-
-    <a href="/categories" rel="section">Categories</a>
+    <a href="/categories" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-
-    
-
-    <a href="/tags" rel="section">Tags</a>
+    <a href="/tags" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-about">
+        <li class="menu-item menu-item-about">
 
-    
-    
-    
-
-    
-
-    <a href="/about" rel="section">About</a>
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-sitemap">
+        <li class="menu-item menu-item-sitemap">
 
-    
-    
-    
-
-    
-
-    <a href="/sitemap.xml" rel="section">Sitemap</a>
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-
+  <div class="posts-expand">
+      
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
     <link itemprop="mainEntityOfPage" href="https://suclogger.me/买好车搜索的Elasticsearch实践：初体验/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
       <meta itemprop="name" content="Suclogger">
       <meta itemprop="description" content="人生如逆旅，我亦是行人">
-      <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
       <meta itemprop="name" content="Suclogger">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h2 class="post-title" itemprop="name headline">买好车搜索的Elasticsearch实践：初体验
-
-              
-            
-          </h2>
-        
+        <h1 class="post-title" itemprop="name headline">
+          买好车搜索的Elasticsearch实践：初体验
+        </h1>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">Posted on</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">Posted on</span>
 
               <time title="Created: 2016-06-23 23:45:33" itemprop="dateCreated datePublished" datetime="2016-06-23T23:45:33+08:00">2016-06-23</time>
-            
-
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2016-06-27 16:07:19" itemprop="dateModified" datetime="2016-06-27T16:07:19+08:00">2016-06-27</time>
+              </span>
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/搜索/" itemprop="url" rel="index"><span itemprop="name">搜索</span></a></span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-            
-              
-              <span class="post-comments-count">
-                <span class="post-meta-divider">|</span>
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-comment-o"></i>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/搜索/" itemprop="url" rel="index">
+                    <span itemprop="name">搜索</span>
+                  </a>
                 </span>
-            
-                <span class="post-meta-item-text">Comments: </span>
-                <a href="/买好车搜索的Elasticsearch实践：初体验/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count disqus-comment-count" data-disqus-identifier="买好车搜索的Elasticsearch实践：初体验/" itemprop="commentCount"></span>
-                </a>
-              </span>
-            
-          
+            </span>
 
           
-          
-
-          
-
-          
-
-          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/买好车搜索的Elasticsearch实践：初体验/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="买好车搜索的Elasticsearch实践：初体验/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
 
         </div>
       </header>
-    
 
     
     
     
     <div class="post-body" itemprop="articleBody">
-
-      
-      
 
       
         <!-- abstract -->
@@ -591,346 +391,158 @@
 <h2 id="备份和恢复"><a href="#备份和恢复" class="headerlink" title="备份和恢复"></a>备份和恢复</h2><p>nas</p>
 <h2 id="数据分析"><a href="#数据分析" class="headerlink" title="数据分析"></a>数据分析</h2><p>hadoop，spark，hive，Hbase</p>
 
-      
     </div>
 
     
-
     
     
-    
-
-    
-
-    
+        <div class="reward-container">
+  <div>加入星球与我交流</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
       
-    
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/《悟空传》有感/" rel="next" title="《悟空传》有感">
-                <i class="fa fa-chevron-left"></i> 《悟空传》有感
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/spring解决循环依赖/" rel="prev" title="谈谈spring中的循环依赖问题">
-                谈谈spring中的循环依赖问题 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-  </div>
-
-
-          </div>
-          
-
-  
-    <div class="comments" id="comments">
-      <div id="disqus_thread">
-        <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
-      </div>
-    </div>
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
-    <div class="sidebar-inner">
-
-      
-
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
-
-      <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Suclogger</p>
-              <div class="site-description motion-element" itemprop="description">人生如逆旅，我亦是行人</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">54</span>
-                    <span class="site-state-item-name">posts</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                      <a href="/categories">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">7</span>
-                    <span class="site-state-item-name">categories</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">34</span>
-                    <span class="site-state-item-name">tags</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+      <div style="display: inline-block;">
+        <img src="/image/alipay.png" alt="Suclogger WeChat Pay">
+        <p>WeChat Pay</p>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾历史"><span class="nav-number">1.</span> <span class="nav-text">回顾历史</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#阿里云OpenSearch的痛点"><span class="nav-number">1.1.</span> <span class="nav-text">阿里云OpenSearch的痛点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#收费"><span class="nav-number">1.1.1.</span> <span class="nav-text">收费</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重建索引的速度非常慢"><span class="nav-number">1.1.2.</span> <span class="nav-text">重建索引的速度非常慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑盒，不可见，不可控"><span class="nav-number">1.1.3.</span> <span class="nav-text">黑盒，不可见，不可控</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分词的不可控"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">分词的不可控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不支持同义词，无法自定义停用词"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">不支持同义词，无法自定义停用词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检索方式的不可控"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">检索方式的不可控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回结果的排序不可控"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">返回结果的排序不可控</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过去做过的努力"><span class="nav-number">1.2.</span> <span class="nav-text">过去做过的努力</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同义词"><span class="nav-number">1.2.1.</span> <span class="nav-text">同义词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语义丢失"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">语义丢失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同义词提取问题"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">同义词提取问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#维护同义词成本"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">维护同义词成本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检索效率"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">检索效率</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Elasticsearch"><span class="nav-number">2.</span> <span class="nav-text">Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的概念"><span class="nav-number">2.1.</span> <span class="nav-text">基本的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#倒排索引-：-inverted-indexing"><span class="nav-number">2.1.1.</span> <span class="nav-text">倒排索引 ： inverted indexing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关度计算-：-TF-IDF"><span class="nav-number">2.1.2.</span> <span class="nav-text">相关度计算 ： TF/IDF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显著的提升"><span class="nav-number">2.2.</span> <span class="nav-text">显著的提升</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引创建速度"><span class="nav-number">2.2.1.</span> <span class="nav-text">索引创建速度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准实时查询"><span class="nav-number">2.2.2.</span> <span class="nav-text">准实时查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准确，可控的分词"><span class="nav-number">2.2.3.</span> <span class="nav-text">准确，可控的分词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同义词-1"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">同义词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词库维护"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">词库维护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#停用词"><span class="nav-number">2.2.3.3.</span> <span class="nav-text">停用词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指导价寻车"><span class="nav-number">2.2.3.4.</span> <span class="nav-text">指导价寻车</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排序的优化"><span class="nav-number">2.2.4.</span> <span class="nav-text">排序的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TF-：Term-Frequency"><span class="nav-number">2.2.4.1.</span> <span class="nav-text">TF ：Term Frequency</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IDF-：-Inverse-Document-Frequency"><span class="nav-number">2.2.4.2.</span> <span class="nav-text">IDF ： Inverse Document Frequency</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#field-length-norm"><span class="nav-number">2.2.4.3.</span> <span class="nav-text">field-length norm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TF-IDF"><span class="nav-number">2.2.4.4.</span> <span class="nav-text">TF/IDF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过给字段设置boost影响score"><span class="nav-number">2.2.4.5.</span> <span class="nav-text">通过给字段设置boost影响score</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#function-score-query"><span class="nav-number">2.2.4.6.</span> <span class="nav-text">function score query</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#认证商家的提升"><span class="nav-number">2.2.4.6.1.</span> <span class="nav-text">认证商家的提升</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#是否手工发布的处理"><span class="nav-number">2.2.4.6.2.</span> <span class="nav-text">是否手工发布的处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#更新时间的处理"><span class="nav-number">2.2.4.6.3.</span> <span class="nav-text">更新时间的处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果打散"><span class="nav-number">2.2.4.6.4.</span> <span class="nav-text">结果打散</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合"><span class="nav-number">2.2.4.7.</span> <span class="nav-text">组合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读懂得分"><span class="nav-number">2.2.4.8.</span> <span class="nav-text">读懂得分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#筛选功能的优化"><span class="nav-number">2.2.5.</span> <span class="nav-text">筛选功能的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选条件的获取"><span class="nav-number">2.2.5.1.</span> <span class="nav-text">筛选条件的获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选条件的构建"><span class="nav-number">2.2.5.2.</span> <span class="nav-text">筛选条件的构建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选的实现"><span class="nav-number">2.2.5.3.</span> <span class="nav-text">筛选的实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#infiniti-the-future"><span class="nav-number">3.</span> <span class="nav-text">infiniti : the future</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实时添加索引"><span class="nav-number">3.1.</span> <span class="nav-text">实时添加索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定时重建索引"><span class="nav-number">3.2.</span> <span class="nav-text">定时重建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同义词和词典的维护"><span class="nav-number">3.3.</span> <span class="nav-text">同义词和词典的维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份和恢复"><span class="nav-number">3.4.</span> <span class="nav-text">备份和恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分析"><span class="nav-number">3.5.</span> <span class="nav-text">数据分析</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
-
-    </div>
-  </aside>
-  
-
-
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
-  <span class="with-love" id="animate">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Suclogger</span>
-
-  
-
-  
+  </div>
 </div>
 
 
-  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0</div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/《悟空传》有感/" rel="prev" title="《悟空传》有感">
+      <i class="fa fa-chevron-left"></i> 《悟空传》有感
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/spring解决循环依赖/" rel="next" title="谈谈spring中的循环依赖问题">
+      谈谈spring中的循环依赖问题 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#回顾历史"><span class="nav-number">1.</span> <span class="nav-text">回顾历史</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#阿里云OpenSearch的痛点"><span class="nav-number">1.1.</span> <span class="nav-text">阿里云OpenSearch的痛点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#收费"><span class="nav-number">1.1.1.</span> <span class="nav-text">收费</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重建索引的速度非常慢"><span class="nav-number">1.1.2.</span> <span class="nav-text">重建索引的速度非常慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#黑盒，不可见，不可控"><span class="nav-number">1.1.3.</span> <span class="nav-text">黑盒，不可见，不可控</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#分词的不可控"><span class="nav-number">1.1.3.1.</span> <span class="nav-text">分词的不可控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#不支持同义词，无法自定义停用词"><span class="nav-number">1.1.3.2.</span> <span class="nav-text">不支持同义词，无法自定义停用词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检索方式的不可控"><span class="nav-number">1.1.3.3.</span> <span class="nav-text">检索方式的不可控</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#返回结果的排序不可控"><span class="nav-number">1.1.3.4.</span> <span class="nav-text">返回结果的排序不可控</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#过去做过的努力"><span class="nav-number">1.2.</span> <span class="nav-text">过去做过的努力</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#同义词"><span class="nav-number">1.2.1.</span> <span class="nav-text">同义词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#语义丢失"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">语义丢失</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#同义词提取问题"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">同义词提取问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#维护同义词成本"><span class="nav-number">1.2.1.3.</span> <span class="nav-text">维护同义词成本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#检索效率"><span class="nav-number">1.2.1.4.</span> <span class="nav-text">检索效率</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Elasticsearch"><span class="nav-number">2.</span> <span class="nav-text">Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的概念"><span class="nav-number">2.1.</span> <span class="nav-text">基本的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#倒排索引-：-inverted-indexing"><span class="nav-number">2.1.1.</span> <span class="nav-text">倒排索引 ： inverted indexing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关度计算-：-TF-IDF"><span class="nav-number">2.1.2.</span> <span class="nav-text">相关度计算 ： TF/IDF</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#显著的提升"><span class="nav-number">2.2.</span> <span class="nav-text">显著的提升</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引创建速度"><span class="nav-number">2.2.1.</span> <span class="nav-text">索引创建速度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准实时查询"><span class="nav-number">2.2.2.</span> <span class="nav-text">准实时查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#准确，可控的分词"><span class="nav-number">2.2.3.</span> <span class="nav-text">准确，可控的分词</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#同义词-1"><span class="nav-number">2.2.3.1.</span> <span class="nav-text">同义词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#词库维护"><span class="nav-number">2.2.3.2.</span> <span class="nav-text">词库维护</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#停用词"><span class="nav-number">2.2.3.3.</span> <span class="nav-text">停用词</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#指导价寻车"><span class="nav-number">2.2.3.4.</span> <span class="nav-text">指导价寻车</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排序的优化"><span class="nav-number">2.2.4.</span> <span class="nav-text">排序的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#TF-：Term-Frequency"><span class="nav-number">2.2.4.1.</span> <span class="nav-text">TF ：Term Frequency</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IDF-：-Inverse-Document-Frequency"><span class="nav-number">2.2.4.2.</span> <span class="nav-text">IDF ： Inverse Document Frequency</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#field-length-norm"><span class="nav-number">2.2.4.3.</span> <span class="nav-text">field-length norm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TF-IDF"><span class="nav-number">2.2.4.4.</span> <span class="nav-text">TF/IDF</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过给字段设置boost影响score"><span class="nav-number">2.2.4.5.</span> <span class="nav-text">通过给字段设置boost影响score</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#function-score-query"><span class="nav-number">2.2.4.6.</span> <span class="nav-text">function score query</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#认证商家的提升"><span class="nav-number">2.2.4.6.1.</span> <span class="nav-text">认证商家的提升</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#是否手工发布的处理"><span class="nav-number">2.2.4.6.2.</span> <span class="nav-text">是否手工发布的处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#更新时间的处理"><span class="nav-number">2.2.4.6.3.</span> <span class="nav-text">更新时间的处理</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#结果打散"><span class="nav-number">2.2.4.6.4.</span> <span class="nav-text">结果打散</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组合"><span class="nav-number">2.2.4.7.</span> <span class="nav-text">组合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#读懂得分"><span class="nav-number">2.2.4.8.</span> <span class="nav-text">读懂得分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#筛选功能的优化"><span class="nav-number">2.2.5.</span> <span class="nav-text">筛选功能的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选条件的获取"><span class="nav-number">2.2.5.1.</span> <span class="nav-text">筛选条件的获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选条件的构建"><span class="nav-number">2.2.5.2.</span> <span class="nav-text">筛选条件的构建</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#筛选的实现"><span class="nav-number">2.2.5.3.</span> <span class="nav-text">筛选的实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#infiniti-the-future"><span class="nav-number">3.</span> <span class="nav-text">infiniti : the future</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实时添加索引"><span class="nav-number">3.1.</span> <span class="nav-text">实时添加索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定时重建索引"><span class="nav-number">3.2.</span> <span class="nav-text">定时重建索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#同义词和词典的维护"><span class="nav-number">3.3.</span> <span class="nav-text">同义词和词典的维护</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#备份和恢复"><span class="nav-number">3.4.</span> <span class="nav-text">备份和恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据分析"><span class="nav-number">3.5.</span> <span class="nav-text">数据分析</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Suclogger" src="/image/avatar.png">
+  <p class="site-author-name" itemprop="name">Suclogger</p>
+  <div class="site-description" itemprop="description">人生如逆旅，我亦是行人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">42</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suclogger" title="GitHub → https://github.com/suclogger" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
 
 
 
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
   <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">Theme – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.1.0</div>
-
-
-
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
 
         
 
@@ -941,181 +553,91 @@
 
 
 
-        
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
 
   
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="//cdn.jsdelivr.net/jquery/2.1.3/jquery.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.min.js"></script>
-
-  
-  <script src="//cdn.jsdelivr.net/velocity/1.2.3/velocity.ui.min.js"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.0"></script>
-
-  <script src="/js/motion.js?v=7.1.0"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/schemes/muse.js?v=7.1.0"></script>
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.0"></script>
-<script src="/js/post-details.js?v=7.1.0"></script>
-
-
-
-  
-
-
-  <script src="/js/next-boot.js?v=7.1.0"></script>
-
-
-  
-
-  
-
-  
-
-  
-  
-  <script id="dsq-count-scr" src="https://suclogger.disqus.com/count.js" async></script>
-
-
-<script>
-  var disqus_config = function() {
-    this.page.url = "https://suclogger.me/买好车搜索的Elasticsearch实践：初体验/";
-    this.page.identifier = "买好车搜索的Elasticsearch实践：初体验/";
-    this.page.title = '买好车搜索的Elasticsearch实践：初体验';
-    };
-  function loadComments() {
+  function loadCount() {
     var d = document, s = d.createElement('script');
-    s.src = 'https://suclogger.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', '' + +new Date());
+    s.src = 'https://suclogger.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
     (d.head || d.body).appendChild(s);
   }
-  
-    $(function() {
-      var offsetTop = $('#comments').offset().top - $(window).height();
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "https://suclogger.me/买好车搜索的Elasticsearch实践：初体验/",
+            identifier: "买好车搜索的Elasticsearch实践：初体验/",
+            title: "买好车搜索的Elasticsearch实践：初体验"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://suclogger.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    (function() {
+      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
       if (offsetTop <= 0) {
         // load directly when there's no a scrollbar
-        loadComments();
+        window.addEventListener('load', loadComments, false);
       } else {
-        $(window).on('scroll.disqus_scroll', function() {
+        var disqus_scroll = () => {
           // offsetTop may changes because of manually resizing browser window or lazy loading images.
-          var offsetTop = $('#comments').offset().top - $(window).height();
-          var scrollTop = $(window).scrollTop();
+          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+          var scrollTop = window.scrollY;
 
           // pre-load comments a bit? (margin or anything else)
           if (offsetTop - scrollTop < 60) {
-            $(window).off('.disqus_scroll');
+            window.removeEventListener('scroll', disqus_scroll);
             loadComments();
           }
-        });
+        };
+        window.addEventListener('scroll', disqus_scroll);
       }
-    });
+    })();
   
 </script>
-
-
-
-
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
 </body>
 </html>
