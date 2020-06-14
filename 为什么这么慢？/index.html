@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <link rel="mask-icon" href="/image/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://suclogger.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="昨天差点引发了一个严重线上bug，以此为记。">
+<meta name="keywords" content="elasticsearch,java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么这么慢？">
+<meta property="og:url" content="https://suclogger.me/为什么这么慢？/index.html">
+<meta property="og:site_name" content="Suclogger">
+<meta property="og:description" content="昨天差点引发了一个严重线上bug，以此为记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://suclogger.me/image/login.dawanju.net%20-%20SecureCRT%202017-06-08%2018-43-27.png">
+<meta property="og:image" content="https://suclogger.me/image/login.dawanju.net%20-%20SecureCRT%202017-06-08%2018-42-47.png">
+<meta property="og:image" content="https://suclogger.me/image/RDS管理控制台%202017-06-08%2020-04-51.png">
+<meta property="og:image" content="https://suclogger.me/image/2017-06-09-17-54-16.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2017-06-09-18-26-34.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2017-06-09-18-27-35.jpg">
+<meta property="og:image" content="https://suclogger.me/image/@iZ23qcuujszZ::tmp%202017-06-09%2016-16-37.png">
+<meta property="og:image" content="https://suclogger.me/image/search_load.png">
+<meta property="og:updated_time" content="2017-06-09T10:42:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="为什么这么慢？">
+<meta name="twitter:description" content="昨天差点引发了一个严重线上bug，以此为记。">
+<meta name="twitter:image" content="https://suclogger.me/image/login.dawanju.net%20-%20SecureCRT%202017-06-08%2018-43-27.png">
+
+<link rel="canonical" href="https://suclogger.me/为什么这么慢？/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>为什么这么慢？ | Suclogger</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Suclogger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">莆放</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/为什么这么慢？/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          为什么这么慢？
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2017-06-09 17:26:33 / Modified: 18:42:38" itemprop="dateCreated datePublished" datetime="2017-06-09T17:26:33+08:00">2017-06-09</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/为什么这么慢？/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="为什么这么慢？/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>昨天差点引发了一个严重线上bug，以此为记。<br><a id="more"></a></p>
+<h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>我们现在采用的是logstash的jdbc插件同步mysql的数据。<br>这次上线的功能需要多关联一张表查询数据进入索引，直接体现在logstash jdbc配置文件中定义的SQL多了一个left join。</p>
+<h2 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h2><p>应用发布之后，tomcat启动耗时很长时间，很<strong>慢</strong>。<br>进入应用，索引重建后依照惯例执行了全量索引的logstash脚本，但是索引迟迟没有创建成功，很<strong>慢</strong>。</p>
+<h2 id="处理"><a href="#处理" class="headerlink" title="处理"></a>处理</h2><h3 id="Tomcat启动慢"><a href="#Tomcat启动慢" class="headerlink" title="Tomcat启动慢"></a>Tomcat启动慢</h3><p><img src="/image/login.dawanju.net - SecureCRT 2017-06-08 18-43-27.png" alt><br>从日志中找到罪魁祸首：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [*,*] milliseconds.</span><br></pre></td></tr></table></figure></p>
+<p>当时因为一次打不开页面，做了多次刷新操作，生成session ID的过程一只阻塞到完成所有session ID的创建，耗时接近4分钟。<br><a href="https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source" target="_blank" rel="noopener">Tomcat官方文档</a>也给出了说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Tomcat 7+ heavily relies on SecureRandom class to provide random values for its session ids and in other places. Depending on your JRE it can cause delays during startup if entropy source that is used to initialize SecureRandom is short of entropy. You will see warning in the logs when this happens, e.g.:</span><br><span class="line"></span><br><span class="line">&lt;DATE&gt; org.apache.catalina.util.SessionIdGenerator createSecureRandom</span><br><span class="line">INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [5172] milliseconds.</span><br><span class="line">There is a way to configure JRE to use a non-blocking entropy source by setting the following system property: -Djava.security.egd=file:/dev/./urandom</span><br><span class="line"></span><br><span class="line">Note the &quot;/./&quot; characters in the value. They are needed to work around known Oracle JRE bug #6202721. See also JDK Enhancement Proposal 123. It is known that implementation of SecureRandom was improved in Java 8 onwards.</span><br><span class="line"></span><br><span class="line">Also note that replacing the blocking entropy source (/dev/random) with a non-blocking one actually reduces security because you are getting less-random data. If you have a problem generating entropy on your server (which is common), consider looking into entropy-generating hardware products such as &quot;EntropyKey&quot;.</span><br></pre></td></tr></table></figure></p>
+<p>Tomcat也给出了解决方案：<strong>在启动的jvm参数中加入<code>-Djava.security.egd=file:/dev/./urandom</code></strong>，同时也警告说这种方式存在一些安全隐患。<br>添加jvm参数后启动就正常了：<br><img src="/image/login.dawanju.net - SecureCRT 2017-06-08 18-42-47.png" alt></p>
+<h3 id="创建索引慢：数据库"><a href="#创建索引慢：数据库" class="headerlink" title="创建索引慢：数据库"></a>创建索引慢：数据库</h3><p>怀疑因为多关联了一张表导致数据库查询耗时增加，进入RDS监控查看发现CPU出现峰值：<br><img src="/image/RDS管理控制台 2017-06-08 20-04-51.png" alt></p>
+<p>结合之前RDS出现CPU飙升阿里工程师给出的解释：</p>
+<blockquote>
+<p>CPU高主要是由于这些慢查询导致，建议您先优化下这慢查询再观察下。</p>
+</blockquote>
+<p>（小插曲，惊觉配置文件中写入的数据库地址被从备库误写为主库）<br>第一时间通过mysql的<code>show processlist</code>找到创建索引的SQL进程执行<code>kill</code>，保障其他业务不受影响。<br>然后，进入慢日志查询中，发现果然是创建索引的SQL执行时间超长，这条SQL执行时间长达492s：<br><img src="/image/2017-06-09-17-54-16.jpg" alt><br>接着，分析sql，怀疑新关联的表没有为关联的字段创建索引，马上在这个字段上创建索引。<br>随后创建索引，输出以下日志：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[2017-06-08T19:36:22,802][INFO ][logstash.pipeline        ] Starting pipeline &#123;&quot;id&quot;=&gt;&quot;main&quot;, &quot;pipeline.workers&quot;=&gt;2, &quot;pipeline.batch.size&quot;=&gt;125, &quot;pipeline.batch.delay&quot;=&gt;5</span><br><span class="line">[2017-06-08T19:36:22,850][INFO ][logstash.pipeline        ] Pipeline main started</span><br><span class="line">[2017-06-08T19:36:22,920][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9600&#125;</span><br><span class="line">[2017-06-08T19:36:32,053][INFO ][logstash.inputs.jdbc     ] (9.767000s) SELECT car.car_id AS car_id,</span><br><span class="line">...</span><br><span class="line">[2017-06-08T19:42:51,136][WARN ][logstash.agent           ] stopping pipeline &#123;:id=&gt;&quot;main&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>看到logstash的日志中，执行SQL的时间为<code>9.7s</code>，虽然时间略长，但是考虑到是多表关联+全表扫描，所以暂且任务数据库的问题已经处理完成。<br>但是还是没解决索引创建为什么这么慢的问题。<br>单次全量耗时为6分20s，系统资源冗余较多。<br><img src="/image/2017-06-09-18-26-34.jpg" alt></p>
+<h3 id="创建索引慢：EL"><a href="#创建索引慢：EL" class="headerlink" title="创建索引慢：EL"></a>创建索引慢：EL</h3><p>通过上面的日志输出看到logstash采用的是默认配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pipeline.workers =&gt; 2 // 并行的线程数</span><br><span class="line">pipeline.batch.size=&gt;125 // 单个线程单次处理的最大索引数</span><br><span class="line">pipeline.batch.delay=&gt;5 // 如果在这里定义的时间内没有达到最大索引数，也执行提交</span><br></pre></td></tr></table></figure></p>
+<p>更多配置项参见<a href="https://www.elastic.co/guide/en/logstash/current/logstash-settings-file.html" target="_blank" rel="noopener">官网文档</a>。</p>
+<p>尝试更改配置为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pipeline.workers =&gt; 4 // 2*cpu</span><br><span class="line">pipeline.batch.size=&gt;20000</span><br><span class="line">pipeline.batch.delay=&gt;3</span><br></pre></td></tr></table></figure></p>
+<p>日志如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[2017-06-09T15:11:09,088][INFO ][logstash.pipeline        ] Starting pipeline &#123;&quot;id&quot;=&gt;&quot;main&quot;, &quot;pipeline.workers&quot;=&gt;4, &quot;pipeline.batch.size&quot;=&gt;20000, &quot;pipeline.batch.delay&quot;=&gt;3, &quot;pipeline.max_inflight&quot;=&gt;80000&#125;</span><br><span class="line">[2017-06-09T15:11:09,088][WARN ][logstash.pipeline        ] CAUTION: Recommended inflight events max exceeded! Logstash will run with up to 80000 events in memory in your current configuration. If your message sizes are large this may cause instability with the default heap size. Please consider setting a non-standard heap size, changing the batch size (currently 20000), or changing the number of pipeline workers (currently 4)</span><br><span class="line">[2017-06-09T15:11:09,109][INFO ][logstash.pipeline        ] Pipeline main started</span><br><span class="line">[2017-06-09T15:11:09,154][INFO ][logstash.agent           ] Successfully started Logstash API endpoint &#123;:port=&gt;9601&#125;</span><br><span class="line">[2017-06-09T15:11:18,651][INFO ][logstash.inputs.jdbc     ] (10.100000s) SELECT car.car_id AS car_id,</span><br><span class="line">...</span><br><span class="line">[2017-06-09T15:15:49,619][WARN ][logstash.agent           ] stopping pipeline &#123;:id=&gt;&quot;main&quot;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>单次全量耗时4分30秒，docker容器显示的系统负载峰值（使用命令<code>docker stats</code>）：<br><img src="/image/2017-06-09-18-27-35.jpg" alt><br>对应的系统负载峰值（使用命令<code>vmstat -n 1</code>）：<br><img src="/image/@iZ23qcuujszZ::tmp 2017-06-09 16-16-37.png" alt><br>基本已经榨干了ecs的所有计算资源。<br>尝试更多配置：</p>
+<table>
+<thead>
+<tr>
+<th>配置</th>
+<th>耗时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-w 4 -b 60000 -u 3</td>
+<td>4分25s</td>
+</tr>
+<tr>
+<td>-w 6 -b 20000 -u 3</td>
+<td>4分13s</td>
+</tr>
+</tbody>
+</table>
+<p>可以发现不管是提升worker数还是提升单次提交的数据，都无法继续提升性能，基本是这台2核ECS的极限了，而且同时ES的集群（2台2核4g）也出现了CPU的负载峰值：</p>
+<p><img src="/image/search_load.png" alt></p>
+<p>看来在现有的计算资源之下，我们只能暂且容忍这么长的全量时间了，后面继续调整ES的配置，看看会不会有提升。</p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加入星球与我交流</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/image/alipay.png" alt="Suclogger WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/Spring-Boot相关及Dubbo集成/" rel="prev" title="Spring-Boot相关及Dubbo集成">
+      <i class="fa fa-chevron-left"></i> Spring-Boot相关及Dubbo集成
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/ES使用filebeat收集nginx日志/" rel="next" title="ES使用filebeat收集nginx日志">
+      ES使用filebeat收集nginx日志 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现象"><span class="nav-number">2.</span> <span class="nav-text">现象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理"><span class="nav-number">3.</span> <span class="nav-text">处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Tomcat启动慢"><span class="nav-number">3.1.</span> <span class="nav-text">Tomcat启动慢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引慢：数据库"><span class="nav-number">3.2.</span> <span class="nav-text">创建索引慢：数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建索引慢：EL"><span class="nav-number">3.3.</span> <span class="nav-text">创建索引慢：EL</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Suclogger" src="/image/avatar.png">
+  <p class="site-author-name" itemprop="name">Suclogger</p>
+  <div class="site-description" itemprop="description">人生如逆旅，我亦是行人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suclogger" title="GitHub → https://github.com/suclogger" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "https://suclogger.me/为什么这么慢？/",
+            identifier: "为什么这么慢？/",
+            title: "为什么这么慢？"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://suclogger.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    (function() {
+      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        var disqus_scroll = () => {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+          var scrollTop = window.scrollY;
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            window.removeEventListener('scroll', disqus_scroll);
+            loadComments();
+          }
+        };
+        window.addEventListener('scroll', disqus_scroll);
+      }
+    })();
+  
+</script>
+
+</body>
+</html>

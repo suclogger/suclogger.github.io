@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <link rel="mask-icon" href="/image/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://suclogger.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="UNIX网络编程学习笔记（一）">
+<meta name="keywords" content="UNIX">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UNIX网络编程学习笔记（一）">
+<meta property="og:url" content="https://suclogger.me/unix-network-program-1/index.html">
+<meta property="og:site_name" content="Suclogger">
+<meta property="og:description" content="UNIX网络编程学习笔记（一）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/第一章.png">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-18-52-06.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-18-52-35.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-18-54-31.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-19-25-28.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-19-29-27.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-19-36-58.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-19-37-12.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-19-54-37.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2020-05-10/2020-05-10-19-54-46.jpg">
+<meta property="og:updated_time" content="2020-05-10T11:56:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UNIX网络编程学习笔记（一）">
+<meta name="twitter:description" content="UNIX网络编程学习笔记（一）">
+<meta name="twitter:image" content="https://suclogger.me/image/2020-05-10/第一章.png">
+
+<link rel="canonical" href="https://suclogger.me/unix-network-program-1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>UNIX网络编程学习笔记（一） | Suclogger</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Suclogger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">莆放</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/unix-network-program-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          UNIX网络编程学习笔记（一）
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-05-10 18:41:48 / Modified: 19:56:09" itemprop="dateCreated datePublished" datetime="2020-05-10T18:41:48+08:00">2020-05-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/programming/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/unix-network-program-1/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="unix-network-program-1/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>UNIX网络编程学习笔记（一）<br><a id="more"></a></p>
+<h2 id="大纲"><a href="#大纲" class="headerlink" title="大纲"></a>大纲</h2><p><img src="/image/2020-05-10/第一章.png" alt></p>
+<h2 id="习题"><a href="#习题" class="headerlink" title="习题"></a>习题</h2><h3 id="1-1-“按1-9节未尾的步骤找出你自己的网络拓扑的信息”"><a href="#1-1-“按1-9节未尾的步骤找出你自己的网络拓扑的信息”" class="headerlink" title="1.1 “按1.9节未尾的步骤找出你自己的网络拓扑的信息”"></a>1.1 “按1.9节未尾的步骤找出你自己的网络拓扑的信息”</h3><p>主要包含两个基本命令：netstat和ifconfig<br>netstat -i提供网络接口的信息。我们还指定-n标志以输出数值地址，而不是试图把它们反向解析成名字。<br>可以看到本机是支持IPV6协议的。<br><img src="/image/2020-05-10/2020-05-10-18-52-06.jpg" alt></p>
+<p>netstat –r展示路由表：<br><img src="/image/2020-05-10/2020-05-10-18-52-35.jpg" alt></p>
+<p>执行ifconfig就可获得每个接口的详细信息<br><img src="/image/2020-05-10/2020-05-10-18-54-31.jpg" alt></p>
+<p>通过Ping命令找出本地网络中众多主机的IP地址，ping -b在mac环境下是不被支持的</p>
+<blockquote>
+<p>Flood pinging is not recommended in general, and flood pinging the broadcast address should only be done under very controlled conditions.</p>
+</blockquote>
+<h3 id="1-2-“获取本书示例的源代码（见前言），编译并测试图1-5所示的TCP时间获取客户程序。运行这个程序若干次，每次以不同IP地址作为命令行参数。”"><a href="#1-2-“获取本书示例的源代码（见前言），编译并测试图1-5所示的TCP时间获取客户程序。运行这个程序若干次，每次以不同IP地址作为命令行参数。”" class="headerlink" title="1.2 “获取本书示例的源代码（见前言），编译并测试图1-5所示的TCP时间获取客户程序。运行这个程序若干次，每次以不同IP地址作为命令行参数。”"></a>1.2 “获取本书示例的源代码（见前言），编译并测试图1-5所示的TCP时间获取客户程序。运行这个程序若干次，每次以不同IP地址作为命令行参数。”</h3><p>首先要找到一个支持DAYTIME协议的服务器地址：<br><a href="https://zh.wikipedia.org/wiki/DAYTIME%E5%8D%94%E5%AE%9A" target="_blank" rel="noopener">WIKI DAYTIME协议</a><br><a href="https://tf.nist.gov/tf-cgi/servers.cgi#" target="_blank" rel="noopener">服务器列表</a><br>随机选择一个进行访问：<br><img src="/image/2020-05-10/2020-05-10-19-25-28.jpg" alt></p>
+<h3 id="“1-3-把图1-5中的socket的第一参数改为9999。编译并运行这个程序。结果如何？找出对应于所输出出错的errno值。你如何可以找到关于这个错误的更多信息？”"><a href="#“1-3-把图1-5中的socket的第一参数改为9999。编译并运行这个程序。结果如何？找出对应于所输出出错的errno值。你如何可以找到关于这个错误的更多信息？”" class="headerlink" title="“1.3　把图1-5中的socket的第一参数改为9999。编译并运行这个程序。结果如何？找出对应于所输出出错的errno值。你如何可以找到关于这个错误的更多信息？”"></a>“1.3　把图1-5中的socket的第一参数改为9999。编译并运行这个程序。结果如何？找出对应于所输出出错的errno值。你如何可以找到关于这个错误的更多信息？”</h3><p>在Mac环境下编译是成功的，因为在Mac的c语言SDK中，第一个参数是整形。<br><img src="/image/2020-05-10/2020-05-10-19-29-27.jpg" alt></p>
+<h3 id="“1-4-修改图1-5中的while循环，加入一个计数器，累计read返回大于零值的次数。在终止前输出这个计数器值。编译并运行你的新客户程序。”"><a href="#“1-4-修改图1-5中的while循环，加入一个计数器，累计read返回大于零值的次数。在终止前输出这个计数器值。编译并运行你的新客户程序。”" class="headerlink" title="“1.4　修改图1-5中的while循环，加入一个计数器，累计read返回大于零值的次数。在终止前输出这个计数器值。编译并运行你的新客户程序。”"></a>“1.4　修改图1-5中的while循环，加入一个计数器，累计read返回大于零值的次数。在终止前输出这个计数器值。编译并运行你的新客户程序。”</h3><p><img src="/image/2020-05-10/2020-05-10-19-36-58.jpg" alt></p>
+<p><img src="/image/2020-05-10/2020-05-10-19-37-12.jpg" alt></p>
+<p>这里需要深入思考的是，为什么可以一次就得到返回。<br>字符串：<code>58979 20-05-10 11:36:16 50 0 0 857.5 UTC(NIST) *</code>共计包含50个字符（算上末尾的换行符<code>\r\n</code>）<br>在ASCII规范中，一个字符包含一个字节。<br>结合一下MTU和MSS的定义，单次TCP传输可以容纳50个字符，所以一次就可以得到返回。当然这不是必定的。</p>
+<h4 id="MTU（最大传输单元）"><a href="#MTU（最大传输单元）" class="headerlink" title="MTU（最大传输单元）"></a>MTU（最大传输单元）</h4><p>MTU前面已经说过了，是链路层中的网络对数据帧的一个限制，依然以以太网为例，MTU为1500个字节。一个IP数据报在以太网中传输，如果它的长度大于该MTU值，就要进行分片传输，使得每片数据报的长度小于MTU。分片传输的IP数据报不一定按序到达，但IP首部中的信息能让这些数据报片按序组装。IP数据报的分片与重组是在网络层进完成的。</p>
+<h4 id="MSS（最大分段大小）"><a href="#MSS（最大分段大小）" class="headerlink" title="MSS（最大分段大小）"></a>MSS（最大分段大小）</h4><p>MSS是TCP里的一个概念（首部的选项字段中）。MSS是TCP数据包每次能够传输的最大数据分段，TCP报文段的长度大于MSS时，要进行分段传输。TCP协议在建立连接的时候通常要协商双方的MSS值，每一方都有用于通告它期望接收的MSS选项（MSS选项只出现在SYN报文段中，即TCP三次握手的前两次）。MSS的值一般为MTU值减去两个首部大小（需要减去IP数据包包头的大小20Bytes和TCP数据段的包头20Bytes）所以如果用链路层以太网，MSS的值往往为1460。</p>
+<h3 id="“1-5-按下述步骤修改图1-9中的程序。首先，把赋于sin-port的端口号从13改为9999。然后，把write的单一调用改为循环调用，每次写出结果字符串的一个字节。编译修改后的服务器程序并在后台启动执行。接着修改前一道习题中的客户程序（它在终止前输出计数器值），把赋于sin-port的端口号从13改为9999。启动这个客户程序，指定运行修改后的服务器程序的主机的IP地址作为命令行参数。客户程序计数器的输出值是多少？如果可能，在不同主机上运行这个客户与服务器程序。”"><a href="#“1-5-按下述步骤修改图1-9中的程序。首先，把赋于sin-port的端口号从13改为9999。然后，把write的单一调用改为循环调用，每次写出结果字符串的一个字节。编译修改后的服务器程序并在后台启动执行。接着修改前一道习题中的客户程序（它在终止前输出计数器值），把赋于sin-port的端口号从13改为9999。启动这个客户程序，指定运行修改后的服务器程序的主机的IP地址作为命令行参数。客户程序计数器的输出值是多少？如果可能，在不同主机上运行这个客户与服务器程序。”" class="headerlink" title="“1.5　按下述步骤修改图1-9中的程序。首先，把赋于sin_port的端口号从13改为9999。然后，把write的单一调用改为循环调用，每次写出结果字符串的一个字节。编译修改后的服务器程序并在后台启动执行。接着修改前一道习题中的客户程序（它在终止前输出计数器值），把赋于sin_port的端口号从13改为9999。启动这个客户程序，指定运行修改后的服务器程序的主机的IP地址作为命令行参数。客户程序计数器的输出值是多少？如果可能，在不同主机上运行这个客户与服务器程序。”"></a>“1.5　按下述步骤修改图1-9中的程序。首先，把赋于sin_port的端口号从13改为9999。然后，把write的单一调用改为循环调用，每次写出结果字符串的一个字节。编译修改后的服务器程序并在后台启动执行。接着修改前一道习题中的客户程序（它在终止前输出计数器值），把赋于sin_port的端口号从13改为9999。启动这个客户程序，指定运行修改后的服务器程序的主机的IP地址作为命令行参数。客户程序计数器的输出值是多少？如果可能，在不同主机上运行这个客户与服务器程序。”</h3><p>这道题目的意义不明，9999端口并非规范，链接得到超时异常提示：<br><img src="/image/2020-05-10/2020-05-10-19-54-37.jpg" alt><br><img src="/image/2020-05-10/2020-05-10-19-54-46.jpg" alt></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加入星球与我交流</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/image/alipay.png" alt="Suclogger WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/UNIX/" rel="tag"># UNIX</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/took-me-four-years-to-find/" rel="prev" title="归来吧，少年">
+      <i class="fa fa-chevron-left"></i> 归来吧，少年
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/unix-network-program-2/" rel="next" title="UNIX网络编程学习笔记（二）">
+      UNIX网络编程学习笔记（二） <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#大纲"><span class="nav-number">1.</span> <span class="nav-text">大纲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#习题"><span class="nav-number">2.</span> <span class="nav-text">习题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-“按1-9节未尾的步骤找出你自己的网络拓扑的信息”"><span class="nav-number">2.1.</span> <span class="nav-text">1.1 “按1.9节未尾的步骤找出你自己的网络拓扑的信息”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-“获取本书示例的源代码（见前言），编译并测试图1-5所示的TCP时间获取客户程序。运行这个程序若干次，每次以不同IP地址作为命令行参数。”"><span class="nav-number">2.2.</span> <span class="nav-text">1.2 “获取本书示例的源代码（见前言），编译并测试图1-5所示的TCP时间获取客户程序。运行这个程序若干次，每次以不同IP地址作为命令行参数。”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“1-3-把图1-5中的socket的第一参数改为9999。编译并运行这个程序。结果如何？找出对应于所输出出错的errno值。你如何可以找到关于这个错误的更多信息？”"><span class="nav-number">2.3.</span> <span class="nav-text">“1.3　把图1-5中的socket的第一参数改为9999。编译并运行这个程序。结果如何？找出对应于所输出出错的errno值。你如何可以找到关于这个错误的更多信息？”</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“1-4-修改图1-5中的while循环，加入一个计数器，累计read返回大于零值的次数。在终止前输出这个计数器值。编译并运行你的新客户程序。”"><span class="nav-number">2.4.</span> <span class="nav-text">“1.4　修改图1-5中的while循环，加入一个计数器，累计read返回大于零值的次数。在终止前输出这个计数器值。编译并运行你的新客户程序。”</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#MTU（最大传输单元）"><span class="nav-number">2.4.1.</span> <span class="nav-text">MTU（最大传输单元）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MSS（最大分段大小）"><span class="nav-number">2.4.2.</span> <span class="nav-text">MSS（最大分段大小）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“1-5-按下述步骤修改图1-9中的程序。首先，把赋于sin-port的端口号从13改为9999。然后，把write的单一调用改为循环调用，每次写出结果字符串的一个字节。编译修改后的服务器程序并在后台启动执行。接着修改前一道习题中的客户程序（它在终止前输出计数器值），把赋于sin-port的端口号从13改为9999。启动这个客户程序，指定运行修改后的服务器程序的主机的IP地址作为命令行参数。客户程序计数器的输出值是多少？如果可能，在不同主机上运行这个客户与服务器程序。”"><span class="nav-number">2.5.</span> <span class="nav-text">“1.5　按下述步骤修改图1-9中的程序。首先，把赋于sin_port的端口号从13改为9999。然后，把write的单一调用改为循环调用，每次写出结果字符串的一个字节。编译修改后的服务器程序并在后台启动执行。接着修改前一道习题中的客户程序（它在终止前输出计数器值），把赋于sin_port的端口号从13改为9999。启动这个客户程序，指定运行修改后的服务器程序的主机的IP地址作为命令行参数。客户程序计数器的输出值是多少？如果可能，在不同主机上运行这个客户与服务器程序。”</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Suclogger" src="/image/avatar.png">
+  <p class="site-author-name" itemprop="name">Suclogger</p>
+  <div class="site-description" itemprop="description">人生如逆旅，我亦是行人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suclogger" title="GitHub → https://github.com/suclogger" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "https://suclogger.me/unix-network-program-1/",
+            identifier: "unix-network-program-1/",
+            title: "UNIX网络编程学习笔记（一）"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://suclogger.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    (function() {
+      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        var disqus_scroll = () => {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+          var scrollTop = window.scrollY;
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            window.removeEventListener('scroll', disqus_scroll);
+            loadComments();
+          }
+        };
+        window.addEventListener('scroll', disqus_scroll);
+      }
+    })();
+  
+</script>
+
+</body>
+</html>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 3.8.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/image/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/image/favicon.png">
+  <link rel="mask-icon" href="/image/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+
+
+<script id="hexo-configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    hostname: new URL('https://suclogger.me').hostname,
+    root: '/',
+    scheme: 'Muse',
+    version: '7.6.0',
+    exturl: false,
+    sidebar: {"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":false,"color":"#222","save":"auto"},
+    fancybox: false,
+    mediumzoom: false,
+    lazyload: false,
+    pangu: false,
+    algolia: {
+      appID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}
+  };
+</script>
+
+  <meta name="description" content="在@bleedfly的影响下，也想自己动手玩一下逆向。记录一下第一个逆向的app ： Interface Inspector 的过程。 使用工具：Hopper Disassembler Version 3.9.15 ，Hex Fiend Version 2.1.2 (200)逆向APP：Interface Inspector Version 2.2 (17)  通过检索关键字register定">
+<meta name="keywords" content="disassemble">
+<meta property="og:type" content="article">
+<meta property="og:title" content="打开了新世界的大门：Hopper Disassembler">
+<meta property="og:url" content="https://suclogger.me/打开了新世界的大门：Hopper-Disassembler/index.html">
+<meta property="og:site_name" content="Suclogger">
+<meta property="og:description" content="在@bleedfly的影响下，也想自己动手玩一下逆向。记录一下第一个逆向的app ： Interface Inspector 的过程。 使用工具：Hopper Disassembler Version 3.9.15 ，Hex Fiend Version 2.1.2 (200)逆向APP：Interface Inspector Version 2.2 (17)  通过检索关键字register定">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://suclogger.me/image/2016-05-13%2022-49-54.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2016-05-13%2022-57-58.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2016-05-13%2023-00-28.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2016-05-13%2023-11-08.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2016-05-13%2023-22-40.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2016-05-13%2023-23-31.jpg">
+<meta property="og:image" content="https://suclogger.me/image/2016-05-13%2023-25-18.jpg">
+<meta property="og:updated_time" content="2018-04-23T14:06:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="打开了新世界的大门：Hopper Disassembler">
+<meta name="twitter:description" content="在@bleedfly的影响下，也想自己动手玩一下逆向。记录一下第一个逆向的app ： Interface Inspector 的过程。 使用工具：Hopper Disassembler Version 3.9.15 ，Hex Fiend Version 2.1.2 (200)逆向APP：Interface Inspector Version 2.2 (17)  通过检索关键字register定">
+<meta name="twitter:image" content="https://suclogger.me/image/2016-05-13%2022-49-54.jpg">
+
+<link rel="canonical" href="https://suclogger.me/打开了新世界的大门：Hopper-Disassembler/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
+  };
+</script>
+
+  <title>打开了新世界的大门：Hopper Disassembler | Suclogger</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-meta">
+
+    <div>
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Suclogger</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+        <p class="site-subtitle">莆放</p>
+  </div>
+
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+</div>
+
+
+<nav class="site-nav">
+  
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories" rel="section"><i class="fa fa-fw fa-th"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags" rel="section"><i class="fa fa-fw fa-tags"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about" rel="section"><i class="fa fa-fw fa-user"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-fw fa-sitemap"></i>Sitemap</a>
+
+  </li>
+  </ul>
+
+</nav>
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content">
+            
+
+  <div class="posts-expand">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://suclogger.me/打开了新世界的大门：Hopper-Disassembler/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/image/avatar.png">
+      <meta itemprop="name" content="Suclogger">
+      <meta itemprop="description" content="人生如逆旅，我亦是行人">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Suclogger">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          打开了新世界的大门：Hopper Disassembler
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2016-05-13 22:45:28" itemprop="dateCreated datePublished" datetime="2016-05-13T22:45:28+08:00">2016-05-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2018-04-23 22:06:08" itemprop="dateModified" datetime="2018-04-23T22:06:08+08:00">2018-04-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/逆向/" itemprop="url" rel="index">
+                    <span itemprop="name">逆向</span>
+                  </a>
+                </span>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="fa fa-comment-o"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/打开了新世界的大门：Hopper-Disassembler/#comments" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="打开了新世界的大门：Hopper-Disassembler/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <!-- abstract -->
+<!-- 开始正文 -->
+<p>在<a href="https://twitter.com/bleedfly" target="_blank" rel="noopener">@bleedfly</a>的影响下，也想自己动手玩一下逆向。<br>记录一下第一个逆向的app ： <code>Interface Inspector</code> 的过程。</p>
+<p>使用工具：<code>Hopper Disassembler</code> Version 3.9.15 ，<code>Hex Fiend</code> Version 2.1.2 (200)<br>逆向APP：<code>Interface Inspector</code> Version 2.2 (17)</p>
+<ol>
+<li>通过检索关键字<code>register</code>定位到相关注册方法：SMLicenseManager registerLicenseWithName：<br><img src="/image/2016-05-13 22-49-54.jpg" alt></li>
+<li>此处通过<code>verifyLicenseWithName</code>方法判断是否为合法注册码，定位到对应汇编代码，将变更后的汇编代码翻译为字节码。<br>此处通过将判断条件置反，使得无效的注册码进入有效验证码的后续逻辑，即需要将汇编代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">000000010010f30e         je         0x10010f39b</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>替换为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">000000010010f30e         jne         0x10010f39b</span><br></pre></td></tr></table></figure></p>
+<ol start="3">
+<li>通过右侧的窗口查看汇编命令对应的字节码：</li>
+</ol>
+<p><img src="/image/2016-05-13 22-57-58.jpg" alt><br>根据汇编命令与字节码的对应关系：</p>
+<p><img src="/image/2016-05-13 23-00-28.jpg" alt></p>
+<p>需要将<code>je</code> 对应的<code>0F 84 87 00 00 00</code>替换为<code>0F 85 87 00 00 00</code></p>
+<ol start="4">
+<li><p>使用mac下的字节码编辑工具<code>Hex Fiend</code>打开MacOs目录下的可执行文件<br>执行替换时，因为<code>0F 84 87 00 00 00</code>对应了多个结果，这里将后一句汇编代码对应的字节码拼接上去确保结果唯一后执行替换：<br><img src="/image/2016-05-13 23-11-08.jpg" alt></p>
+</li>
+<li><p>保存替换之后还无法运行，因为修改过的可执行文件丢失了证书信息，需要重新对该文件进行签名操作。<br>详细步骤可以参考：<a href="http://forums.macnn.com/79/developer-center/355720/how-re-sign-apples-applications-once/" target="_blank" rel="noopener">re-sign-apples-applications</a></p>
+</li>
+<li>签名之后依然无法打开，查找提示信息<code>Signature of the Interface Inspector is broken</code>找到程序启动完毕触发事件的监听部分：</li>
+</ol>
+<p><img src="/image/2016-05-13 23-22-40.jpg" alt><br>找到跳转入口：<br><img src="/image/2016-05-13 23-23-31.jpg" alt><br>按照刚才的处理方法，替换此处的判断条件。</p>
+<ol start="7">
+<li>至此可以打开软件并用任意字符成功注册。</li>
+</ol>
+<p><img src="/image/2016-05-13 23-25-18.jpg" alt></p>
+
+    </div>
+
+    
+    
+    
+        <div class="reward-container">
+  <div>加入星球与我交流</div>
+  <button disable="enable" onclick="var qr = document.getElementById(&quot;qr&quot;); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    Donate
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/image/alipay.png" alt="Suclogger WeChat Pay">
+        <p>WeChat Pay</p>
+      </div>
+
+  </div>
+</div>
+
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/disassemble/" rel="tag"># disassemble</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/《万历十五年》有感/" rel="prev" title="《万历十五年》有感">
+      <i class="fa fa-chevron-left"></i> 《万历十五年》有感
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/逆向解除TextNut内购限制/" rel="next" title="逆向解除TextNut内购限制">
+      逆向解除TextNut内购限制 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+  </div>
+
+
+          </div>
+          
+    
+  <div class="comments" id="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Suclogger" src="/image/avatar.png">
+  <p class="site-author-name" itemprop="name">Suclogger</p>
+  <div class="site-description" itemprop="description">人生如逆旅，我亦是行人</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">58</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories">
+          
+        <span class="site-state-item-count">10</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags">
+          
+        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/suclogger" title="GitHub → https://github.com/suclogger" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Suclogger</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> v3.8.0
+  </div>
+  <span class="post-meta-divider">|</span>
+  <div class="theme-info">Theme – <a href="https://muse.theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v7.6.0
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script>
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://suclogger.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  function loadComments() {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: {page: {
+            url: "https://suclogger.me/打开了新世界的大门：Hopper-Disassembler/",
+            identifier: "打开了新世界的大门：Hopper-Disassembler/",
+            title: "打开了新世界的大门：Hopper Disassembler"
+          }
+        }
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://suclogger.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  }
+    (function() {
+      var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+      if (offsetTop <= 0) {
+        // load directly when there's no a scrollbar
+        window.addEventListener('load', loadComments, false);
+      } else {
+        var disqus_scroll = () => {
+          // offsetTop may changes because of manually resizing browser window or lazy loading images.
+          var offsetTop = document.getElementById('comments').offsetTop - window.innerHeight;
+          var scrollTop = window.scrollY;
+
+          // pre-load comments a bit? (margin or anything else)
+          if (offsetTop - scrollTop < 60) {
+            window.removeEventListener('scroll', disqus_scroll);
+            loadComments();
+          }
+        };
+        window.addEventListener('scroll', disqus_scroll);
+      }
+    })();
+  
+</script>
+
+</body>
+</html>
