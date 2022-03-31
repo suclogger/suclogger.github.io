@@ -1,0 +1,248 @@
+<!doctype html><html lang=zh-cn>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>solr中文全词匹配的问题 - Half Bit</title>
+<meta name=renderer content="webkit">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta http-equiv=cache-control content="no-transform">
+<meta http-equiv=cache-control content="no-siteapp">
+<meta name=theme-color content="#f8f5ec">
+<meta name=msapplication-navbutton-color content="#f8f5ec">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec">
+<meta name=author content="half-bit"><meta name=description content="正常情况下的全词匹配可以用双引号括住需要检索的关键字,比如: q=name:&amp;ldquo;keyword&amp;rdquo; 但是如果某个字段用配置了中文分词器,用双引号括住无法查找到对应记录,只能用分词">
+<meta name=generator content="Hugo 0.91.2 with theme even">
+<link rel=canonical href=https://run.halfbit.top/post/solr%E4%B8%AD%E6%96%87%E5%85%A8%E8%AF%8D%E5%8C%B9%E9%85%8D%E7%9A%84%E9%97%AE%E9%A2%98/>
+<link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png>
+<link rel=manifest href=/manifest.json>
+<link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5>
+<link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous>
+<meta property="og:title" content="solr中文全词匹配的问题">
+<meta property="og:description" content="正常情况下的全词匹配可以用双引号括住需要检索的关键字,比如: q=name:&ldquo;keyword&rdquo; 但是如果某个字段用配置了中文分词器,用双引号括住无法查找到对应记录,只能用分词">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://run.halfbit.top/post/solr%E4%B8%AD%E6%96%87%E5%85%A8%E8%AF%8D%E5%8C%B9%E9%85%8D%E7%9A%84%E9%97%AE%E9%A2%98/"><meta property="article:section" content="post">
+<meta itemprop=name content="solr中文全词匹配的问题">
+<meta itemprop=description content="正常情况下的全词匹配可以用双引号括住需要检索的关键字,比如: q=name:&ldquo;keyword&rdquo; 但是如果某个字段用配置了中文分词器,用双引号括住无法查找到对应记录,只能用分词">
+<meta itemprop=wordCount content="432">
+<meta itemprop=keywords content="solr,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="solr中文全词匹配的问题">
+<meta name=twitter:description content="正常情况下的全词匹配可以用双引号括住需要检索的关键字,比如: q=name:&ldquo;keyword&rdquo; 但是如果某个字段用配置了中文分词器,用双引号括住无法查找到对应记录,只能用分词"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]-->
+</head>
+<body>
+<div id=mobile-navbar class=mobile-navbar>
+<div class=mobile-header-logo>
+<a href=/ class=logo>Half Bit</a>
+</div>
+<div class=mobile-navbar-icon>
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+<nav id=mobile-menu class="mobile-menu slideout-menu">
+<ul class=mobile-menu-list>
+<a href=/>
+<li class=mobile-menu-item>Home</li>
+</a><a href=/post/>
+<li class=mobile-menu-item>Archives</li>
+</a><a href=/tags/>
+<li class=mobile-menu-item>Tags</li>
+</a><a href=/categories/>
+<li class=mobile-menu-item>Categories</li>
+</a>
+</ul>
+</nav>
+<div class=container id=mobile-panel>
+<header id=header class=header>
+<div class=logo-wrapper>
+<a href=/ class=logo>Half Bit</a>
+</div>
+<nav class=site-navbar>
+<ul id=menu class=menu>
+<li class=menu-item>
+<a class=menu-item-link href=/>Home</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/post/>Archives</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/tags/>Tags</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/categories/>Categories</a>
+</li>
+</ul>
+</nav>
+</header>
+<main id=main class=main>
+<div class=content-wrapper>
+<div id=content class=content>
+<article class=post>
+<header class=post-header>
+<h1 class=post-title>solr中文全词匹配的问题</h1>
+<div class=post-meta>
+<span class=post-time> 0001-01-01 </span>
+<div class=post-category>
+<a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
+</div>
+</div>
+</header>
+<div class=post-toc id=post-toc>
+<h2 class=post-toc-title>文章目录</h2>
+<div class="post-toc-content always-active">
+<nav id=TableOfContents></nav>
+</div>
+</div>
+<div class=post-content>
+<p>正常情况下的全词匹配可以用双引号括住需要检索的关键字,比如: q=name:&ldquo;keyword&rdquo;
+但是如果某个字段用配置了中文分词器,用双引号括住无法查找到对应记录,只能用分词的结果的一部分做模糊查询,比如要精确查询 &ldquo;美丽人生&rdquo; ,用 q=name:&ldquo;美丽人生&rdquo; 是无法匹配到的,只能用 q=name:&ldquo;美丽&rdquo; ,或者 q=name:&ldquo;人生&rdquo; 才能匹配到.
+中文分词配置如下</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>&lt;field name=&#34;name&#34; type=&#34;textComplex&#34; indexed=&#34;true&#34; stored=&#34;true&#34;/&gt;
+
+...
+
+&lt;fieldType name=&#34;textComplex&#34; class=&#34;solr.TextField&#34; positionIncrementGap=&#34;100&#34;&gt;
+    &lt;analyzer type=&#34;index&#34;&gt;
+            &lt;tokenizer class=&#34;com.chenlb.mmseg4j.solr.MMSegTokenizerFactory&#34; mode=&#34;complex&#34;/&gt;
+            &lt;filter class=&#34;solr.WordDelimiterFilterFactory&#34;
+            splitOnNumerics=&#34;0&#34;
+            generateWordParts=&#34;1&#34;
+            generateNumberParts=&#34;1&#34;
+            catenateWords=&#34;0&#34;
+            catenateNumbers=&#34;0&#34;
+            catenateAll=&#34;0&#34;
+            preserveOriginal=&#34;1&#34;
+            /&gt;
+            &lt;filter class=&#34;solr.LowerCaseFilterFactory&#34;/&gt;
+            &lt;filter class=&#34;solr.EdgeNGramFilterFactory&#34; minGramSize=&#34;1&#34; maxGramSize=&#34;10&#34;/&gt;
+    &lt;/analyzer&gt;
+    &lt;analyzer type=&#34;query&#34;&gt;
+&lt;tokenizer class=&#34;solr.StandardTokenizerFactory&#34;/&gt;
+ &lt;filter class=&#34;solr.LowerCaseFilterFactory&#34;/&gt;
+    &lt;/analyzer&gt;
+&lt;/fieldType&gt;
+
+</code></pre></td></tr></table>
+</div>
+</div><p>解决的思路就是索引两个字段，一个分词，一个不分词，但是他们都索引了，在查询时，同时查询这两个字段，分词的字段：模糊查，不分词的字段：精确查，这样以来既能保证召全率，也能保证查准率,配置如下:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>&lt;!-- 这个字段用于模糊匹配 --&gt;
+&lt;field name=&#34;name&#34; type=&#34;textComplex&#34; indexed=&#34;true&#34; stored=&#34;true&#34;/&gt;
+
+&lt;!-- 这个字段用于精确匹配 --&gt;
+&lt;field name=&#34;exactName&#34; type=&#34;exactText&#34; indexed=&#34;true&#34; stored=&#34;true&#34;/&gt;
+
+&lt;!--保持这两个字段相等 --&gt;
+&lt;copyField source=&#34;name&#34; dest=&#34;exactName&#34;/&gt;
+
+</code></pre></td></tr></table>
+</div>
+</div>
+</div>
+<div class=post-copyright>
+<p class=copyright-item>
+<span class=item-title>文章作者</span>
+<span class=item-content>half-bit</span>
+</p>
+<p class=copyright-item>
+<span class=item-title>上次更新</span>
+<span class=item-content>
+0001-01-01
+</span>
+</p>
+</div>
+<footer class=post-footer>
+<div class=post-tags>
+<a href=/tags/solr/>solr</a>
+</div>
+<nav class=post-nav>
+<a class=prev href=/post/%E9%A1%B9%E7%9B%AE%E6%B7%BB%E5%8A%A0cxf%E7%9A%84webservice%E6%94%AF%E6%8C%81/>
+<i class="iconfont icon-left"></i>
+<span class="prev-text nav-default"></span>
+<span class="prev-text nav-mobile">上一篇</span>
+</a>
+</nav>
+</footer>
+</article>
+</div>
+<div id=comments-gitment></div>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.min.css crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.min.js crossorigin=anonymous></script>
+<script type=text/javascript>var gitment=new Gitment({id:'0001-01-01 00:00:00 \u002b0000 UTC',title:'solr中文全词匹配的问题',link:decodeURI(location.href),desc:'正常情况下的全词匹配可以用双引号括住需要检索的关键字,比如: q=name:\u0026ldquo;keyword\u0026rdquo; 但是如果某个字段用配置了中文分词器,用双引号括住无法查找到对应记录,只能用分词',owner:'suclogger',repo:'hugo-gitment',oauth:{client_id:'4fc1929b2f6b64361966',client_secret:'b7b049f3b50eb7d9c723564115f1689f4f608ff2'}});gitment.render('comments-gitment')</script>
+<noscript>Please enable JavaScript to view the <a href=https://github.com/imsun/gitment>comments powered by gitment.</a></noscript>
+</div>
+</main>
+<footer id=footer class=footer>
+<div class=social-links>
+<a href=https://github.com/suclogger class="iconfont icon-github" title=github></a>
+<a href=https://run.halfbit.top/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a>
+</div>
+<div class=copyright>
+<span class=power-by>
+由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
+</span>
+<span class=division>|</span>
+<span class=theme-info>
+主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
+</span>
+<span class=copyright-year>
+&copy;
+2017 -
+2022<span class=heart><i class="iconfont icon-heart"></i></span><span>half-bit</span>
+</span>
+</div>
+</footer>
+<div class=back-to-top id=back-to-top>
+<i class="iconfont icon-up"></i>
+</div>
+</div>
+<script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js></script>
+</body>
+</html>

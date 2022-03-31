@@ -1,0 +1,843 @@
+<!doctype html><html lang=zh-cn>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>从webmagic着手浅析JAVA爬虫 - Half Bit</title>
+<meta name=renderer content="webkit">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta http-equiv=cache-control content="no-transform">
+<meta http-equiv=cache-control content="no-siteapp">
+<meta name=theme-color content="#f8f5ec">
+<meta name=msapplication-navbutton-color content="#f8f5ec">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec">
+<meta name=author content="half-bit"><meta name=description content="用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。 前言 什么是爬虫？ 网络蜘蛛 关于爬虫是否合法的讨论？ 用爬虫抓取数据，这样的行为">
+<meta name=generator content="Hugo 0.91.2 with theme even">
+<link rel=canonical href=https://run.halfbit.top/post/%E4%BB%8Ewebmagic%E7%9D%80%E6%89%8B%E6%B5%85%E6%9E%90java%E7%88%AC%E8%99%AB/>
+<link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png>
+<link rel=manifest href=/manifest.json>
+<link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5>
+<link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous>
+<meta property="og:title" content="从webmagic着手浅析JAVA爬虫">
+<meta property="og:description" content="用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。 前言 什么是爬虫？ 网络蜘蛛 关于爬虫是否合法的讨论？ 用爬虫抓取数据，这样的行为">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://run.halfbit.top/post/%E4%BB%8Ewebmagic%E7%9D%80%E6%89%8B%E6%B5%85%E6%9E%90java%E7%88%AC%E8%99%AB/"><meta property="article:section" content="post">
+<meta property="article:published_time" content="2016-05-17T11:41:07+00:00">
+<meta property="article:modified_time" content="2016-05-17T11:41:07+00:00">
+<meta itemprop=name content="从webmagic着手浅析JAVA爬虫">
+<meta itemprop=description content="用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。 前言 什么是爬虫？ 网络蜘蛛 关于爬虫是否合法的讨论？ 用爬虫抓取数据，这样的行为"><meta itemprop=datePublished content="2016-05-17T11:41:07+00:00">
+<meta itemprop=dateModified content="2016-05-17T11:41:07+00:00">
+<meta itemprop=wordCount content="3849">
+<meta itemprop=keywords content="craw,webmagic,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="从webmagic着手浅析JAVA爬虫">
+<meta name=twitter:description content="用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。 前言 什么是爬虫？ 网络蜘蛛 关于爬虫是否合法的讨论？ 用爬虫抓取数据，这样的行为"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]-->
+</head>
+<body>
+<div id=mobile-navbar class=mobile-navbar>
+<div class=mobile-header-logo>
+<a href=/ class=logo>Half Bit</a>
+</div>
+<div class=mobile-navbar-icon>
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+<nav id=mobile-menu class="mobile-menu slideout-menu">
+<ul class=mobile-menu-list>
+<a href=/>
+<li class=mobile-menu-item>Home</li>
+</a><a href=/post/>
+<li class=mobile-menu-item>Archives</li>
+</a><a href=/tags/>
+<li class=mobile-menu-item>Tags</li>
+</a><a href=/categories/>
+<li class=mobile-menu-item>Categories</li>
+</a>
+</ul>
+</nav>
+<div class=container id=mobile-panel>
+<header id=header class=header>
+<div class=logo-wrapper>
+<a href=/ class=logo>Half Bit</a>
+</div>
+<nav class=site-navbar>
+<ul id=menu class=menu>
+<li class=menu-item>
+<a class=menu-item-link href=/>Home</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/post/>Archives</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/tags/>Tags</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/categories/>Categories</a>
+</li>
+</ul>
+</nav>
+</header>
+<main id=main class=main>
+<div class=content-wrapper>
+<div id=content class=content>
+<article class=post>
+<header class=post-header>
+<h1 class=post-title>从webmagic着手浅析JAVA爬虫</h1>
+<div class=post-meta>
+<span class=post-time> 2016-05-17 </span>
+<div class=post-category>
+<a href=/categories/%E7%88%AC%E8%99%AB/> 爬虫 </a>
+</div>
+</div>
+</header>
+<div class=post-toc id=post-toc>
+<h2 class=post-toc-title>文章目录</h2>
+<div class="post-toc-content always-active">
+<nav id=TableOfContents>
+<ul>
+<li>
+<ul>
+<li><a href=#前言>前言</a></li>
+<li><a href=#简单的爬虫>简单的爬虫</a></li>
+<li><a href=#好的爬虫>好的爬虫</a></li>
+<li><a href=#优雅的框架设计>优雅的框架设计</a></li>
+<li><a href=#储备知识>储备知识</a>
+<ul>
+<li><a href=#通过xpath获取页面元素>通过XPath获取页面元素</a></li>
+</ul>
+</li>
+<li><a href=#一个简单的webmgic的例子>一个简单的webmgic的例子</a>
+<ul>
+<li><a href=#caoliucraw>CaoLiuCraw</a></li>
+</ul>
+</li>
+<li><a href=#通过注解编写爬虫的例子>通过注解编写爬虫的例子</a>
+<ul>
+<li><a href=#ebookcraw>EBookCraw</a></li>
+</ul>
+</li>
+<li><a href=#对一些特性的分析>对一些特性的分析</a></li>
+<li><a href=#应对网站的反爬措施>应对网站的反爬措施</a>
+<ul>
+<li><a href=#使用webmagic集成的proxypool来管理proxy>使用webmagic集成的<code>ProxyPool</code>来管理Proxy</a></li>
+<li><a href=#实现cookieprovider自定义管理cookie>实现<code>CookieProvider</code>自定义管理Cookie</a></li>
+</ul>
+</li>
+<li><a href=#增量抓取>增量抓取</a></li>
+<li><a href=#爬虫的运行监控>爬虫的运行监控</a></li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<div class=post-content>
+<p>用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。</p>
+<h2 id=前言>前言</h2>
+<p>什么是爬虫？</p>
+<blockquote>
+<p><a href=https://zh.wikipedia.org/wiki/%E7%B6%B2%E8%B7%AF%E8%9C%98%E8%9B%9B>网络蜘蛛</a></p>
+</blockquote>
+<p>关于爬虫是否合法的讨论？</p>
+<blockquote>
+<p><a href=https://www.v2ex.com/t/268607>用爬虫抓取数据，这样的行为是否合法</a></p>
+</blockquote>
+<p>比较知名的开源的爬虫主要包括：
+JAVA : <a href=https://github.com/code4craft/webmagic title=Webmagic>Webmagic</a>，<a href=https://github.com/CrawlScript/WebCollector title=WebCollector>WebCollector</a>，<a href=https://github.com/yasserg/crawler4j title=Crawler4j>Crawler4j</a>
+PYTHON : <a href=https://github.com/scrapy/scrapy title=Scrapy> Scrapy</a></p>
+<h2 id=简单的爬虫>简单的爬虫</h2>
+<p><code>简单的网络爬虫</code>可以只是遍历一个存放URL的集合并通过<code>HttpClient</code>发送网络请求：</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>CloseableHttpClient httpclient = HttpClients.createDefault();
+try {
+    HttpGet httpget = new HttpGet(&#34;http://httpbin.org/&#34;);
+    ResponseHandler&lt;String&gt; responseHandler = new ResponseHandler&lt;String&gt;() {
+        @Override
+        public String handleResponse( HttpResponse response) throws IOException {
+            int status = response.getStatusLine().getStatusCode();
+            if (status &gt;= 200 &amp;&amp; status &lt; 300) {
+                HttpEntity entity = response.getEntity();
+                return entity != null ? EntityUtils.toString(entity) : null;
+            }
+            return null;
+        }
+    };
+    String responseBody = httpclient.execute(httpget, responseHandler);
+} catch (IOException e){
+    e.printStackTrace();
+} finally {
+    try {
+        httpclient.close();
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><h2 id=好的爬虫>好的爬虫</h2>
+<p>一个<code>好的爬虫框架</code>相比简单的爬虫，应该包含了以下特性：</p>
+<ol>
+<li>支持多线程</li>
+<li>支持代理</li>
+<li>支持过滤重复URL</li>
+<li>支持爬取ajax返回信息</li>
+<li>支持爬取需要登录验证的网页信息（Cookie管理）</li>
+<li>支持持久化保存爬取到的信息</li>
+<li>支持错误处理（IP被封禁或者登录信息失效后的处理）</li>
+<li>支持停止后从断点继续</li>
+<li>准确，快速地抓取所需信息
+为了给一个简单的爬虫整合这些特性，需要做一个简单的框架设计。</li>
+</ol>
+<h2 id=优雅的框架设计>优雅的框架设计</h2>
+<p><code>Scrapy</code>的框架：</p>
+<p>![Scrapy Structure](/image/2016-05-18 at 上午9.33.jpeg)</p>
+<ul>
+<li><code>Spider</code>创建<code>Request</code>，处理<code>Response</code>,生成<code>Items</code>和后续<code>Request</code>。</li>
+<li><code>Items</code>是从Response中由抽取出的所需信息组合而成的一个个POJO。</li>
+<li>Spider生成的<code>Items</code>经<code>process_item()</code>方法交由一系列的<code>Item Pipelines</code>进行处理。</li>
+<li><code>Pipeline</code>处理<code>Items</code>，可以是保存到数据库，打印到控制台，提交给Elasticsearch等等。</li>
+<li><code>Downloader</code>负责实际的下载行为，接收传入的Request请求，输出Response。</li>
+</ul>
+<p><code>Webmagic</code>的框架：
+![webmagic structure](/image/2016-05-18 at 上午11.16.jpeg)</p>
+<p>Webmagic的框架设计大部分沿袭了Scrapy：</p>
+<ul>
+<li><code>Downloader</code>负责从互联网上下载页面，以便后续处理。WebMagic默认使用了Apache HttpClient作为下载工具。</li>
+<li><code>PageProcessor</code> 负责解析页面，抽取有用信息，以及发现新的链接。</li>
+<li><code>Scheduler</code>负责管理待抓取的URL，以及一些去重的工作。</li>
+<li><code>Pipeline</code>负责抽取结果的处理，包括计算、持久化到文件、数据库等。
+<strong><code>Webmagic</code>很好的贯彻了<code>面向接口</code>的设计思想，我们可以很容易地对上述的组件进行自定义和扩展。</strong>
+更进一步，可以通过修改webmgic的源代码来满足我们的定制化需求。</li>
+</ul>
+<h2 id=储备知识>储备知识</h2>
+<h3 id=通过xpath获取页面元素>通过XPath获取页面元素</h3>
+<p>常见的从html页面获取元素的方式是通过<code>Jsoup</code>，它支持用<code>CSS Selector</code>方式选择DOM元素，也可过滤HTML文本。</p>
+<blockquote>
+<p>参见<code>renault</code>中Craw168.java的实现</p>
+</blockquote>
+<p>这里主要介绍通过Xpath语法获取页面元素。Xpath语法介绍请见：<a href=http://www.w3school.com.cn/xpath/>Xpath语法</a>
+由于Jsoup暂不支持Xpath语法，webmagic中集成了<a href=https://github.com/code4craft/xsoup>Xsoup</a>来实现对Xpath语法的支持。但是由于Xsoup项目疏于维护，对Xpath的语法支持不全，我个人给webmgic添加了<code>JsoupXpath</code>来支持<code>Xpath</code>语法。JsoupXpath项目地址：<a href=https://github.com/zhegexiaohuozi/JsoupXpath>JsoupXpath</a></p>
+<h4 id=在chrome中调试xpath>在chrome中调试xpath</h4>
+<p>通过 开发者工具-元素选择栏 可以快速获取所需元素的xpath路径：
+![chrome xpath chose](/image/2016-05-18 at 下午5.00.jpeg)</p>
+<p>在console中可以使用<code>$x("XPath路径")</code>来定位xpath对应的元素：
+![get element by xpath in chrome](/image/2016-05-18 at 下午5.04.jpeg)</p>
+<h4 id=在firefox中调试xpath>在firefox中调试xpath</h4>
+<p>通过安装插件<code>XPath Checker</code>来调试xpath：
+查看：
+![firefox xpath chose](/image/2016-05-18 at 下午5.06.jpeg?r=42)
+获取元素：
+![get element by xpath in firefox](/image/2016-05-18 at 下午5.07.jpeg?r=56)</p>
+<h4 id=使用xpath需要遵循的几个原则>使用xpath需要遵循的几个原则</h4>
+<ol>
+<li>避免使用数组的形式获取元素，如<code>//*[@id="myid"]/div/div/div[1]/div[2]/div/div[1]/div[1]/a/img</code>。这种形式的xpath表达式是很脆弱的，因为页面的元素的排列很可能受到广告的插入，其他信息的存在与否而导致数组依赖的div的显示与否 等等因素的影响。通过chrome或者firefox自动获取的xpath通常是这种形式，要记得对得到的结果进行一定处理。
+举个例子：
+第一个页面上使用<code>li[9]</code>路径来获取页面上的<code>QQ</code>元素，但是第二页面中由于没有对应的元素，导致后面的元素使用了<code>li[9]</code>路径，这时候如果还用<code>li[9]</code>路径来获取页面上的<code>QQ</code>元素，就会得到错误的元素：
+![](/image/2016-05-20 16-26-24.jpg?f=1) ![](/image/2016-05-20 16-27-15.jpg?f=2)</li>
+<li>避免采用元素的<code>class</code>属性来获取元素，如<code>//div[@class="red"]/a/img</code>。因为class通常用于控制页面元素的样式，一旦页面的样式风格发生变化，对应元素的class也极有可能发生变化。</li>
+<li>元素的<code>id</code>属性通常是最为可靠的，如<code>//*[@id="more_info"]//text()</code>。</li>
+</ol>
+<p>接下来就用一个简单的实例进入实战：</p>
+<h2 id=一个简单的webmgic的例子>一个简单的webmgic的例子</h2>
+<h3 id=caoliucraw>CaoLiuCraw</h3>
+<p>CaoLiuProcessor.java:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>public class CaoLiuProcessor implements PageProcessor {
+    private Site site = Site.me()
+            .setUserAgent(&#34;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/31.0.1650.57 Safari/537.36&#34;)
+            .setCharset(&#34;GBK&#34;).setDomain(&#34;cl.pclmm.org&#34;).setSleepTime(5000)
+            .setHttpProxy(new HttpHost(&#34;localhost&#34;,6152));
+
+    @Override
+    public void process(Page page) {
+        String title = page.getHtml().selectDocument(new JsoupXpathSelector(&#34;//title/text()&#34;));
+        List&lt;String&gt; list = page.getHtml().selectDocumentForList(new JsoupXpathSelector(&#34;//div[@class=&#39;tpc_content do_not_catch&#39;]/descendant::input[@type=&#39;image&#39;]/@src&#34;));
+        page.putField(&#34;title&#34;, title);
+        page.putField(&#34;images&#34;, list);
+        Selectable links = page.getHtml().links();
+        List&lt;String&gt; targeturls = links.regex(&#34;http:\\/\\/cl\\.pclmm\\.org\\/htm_data\\/\\d+\\/\\d+\\/\\d+\\.html&#34;).all();
+        List&lt;String&gt; helpurls = links.regex(&#34;http:\\/\\/cl\\.pclmm\\.org\\/thread0806\\.php\\?fid=16&amp;search=&amp;page=\\d+&#34;).all();
+        page.addTargetRequests(helpurls);
+        page.addTargetRequests(targeturls);
+    }
+
+    @Override
+    public Site getSite() {
+        return site;
+    }
+
+    public static void main(String[] args) throws FileNotFoundException, UnsupportedEncodingException {
+        Spider.create(new CaoLiuProcessor())
+//                .setScheduler(new FileCacheQueueScheduler(&#34;/Users/suclogger/MyWorkspace/caoliua&#34;))
+                .addUrl(&#34;http://cl.pclmm.org/thread0806.php?fid=16&amp;search=&amp;page=1&#34;)
+                .addPipeline(new CaoLiuPip())
+                .thread(2)
+                .run();
+    }
+}
+
+</code></pre></td></tr></table>
+</div>
+</div><p>CaoLiuPip.java:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span><span class=lnt>77
+</span><span class=lnt>78
+</span><span class=lnt>79
+</span><span class=lnt>80
+</span><span class=lnt>81
+</span><span class=lnt>82
+</span><span class=lnt>83
+</span><span class=lnt>84
+</span><span class=lnt>85
+</span><span class=lnt>86
+</span><span class=lnt>87
+</span><span class=lnt>88
+</span><span class=lnt>89
+</span><span class=lnt>90
+</span><span class=lnt>91
+</span><span class=lnt>92
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>public class CaoLiuPip implements Pipeline{
+    private final static String path = &#34;/Users/suclogger/MyWorkspace/caoliu/&#34;;
+
+    @Override
+    public void process(ResultItems resultItems, Task task) {
+        String title = resultItems.get(&#34;title&#34;);
+        List&lt;String&gt; list = resultItems.get(&#34;images&#34;);
+        if(!StringUtils.isBlank(title) &amp;&amp; list.size() &gt; 0) {
+            StringBuffer imgFileNameNewYuan =new StringBuffer(path)
+                    .append(title) //此处提取文件夹名，即之前采集的标题名
+                    .append(&#34;/&#34;);
+            //这里先判断文件夹名是否存在，不存在则建立相应文件夹
+            Path target = Paths.get(imgFileNameNewYuan.toString());
+            if(!Files.isReadable(target)){
+                try {
+                    Files.createDirectory(target);
+                } catch (IOException e) {
+                    logger.error(&#34;folder exist {}&#34;, imgFileNameNewYuan.toString(),e);
+                }
+            }
+            for(int i=1;i&lt;list.size();i++){
+                try {
+                    ThreadPoolFactory.getThreadPool().execute(new DownloadImg(imgFileNameNewYuan.toString(), title,list.get(i)));
+                } catch (RejectedExecutionException e) {
+                    logger.error(&#34;image thread too many, hold on for a minuet&#34;);
+                    try {
+                        Thread.sleep(60000);
+                        // retry
+                        ThreadPoolFactory.getThreadPool().execute(new DownloadImg(imgFileNameNewYuan.toString(), title,list.get(i)));
+                    } catch (Exception e1) {
+                        logger.error(&#34;shit retry error. do nothing&#34;);
+                    }
+                }
+            }
+        }
+    }
+
+    class DownloadImg implements Runnable{
+        private final HttpHost proxy = new HttpHost(&#34;127.0.0.1&#34;, 6152, &#34;http&#34;);
+
+        String imgpath;
+        String title;
+        String link;
+
+        public DownloadImg(String imgpath, String title, String link) {
+            this.imgpath = imgpath;
+            this.title = title;
+            this.link = link;
+        }
+
+        @Override
+        public void run() {
+            try {
+                String extName=com.google.common.io
+                        .Files.getFileExtension(link);
+                StringBuffer imgFileNameNew = new StringBuffer(imgpath)
+                        .append((link)
+                                .replaceAll(&#34;[\\pP‘’“”]&#34;, &#34;&#34;))
+                        .append(&#34;.&#34;)
+                        .append(extName);
+
+                //这里通过httpclient下载之前抓取到的图片网址，并放在对应的文件中
+                CloseableHttpClient httpclient = HttpClients.createDefault();
+                RequestConfig config = RequestConfig.custom()
+                        .setProxy(proxy)
+                        .build();
+                HttpGet httpget = new HttpGet(link);
+                httpget.setConfig(config);
+                HttpResponse response = httpclient.execute(httpget);
+                HttpEntity entity = response.getEntity();
+                InputStream in = entity.getContent();
+                File file = new File(imgFileNameNew.toString());
+                try {
+                    FileOutputStream fout = new FileOutputStream(file);
+                    int l = -1;
+                    byte[] tmp = new byte[1024];
+                    while ((l = in.read(tmp)) != -1) {
+                        fout.write(tmp,0,l);
+                    }
+                    fout.flush();
+                    fout.close();
+                    logger.info(&#34;save image : {}&#34;, link);
+                } finally {
+                    in.close();
+                }
+                httpclient.close();
+            } catch (Exception e) {
+                logger.error(&#34;fail saving image : {}&#34;,link);
+            }
+        }
+    }
+}
+</code></pre></td></tr></table>
+</div>
+</div><h2 id=通过注解编写爬虫的例子>通过注解编写爬虫的例子</h2>
+<h3 id=ebookcraw>EBookCraw</h3>
+<p><code>EBookModel.java</code>（略去了get和set方法）:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>@TargetUrl(&#34;http:\\/\\/www.allitebooks.com\\/(?!read\\/read.php)*&#34;)
+@HelpUrl({&#34;http://www.allitebooks.com/\\/page\\/\\d+&#34;})
+public class EBookModel {
+    @ExtractBy(value = &#34;//header[@class=&#39;entry-header&#39;]/h1[@class=&#39;single-title&#39;]/text()&#34;,notNull = true)
+    @Formatter(value = &#34;author is %s&#34;,formatter = EBookTitleFormatter.class)
+    private String title;
+
+    @ExtractBy(value = &#34;//header[@class=&#39;entry-header&#39;]/h4/text()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String brief;
+
+    @ExtractBy(value = &#34;//header[@class=&#39;entry-header&#39;]/div/div[@class*=&#39;entry-body-thumbnail&#39;]/a/img/@src&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String cover;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl/dd[1]/allText()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String author;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl/dd[2]/allText()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String isbn;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl/dd[3]/text()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String year;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl/dd[4]/text()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String pages;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl/dd[5]/allText()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String language;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl//dd[6]/allText()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String fileSize;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl/dd[7]/allText()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String fileFormat;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;book-detail&#39;]/dl/dd[8]/allText()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String category;
+
+    @ExtractBy(value = &#34;//div[@class=&#39;entry-content&#39;]/allText()&#34;,type = ExtractBy.Type.JsoupXpath)
+    private String description;
+
+    @ExtractBy(&#34;//span[@class=&#39;download-links&#39;][1]/a/@href&#34;)
+    private String downloadLink;
+
+    @ExtractByUrl(&#34;http://www.allitebooks.com/([\\w-]+)&#34;)
+    private String url;
+
+}
+</code></pre></td></tr></table>
+</div>
+</div><p>EBookPip.java:</p>
+<div class=highlight><div class=chroma>
+<table class=lntable><tr><td class=lntd>
+<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span></code></pre></td>
+<td class=lntd>
+<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>@Component
+public class EBookPip implements PageModelPipeline {
+
+    @Autowired
+    private EBookAO eBookAO;
+
+    @Override
+    public void process(Object o, Task task) {
+        if(o instanceof EBookModel) {
+            EBookModel model = (EBookModel) o;
+            EbookDO edo = new EbookDO();
+            edo.setTitle(model.getTitle());
+            edo.setAuthor(model.getAuthor());
+            edo.setBrief(model.getBrief());
+            edo.setCategory(model.getCategory());
+            edo.setCover(model.getCover());
+            edo.setDescription(model.getDescription());
+            edo.setDownloadLink(model.getDownloadLink());
+            edo.setFileFormat(model.getFileFormat());
+            edo.setFileSize(model.getFileSize());
+            edo.setIsbn(model.getIsbn());
+            edo.setLanguage(model.getLanguage());
+            edo.setYears(model.getYear());
+            if(!StringUtils.isBlank(model.getPages()) &amp;&amp; StringUtils.isNumeric(model.getPages())) {
+                edo.setPages(Integer.valueOf(model.getPages()));
+            }
+            edo.setUrl(model.getUrl());
+            try {
+                eBookAO.save(edo);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+
+</code></pre></td></tr></table>
+</div>
+</div><h2 id=对一些特性的分析>对一些特性的分析</h2>
+<ul>
+<li>
+<p>多线程的支持
+多线程的支持是通过一个可监控的<code>TheadPool</code>实现的，用法是通过<code>Spider.thread(N)</code>来开启N个线程。</p>
+</li>
+<li>
+<p>代理的支持
+下文 <code>应对网站的反爬措施</code> 部分中会展开。</p>
+</li>
+<li>
+<p>过滤重复URL的支持
+过滤是通过实现<code>DuplicateRemover</code>接口实现的，默认实现是使用内存中的一个<code>HashSet</code>集来存放已添加进爬取队列的网址。
+扩展中还添加了<a href=https://zh.wikipedia.org/wiki/%E5%B8%83%E9%9A%86%E8%BF%87%E6%BB%A4%E5%99%A8>布隆过滤器</a>的实现，适用于巨量网址的去重。</p>
+</li>
+<li>
+<p>爬取ajax返回信息
+通过采集页面链接，并将ajax链接放入爬取队列中可以实现。</p>
+</li>
+<li>
+<p>支持爬取需要登录验证的网页信息（Cookie管理）
+<code>Scrapy</code>替我们托管了所有cookie操作，但是webmagic中没有实现。
+通过<code>CookieProvider</code>管理Cookie。</p>
+</li>
+<li>
+<p>持久信息的支持
+如上面的<code>EBookCraw</code>例子，可以在PipeLine中添加数据持久化逻辑。</p>
+</li>
+<li>
+<p>支持停止后从断点继续
+采用<code>FileCacheQueueScheduler</code>来管理爬取链接，爬取中止后可以从文件中读取爬取进度。</p>
+</li>
+</ul>
+<h2 id=应对网站的反爬措施>应对网站的反爬措施</h2>
+<p>主要有下面三个方面 ：</p>
+<ol>
+<li>使用webmagic集成的<code>ProxyPool</code>来管理Proxy</li>
+<li>实现<code>CookieProvider</code>自定义管理Cookie</li>
+<li>实现<code>ErrorDetector</code>自定义捕获错误</li>
+</ol>
+<h3 id=使用webmagic集成的proxypool来管理proxy>使用webmagic集成的<code>ProxyPool</code>来管理Proxy</h3>
+<p><code>ProxyPool</code>维护了一个代理的有序队列，在每次请求完成后，通过请求的状态码设置当前使用的代理的优先级别返还到队列中，每次请求从队列中根据优先级别重新获取新的代理。
+这种方式适用于手上有很多前向代理资源的爬虫，切换起来比较方便，有些情况下可能需要与切换Cookie相互配合使用。</p>
+<h3 id=实现cookieprovider自定义管理cookie>实现<code>CookieProvider</code>自定义管理Cookie</h3>
+<p>每次请求都会从<code>CookieProvider </code>中拿一个cookie放入本次请求头中，可以通过方法调用切换cookie。
+<strong>结合renault演示</strong></p>
+<h2 id=增量抓取>增量抓取</h2>
+<p>通过实现<code>ExistDetector</code>接口，在抓取后续链接的时候调用<code>detect()</code>方法进行判断是否需要抓取该链接。
+<strong>结合renault演示</strong></p>
+<h2 id=爬虫的运行监控>爬虫的运行监控</h2>
+<p>还在雏形阶段
+![](/image/2016-05-20 17-19-29.jpg?r=26)</p>
+<p>参考：<a href=http://my.oschina.net/flashsword/blog/202889>WebMagic Avalon设计草图</a></p>
+</div>
+<div class=post-copyright>
+<p class=copyright-item>
+<span class=item-title>文章作者</span>
+<span class=item-content>half-bit</span>
+</p>
+<p class=copyright-item>
+<span class=item-title>上次更新</span>
+<span class=item-content>
+2016-05-17
+</span>
+</p>
+</div>
+<footer class=post-footer>
+<div class=post-tags>
+<a href=/tags/craw/>craw</a>
+<a href=/tags/webmagic/>webmagic</a>
+</div>
+<nav class=post-nav>
+<a class=prev href=/post/%E5%88%B0%E5%BA%95%E9%9C%80%E4%B8%8D%E9%9C%80%E8%A6%81manager%E5%B1%82/>
+<i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">到底需不需要Manager层？</span>
+<span class="prev-text nav-mobile">上一篇</span>
+</a>
+<a class=next href=/post/%E9%80%86%E5%90%91%E8%A7%A3%E9%99%A4textnut%E5%86%85%E8%B4%AD%E9%99%90%E5%88%B6/>
+<span class="next-text nav-default">逆向解除TextNut内购限制</span>
+<span class="next-text nav-mobile">下一篇</span>
+<i class="iconfont icon-right"></i>
+</a>
+</nav>
+</footer>
+</article>
+</div>
+<div id=comments-gitment></div>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.min.css crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.min.js crossorigin=anonymous></script>
+<script type=text/javascript>var gitment=new Gitment({id:'2016-05-17 11:41:07 \u002b0000 UTC',title:'从webmagic着手浅析JAVA爬虫',link:decodeURI(location.href),desc:'用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。 前言 什么是爬虫？ 网络蜘蛛 关于爬虫是否合法的讨论？ 用爬虫抓取数据，这样的行为',owner:'suclogger',repo:'hugo-gitment',oauth:{client_id:'4fc1929b2f6b64361966',client_secret:'b7b049f3b50eb7d9c723564115f1689f4f608ff2'}});gitment.render('comments-gitment')</script>
+<noscript>Please enable JavaScript to view the <a href=https://github.com/imsun/gitment>comments powered by gitment.</a></noscript>
+</div>
+</main>
+<footer id=footer class=footer>
+<div class=social-links>
+<a href=https://github.com/suclogger class="iconfont icon-github" title=github></a>
+<a href=https://run.halfbit.top/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a>
+</div>
+<div class=copyright>
+<span class=power-by>
+由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
+</span>
+<span class=division>|</span>
+<span class=theme-info>
+主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
+</span>
+<span class=copyright-year>
+&copy;
+2017 -
+2022<span class=heart><i class="iconfont icon-heart"></i></span><span>half-bit</span>
+</span>
+</div>
+</footer>
+<div class=back-to-top id=back-to-top>
+<i class="iconfont icon-up"></i>
+</div>
+</div>
+<script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js></script>
+</body>
+</html>

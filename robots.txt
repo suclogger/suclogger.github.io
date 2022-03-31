@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://run.halfbit.top/sitemap.xml

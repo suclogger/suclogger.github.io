@@ -1,0 +1,253 @@
+<!doctype html><html lang=zh-cn>
+<head>
+<meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
+<title>支付宝接入开发摘记 - Half Bit</title>
+<meta name=renderer content="webkit">
+<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
+<meta http-equiv=cache-control content="no-transform">
+<meta http-equiv=cache-control content="no-siteapp">
+<meta name=theme-color content="#f8f5ec">
+<meta name=msapplication-navbutton-color content="#f8f5ec">
+<meta name=apple-mobile-web-app-capable content="yes">
+<meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec">
+<meta name=author content="half-bit"><meta name=description content="这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。 这一期的支付开发主要接入支付宝，包含了入账和出账。 流程图 入">
+<meta name=generator content="Hugo 0.91.2 with theme even">
+<link rel=canonical href=https://run.halfbit.top/post/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%8E%A5%E5%85%A5%E5%BC%80%E5%8F%91%E6%91%98%E8%AE%B0/>
+<link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png>
+<link rel=manifest href=/manifest.json>
+<link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5>
+<link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous>
+<meta property="og:title" content="支付宝接入开发摘记">
+<meta property="og:description" content="这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。 这一期的支付开发主要接入支付宝，包含了入账和出账。 流程图 入">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://run.halfbit.top/post/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%8E%A5%E5%85%A5%E5%BC%80%E5%8F%91%E6%91%98%E8%AE%B0/"><meta property="article:section" content="post">
+<meta property="article:published_time" content="2016-11-01T23:40:58+00:00">
+<meta property="article:modified_time" content="2016-11-01T23:40:58+00:00">
+<meta itemprop=name content="支付宝接入开发摘记">
+<meta itemprop=description content="这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。 这一期的支付开发主要接入支付宝，包含了入账和出账。 流程图 入"><meta itemprop=datePublished content="2016-11-01T23:40:58+00:00">
+<meta itemprop=dateModified content="2016-11-01T23:40:58+00:00">
+<meta itemprop=wordCount content="1698">
+<meta itemprop=keywords content="支付,"><meta name=twitter:card content="summary">
+<meta name=twitter:title content="支付宝接入开发摘记">
+<meta name=twitter:description content="这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。 这一期的支付开发主要接入支付宝，包含了入账和出账。 流程图 入"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]-->
+</head>
+<body>
+<div id=mobile-navbar class=mobile-navbar>
+<div class=mobile-header-logo>
+<a href=/ class=logo>Half Bit</a>
+</div>
+<div class=mobile-navbar-icon>
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+<nav id=mobile-menu class="mobile-menu slideout-menu">
+<ul class=mobile-menu-list>
+<a href=/>
+<li class=mobile-menu-item>Home</li>
+</a><a href=/post/>
+<li class=mobile-menu-item>Archives</li>
+</a><a href=/tags/>
+<li class=mobile-menu-item>Tags</li>
+</a><a href=/categories/>
+<li class=mobile-menu-item>Categories</li>
+</a>
+</ul>
+</nav>
+<div class=container id=mobile-panel>
+<header id=header class=header>
+<div class=logo-wrapper>
+<a href=/ class=logo>Half Bit</a>
+</div>
+<nav class=site-navbar>
+<ul id=menu class=menu>
+<li class=menu-item>
+<a class=menu-item-link href=/>Home</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/post/>Archives</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/tags/>Tags</a>
+</li><li class=menu-item>
+<a class=menu-item-link href=/categories/>Categories</a>
+</li>
+</ul>
+</nav>
+</header>
+<main id=main class=main>
+<div class=content-wrapper>
+<div id=content class=content>
+<article class=post>
+<header class=post-header>
+<h1 class=post-title>支付宝接入开发摘记</h1>
+<div class=post-meta>
+<span class=post-time> 2016-11-01 </span>
+<div class=post-category>
+<a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
+</div>
+</div>
+</header>
+<div class=post-toc id=post-toc>
+<h2 class=post-toc-title>文章目录</h2>
+<div class="post-toc-content always-active">
+<nav id=TableOfContents>
+<ul>
+<li>
+<ul>
+<li><a href=#流程图>流程图</a></li>
+<li><a href=#支付宝接口>支付宝接口</a>
+<ul>
+<li><a href=#收款>收款</a></li>
+<li><a href=#退款>退款</a></li>
+<li><a href=#付款>付款</a></li>
+<li><a href=#查询>查询</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+<div class=post-content>
+<p>这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。
+这一期的支付开发主要接入支付宝，包含了入账和出账。</p>
+<h2 id=流程图>流程图</h2>
+<p>入账的流程图如下：</p>
+<p><img src=/image/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%94%AF%E4%BB%98.png alt></p>
+<p>出账的流程图如下：</p>
+<p><img src=/image/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%8F%90%E7%8E%B0.png alt></p>
+<h2 id=支付宝接口>支付宝接口</h2>
+<h3 id=收款>收款</h3>
+<p>为APP集成收款功能支付宝提供了两个接口，分别是<code>App支付</code>和<code>移动支付</code>，据支付宝客服称<code>App支付</code>是新接口，移动支付会逐渐淡化。
+这两个接口参数名大同小异，主要区别是<code>App支付</code>需要用<code>bizcontent</code>来包裹业务参数。
+这里主要使用<code>App支付</code>。</p>
+<p>接口名称：<code>mobile.securitypay.pay</code>
+文档地址：<a href="https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7629140.0.0.HKzvRR&treeId=204&articleId=105051&docType=1">App 支付</a>
+费率：<code>0.6%</code>
+额度：不限</p>
+<p>坑：</p>
+<ul>
+<li>文档中声称需要<code>对请求字符串的所有一级value（biz_content作为一个value）进行encode</code>，实际测试发现只有生成的签名字段<code>sign</code>需要做encode</li>
+<li>订单金额<code>total_amount</code>携带的金额不能用<code>,</code>分隔，比如¥1000元要传入<code>1000</code>，传入<code>1,000</code>会导致异常</li>
+<li>支付宝的回调中<code>total_amount</code>的金额是保留了2位小数表示的，比如订单金额¥0.5元，支付宝的回调会回传为<code>0.50</code></li>
+</ul>
+<h3 id=退款>退款</h3>
+<p>即时到帐的退款是有无密和有密之分的，官方提供的文档中只有<a href="https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.rSJ5uY&treeId=66&articleId=103571&docType=1">有密</a>。
+无密接口需要联系客服开通，开通时间需要5天左右。
+有密的接口需要在<code>window+ie</code>下输入密码才能完成退款操作。
+这里主要使用无密接口。</p>
+<p>接口名称：<code>refund_fastpay_by_platform_nopwd</code>
+费率：0（不退服务费）</p>
+<p>坑：</p>
+<ul>
+<li>回调的参数用了<code>^</code>分隔，如果通过java来做split处理，需要做转义处理为<code>\\^</code></li>
+<li>回调的<code>gmt_refund</code>时间格式是<code>yyyy-MM-dd HH:mm:ss.S</code></li>
+<li>退款使用密钥与收款不同，是<code>合作伙伴</code>下的密钥</li>
+<li>如果对某一条支付记录申请了部分金额的退款，支付宝同时会发出一条类型为<code>trade_status_sync</code>属于付款通知的回调，状态为<code>TRADE_SUCCESS</code>，注意不要与原支付记录的回调混淆，不同之处在于多了<code>refund_fee</code>和<code>gmt_refund</code>两个字段</li>
+</ul>
+<h3 id=付款>付款</h3>
+<p>从支付宝账户付款出去分为到其他支付宝账户和到银行卡账户，官方提供的文档中只有<a href="https://doc.open.alipay.com/docs/doc.htm?spm=a219a.7386797.0.0.cPDNbc&treeId=64&articleId=103569&docType=1">到支付宝账户</a>
+到支付宝账户是有密接口，需要在<code>window+ie</code>下输入密码才能完成付款操作。
+到银行卡账户是无密接口，需要联系客服开通，开通时间1-3天。</p>
+<p>到银行卡账户接口名称：<code>bptb_pay_file</code>
+费率分为<code>T0</code>和<code>T1</code>到账：
+<strong>T0</strong>： 0-2万元（不包含2万元）/2元每笔；2万元-5万元（不包含5万元）/4元每笔；5万元-10万元（不包含10万元）/6元每笔；10万元-20万元（不包含20万元）/10元每笔；20万元-50万元（不包含50万元）/20元每笔；50万元-100万元（不包含100万元）/30元每笔；100万元以上的/50元每笔
+<strong>T1</strong>： 0-2万元（不包含2万元）/1元每笔；2万元-5万元（不包含5万元）/3元每笔；5万元-100万元（不包含100万元）/5元每笔；100万元以上的/20元每笔
+额度：默认到个人和单位都是单笔500万，单日累计1000万元</p>
+<p>坑：</p>
+<ul>
+<li>区分T0和T1的字段名为<code>bussiness_type</code>，是拼写错误的</li>
+</ul>
+<hr>
+<p>到支付宝的接口名称：<code>batch_trans_notify</code>
+费率：0 - 20000元／0.50元；20000（含） - 50000元／1.00元；50000元（含）以上／3.00元
+额度：默认到个人是单笔500万，到单位是单笔500万，单日累计1000万元</p>
+<p>坑：</p>
+<ul>
+<li>回调的参数用了<code>^</code>和<code>|</code>分隔，如果通过java来做split处理，需要做转义处理为<code>\\^</code>和<code>\\|</code></li>
+<li>这个接口是有密的，表单提交之后需要在<code>window+ie</code>下输入密码才能完成付款操作，如果提交表单后未输入密码，这条付款记录会停留在待审核状态，没有超时或者关闭的回调，同一批次号无法重复提交，只能在支付宝网页端对已经提交的批次号进行审核处理：
+<img src=/image/2016-11-02-02-20-18.jpg alt></li>
+</ul>
+<h3 id=查询>查询</h3>
+<p>支付宝的付款回调是很及时的，所以这里查询主要针对付款操作。
+开通了付款功能就默认开通了对应的查询功能。
+查询付款到银行卡接口：<code>bptb_file_query</code>
+查询付款到支付宝账户接口：<code>btn_status_query</code></p>
+<p>总体感受：
+<strong>支付宝 = 劳动密集型接口 + 高昂费率</strong></p>
+</div>
+<div class=post-copyright>
+<p class=copyright-item>
+<span class=item-title>文章作者</span>
+<span class=item-content>half-bit</span>
+</p>
+<p class=copyright-item>
+<span class=item-title>上次更新</span>
+<span class=item-content>
+2016-11-01
+</span>
+</p>
+</div>
+<footer class=post-footer>
+<div class=post-tags>
+<a href=/tags/%E6%94%AF%E4%BB%98/>支付</a>
+</div>
+<nav class=post-nav>
+<a class=prev href=/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/>
+<i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">并发下的Base64解码问题</span>
+<span class="prev-text nav-mobile">上一篇</span>
+</a>
+<a class=next href=/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/>
+<span class="next-text nav-default">记一次反编译过程（二）</span>
+<span class="next-text nav-mobile">下一篇</span>
+<i class="iconfont icon-right"></i>
+</a>
+</nav>
+</footer>
+</article>
+</div>
+<div id=comments-gitment></div>
+<link rel=stylesheet href=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/default.min.css crossorigin=anonymous>
+<script src=https://cdn.jsdelivr.net/gh/theme-next/theme-next-gitment@1/gitment.browser.min.js crossorigin=anonymous></script>
+<script type=text/javascript>var gitment=new Gitment({id:'2016-11-01 23:40:58 \u002b0000 UTC',title:'支付宝接入开发摘记',link:decodeURI(location.href),desc:'这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。 这一期的支付开发主要接入支付宝，包含了入账和出账。 流程图 入',owner:'suclogger',repo:'hugo-gitment',oauth:{client_id:'4fc1929b2f6b64361966',client_secret:'b7b049f3b50eb7d9c723564115f1689f4f608ff2'}});gitment.render('comments-gitment')</script>
+<noscript>Please enable JavaScript to view the <a href=https://github.com/imsun/gitment>comments powered by gitment.</a></noscript>
+</div>
+</main>
+<footer id=footer class=footer>
+<div class=social-links>
+<a href=https://github.com/suclogger class="iconfont icon-github" title=github></a>
+<a href=https://run.halfbit.top/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a>
+</div>
+<div class=copyright>
+<span class=power-by>
+由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
+</span>
+<span class=division>|</span>
+<span class=theme-info>
+主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
+</span>
+<span class=copyright-year>
+&copy;
+2017 -
+2022<span class=heart><i class="iconfont icon-heart"></i></span><span>half-bit</span>
+</span>
+</div>
+</footer>
+<div class=back-to-top id=back-to-top>
+<i class="iconfont icon-up"></i>
+</div>
+</div>
+<script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
+<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
+<script type=text/javascript src=/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js></script>
+</body>
+</html>
