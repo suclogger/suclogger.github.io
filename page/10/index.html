@@ -82,47 +82,9 @@
 <section id=posts class=posts>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/elasticsearch%E4%B8%AD%E6%96%87%E7%A4%BE%E5%8C%BA20160618%E6%9D%AD%E5%B7%9E%E7%BA%BF%E4%B8%8B%E8%81%9A%E4%BC%9A%E7%BA%AA%E8%A6%81/>Elasticsearch中文社区20160618杭州线下聚会纪要</a></h1>
+<h1 class=post-title><a class=post-link href=/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/>为什么这么慢？</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-06-18 </span>
-<div class=post-category>
-<a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
-</div>
-</div>
-</header>
-<div class=post-content>
-<div class=post-summary>
-汪兴－Elasticsearch结合hbase的应用 介绍中使用的存储介质是HBase，我司目前还未达到迁移到NoSQL的数据量级，而且后面的
-</div>
-<div class=read-more>
-<a href=/post/elasticsearch%E4%B8%AD%E6%96%87%E7%A4%BE%E5%8C%BA20160618%E6%9D%AD%E5%B7%9E%E7%BA%BF%E4%B8%8B%E8%81%9A%E4%BC%9A%E7%BA%AA%E8%A6%81/ class=read-more-link>阅读更多</a>
-</div>
-</div>
-</article>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/>elasticsearch上手指南</a></h1>
-<div class=post-meta>
-<span class=post-time> 2016-06-10 </span>
-<div class=post-category>
-<a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
-</div>
-</div>
-</header>
-<div class=post-content>
-<div class=post-summary>
-CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安
-</div>
-<div class=read-more>
-<a href=/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/ class=read-more-link>阅读更多</a>
-</div>
-</div>
-</article>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E4%B8%8Abug%E7%9A%84%E8%A7%A3%E5%86%B3/>记一个线上bug的解决</a></h1>
-<div class=post-meta>
-<span class=post-time> 2016-05-27 </span>
+<span class=post-time> 2017-06-09 </span>
 <div class=post-category>
 <a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
 </div>
@@ -130,18 +92,18 @@ CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在�
 </header>
 <div class=post-content>
 <div class=post-summary>
-背景 我司的爬虫现在运行在一个通过ADSL拨号联网的VPS上，通过重新拨号切换IP来应对目标网站的防爬措施。 问题现象 应用通过druid数据源连
+昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联
 </div>
 <div class=read-more>
-<a href=/post/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E4%B8%8Abug%E7%9A%84%E8%A7%A3%E5%86%B3/ class=read-more-link>阅读更多</a>
+<a href=/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E5%88%B0%E5%BA%95%E9%9C%80%E4%B8%8D%E9%9C%80%E8%A6%81manager%E5%B1%82/>到底需不需要Manager层？</a></h1>
+<h1 class=post-title><a class=post-link href=/post/%E5%9C%A8java%E4%B8%AD%E6%89%A7%E8%A1%8Cshell/>在JAVA中执行shell</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-05-18 </span>
+<span class=post-time> 2017-01-08 </span>
 <div class=post-category>
 <a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
 </div>
@@ -149,29 +111,67 @@ CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在�
 </header>
 <div class=post-content>
 <div class=post-summary>
-今天跟同事们一起主要就是否需要按照严格的分层架构来规范当前代码讨论了应用的几个架构问题。 之前第一家公司采用的是经典的SpringMVC架构，
+今天抽时间解决了一个升级Elasticsearch后带来的一个问题。 起源是最初开发的一个用于维护搜索的项目infiniti，主要功能是重建索
 </div>
 <div class=read-more>
-<a href=/post/%E5%88%B0%E5%BA%95%E9%9C%80%E4%B8%8D%E9%9C%80%E8%A6%81manager%E5%B1%82/ class=read-more-link>阅读更多</a>
+<a href=/post/%E5%9C%A8java%E4%B8%AD%E6%89%A7%E8%A1%8Cshell/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E4%BB%8Ewebmagic%E7%9D%80%E6%89%8B%E6%B5%85%E6%9E%90java%E7%88%AC%E8%99%AB/>从webmagic着手浅析JAVA爬虫</a></h1>
+<h1 class=post-title><a class=post-link href=/post/%E5%9F%BA%E4%BA%8E-net%E8%BD%AF%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E5%88%9D%E6%8E%A2/>基于.Net软件的反编译初探</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-05-17 </span>
+<span class=post-time> 2016-12-29 </span>
 <div class=post-category>
-<a href=/categories/%E7%88%AC%E8%99%AB/> 爬虫 </a>
+<a href=/categories/%E9%80%86%E5%90%91/> 逆向 </a>
 </div>
 </div>
 </header>
 <div class=post-content>
 <div class=post-summary>
-用于我司内部分享会，主要结合做过的项目简单介绍一下常用的爬虫模式。 前言 什么是爬虫？ 网络蜘蛛 关于爬虫是否合法的讨论？ 用爬虫抓取数据，这样的行为
+苦于买不到火车票，尝试了一些口碑比较好的抢票软件，顺手做了一些反编译的尝试。 成果如图，也可以看到这篇要使用的样本： ![](/image/Windows 8.1 2016-12-29 23-26-49.png) 稍微了解之后，总体
 </div>
 <div class=read-more>
-<a href=/post/%E4%BB%8Ewebmagic%E7%9D%80%E6%89%8B%E6%B5%85%E6%9E%90java%E7%88%AC%E8%99%AB/ class=read-more-link>阅读更多</a>
+<a href=/post/%E5%9F%BA%E4%BA%8E-net%E8%BD%AF%E4%BB%B6%E7%9A%84%E5%8F%8D%E7%BC%96%E8%AF%91%E5%88%9D%E6%8E%A2/ class=read-more-link>阅读更多</a>
+</div>
+</div>
+</article>
+<article class=post>
+<header class=post-header>
+<h1 class=post-title><a class=post-link href=/post/%E7%BA%BF%E4%B8%8Aelasticsearch%E9%9B%86%E7%BE%A4%E5%8D%87%E7%BA%A7%E5%88%B05-x%E7%89%88%E6%9C%AC/>线上Elasticsearch集群升级到5.X版本</a></h1>
+<div class=post-meta>
+<span class=post-time> 2016-12-22 </span>
+<div class=post-category>
+<a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
+</div>
+</div>
+</header>
+<div class=post-content>
+<div class=post-summary>
+本文记录了将Elasticserach集群从2.3.3升级到5.0.2过程当中的一些坑。 Elasticsearch 官方提供了升级Elasticsearch的详细文档
+</div>
+<div class=read-more>
+<a href=/post/%E7%BA%BF%E4%B8%8Aelasticsearch%E9%9B%86%E7%BE%A4%E5%8D%87%E7%BA%A7%E5%88%B05-x%E7%89%88%E6%9C%AC/ class=read-more-link>阅读更多</a>
+</div>
+</div>
+</article>
+<article class=post>
+<header class=post-header>
+<h1 class=post-title><a class=post-link href=/post/https%E4%B9%8B%E6%AE%87%E7%BB%95%E8%BF%87%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E7%BB%91%E5%AE%9A/>HTTPS之殇：绕过客户端的SSL证书绑定</a></h1>
+<div class=post-meta>
+<span class=post-time> 2016-12-15 </span>
+<div class=post-category>
+<a href=/categories/%E9%80%86%E5%90%91/> 逆向 </a>
+</div>
+</div>
+</header>
+<div class=post-content>
+<div class=post-summary>
+想必大家都听过矛和盾的故事。 之前写过一篇文章，谈了接口加密中用到的HTTPS加固，可以谓之盾，今天来谈谈矛。 顺带提一下最近有个消息： 2017 年 1 月
+</div>
+<div class=read-more>
+<a href=/post/https%E4%B9%8B%E6%AE%87%E7%BB%95%E8%BF%87%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E7%BB%91%E5%AE%9A/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>

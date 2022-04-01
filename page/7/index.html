@@ -82,9 +82,9 @@
 <section id=posts class=posts>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%8E%A5%E5%85%A5%E5%BC%80%E5%8F%91%E6%91%98%E8%AE%B0/>支付宝接入开发摘记</a></h1>
+<h1 class=post-title><a class=post-link href=/post/a-not-running-runnable/>从锁死的RUNNABLE线程谈UNIX的I/O模型</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-11-01 </span>
+<span class=post-time> 2018-06-13 </span>
 <div class=post-category>
 <a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
 </div>
@@ -92,37 +92,18 @@
 </header>
 <div class=post-content>
 <div class=post-summary>
-这一篇主要记录一下支付宝开发过程遇到的一些坑，后面再开一篇文章讲讲支付的架构设计。 这一期的支付开发主要接入支付宝，包含了入账和出账。 流程图 入
+记录一下JAVA IO库（java version &ldquo;1.8.0_131&rdquo;）的一个坑。 背景 背景是一个爬虫，实际执行网络请求是通过共用一
 </div>
 <div class=read-more>
-<a href=/post/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%8E%A5%E5%85%A5%E5%BC%80%E5%8F%91%E6%91%98%E8%AE%B0/ class=read-more-link>阅读更多</a>
+<a href=/post/a-not-running-runnable/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/>记一次反编译过程（二）</a></h1>
+<h1 class=post-title><a class=post-link href=/post/weak-reference/>Micrometer使用小记：对象弱引用的一种使用场景</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-10-28 </span>
-<div class=post-category>
-<a href=/categories/%E9%80%86%E5%90%91/> 逆向 </a>
-</div>
-</div>
-</header>
-<div class=post-content>
-<div class=post-summary>
-此文不涉及任何道义和伦理的讨论 距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。 这个APP包含a
-</div>
-<div class=read-more>
-<a href=/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/ class=read-more-link>阅读更多</a>
-</div>
-</div>
-</article>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E9%85%8D%E7%BD%AEerlang%E7%8E%AF%E5%A2%83/>配置Erlang环境</a></h1>
-<div class=post-meta>
-<span class=post-time> 2016-10-21 </span>
+<span class=post-time> 2018-05-29 </span>
 <div class=post-category>
 <a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
 </div>
@@ -130,18 +111,18 @@
 </header>
 <div class=post-content>
 <div class=post-summary>
-本文环境：macOS Sierra 安装 Erlang OTP 通过homebrew安装erlang： 1 brew install erlang 成功页面： 验证安装： 输入erl命令会返回： 安装Rebar Reba
+结合Micrometer使用过程中的一个场景谈谈Java当中的几种引用。 场景 最近尝试通过SpringBoot集成Micrometer来观测应
 </div>
 <div class=read-more>
-<a href=/post/%E9%85%8D%E7%BD%AEerlang%E7%8E%AF%E5%A2%83/ class=read-more-link>阅读更多</a>
+<a href=/post/weak-reference/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E9%80%9A%E8%BF%87wireshark%E7%9C%8Bmim%E6%94%BB%E5%87%BB/>通过Wireshark看MIM攻击</a></h1>
+<h1 class=post-title><a class=post-link href=/post/job-interview-2018-2/>关于近期的面试情况-续</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-10-18 </span>
+<span class=post-time> 2018-05-11 </span>
 <div class=post-category>
 <a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
 </div>
@@ -149,18 +130,37 @@
 </header>
 <div class=post-content>
 <div class=post-summary>
-本文中，服务端IP地址是120.55.246.173，移动端（我的手机）的IP地址是192.168.1.226，中间人（我的电脑）的IP地址
+续上篇。 现场面试考察的侧重点就更脱离场景，深入到底层。 TCP和UDP的区别 考察基础通信原理，为什么tcp可以做到传输完整有序。 GC Root有哪
 </div>
 <div class=read-more>
-<a href=/post/%E9%80%9A%E8%BF%87wireshark%E7%9C%8Bmim%E6%94%BB%E5%87%BB/ class=read-more-link>阅读更多</a>
+<a href=/post/job-interview-2018-2/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E6%9C%89%E5%85%B3%E6%9E%B6%E6%9E%84%E5%B8%88/>有关“架构师”</a></h1>
+<h1 class=post-title><a class=post-link href=/post/job-interview-2018/>关于近期的面试情况</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-10-16 </span>
+<span class=post-time> 2018-05-04 </span>
+<div class=post-category>
+<a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
+</div>
+</div>
+</header>
+<div class=post-content>
+<div class=post-summary>
+记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心
+</div>
+<div class=read-more>
+<a href=/post/job-interview-2018/ class=read-more-link>阅读更多</a>
+</div>
+</div>
+</article>
+<article class=post>
+<header class=post-header>
+<h1 class=post-title><a class=post-link href=/post/qcon-beijing-2018/>有关“架构师”之二</a></h1>
+<div class=post-meta>
+<span class=post-time> 2018-04-23 </span>
 <div class=post-category>
 <a href=/categories/%E6%9E%B6%E6%9E%84/> 架构 </a>
 </div>
@@ -168,10 +168,10 @@
 </header>
 <div class=post-content>
 <div class=post-summary>
-昨天参加了云栖社区开发者技术峰会——架构专场，会议议程包含了分布式系统，容器，混合云，机器学习中蕴含的架构思想。 这是架构师最好的时代。物联网
+谈谈这几天参加QCon后的感想。 稍作总结 从架构分组的上一篇文章：有关“架构师”到现在已经一年有余，这一年写的文章很少。固然有一些客观的不可抗
 </div>
 <div class=read-more>
-<a href=/post/%E6%9C%89%E5%85%B3%E6%9E%B6%E6%9E%84%E5%B8%88/ class=read-more-link>阅读更多</a>
+<a href=/post/qcon-beijing-2018/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>
