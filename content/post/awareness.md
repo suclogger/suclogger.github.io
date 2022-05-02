@@ -4,9 +4,8 @@ comments: true
 toc: true
 categories:
   - 随想
-date: 2022-05-02 21:38:37
+date: 2022-05-02T21:38:37+08:00
 ---
-
 看到近期的互联网频发的裁员的消息，看到圈内非常多的讨论，身边各种人的现状，自己也经历去年并不很“划算”的一波跳槽，汇总了一大些“浴中奇思”，记录如下。
 
 在大厂中攀登 Career Ladder 是需要努力和技巧的，上一篇文章提到的《意义革命》，以及更面向工程师的 Staff Engineer: Leadership beyond the management track  ，都做了深入探讨。
