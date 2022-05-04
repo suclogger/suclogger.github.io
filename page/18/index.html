@@ -86,28 +86,9 @@
 <section id=posts class=posts>
 <article class=post>
 <header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/spring%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/>谈谈spring中的循环依赖问题</a></h1>
+<h1 class=post-title><a class=post-link href=/post/solr%E4%B8%AD%E6%96%87%E5%85%A8%E8%AF%8D%E5%8C%B9%E9%85%8D%E7%9A%84%E9%97%AE%E9%A2%98/>solr中文全词匹配的问题</a></h1>
 <div class=post-meta>
-<span class=post-time> 2016-07-19 </span>
-<div class=post-category>
-<a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
-</div>
-</div>
-</header>
-<div class=post-content>
-<div class=post-summary>
-昨天听到同事谈到，代码架构的同层不应该存在相互调用，因为会出现循环依赖。 这个编码规范我是支持的，但是这个原因我是拒绝的。 首先看一下下面这两段
-</div>
-<div class=read-more>
-<a href=/post/spring%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/ class=read-more-link>阅读更多</a>
-</div>
-</div>
-</article>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E4%B9%B0%E5%A5%BD%E8%BD%A6%E6%90%9C%E7%B4%A2%E7%9A%84elasticsearch%E5%AE%9E%E8%B7%B5%E5%88%9D%E4%BD%93%E9%AA%8C/>买好车搜索的Elasticsearch实践：初体验</a></h1>
-<div class=post-meta>
-<span class=post-time> 2016-06-23 </span>
+<span class=post-time> 0001-01-01 </span>
 <div class=post-category>
 <a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
 </div>
@@ -115,79 +96,18 @@
 </header>
 <div class=post-content>
 <div class=post-summary>
-回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费
+正常情况下的全词匹配可以用双引号括住需要检索的关键字,比如: q=name:&ldquo;keyword&rdquo; 但是如果某个字段用配置了中文分词器,用双引号括住无法查找到对应记录,只能用分词
 </div>
 <div class=read-more>
-<a href=/post/%E4%B9%B0%E5%A5%BD%E8%BD%A6%E6%90%9C%E7%B4%A2%E7%9A%84elasticsearch%E5%AE%9E%E8%B7%B5%E5%88%9D%E4%BD%93%E9%AA%8C/ class=read-more-link>阅读更多</a>
-</div>
-</div>
-</article>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/%E6%82%9F%E7%A9%BA%E4%BC%A0%E6%9C%89%E6%84%9F/>《悟空传》有感</a></h1>
-<div class=post-meta>
-<span class=post-time> 2016-06-20 </span>
-<div class=post-category>
-<a href=/categories/%E8%AF%BB%E4%B9%A6/> 读书 </a>
-</div>
-</div>
-</header>
-<div class=post-content>
-<div class=post-summary>
-很久没有被一本书的序言打动了。 西游就是一场被精心安排成自杀的谋杀。 书中的每一个人都失败了。无敌的孙悟空杀死了自己。哪咤也选择了自杀。金蝉子堕
-</div>
-<div class=read-more>
-<a href=/post/%E6%82%9F%E7%A9%BA%E4%BC%A0%E6%9C%89%E6%84%9F/ class=read-more-link>阅读更多</a>
-</div>
-</div>
-</article>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/elasticsearch%E4%B8%AD%E6%96%87%E7%A4%BE%E5%8C%BA20160618%E6%9D%AD%E5%B7%9E%E7%BA%BF%E4%B8%8B%E8%81%9A%E4%BC%9A%E7%BA%AA%E8%A6%81/>Elasticsearch中文社区20160618杭州线下聚会纪要</a></h1>
-<div class=post-meta>
-<span class=post-time> 2016-06-18 </span>
-<div class=post-category>
-<a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
-</div>
-</div>
-</header>
-<div class=post-content>
-<div class=post-summary>
-汪兴－Elasticsearch结合hbase的应用 介绍中使用的存储介质是HBase，我司目前还未达到迁移到NoSQL的数据量级，而且后面的
-</div>
-<div class=read-more>
-<a href=/post/elasticsearch%E4%B8%AD%E6%96%87%E7%A4%BE%E5%8C%BA20160618%E6%9D%AD%E5%B7%9E%E7%BA%BF%E4%B8%8B%E8%81%9A%E4%BC%9A%E7%BA%AA%E8%A6%81/ class=read-more-link>阅读更多</a>
-</div>
-</div>
-</article>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title><a class=post-link href=/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/>elasticsearch上手指南</a></h1>
-<div class=post-meta>
-<span class=post-time> 2016-06-10 </span>
-<div class=post-category>
-<a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
-</div>
-</div>
-</header>
-<div class=post-content>
-<div class=post-summary>
-CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安
-</div>
-<div class=read-more>
-<a href=/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/ class=read-more-link>阅读更多</a>
+<a href=/post/solr%E4%B8%AD%E6%96%87%E5%85%A8%E8%AF%8D%E5%8C%B9%E9%85%8D%E7%9A%84%E9%97%AE%E9%A2%98/ class=read-more-link>阅读更多</a>
 </div>
 </div>
 </article>
 </section>
 <nav class=pagination>
-<a class=prev href=/page/14/>
+<a class=prev href=/page/17/>
 <i class="iconfont icon-left"></i>
 <span class=prev-text>上一页</span>
-</a>
-<a class=next href=/page/16/>
-<span class=next-text>下一页</span>
-<i class="iconfont icon-right"></i>
 </a>
 </nav>
 </div>

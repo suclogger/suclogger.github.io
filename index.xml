@@ -1,4 +1,23 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Half Bit</title><link>https://run.halfbit.top/</link><description>Recent content on Half Bit</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 02 May 2022 21:38:37 +0800</lastBuildDate><atom:link href="https://run.halfbit.top/index.xml" rel="self" type="application/rss+xml"/><item><title>核心逻辑？</title><link>https://run.halfbit.top/post/awareness/</link><pubDate>Mon, 02 May 2022 21:38:37 +0800</pubDate><guid>https://run.halfbit.top/post/awareness/</guid><description>&lt;p>看到近期的互联网频发的裁员的消息，看到圈内非常多的讨论，身边各种人的现状，自己也经历去年并不很“划算”的一波跳槽，汇总了一大些“浴中奇思”，记录如下。&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Half Bit</title><link>https://run.halfbit.top/</link><description>Recent content on Half Bit</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 04 May 2022 15:15:37 +0800</lastBuildDate><atom:link href="https://run.halfbit.top/index.xml" rel="self" type="application/rss+xml"/><item><title>WFH &amp; 4-Hour Workweek</title><link>https://run.halfbit.top/post/4-hour-workweek/</link><pubDate>Wed, 04 May 2022 15:15:37 +0800</pubDate><guid>https://run.halfbit.top/post/4-hour-workweek/</guid><description>&lt;p>五一假期的最后一天下午，等来了EHS的通告，下周继续居家办公。&lt;/p>
+&lt;p>刚好读完 The 4-Hour Workweek 的最后一章，鼓励大家从每天照常上下班打卡的日常中解放出来，寻求无固定时间/地点的工作环境。作者甚至帮读者设计了与老板谈判的技巧，准备步骤，成功或者失败后的应对方式。没想到这个环境于现在的很多人来因为疫情，来的这么不费吹灰之力。&lt;/p>
+&lt;blockquote>
+&lt;p>0310第一个WFH通告
+&lt;img src="https://halfbit.oss-cn-hangzhou.aliyuncs.com/202205041650040.png" alt="">&lt;/p>
+&lt;/blockquote>
+&lt;p>当然来的顺其自然，往往不是件好事，并非来自主观目的性强的要求，得来后也往往不知道怎么处理。好比我的大学生活，虽然是一所不错的院校，但当继续求学不过是教育体制的巨大惯性推动的，在更换了环境和教学方式后不知所措，不知不觉间就虚度过去。&lt;/p>
+&lt;p>所以总在内部看到相关的讨论，期望早日恢复工区办公，期间我也返回工区数次，也看到有不少同事主动申请豁免政策在工区办公。&lt;/p>
+&lt;p>不能/不想在家办公的原因有很多：&lt;/p>
+&lt;ul>
+&lt;li>免除家庭成员/家务/家中环境对注意力的干扰&lt;/li>
+&lt;li>物理隔离办公/生活环境，还原 “下班” 这个显著边界带来的幸福感&lt;/li>
+&lt;/ul>
+&lt;p>显然这两个问题，都来源于自律。成熟的自律是什么，在《少有人走的路》这本书中有探讨（我还没读过，听吴军的《硅谷来信》引用过其中观点）。4-Hour 中也对上面的问题做了分析。“下班” 这个概念，是公司赋予的，我们真正需要做的重要的事情，会因为 “下班” 而有所不同吗？&lt;/p>
+&lt;blockquote>
+&lt;p>假装忙碌，通常是为了掩饰自己逃避了那些必须做又很难做好的事情。躲避难做但又重要环节的做法有很多，如你可以给几百个根本无效的潜在销售对象打电话，重新整理你的Outlook联系人，在办公室里翻找那些你并不真正需要的文件，或者在毫无必要的情况下，花好几小时优化你的手机。&lt;/p>
+&lt;/blockquote>
+&lt;p>对自己想要什么，需要什么，当前最重要的事情是什么，对这个问题的清醒认知才是重要的，往往我们为了偷懒不去思考，把自己的时间用上下班来安排，用虚假的忙碌来填充，得到一份虚假的满足和成就感。&lt;/p>
+&lt;p>所以，下周开始的WFH，我要守住 8h/d 的工作底线（希望可以更少）。&lt;/p>
+&lt;p>&lt;img src="https://halfbit.oss-cn-hangzhou.aliyuncs.com/202205041707488.png" alt="">&lt;/p></description></item><item><title>核心逻辑？</title><link>https://run.halfbit.top/post/awareness/</link><pubDate>Mon, 02 May 2022 21:38:37 +0800</pubDate><guid>https://run.halfbit.top/post/awareness/</guid><description>&lt;p>看到近期的互联网频发的裁员的消息，看到圈内非常多的讨论，身边各种人的现状，自己也经历去年并不很“划算”的一波跳槽，汇总了一大些“浴中奇思”，记录如下。&lt;/p>
 &lt;p>在大厂中攀登 Career Ladder 是需要努力和技巧的，上一篇文章提到的《意义革命》，以及更面向工程师的 Staff Engineer: Leadership beyond the management track ，都做了深入探讨。&lt;/p>
 &lt;p>在大厂攀登 Career Ladder 积累的核心竞争力，普适性是很有限的。经过多年的锤炼，往往只是习惯了大厂中高举高打的做事风格，学会了在宏伟铺开的企业目标中成为一个合格的螺丝钉。&lt;/p>
 &lt;p>去年跟阿里的一位准 P8 同事聊天，他以能够成担任一名中小企业的 CTO 为个人的目标，规划自己的职业生涯，刻意训练自己的表达能力，思考方式。在读的书，也是通识类居多。
@@ -151,28 +170,4 @@
 &lt;p>后半周自己的心态已经逐渐释然了，作为供应链的新人，如果产出的设计方案能得到在供应链多年经验认可的同事的认同，就已经是一件很了不起的事情了，不要看客观的知识量的差异，多关注过程中自己思考理解能力，交流沟通技巧和架构能力的锻炼。&lt;/p>
 &lt;p>还发现了，家务给我带来的治愈效果非常惊人。&lt;/p>
 &lt;p>周六下午的时候，就开始打扫卫生，洗衣服，更换被褥，晒晒太阳。确定性的事情带来确定性的好转，就算是微小的环境的改变，也可以让自己开心很多。&lt;/p>
-&lt;p>边做家务边想起来电影《类人猿行动》里面的一个桥段，男主安抚行动前过于紧张的同伴，是让同伴将弹夹的子弹全数推出又一枚一枚推入，这样重复的简单动作，聚焦在细节上，就可以抚慰情绪。真是异曲同工。&lt;/p></description></item><item><title>1212 拥抱WEB 3.0</title><link>https://run.halfbit.top/post/1212-%E6%8B%A5%E6%8A%B1web-3.0/</link><pubDate>Sun, 12 Dec 2021 23:39:37 +0000</pubDate><guid>https://run.halfbit.top/post/1212-%E6%8B%A5%E6%8A%B1web-3.0/</guid><description>&lt;p>本来今晚想写个严肃点的话题，聊一聊这两天读的架构书的一些思考，但是觉得上一篇刚比较沉重，这篇不如轻松点，聊下最近接触的好玩的 Web 3.o的一些内容。&lt;/p>
-&lt;p>周五晚上听到一个 Twitter Space 的分享，谈到 Web 3.0 的趋势，聊到了人类社会到目前已经被验证成功的商业模式，在 Web 3.0 下都会有全新的形式：&lt;/p>
-&lt;ul>
-&lt;li>电商&lt;/li>
-&lt;li>游戏&lt;/li>
-&lt;li>广告&lt;/li>
-&lt;li>增值服务&lt;/li>
-&lt;/ul>
-&lt;p>这个想法真的非常有意思，想象空间也非常大。&lt;/p>
-&lt;p>现在Meta（FaceBoook），Bytedance ，都在元宇宙抓紧布局，想要把握 Web 3.0 在游戏的突破，但是结局会怎样呢？推荐大家都去读一篇长文《雪崩才是元宇宙的必然》：&lt;/p>
-&lt;ul>
-&lt;li>如果一定要挑出现阶段“元宇宙”技术蓝图最大的逻辑问题，那么显而易见——真正的“元宇宙”，根本就不该让Faceook这种寡头来创造。和崩溃边缘的糟糕现实相比，流光溢彩的虚拟世界才是躲避一切苦难的归宿；至于这片乐土的创造者，则是一群偏执到近乎鲁莽、相比于盈利更重视内容素质的怪胎，再加上无数认同这些怪胎的Geek。*&lt;/li>
-&lt;/ul>
-&lt;p>Web 2.0 时代的巨头们，注定在3.0时代是被抛弃的，Web 3.0 是真正属于每一个参与者的，去中心化的。再补充一个视频，讲的深得我心。&lt;/p>
-&lt;p>&lt;em>本来想直接传上来的，但是一直在审核，想看的直接搜：美国国会举行听证会，加密公司高管阐释Web3.0&lt;/em>
-这恰恰是本篇文章最想嘲讽Web 2.0 的地方啊哈哈，送上门的案例。
-内容都是把控在中心化的巨头公司，写了也不是你的，想说也得别人同意。&lt;/p>
-&lt;p>前面讲了一通，这周主要玩的是：&lt;/p>
-&lt;ul>
-&lt;li>买了十年的 ens 域名（ &lt;em>runbao.eth&lt;/em> ），未来 ens 就是你在元宇宙的全局 ID，再也不用记一长串的地址编码了。&lt;/li>
-&lt;li>基于这个域名，开通了一个去中心化的博客（又），地址是: &lt;a href="https://mirror.xyz/runbao.eth">https://mirror.xyz/runbao.eth&lt;/a>&lt;/li>
-&lt;/ul>
-&lt;p>然后就是一些投资什么的，这里就不讲了。&lt;/p>
-&lt;p>总之，Web 3.0 精髓就是参与。去中心化的产品，可能通过各种形式来奖励参与者，但是自己投身进去体验，去感受，踩在新一代技术潮流的浪花上玩一下，才是程序员最开心的时候呀。&lt;/p>
-&lt;p>祝大家下周搬砖愉快～&lt;/p></description></item></channel></rss>
+&lt;p>边做家务边想起来电影《类人猿行动》里面的一个桥段，男主安抚行动前过于紧张的同伴，是让同伴将弹夹的子弹全数推出又一枚一枚推入，这样重复的简单动作，聚焦在细节上，就可以抚慰情绪。真是异曲同工。&lt;/p></description></item></channel></rss>
