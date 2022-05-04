@@ -4,6 +4,8 @@ comments: true
 toc: true
 categories:
   - 阅读
+tags:
+  - FIRE
 date: 2022-05-04T15:15:37+08:00
 ---
 
