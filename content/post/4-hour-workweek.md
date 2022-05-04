@@ -3,7 +3,7 @@ title: WFH & 4-Hour Workweek
 comments: true
 toc: true
 categories:
-  - 读书笔记
+  - 阅读
 date: 2022-05-04T15:15:37+08:00
 ---
 
