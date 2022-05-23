@@ -180,6 +180,7 @@ copyright = ""            # default: author.name ↓        # 默认为下面配
 
   [params.social]                                         # 社交链接
     g-github = "https://github.com/suclogger"
+    c-twitter = "https://twitter.com/suclogger"
 
 # See https://gohugo.io/about/hugo-and-gdpr/
 [privacy]
