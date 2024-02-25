@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>逆向之钉钉消息和Ding已读反馈的拦截 - Run</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="run" /><meta name="description" content="有没有那么些时候，你就想假装在别处。 环境准备 依照用到的顺序如下： Tool Usage Clutch 砸壳 Hopper Disassembler v4 反编译，静态分析 Flipboard FLEX Loader 视图分析 lldb &#43; debugserver 断点， 调试 Flex 3 Tweak 首先是砸" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.123.3 with theme even" />
+
+
+<link rel="canonical" href="https://run.notbyai.space/post/%E9%80%86%E5%90%91%E4%B9%8B%E9%92%89%E9%92%89%E6%B6%88%E6%81%AF%E5%92%8Cding%E5%B7%B2%E8%AF%BB%E5%8F%8D%E9%A6%88%E7%9A%84%E6%8B%A6%E6%88%AA/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="逆向之钉钉消息和Ding已读反馈的拦截" />
+<meta property="og:description" content="有没有那么些时候，你就想假装在别处。 环境准备 依照用到的顺序如下： Tool Usage Clutch 砸壳 Hopper Disassembler v4 反编译，静态分析 Flipboard FLEX Loader 视图分析 lldb &#43; debugserver 断点， 调试 Flex 3 Tweak 首先是砸" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://run.notbyai.space/post/%E9%80%86%E5%90%91%E4%B9%8B%E9%92%89%E9%92%89%E6%B6%88%E6%81%AF%E5%92%8Cding%E5%B7%B2%E8%AF%BB%E5%8F%8D%E9%A6%88%E7%9A%84%E6%8B%A6%E6%88%AA/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-06-14T23:29:29+00:00" />
+<meta property="article:modified_time" content="2017-06-14T23:29:29+00:00" />
+
+<meta itemprop="name" content="逆向之钉钉消息和Ding已读反馈的拦截">
+<meta itemprop="description" content="有没有那么些时候，你就想假装在别处。 环境准备 依照用到的顺序如下： Tool Usage Clutch 砸壳 Hopper Disassembler v4 反编译，静态分析 Flipboard FLEX Loader 视图分析 lldb &#43; debugserver 断点， 调试 Flex 3 Tweak 首先是砸"><meta itemprop="datePublished" content="2017-06-14T23:29:29+00:00" />
+<meta itemprop="dateModified" content="2017-06-14T23:29:29+00:00" />
+<meta itemprop="wordCount" content="1016">
+<meta itemprop="keywords" content="disassemble," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="逆向之钉钉消息和Ding已读反馈的拦截"/>
+<meta name="twitter:description" content="有没有那么些时候，你就想假装在别处。 环境准备 依照用到的顺序如下： Tool Usage Clutch 砸壳 Hopper Disassembler v4 反编译，静态分析 Flipboard FLEX Loader 视图分析 lldb &#43; debugserver 断点， 调试 Flex 3 Tweak 首先是砸"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Run</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="https://haftbit.substack.com/">
+        <li class="mobile-menu-item">Readings</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Run</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://haftbit.substack.com/">Readings</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">逆向之钉钉消息和Ding已读反馈的拦截</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-06-14 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#环境准备">环境准备</a></li>
+        <li><a href="#拦截ding已读反馈">拦截Ding已读反馈</a></li>
+        <li><a href="#拦截消息已读反馈">拦截消息已读反馈</a></li>
+        <li><a href="#tweak">Tweak</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>有没有那么些时候，你就想假装在别处。</p>
+<!-- more -->
+<h2 id="环境准备">环境准备</h2>
+<p>依照用到的顺序如下：</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Usage</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clutch</td>
+<td>砸壳</td>
+</tr>
+<tr>
+<td>Hopper Disassembler v4</td>
+<td>反编译，静态分析</td>
+</tr>
+<tr>
+<td>Flipboard FLEX Loader</td>
+<td>视图分析</td>
+</tr>
+<tr>
+<td>lldb + debugserver</td>
+<td>断点， 调试</td>
+</tr>
+<tr>
+<td>Flex 3</td>
+<td>Tweak</td>
+</tr>
+</tbody>
+</table>
+<p>首先是砸壳，细节不表，有个trick就是先使用mac端itunes下载应用同步到手机后砸壳，这样可以同时得到<code>arm v7</code>和<code>AArch64</code>版本，32位反编译后的代码可读性高，64位用于读取偏移量设置断点。</p>
+<p><img src="/image/2017-06-14-23-42-45.jpg" alt=""></p>
+<p><img src="/image/2017-06-14-23-43-10.jpg" alt=""></p>
+<h2 id="拦截ding已读反馈">拦截Ding已读反馈</h2>
+<p>从Ding列表点击一条未读的Ding进入这条Ding的详情，这条Ding就被标为已读，同时发送方收到已读的反馈：</p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bbd.jpg?r=47" alt=""></p>
+<p>猜测已读逻辑是放在详情页中处理，视图加载完成即执行已读相关逻辑。
+通过<code>Flipboard FLEX Loader</code>查看Ding详情对应的视图：</p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bbf.jpg?r=54" alt=""></p>
+<p>可以看到对应的视图是<code>DTDingDetailViewControllerV2</code>，打开<code>Hopper Disassemble</code>中查看对应代码逻辑：</p>
+<p><img src="/image/2017-06-15-00-06-04.png" alt="">
+延续之前的猜测，自然先看<code>viewDidAppear</code>方法，反编译后的代码也是一目了然：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">void -[DTDingDetailViewControllerV2 viewDidAppear:](void * self, void * _cmd, char arg2) {
+</span></span><span class="line"><span class="cl">    sp = sp - 0x1c;
+</span></span><span class="line"><span class="cl">    r4 = self;
+</span></span><span class="line"><span class="cl">    loc_1c0a398(sp, @selector(viewDidAppear:), arg2);
+</span></span><span class="line"><span class="cl">    loc_1c0a38c(r4, @selector(dingModel));
+</span></span><span class="line"><span class="cl">    r6 = loc_1c0a38c(loc_1c0a390(), @selector(confirmStatus));
+</span></span><span class="line"><span class="cl">    sub_1c0a388();
+</span></span><span class="line"><span class="cl">    if (r6 == 0x0) {
+</span></span><span class="line"><span class="cl">            loc_1c0a38c(r4, @selector(confirmDing));
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">    return;
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>大致是先判断用户的登陆状态，然后调用<code>confirmDing</code>来执行已读逻辑：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">void -[DTDingDetailViewControllerV2 confirmDing](void * self, void * _cmd) {
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">    loc_1c0a38c(stack[2009], @selector(confirmDing:successBlock:failureBlock:), r8, r10, sp + 0x34, sp + 0x1c);
+</span></span><span class="line"><span class="cl">    ...
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>猜测关键逻辑在这个<code>confirmDing</code>的调用处。
+<code>Hopper Disassemble</code>帮我们解析出了方法名字符串：<code>confirmDing</code>，但是没有打印出对象名，打个断点确认一下：
+先回到64位确认偏移量：</p>
+<p><img src="/image/2017-06-15-13-16-40.jpg" alt=""></p>
+<p>获取ASLR (地址空间配置随机加载) 偏移量：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(lldb) image list -o -f | grep DingTalk
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>[  0] 0x0000000000084000 /var/containers/Bundle/Application/E1551D09-5D65-485B-A283-A8E6393C4345/DingTalk.app/DingTalk(0x0000000100084000)</p>
+</blockquote>
+<p>根据相对地址+偏移量设置断点：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(lldb) br set -a 0x0000000000084000+0x00000001011cb348
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>Breakpoint 1: where = DingTalk`_mh_execute_header + 18632932, address = 0x000000010124f348</p>
+</blockquote>
+<p>点击Ding消息进入详情，断点触发：</p>
+<p><img src="/image/2017-06-15-13-17-58.jpg" alt="">
+messageSend的第一个参数就是对象了，我们通过<code>po</code>命令打印对象的类名：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(lldb) po [$arg1 class]
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>DTDingServiceIMP</p>
+</blockquote>
+<p>或者直接<code>po</code>打印实例的对象和地址：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">(lldb) po $arg1
+</span></span></code></pre></td></tr></table>
+</div>
+</div><blockquote>
+<p>DTDingServiceIMP: 0x174449a50</p>
+</blockquote>
+<p>这样我们就确认了关键逻辑在<code>DTDingServiceIMP confirmDing</code>中，简单起见我们直接hook这个方法返回即可。</p>
+<h2 id="拦截消息已读反馈">拦截消息已读反馈</h2>
+<p>跟上述大同小异，大致分析路径为：
+<code>DTMessageOTOViewcontroller reivedMessageNotification</code> -&gt; <code>DTMessageBaseViewController receivedMessageNotification</code>
+-&gt; <code>DTMessageControllerDataSource sendMessageReadStatusWithMessage</code></p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bc2.jpg?r=47" alt=""></p>
+<h2 id="tweak">Tweak</h2>
+<p>定位到对应方法之后，当然你可以通过theos环境来写一个tweak，但是有两个不好，一个是麻烦，要dump头文件，然后写xm，打包，传到手机上安装，再是不好控制开关（除非写一个开关到设置中），不然只能卸载插件才能停止hook。
+更方便快捷的方式是通过<code>Flex 3</code> ：</p>
+<p><img src="/image/UNADJUSTEDNONRAW_thumb_1bc8.jpg" alt=""></p>
+<p>我已经把Patch提交到市场，欢迎下载体验。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">run</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2017-06-14
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/disassemble/">disassemble</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E4%BB%A3%E7%A0%81%E9%87%8D%E6%9E%84%E4%B9%8Bmybatis%E6%89%B9%E9%87%8F%E5%86%99%E5%85%A5/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">代码重构之：Mybatis批量写入</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/es%E4%BD%BF%E7%94%A8filebeat%E6%94%B6%E9%9B%86nginx%E6%97%A5%E5%BF%97/">
+            <span class="next-text nav-default">ES使用filebeat收集nginx日志</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="suclogger/hugo-gitment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/suclogger" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/suclogger" class="iconfont icon-github" title="github"></a>
+  <a href="https://run.notbyai.space/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span>run</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

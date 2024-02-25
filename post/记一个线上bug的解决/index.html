@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>记一个线上bug的解决 - Run</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="run" /><meta name="description" content="背景 我司的爬虫现在运行在一个通过ADSL拨号联网的VPS上，通过重新拨号切换IP来应对目标网站的防爬措施。 问题现象 应用通过druid数据源连" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.123.3 with theme even" />
+
+
+<link rel="canonical" href="https://run.notbyai.space/post/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E4%B8%8Abug%E7%9A%84%E8%A7%A3%E5%86%B3/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="记一个线上bug的解决" />
+<meta property="og:description" content="背景 我司的爬虫现在运行在一个通过ADSL拨号联网的VPS上，通过重新拨号切换IP来应对目标网站的防爬措施。 问题现象 应用通过druid数据源连" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://run.notbyai.space/post/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E4%B8%8Abug%E7%9A%84%E8%A7%A3%E5%86%B3/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-05-27T22:56:03+00:00" />
+<meta property="article:modified_time" content="2016-05-27T22:56:03+00:00" />
+
+<meta itemprop="name" content="记一个线上bug的解决">
+<meta itemprop="description" content="背景 我司的爬虫现在运行在一个通过ADSL拨号联网的VPS上，通过重新拨号切换IP来应对目标网站的防爬措施。 问题现象 应用通过druid数据源连"><meta itemprop="datePublished" content="2016-05-27T22:56:03+00:00" />
+<meta itemprop="dateModified" content="2016-05-27T22:56:03+00:00" />
+<meta itemprop="wordCount" content="3011">
+<meta itemprop="keywords" content="java," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="记一个线上bug的解决"/>
+<meta name="twitter:description" content="背景 我司的爬虫现在运行在一个通过ADSL拨号联网的VPS上，通过重新拨号切换IP来应对目标网站的防爬措施。 问题现象 应用通过druid数据源连"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Run</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="https://haftbit.substack.com/">
+        <li class="mobile-menu-item">Readings</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Run</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://haftbit.substack.com/">Readings</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">记一个线上bug的解决</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-05-27 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#背景">背景</a></li>
+        <li><a href="#问题现象">问题现象</a></li>
+        <li><a href="#问题分析">问题分析</a>
+          <ul>
+            <li><a href="#bleedflyhttpstwittercombleedfly猜测mysql服务器可能受到dns污染"><a href="https://twitter.com/bleedfly">@bleedfly</a>猜测mysql服务器可能受到DNS污染。</a></li>
+            <li><a href="#尝试根据内存dump文件发现问题">尝试根据内存dump文件发现问题</a></li>
+            <li><a href="#分析堆栈日志">分析堆栈日志</a></li>
+          </ul>
+        </li>
+        <li><a href="#尝试">尝试</a></li>
+        <li><a href="#解决">解决</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <!-- abstract -->
+<!-- 开始正文 -->
+<h2 id="背景">背景</h2>
+<p>我司的爬虫现在运行在一个通过ADSL拨号联网的VPS上，通过重新拨号切换IP来应对目标网站的防爬措施。</p>
+<h2 id="问题现象">问题现象</h2>
+<p>应用通过<a href="https://github.com/alibaba/druid">druid</a>数据源连接到mysql保存数据，每次切换IP后，会通过下面这条简单sql尝试获取数据源连接：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">SELECT &#39;1&#39; FROM DUAL; 
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是通过查看日志这条sql每次都要等待长达17分钟才能执行完成：
+<img src="/image/3c91ebb0cbc84db0befa2f276df8fa19.jpg?r=59" alt=""></p>
+<h2 id="问题分析">问题分析</h2>
+<p>数据库的连接是长连接，IP切换之后原先的TCP长连接也都被断开，需要重新获取数据库连接，但是VPS到数据的连接延时稳定在20ms以内，ADSL拨号重建连接的耗时也在2s以内，重建TCP链路不应该耗时17分钟之久：
+![](/image/2016-05-27 23-28-05.jpg)</p>
+<h3 id="bleedflyhttpstwittercombleedfly猜测mysql服务器可能受到dns污染"><a href="https://twitter.com/bleedfly">@bleedfly</a>猜测mysql服务器可能受到DNS污染。</h3>
+<p>手动重新拨号之后ping接mysql域名，发现解析正确。
+通过<code>yum install mysql</code>命令在VPS（CentOS）主机上安装mysql客户端后也可以在拨号之后迅速正常连接到mysql，遂排除这一可能。</p>
+<h3 id="尝试根据内存dump文件发现问题">尝试根据内存dump文件发现问题</h3>
+<p>通过以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> sudo jmap -dump:live,format=b,file=/root/log.bin `pgrep java`
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>获取内存dump文件，放入<a href="http://www.eclipse.org/mat/downloads.php">MAT</a>中分析：</p>
+<p>![](/image/2016-05-28 00-00-55.jpg)</p>
+<p>可以看到停顿时内存的使用量很小，不存在内存泄露的可能。
+列出的<code>suspect problem</code>中也看只反映了当时内存中主要存活的对象是<code>org.apache.ibatis.session.Configuration</code>。</p>
+<h3 id="分析堆栈日志">分析堆栈日志</h3>
+<p>通过以下命令：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl"> jstack `pgrep java` &gt; jstack.log
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>获取方法调用堆栈进行分析。</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">  1
+</span><span class="lnt">  2
+</span><span class="lnt">  3
+</span><span class="lnt">  4
+</span><span class="lnt">  5
+</span><span class="lnt">  6
+</span><span class="lnt">  7
+</span><span class="lnt">  8
+</span><span class="lnt">  9
+</span><span class="lnt"> 10
+</span><span class="lnt"> 11
+</span><span class="lnt"> 12
+</span><span class="lnt"> 13
+</span><span class="lnt"> 14
+</span><span class="lnt"> 15
+</span><span class="lnt"> 16
+</span><span class="lnt"> 17
+</span><span class="lnt"> 18
+</span><span class="lnt"> 19
+</span><span class="lnt"> 20
+</span><span class="lnt"> 21
+</span><span class="lnt"> 22
+</span><span class="lnt"> 23
+</span><span class="lnt"> 24
+</span><span class="lnt"> 25
+</span><span class="lnt"> 26
+</span><span class="lnt"> 27
+</span><span class="lnt"> 28
+</span><span class="lnt"> 29
+</span><span class="lnt"> 30
+</span><span class="lnt"> 31
+</span><span class="lnt"> 32
+</span><span class="lnt"> 33
+</span><span class="lnt"> 34
+</span><span class="lnt"> 35
+</span><span class="lnt"> 36
+</span><span class="lnt"> 37
+</span><span class="lnt"> 38
+</span><span class="lnt"> 39
+</span><span class="lnt"> 40
+</span><span class="lnt"> 41
+</span><span class="lnt"> 42
+</span><span class="lnt"> 43
+</span><span class="lnt"> 44
+</span><span class="lnt"> 45
+</span><span class="lnt"> 46
+</span><span class="lnt"> 47
+</span><span class="lnt"> 48
+</span><span class="lnt"> 49
+</span><span class="lnt"> 50
+</span><span class="lnt"> 51
+</span><span class="lnt"> 52
+</span><span class="lnt"> 53
+</span><span class="lnt"> 54
+</span><span class="lnt"> 55
+</span><span class="lnt"> 56
+</span><span class="lnt"> 57
+</span><span class="lnt"> 58
+</span><span class="lnt"> 59
+</span><span class="lnt"> 60
+</span><span class="lnt"> 61
+</span><span class="lnt"> 62
+</span><span class="lnt"> 63
+</span><span class="lnt"> 64
+</span><span class="lnt"> 65
+</span><span class="lnt"> 66
+</span><span class="lnt"> 67
+</span><span class="lnt"> 68
+</span><span class="lnt"> 69
+</span><span class="lnt"> 70
+</span><span class="lnt"> 71
+</span><span class="lnt"> 72
+</span><span class="lnt"> 73
+</span><span class="lnt"> 74
+</span><span class="lnt"> 75
+</span><span class="lnt"> 76
+</span><span class="lnt"> 77
+</span><span class="lnt"> 78
+</span><span class="lnt"> 79
+</span><span class="lnt"> 80
+</span><span class="lnt"> 81
+</span><span class="lnt"> 82
+</span><span class="lnt"> 83
+</span><span class="lnt"> 84
+</span><span class="lnt"> 85
+</span><span class="lnt"> 86
+</span><span class="lnt"> 87
+</span><span class="lnt"> 88
+</span><span class="lnt"> 89
+</span><span class="lnt"> 90
+</span><span class="lnt"> 91
+</span><span class="lnt"> 92
+</span><span class="lnt"> 93
+</span><span class="lnt"> 94
+</span><span class="lnt"> 95
+</span><span class="lnt"> 96
+</span><span class="lnt"> 97
+</span><span class="lnt"> 98
+</span><span class="lnt"> 99
+</span><span class="lnt">100
+</span><span class="lnt">101
+</span><span class="lnt">102
+</span><span class="lnt">103
+</span><span class="lnt">104
+</span><span class="lnt">105
+</span><span class="lnt">106
+</span><span class="lnt">107
+</span><span class="lnt">108
+</span><span class="lnt">109
+</span><span class="lnt">110
+</span><span class="lnt">111
+</span><span class="lnt">112
+</span><span class="lnt">113
+</span><span class="lnt">114
+</span><span class="lnt">115
+</span><span class="lnt">116
+</span><span class="lnt">117
+</span><span class="lnt">118
+</span><span class="lnt">119
+</span><span class="lnt">120
+</span><span class="lnt">121
+</span><span class="lnt">122
+</span><span class="lnt">123
+</span><span class="lnt">124
+</span><span class="lnt">125
+</span><span class="lnt">126
+</span><span class="lnt">127
+</span><span class="lnt">128
+</span><span class="lnt">129
+</span><span class="lnt">130
+</span><span class="lnt">131
+</span><span class="lnt">132
+</span><span class="lnt">133
+</span><span class="lnt">134
+</span><span class="lnt">135
+</span><span class="lnt">136
+</span><span class="lnt">137
+</span><span class="lnt">138
+</span><span class="lnt">139
+</span><span class="lnt">140
+</span><span class="lnt">141
+</span><span class="lnt">142
+</span><span class="lnt">143
+</span><span class="lnt">144
+</span><span class="lnt">145
+</span><span class="lnt">146
+</span><span class="lnt">147
+</span><span class="lnt">148
+</span><span class="lnt">149
+</span><span class="lnt">150
+</span><span class="lnt">151
+</span><span class="lnt">152
+</span><span class="lnt">153
+</span><span class="lnt">154
+</span><span class="lnt">155
+</span><span class="lnt">156
+</span><span class="lnt">157
+</span><span class="lnt">158
+</span><span class="lnt">159
+</span><span class="lnt">160
+</span><span class="lnt">161
+</span><span class="lnt">162
+</span><span class="lnt">163
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="mi">2016</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">27</span> <span class="mi">20</span><span class="p">:</span><span class="mi">14</span><span class="p">:</span><span class="mi">56</span>
+</span></span><span class="line"><span class="cl"><span class="n">Full</span> <span class="n">thread</span> <span class="n">dump</span> <span class="n">OpenJDK</span> <span class="mi">64</span><span class="o">-</span><span class="n">Bit</span> <span class="n">Server</span> <span class="n">VM</span> <span class="p">(</span><span class="mf">24.95</span><span class="o">-</span><span class="n">b01</span> <span class="n">mixed</span> <span class="n">mode</span><span class="p">):</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Attach Listener&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b14001000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x28a2</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x0000000000000000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;pool-3-thread-1&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1af80c0800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x274b</span> <span class="n">runnable</span> <span class="p">[</span><span class="mh">0x00007f1b02286000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">SocketInputStream</span><span class="o">.</span><span class="n">socketRead0</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">SocketInputStream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">SocketInputStream</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">152</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">net</span><span class="o">.</span><span class="n">SocketInputStream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">SocketInputStream</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">122</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ReadAheadInputStream</span><span class="o">.</span><span class="n">fill</span><span class="p">(</span><span class="n">ReadAheadInputStream</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">114</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ReadAheadInputStream</span><span class="o">.</span><span class="n">readFromUnderlyingStreamIfNecessary</span><span class="p">(</span><span class="n">ReadAheadInputStream</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">161</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ReadAheadInputStream</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">ReadAheadInputStream</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">189</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">locked</span> <span class="o">&lt;</span><span class="mh">0x0000000785ce9b80</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">ReadAheadInputStream</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">readFully</span><span class="p">(</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">2536</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">reuseAndReadPacket</span><span class="p">(</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">2989</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">reuseAndReadPacket</span><span class="p">(</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">2978</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">checkErrorPacket</span><span class="p">(</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">3526</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">sendCommand</span><span class="p">(</span><span class="n">MysqlIO</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1989</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">ConnectionImpl</span><span class="o">.</span><span class="n">pingInternal</span><span class="p">(</span><span class="n">ConnectionImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">4051</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">mysql</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">ConnectionImpl</span><span class="o">.</span><span class="n">ping</span><span class="p">(</span><span class="n">ConnectionImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">4028</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">GeneratedMethodAccessor14</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">Unknown</span> <span class="n">Source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">43</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">Method</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">Method</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">606</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">vendor</span><span class="o">.</span><span class="n">MySqlValidConnectionChecker</span><span class="o">.</span><span class="n">isValidConnection</span><span class="p">(</span><span class="n">MySqlValidConnectionChecker</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">79</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">DruidAbstractDataSource</span><span class="o">.</span><span class="n">testConnectionInternal</span><span class="p">(</span><span class="n">DruidAbstractDataSource</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1166</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">getConnectionDirect</span><span class="p">(</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">668</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">628</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">618</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">79</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">springframework</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">datasource</span><span class="o">.</span><span class="n">DataSourceUtils</span><span class="o">.</span><span class="n">doGetConnection</span><span class="p">(</span><span class="n">DataSourceUtils</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">111</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">springframework</span><span class="o">.</span><span class="n">jdbc</span><span class="o">.</span><span class="n">datasource</span><span class="o">.</span><span class="n">DataSourceUtils</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">DataSourceUtils</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">77</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">mybatis</span><span class="o">.</span><span class="n">spring</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">SpringManagedTransaction</span><span class="o">.</span><span class="n">openConnection</span><span class="p">(</span><span class="n">SpringManagedTransaction</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">83</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">mybatis</span><span class="o">.</span><span class="n">spring</span><span class="o">.</span><span class="n">transaction</span><span class="o">.</span><span class="n">SpringManagedTransaction</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">SpringManagedTransaction</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">69</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">BaseExecutor</span><span class="o">.</span><span class="n">getConnection</span><span class="p">(</span><span class="n">BaseExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">271</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">SimpleExecutor</span><span class="o">.</span><span class="n">prepareStatement</span><span class="p">(</span><span class="n">SimpleExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">69</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">SimpleExecutor</span><span class="o">.</span><span class="n">doQuery</span><span class="p">(</span><span class="n">SimpleExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">56</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">BaseExecutor</span><span class="o">.</span><span class="n">queryFromDatabase</span><span class="p">(</span><span class="n">BaseExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">259</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">BaseExecutor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">BaseExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">132</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">CachingExecutor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">CachingExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">105</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">executor</span><span class="o">.</span><span class="n">CachingExecutor</span><span class="o">.</span><span class="n">query</span><span class="p">(</span><span class="n">CachingExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">81</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">DefaultSqlSession</span><span class="o">.</span><span class="n">selectList</span><span class="p">(</span><span class="n">DefaultSqlSession</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">104</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">DefaultSqlSession</span><span class="o">.</span><span class="n">selectList</span><span class="p">(</span><span class="n">DefaultSqlSession</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">98</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">session</span><span class="o">.</span><span class="n">defaults</span><span class="o">.</span><span class="n">DefaultSqlSession</span><span class="o">.</span><span class="n">selectOne</span><span class="p">(</span><span class="n">DefaultSqlSession</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">62</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke0</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">57</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">43</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">Method</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">Method</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">606</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">mybatis</span><span class="o">.</span><span class="n">spring</span><span class="o">.</span><span class="n">SqlSessionTemplate</span><span class="o">$</span><span class="n">SqlSessionInterceptor</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">SqlSessionTemplate</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">358</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">proxy</span><span class="o">.$</span><span class="n">Proxy13</span><span class="o">.</span><span class="n">selectOne</span><span class="p">(</span><span class="n">Unknown</span> <span class="n">Source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">mybatis</span><span class="o">.</span><span class="n">spring</span><span class="o">.</span><span class="n">SqlSessionTemplate</span><span class="o">.</span><span class="n">selectOne</span><span class="p">(</span><span class="n">SqlSessionTemplate</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">163</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">binding</span><span class="o">.</span><span class="n">MapperMethod</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">MapperMethod</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">63</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">apache</span><span class="o">.</span><span class="n">ibatis</span><span class="o">.</span><span class="n">binding</span><span class="o">.</span><span class="n">MapperProxy</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">MapperProxy</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">43</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">sun</span><span class="o">.</span><span class="n">proxy</span><span class="o">.$</span><span class="n">Proxy27</span><span class="o">.</span><span class="n">initCookie</span><span class="p">(</span><span class="n">Unknown</span> <span class="n">Source</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">renault</span><span class="o">.</span><span class="n">cookie</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">impl</span><span class="o">.</span><span class="n">CookieManagerImpl</span><span class="o">.</span><span class="n">getCookie</span><span class="p">(</span><span class="n">CookieManagerImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">127</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">renault</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">cookie</span><span class="o">.</span><span class="n">WcXcCookieProvider</span><span class="o">.</span><span class="n">getCookie</span><span class="p">(</span><span class="n">WcXcCookieProvider</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">40</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">downloader</span><span class="o">.</span><span class="n">HttpClientGenerator</span><span class="o">.</span><span class="n">generateCookie</span><span class="p">(</span><span class="n">HttpClientGenerator</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">92</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">downloader</span><span class="o">.</span><span class="n">HttpClientGenerator</span><span class="o">.</span><span class="n">generateClient</span><span class="p">(</span><span class="n">HttpClientGenerator</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">73</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">downloader</span><span class="o">.</span><span class="n">HttpClientGenerator</span><span class="o">.</span><span class="n">getClient</span><span class="p">(</span><span class="n">HttpClientGenerator</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">45</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">downloader</span><span class="o">.</span><span class="n">HttpClientDownloader</span><span class="o">.</span><span class="n">getHttpClient</span><span class="p">(</span><span class="n">HttpClientDownloader</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">69</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">downloader</span><span class="o">.</span><span class="n">HttpClientDownloader</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="n">HttpClientDownloader</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">97</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">Spider</span><span class="o">.</span><span class="n">processRequest</span><span class="p">(</span><span class="n">Spider</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">409</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">Spider</span><span class="o">$</span><span class="mf">1.</span><span class="n">run</span><span class="p">(</span><span class="n">Spider</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">322</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">CountableThreadPool</span><span class="o">$</span><span class="mf">1.</span><span class="n">run</span><span class="p">(</span><span class="n">CountableThreadPool</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">74</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">runWorker</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1145</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="o">$</span><span class="n">Worker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">615</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="ne">Thread</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">745</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;DestroyJavaVM&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c00c000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2723</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x0000000000000000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;pool-2-thread-1&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c1d2800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2743</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x00007f1b03518000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">WAITING</span> <span class="p">(</span><span class="n">parking</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">Unsafe</span><span class="o">.</span><span class="n">park</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">parking</span> <span class="n">to</span> <span class="n">wait</span> <span class="k">for</span>  <span class="o">&lt;</span><span class="mh">0x00000007831c9fd8</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">AbstractQueuedSynchronizer</span><span class="o">$</span><span class="n">ConditionObject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">LockSupport</span><span class="o">.</span><span class="n">park</span><span class="p">(</span><span class="n">LockSupport</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">186</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">AbstractQueuedSynchronizer</span><span class="o">$</span><span class="n">ConditionObject</span><span class="o">.</span><span class="n">await</span><span class="p">(</span><span class="n">AbstractQueuedSynchronizer</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">2043</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">CountableThreadPool</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">CountableThreadPool</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">61</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">us</span><span class="o">.</span><span class="n">codecraft</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">Spider</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Spider</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">318</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">renault</span><span class="o">.</span><span class="n">core</span><span class="o">.</span><span class="n">webmagic</span><span class="o">.</span><span class="n">craw</span><span class="o">.</span><span class="n">WcXcCrawler</span><span class="o">.</span><span class="n">crawl</span><span class="p">(</span><span class="n">WcXcCrawler</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">66</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke0</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">NativeMethodAccessorImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">57</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">DelegatingMethodAccessorImpl</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">43</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">reflect</span><span class="o">.</span><span class="n">Method</span><span class="o">.</span><span class="n">invoke</span><span class="p">(</span><span class="n">Method</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">606</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">springframework</span><span class="o">.</span><span class="n">scheduling</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">ScheduledMethodRunnable</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ScheduledMethodRunnable</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">65</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">springframework</span><span class="o">.</span><span class="n">scheduling</span><span class="o">.</span><span class="n">support</span><span class="o">.</span><span class="n">DelegatingErrorHandlingRunnable</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">DelegatingErrorHandlingRunnable</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">54</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">org</span><span class="o">.</span><span class="n">springframework</span><span class="o">.</span><span class="n">scheduling</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ReschedulingRunnable</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ReschedulingRunnable</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">81</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">Executors</span><span class="o">$</span><span class="n">RunnableAdapter</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">Executors</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">471</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">FutureTask</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">FutureTask</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">262</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ScheduledThreadPoolExecutor</span><span class="o">$</span><span class="n">ScheduledFutureTask</span><span class="o">.</span><span class="n">access</span><span class="o">$</span><span class="mi">201</span><span class="p">(</span><span class="n">ScheduledThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">178</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ScheduledThreadPoolExecutor</span><span class="o">$</span><span class="n">ScheduledFutureTask</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ScheduledThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">292</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">runWorker</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1145</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">ThreadPoolExecutor</span><span class="o">$</span><span class="n">Worker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">ThreadPoolExecutor</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">615</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="ne">Thread</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">745</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;commons-pool-EvictionTimer&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4cb7d000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2742</span> <span class="ow">in</span> <span class="ne">Object</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="p">[</span><span class="mh">0x00007f1b034d8000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">TIMED_WAITING</span> <span class="p">(</span><span class="n">on</span> <span class="n">object</span> <span class="n">monitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Object</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">waiting</span> <span class="n">on</span> <span class="o">&lt;</span><span class="mh">0x0000000782824838</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">TaskQueue</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">TimerThread</span><span class="o">.</span><span class="n">mainLoop</span><span class="p">(</span><span class="ne">Timer</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">552</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">locked</span> <span class="o">&lt;</span><span class="mh">0x0000000782824838</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">TaskQueue</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">TimerThread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="ne">Timer</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">505</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Druid-ConnectionPool-Destory&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4ca8f000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x273f</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x00007f1b1804e000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">TIMED_WAITING</span> <span class="p">(</span><span class="n">sleeping</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">DruidDataSource</span><span class="o">$</span><span class="n">DestroyConnectionThread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1292</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Druid-ConnectionPool-Create&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4ca88800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x273e</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x00007f1b1808f000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">WAITING</span> <span class="p">(</span><span class="n">parking</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">sun</span><span class="o">.</span><span class="n">misc</span><span class="o">.</span><span class="n">Unsafe</span><span class="o">.</span><span class="n">park</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">parking</span> <span class="n">to</span> <span class="n">wait</span> <span class="k">for</span>  <span class="o">&lt;</span><span class="mh">0x0000000785a217a8</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">AbstractQueuedSynchronizer</span><span class="o">$</span><span class="n">ConditionObject</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">LockSupport</span><span class="o">.</span><span class="n">park</span><span class="p">(</span><span class="n">LockSupport</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">186</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">concurrent</span><span class="o">.</span><span class="n">locks</span><span class="o">.</span><span class="n">AbstractQueuedSynchronizer</span><span class="o">$</span><span class="n">ConditionObject</span><span class="o">.</span><span class="n">await</span><span class="p">(</span><span class="n">AbstractQueuedSynchronizer</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">2043</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">com</span><span class="o">.</span><span class="n">alibaba</span><span class="o">.</span><span class="n">druid</span><span class="o">.</span><span class="n">pool</span><span class="o">.</span><span class="n">DruidDataSource</span><span class="o">$</span><span class="n">CreateConnectionThread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">DruidDataSource</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">1195</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Service Thread&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c1b1800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2730</span> <span class="n">runnable</span> <span class="p">[</span><span class="mh">0x0000000000000000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;C2 CompilerThread1&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c1ae800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x272f</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x0000000000000000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;C2 CompilerThread0&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c1ac800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x272e</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x0000000000000000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Signal Dispatcher&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c1aa000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x272d</span> <span class="n">runnable</span> <span class="p">[</span><span class="mh">0x0000000000000000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Surrogate Locker Thread (Concurrent GC)&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c1a8000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x272c</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> <span class="p">[</span><span class="mh">0x0000000000000000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">RUNNABLE</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Finalizer&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c17b800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x272b</span> <span class="ow">in</span> <span class="ne">Object</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="p">[</span><span class="mh">0x00007f1b4854b000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">WAITING</span> <span class="p">(</span><span class="n">on</span> <span class="n">object</span> <span class="n">monitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Object</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">waiting</span> <span class="n">on</span> <span class="o">&lt;</span><span class="mh">0x0000000785a217c0</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">ReferenceQueue</span><span class="o">$</span><span class="n">Lock</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">135</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">locked</span> <span class="o">&lt;</span><span class="mh">0x0000000785a217c0</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">ReferenceQueue</span><span class="o">$</span><span class="n">Lock</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ReferenceQueue</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">151</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">Finalizer</span><span class="o">$</span><span class="n">FinalizerThread</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">Finalizer</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">209</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Reference Handler&#34;</span> <span class="n">daemon</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c179800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x272a</span> <span class="ow">in</span> <span class="ne">Object</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span> <span class="p">[</span><span class="mh">0x00007f1b50078000</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl">   <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">State</span><span class="p">:</span> <span class="n">WAITING</span> <span class="p">(</span><span class="n">on</span> <span class="n">object</span> <span class="n">monitor</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Object</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">Native</span> <span class="n">Method</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">waiting</span> <span class="n">on</span> <span class="o">&lt;</span><span class="mh">0x0000000785a217f0</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">Reference</span><span class="o">$</span><span class="n">Lock</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">Object</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="ne">Object</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">503</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="n">at</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">Reference</span><span class="o">$</span><span class="n">ReferenceHandler</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="ne">Reference</span><span class="o">.</span><span class="n">java</span><span class="p">:</span><span class="mi">133</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">	<span class="o">-</span> <span class="n">locked</span> <span class="o">&lt;</span><span class="mh">0x0000000785a217f0</span><span class="o">&gt;</span> <span class="p">(</span><span class="n">a</span> <span class="n">java</span><span class="o">.</span><span class="n">lang</span><span class="o">.</span><span class="n">ref</span><span class="o">.</span><span class="n">Reference</span><span class="o">$</span><span class="n">Lock</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;VM Thread&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c175000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2729</span> <span class="n">runnable</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Gang worker#0 (Parallel GC Threads)&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c01d800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2724</span> <span class="n">runnable</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Gang worker#1 (Parallel GC Threads)&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c01f800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2725</span> <span class="n">runnable</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Gang worker#2 (Parallel GC Threads)&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c021000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2726</span> <span class="n">runnable</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Gang worker#3 (Parallel GC Threads)&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c023000</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2727</span> <span class="n">runnable</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;Concurrent Mark-Sweep GC Thread&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c0a3800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2728</span> <span class="n">runnable</span> 
+</span></span><span class="line"><span class="cl"><span class="s2">&#34;VM Periodic Task Thread&#34;</span> <span class="n">prio</span><span class="o">=</span><span class="mi">10</span> <span class="n">tid</span><span class="o">=</span><span class="mh">0x00007f1b4c1bc800</span> <span class="n">nid</span><span class="o">=</span><span class="mh">0x2731</span> <span class="n">waiting</span> <span class="n">on</span> <span class="n">condition</span> 
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">JNI</span> <span class="n">global</span> <span class="n">references</span><span class="p">:</span> <span class="mi">150</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>排除了标明为<code>RUNNABLE</code>的线程之后，首先寻找是否有处于<code>Deadlock</code>状态的线程。
+没有发现Deadlock，如果有可能等待时间就不止17分钟了。</p>
+<p>接下来罗列处于<code>WAITING</code>状态的线程：</p>
+<ol>
+<li>&ldquo;pool-2-thread-1&rdquo; prio=10 tid=0x00007f1b4c1d2800 nid=0x2743 waiting on condition [0x00007f1b03518000] java.lang.Thread.State: WAITING (parking)</li>
+<li>&ldquo;commons-pool-EvictionTimer&rdquo; daemon prio=10 tid=0x00007f1b4cb7d000 nid=0x2742 in Object.wait() [0x00007f1b034d8000] java.lang.Thread.State: TIMED_WAITING (on object monitor)</li>
+<li>&ldquo;Druid-ConnectionPool-Destory&rdquo; daemon prio=10 tid=0x00007f1b4ca8f000 nid=0x273f waiting on condition [0x00007f1b1804e000] java.lang.Thread.State: TIMED_WAITING (sleeping)</li>
+<li>&ldquo;Druid-ConnectionPool-Create&rdquo; daemon prio=10 tid=0x00007f1b4ca88800 nid=0x273e waiting on condition [0x00007f1b1808f000] java.lang.Thread.State: WAITING (parking)</li>
+<li>&ldquo;Finalizer&rdquo; daemon prio=10 tid=0x00007f1b4c17b800 nid=0x272b in Object.wait() [0x00007f1b4854b000]  java.lang.Thread.State: WAITING (on object monitor)</li>
+<li>&ldquo;Reference Handler&rdquo; daemon prio=10 tid=0x00007f1b4c179800 nid=0x272a in Object.wait() [0x00007f1b50078000]  java.lang.Thread.State: WAITING (on object monitor)</li>
+</ol>
+<p>其中，第2个：&ldquo;commons-pool-EvictionTimer&rdquo; 用于空闲对象的驱逐，第5个：&ldquo;Finalizer&quot;线程用于在垃圾收集前，调用对象的finalize()方法，第6个：&ldquo;Reference Handler&quot;用于处理引用对象本身（软引用、弱引用、虚引用）的垃圾回收问题 ，这3个线程都从属于JVM，暂时忽略。</p>
+<p>粗略看来剩下的3个线程中，第1个和第4个都处于<code>WAITING (parking)</code>的状态，即依赖于<code>特定condition</code>的发生，而第3个处于<code>TIMED_WAITING (sleeping)</code>，很可能是方法调用了Thread.wait()或者Thread.sleep()。</p>
+<p>查看pom文件，找到版本号<code>0.2.9</code>，在druid目录通过check out到对应版本号的tag定位源代码：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl">    <span class="n">public</span> <span class="k">class</span> <span class="n">DestroyConnectionThread</span> <span class="k">extends</span> <span class="ne">Thread</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">public</span> <span class="n">DestroyConnectionThread</span><span class="p">(</span><span class="ne">String</span> <span class="n">name</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">            <span class="n">super</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">            <span class="n">this</span><span class="o">.</span><span class="n">setDaemon</span><span class="p">(</span><span class="bp">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">        <span class="n">public</span> <span class="n">void</span> <span class="n">run</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">initedLatch</span><span class="o">.</span><span class="n">countDown</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">            <span class="k">for</span> <span class="p">(;;)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                <span class="o">//</span> <span class="err">从前面开始删除</span>
+</span></span><span class="line"><span class="cl">                <span class="n">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="p">(</span><span class="n">closed</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="p">(</span><span class="n">timeBetweenEvictionRunsMillis</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="ne">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">timeBetweenEvictionRunsMillis</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="ne">Thread</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">1000</span><span class="p">);</span> <span class="o">//</span> <span class="err">这里是</span><span class="mi">1292</span><span class="err">行</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="p">(</span><span class="ne">Thread</span><span class="o">.</span><span class="n">interrupted</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="n">shrink</span><span class="p">(</span><span class="bp">true</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">                    <span class="k">if</span> <span class="p">(</span><span class="n">isRemoveAbandoned</span><span class="p">())</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                        <span class="n">removeAbandoned</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">                    <span class="p">}</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">InterruptedException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">                    <span class="k">break</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">                <span class="p">}</span>
+</span></span><span class="line"><span class="cl">            <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这里的代码逻辑是这个独立的线程是用于回收关闭的链接，由于run方法一开始已经调用了<code>initedLatch.countDown();</code>，应该不会影响主线程，所以第3个线程也不是罪魁祸首。</p>
+<p>找来找去，怀疑的目光又落在了<code>pool-3-thread-1</code>这个最早看来人畜无害的<code>Runable</code>线程。
+猛烈google之后，发现了相关的讨论：<a href="https://bugs.mysql.com/bug.php?id=9515">Long response waiting using Connector</a></p>
+<blockquote>
+<p>always close the connection and use Socket.setSoTimeout(int) on every connection, I solve my problem. the hanging does never appear again.</p>
+</blockquote>
+<p>又返回去看druid的源码，发现方法调用堆栈中<code>isValidConnection</code>是支持设置超时时间的，需要在<code>DruidDataSource</code>实例化时作为参数传入。</p>
+<h2 id="尝试">尝试</h2>
+<p>修改xml配置，给<code>datasource</code>的bean中加上下列配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">&lt;property name=&#34;validationQueryTimeout&#34; value=&#34;1000&#34;/&gt;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>但是实际发现没有起作用，底层的socket连接依然在等待。又发现druid最新版本（1.0.20）中已经给<code>validationQueryTimeout</code>设置了默认值<code>1000ms</code>，尝试更新druid，最新版依然存在问题。</p>
+<h2 id="解决">解决</h2>
+<p>又认真想了一遍。
+druid通过<code>MySqlValidConnectionChecker</code>调用<code>com.mysql.jdbc.ConnectionImpl.pingInternal(boolean checkForClosedConnection, int timeoutMillis)</code>方法，并将validationQueryTimeout作为它的超时值。</p>
+<p>druid作为一个datasource pool，不管是选择在收回connection到pool的时候检验connection，还是从poll拿connection的时候检验connection，选择信任<code>pingInternal()</code>方法是无可厚非的。</p>
+<p>那锅是要由JDBC的驱动里面的<code>pingInternal()</code>方法来背吗？也不尽然：<a href="https://bugs.mysql.com/bug.php?id=31353">mysq上的讨论</a></p>
+<blockquote>
+<p><em>Socket timeouts</em>:
+UNCLOSED socket connection; JVM specs tell us GC does NOT release these resources thus they exhaust JVM resources related to socket operation, leading to SocketInputStream hanging your program. Always close the connection and use Socket.setSoTimeout(int) on every connection.</p>
+</blockquote>
+<blockquote>
+<p>Now this is in relation with <em>pooled connections</em> and DBCP (or &ldquo;why does 1.2.1 work&rdquo;, from Bug#30990):
+If you&rsquo;re using a connection pool that <em>doesn&rsquo;t</em> use the ConnectionPoolDataSource API to create connections that have lifecycle callbacks, then it is the <em>pool&rsquo;s</em> responsibility to cleanup &ldquo;logical&rdquo; pooled connections when they&rsquo;re returned to the pool. Otherwise there is no way for a JDBC driver to tell that a connection is being pooled &ldquo;above&rdquo; it, and thus no event/method call where one can hook in to determine that you&rsquo;ve been &ldquo;logically&rdquo; closed and returned to the pool.
+More recent version of DBCP automatically call rollback() on connections that are returned to the pool.</p>
+</blockquote>
+<p>所以，如果我们还想继续使用druid，还是老老实实在重新切换IP断网之前，调用一下<code>DruidDataDource.close()</code>方法显式地关闭connection好了。</p>
+<p>其实刚开始我们就通过将数据源切换到<code>DriverManagerDataSource</code>已经歪打正着解决了问题，但是<code>DriverManagerDataSource</code>不是一个连接池，每次都要重新创建connection，所以既然定位了问题，还是用druid更为优雅一些。</p>
+<p>解决后可以实现切换动作在1s内完成。
+![](/image/2016-05-30 14-17-50.jpg)</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">run</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2016-05-27
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">java</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">elasticsearch上手指南</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E5%88%B0%E5%BA%95%E9%9C%80%E4%B8%8D%E9%9C%80%E8%A6%81manager%E5%B1%82/">
+            <span class="next-text nav-default">到底需不需要Manager层？</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="suclogger/hugo-gitment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/suclogger" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/suclogger" class="iconfont icon-github" title="github"></a>
+  <a href="https://run.notbyai.space/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span>run</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

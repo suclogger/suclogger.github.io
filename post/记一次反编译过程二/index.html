@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>记一次反编译过程（二） - Run</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="run" /><meta name="description" content="此文不涉及任何道义和伦理的讨论 距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。 这个APP包含a" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.123.3 with theme even" />
+
+
+<link rel="canonical" href="https://run.notbyai.space/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="记一次反编译过程（二）" />
+<meta property="og:description" content="此文不涉及任何道义和伦理的讨论 距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。 这个APP包含a" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://run.notbyai.space/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-10-28T21:53:37+00:00" />
+<meta property="article:modified_time" content="2016-10-28T21:53:37+00:00" />
+
+<meta itemprop="name" content="记一次反编译过程（二）">
+<meta itemprop="description" content="此文不涉及任何道义和伦理的讨论 距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。 这个APP包含a"><meta itemprop="datePublished" content="2016-10-28T21:53:37+00:00" />
+<meta itemprop="dateModified" content="2016-10-28T21:53:37+00:00" />
+<meta itemprop="wordCount" content="1388">
+<meta itemprop="keywords" content="disassemble," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="记一次反编译过程（二）"/>
+<meta name="twitter:description" content="此文不涉及任何道义和伦理的讨论 距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。 这个APP包含a"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Run</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="https://haftbit.substack.com/">
+        <li class="mobile-menu-item">Readings</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Run</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://haftbit.substack.com/">Readings</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">记一次反编译过程（二）</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-10-28 </span>
+        <div class="post-category">
+            <a href="/categories/%E9%80%86%E5%90%91/"> 逆向 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#砸壳">砸壳</a>
+          <ul>
+            <li><a href="#小技巧">小技巧</a></li>
+          </ul>
+        </li>
+        <li><a href="#定位">定位</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <!-- abstract -->
+<!-- 开始正文 -->
+<p><strong>此文不涉及任何道义和伦理的讨论</strong></p>
+<p>距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。</p>
+<!-- more -->
+<p>这个APP包含android和ios两个版本。
+android下的版本是经过360安全加固过的，目前的技术能力和时间投入都无法支撑对加固后代码的反编译。
+ios由于特殊的生态环境，很少有公司能意识到对ios下的客户端做代码保护。
+所以这次主要从ios客户端入手。</p>
+<h2 id="砸壳">砸壳</h2>
+<p>ios应用提交到apple store审核通过之后默认会做一层加固保护，就是俗称的<code>壳</code>。
+如何砸开这个壳获取里面的可执行文件有很多方法，网上一搜可以搜到很多相关的文章，唯一需要的就是一台越狱后的ios设备。</p>
+<h3 id="小技巧">小技巧</h3>
+<p>如果你的ios应用是直接通过手机中的itunes安装的，砸壳出来的可执行文件可以反编译获得汇编语言，但是由于是一个64位的版本，当前版本的<code>Hopper Disassembler</code>和大名鼎鼎的<code>IDA</code>的<code>HEX-RAYS</code>插件都无法生成相应的伪代码。
+<code>Hopper Disassembler</code>的提示：</p>
+<p><img src="/image/2016-10-29-01-14-26.png" alt="">
+<img src="/image/2016-10-29-01-09-48.png" alt=""></p>
+<blockquote>
+<p>（The CPU backend cannot create pseudo-code for this CPU or CPU mode.）</p>
+</blockquote>
+<p>IDA则体现为<code>F5</code>功能键在X64版本下是无效的。</p>
+<p>为了绕开这个限制，可以通过Mac端的itunes下载APP到电脑，之后通过itunes同步到手机。通过这种方法安装的APP砸壳出来的代码是可以通过32位版本的IDA来执行反编译的，同样hopper也可以支持生成对应的伪代码。</p>
+<p><img src="/image/2016-10-29-01-15-41.png" alt="">
+选择 <code>ARM v7</code>打开即可。IDA通过可通过32位版本打开。</p>
+<h2 id="定位">定位</h2>
+<p>先来看一下这个APP的接口加密特征：
+<img src="/image/2016-10-29-01-24-21.jpg" alt="">
+每个请求都携带了一个名为<code>payload</code>的参数，包含了用2个<code>.</code>号分隔的3段字符串，稍加了解，就能知道这个接口的加密方式是<a href="https://jwt.io/">JWT</a>。</p>
+<p>JWT与之前谈到过的正向hash校验是同样的思想，请求中携带了所有参与hash的请求参数和一串计算得到的hash值，后台通过相同的正向hash过程得到的hash值与客户端提交的进行比对来判断这个请求是否合法。</p>
+<p>在<a href="http://suclogger.tech/2016/09/25/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/">上一篇</a>中已经说到：</p>
+<blockquote>
+<p>单向hash的缺点就在于不可逆（排除碰撞的可能），由于http是无状态的，计算单向hash传入的参数都需要显式传递给后端，或者取前后端预先约定好的一个值，这就意味着，如果计算单向hash的算法暴露了，只需要根据算法计算对应的hash值，就可以很容易的构造出一个合法的请求。
+而且，如果方案暴露，所有接口都无一幸免，因为参数都是明文，对于所有请求加密都形同虚设。</p>
+</blockquote>
+<p>所以，我们的目标就是在反编译的客户端代码中找到这把钥匙。</p>
+<p>这里我用了一个比较巧妙的方法，有个前情提要是是该APP的安卓客户端在某个版本之前是没有做加固处理的（在上一篇中我也提到，会对历史版本做一些分析），所以我拿到了之前某个版本的客户端源代码，对应的加密逻辑是：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">public</span> <span class="k">static</span> <span class="ne">String</span> <span class="n">generateParams</span><span class="p">(</span><span class="ne">String</span> <span class="n">params</span><span class="p">){</span>
+</span></span><span class="line"><span class="cl">        <span class="n">HmacKey</span> <span class="n">key</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">key</span> <span class="o">=</span> <span class="n">new</span> <span class="n">HmacKey</span><span class="p">((</span><span class="s2">&#34;2**********i-&#34;</span> <span class="o">+</span> <span class="n">DateConvert</span><span class="o">.</span><span class="n">getStringDateShort</span><span class="p">())</span><span class="o">.</span><span class="n">getBytes</span><span class="p">(</span><span class="s2">&#34;UTF-8&#34;</span><span class="p">));</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">UnsupportedEncodingException</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="n">JsonWebSignature</span> <span class="n">jws</span> <span class="o">=</span> <span class="n">new</span> <span class="n">JsonWebSignature</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jws</span><span class="o">.</span><span class="n">setPayload</span><span class="p">(</span><span class="n">params</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jws</span><span class="o">.</span><span class="n">setHeader</span><span class="p">(</span><span class="s2">&#34;typ&#34;</span><span class="p">,</span><span class="s2">&#34;JWT&#34;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jws</span><span class="o">.</span><span class="n">setAlgorithmHeaderValue</span><span class="p">(</span><span class="n">AlgorithmIdentifiers</span><span class="o">.</span><span class="n">HMAC_SHA256</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jws</span><span class="o">.</span><span class="n">setKey</span><span class="p">(</span><span class="n">key</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="n">jws</span><span class="o">.</span><span class="n">setDoKeyValidation</span><span class="p">(</span><span class="bp">false</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl">        <span class="ne">String</span> <span class="n">jwt</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">        <span class="n">try</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">jwt</span> <span class="o">=</span> <span class="n">jws</span><span class="o">.</span><span class="n">getCompactSerialization</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="n">JoseException</span> <span class="n">e2</span><span class="p">)</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">            <span class="n">e2</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">        <span class="p">}</span>
+</span></span><span class="line"><span class="cl">        <span class="k">return</span> <span class="n">jwt</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>是jwt提供的标准实现，使用的密钥是一串固定的字符串加上当前的日期（格式YYYYMMDD)。</p>
+<p>通过这个安卓客户端的代码，如何快速定位到ios的加密逻辑位置呢？
+我通过iTunes下载到了ios客户端下的对应版本，然后搜索了一下这个字符串，就定位到了加密的逻辑所在的方法位置：</p>
+<p><img src="/image/2016-10-29-01-48-22.png" alt="">
+而且果不其然的是，最新的客户端中，加密代码的逻辑，依然是这个方法：</p>
+<p><img src="/image/2016-10-29-01-52-46.jpg" alt="">
+在IDA的帮助下，我们找到了钥匙，成功解开了这道谜题：</p>
+<p><img src="/image/2016-10-29-01-56-10.png" alt=""></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">run</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2016-10-28
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/disassemble/">disassemble</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%8E%A5%E5%85%A5%E5%BC%80%E5%8F%91%E6%91%98%E8%AE%B0/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">支付宝接入开发摘记</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E9%85%8D%E7%BD%AEerlang%E7%8E%AF%E5%A2%83/">
+            <span class="next-text nav-default">配置Erlang环境</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="suclogger/hugo-gitment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/suclogger" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/suclogger" class="iconfont icon-github" title="github"></a>
+  <a href="https://run.notbyai.space/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span>run</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
