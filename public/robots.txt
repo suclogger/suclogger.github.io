@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://runstrong.site/sitemap.xml
+Sitemap: https://www.runstrong.site/sitemap.xml
