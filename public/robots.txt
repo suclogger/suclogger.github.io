@@ -1,2 +1,2 @@
 User-agent: *
-Sitemap: https://run.notbyai.space/sitemap.xml
+Sitemap: https://runstrong.site/sitemap.xml
