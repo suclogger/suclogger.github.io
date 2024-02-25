@@ -1,215 +1,508 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>关于近期的面试情况 - Run</title>
-<meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="run"><meta name=description content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心"><meta name=generator content="Hugo 0.123.3 with theme even"><link rel=canonical href=https://www.runstrong.site/post/job-interview-2018/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="关于近期的面试情况"><meta property="og:description" content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心"><meta property="og:type" content="article"><meta property="og:url" content="https://www.runstrong.site/post/job-interview-2018/"><meta property="article:section" content="post"><meta property="article:published_time" content="2018-05-04T15:07:26+00:00"><meta property="article:modified_time" content="2018-05-04T15:07:26+00:00"><meta itemprop=name content="关于近期的面试情况"><meta itemprop=description content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心"><meta itemprop=datePublished content="2018-05-04T15:07:26+00:00"><meta itemprop=dateModified content="2018-05-04T15:07:26+00:00"><meta itemprop=wordCount content="1576"><meta itemprop=keywords content="面试,"><meta name=twitter:card content="summary"><meta name=twitter:title content="关于近期的面试情况"><meta name=twitter:description content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Run</a></div><div class=mobile-navbar-icon><span></span>
-<span></span>
-<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=https://haftbit.substack.com/><li class=mobile-menu-item>Readings</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Run</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=https://haftbit.substack.com/>Readings</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>关于近期的面试情况</h1><div class=post-meta><span class=post-time>2018-05-04</span><div class=post-category><a href=/categories/%E7%BC%96%E7%A8%8B/>编程</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#duboo的默认线程池大小>Duboo的默认线程池大小</a></li><li><a href=#如何判断链表相交>如何判断链表相交</a></li><li><a href=#如何在垂直分表环境下对某个字段做top>如何在垂直分表环境下对某个字段做top</a></li><li><a href=#还问了关于java异常处理的看法>还问了关于java异常处理的看法</a></li><li><a href=#mysql多栏索引的实现>mysql多栏索引的实现</a></li><li><a href=#关于分布式应用数据库记录锁竞争的问题>关于分布式应用数据库记录锁竞争的问题</a></li></ul></nav></div></div><div class=post-content><p>记录一下最近面试遇到的一些问题。</p><h1 id=duboo的默认线程池大小>Duboo的默认线程池大小</h1><p>阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心线程数是200 。</p><p>认真探究了一下，具体参考：<a href=http://ifeve.com/how-to-calculate-threadpool-size/>如何合理地估算线程池大小</a></p><p>跟小马哥（桃谷）探讨这个问题，他的看法是：</p><blockquote><p>主要是因为如果 RPC 的设置为 处理器个数 x2 或 x4 的话，当并发请求非常高的时候，会出现线程池堵塞，换言之，大量的线程处于等待状态。所以 RPC 的并发数量很大，也就是另可让 CPU 时间片轮替，也不希望堵塞。不同框架的设值也不一定都一样，比如 HSF 就是 700。</p></blockquote><p>Dubbo是一个RPC框架，所以是IO密集型的任务，线程等待时间相对于CPU时间长很多，所以线程数可以设置较高，不过也是支持配置项定义的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>FixedThreadPool</span><span class=w> </span><span class=kd>implements</span><span class=w> </span><span class=n>ThreadPool</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=n>Executor</span><span class=w> </span><span class=nf>getExecutor</span><span class=p>(</span><span class=n>URL</span><span class=w> </span><span class=n>url</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>String</span><span class=w> </span><span class=n>name</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>url</span><span class=p>.</span><span class=na>getParameter</span><span class=p>(</span><span class=n>Constants</span><span class=p>.</span><span class=na>THREAD_NAME_KEY</span><span class=p>,</span><span class=w> </span><span class=n>Constants</span><span class=p>.</span><span class=na>DEFAULT_THREAD_NAME</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kt>int</span><span class=w> </span><span class=n>threads</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>url</span><span class=p>.</span><span class=na>getParameter</span><span class=p>(</span><span class=n>Constants</span><span class=p>.</span><span class=na>THREADS_KEY</span><span class=p>,</span><span class=w> </span><span class=n>Constants</span><span class=p>.</span><span class=na>DEFAULT_THREADS</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kt>int</span><span class=w> </span><span class=n>queues</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>url</span><span class=p>.</span><span class=na>getParameter</span><span class=p>(</span><span class=n>Constants</span><span class=p>.</span><span class=na>QUEUES_KEY</span><span class=p>,</span><span class=w> </span><span class=n>Constants</span><span class=p>.</span><span class=na>DEFAULT_QUEUES</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>return</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>ThreadPoolExecutor</span><span class=p>(</span><span class=n>threads</span><span class=p>,</span><span class=w> </span><span class=n>threads</span><span class=p>,</span><span class=w> </span><span class=n>0</span><span class=p>,</span><span class=w> </span><span class=n>TimeUnit</span><span class=p>.</span><span class=na>MILLISECONDS</span><span class=p>,</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=n>queues</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=n>0</span><span class=w> </span><span class=o>?</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>SynchronousQueue</span><span class=o>&lt;</span><span class=n>Runnable</span><span class=o>&gt;</span><span class=p>()</span><span class=w> </span><span class=p>:</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                        </span><span class=p>(</span><span class=n>queues</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>0</span><span class=w> </span><span class=o>?</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>LinkedBlockingQueue</span><span class=o>&lt;</span><span class=n>Runnable</span><span class=o>&gt;</span><span class=p>()</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                                </span><span class=p>:</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>LinkedBlockingQueue</span><span class=o>&lt;</span><span class=n>Runnable</span><span class=o>&gt;</span><span class=p>(</span><span class=n>queues</span><span class=p>)),</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=k>new</span><span class=w> </span><span class=n>NamedThreadFactory</span><span class=p>(</span><span class=n>name</span><span class=p>,</span><span class=w> </span><span class=kc>true</span><span class=p>),</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>AbortPolicyWithReport</span><span class=p>(</span><span class=n>name</span><span class=p>,</span><span class=w> </span><span class=n>url</span><span class=p>));</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><h1 id=如何判断链表相交>如何判断链表相交</h1><p>面试官问的是判断链表正交，当时一脸懵逼，反问正交是什么意思，结果这个问题就被跳过了。
-判断链表正交可以通过将两个链表首尾相连后转为判断链表是否有环的问题。</p><p>常用的思路是通过快慢指针来实现：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span><span class=lnt>23
-</span><span class=lnt>24
-</span><span class=lnt>25
-</span><span class=lnt>26
-</span><span class=lnt>27
-</span><span class=lnt>28
-</span><span class=lnt>29
-</span><span class=lnt>30
-</span><span class=lnt>31
-</span><span class=lnt>32
-</span><span class=lnt>33
-</span><span class=lnt>34
-</span><span class=lnt>35
-</span><span class=lnt>36
-</span><span class=lnt>37
-</span><span class=lnt>38
-</span><span class=lnt>39
-</span><span class=lnt>40
-</span><span class=lnt>41
-</span><span class=lnt>42
-</span><span class=lnt>43
-</span><span class=lnt>44
-</span><span class=lnt>45
-</span><span class=lnt>46
-</span><span class=lnt>47
-</span><span class=lnt>48
-</span><span class=lnt>49
-</span><span class=lnt>50
-</span><span class=lnt>51
-</span><span class=lnt>52
-</span><span class=lnt>53
-</span><span class=lnt>54
-</span><span class=lnt>55
-</span><span class=lnt>56
-</span><span class=lnt>57
-</span><span class=lnt>58
-</span><span class=lnt>59
-</span><span class=lnt>60
-</span><span class=lnt>61
-</span><span class=lnt>62
-</span><span class=lnt>63
-</span><span class=lnt>64
-</span><span class=lnt>65
-</span><span class=lnt>66
-</span><span class=lnt>67
-</span><span class=lnt>68
-</span><span class=lnt>69
-</span><span class=lnt>70
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=kd>public</span><span class=w> </span><span class=kd>class</span> <span class=nc>LoopDetect</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>static</span><span class=w> </span><span class=kd>class</span> <span class=nc>Node</span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>private</span><span class=w> </span><span class=n>Integer</span><span class=w> </span><span class=n>value</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>private</span><span class=w> </span><span class=n>Node</span><span class=w> </span><span class=n>next</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=n>Integer</span><span class=w> </span><span class=nf>getValue</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>return</span><span class=w> </span><span class=n>value</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>setValue</span><span class=p>(</span><span class=n>Integer</span><span class=w> </span><span class=n>value</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>this</span><span class=p>.</span><span class=na>value</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>value</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=n>Node</span><span class=w> </span><span class=nf>getNext</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>return</span><span class=w> </span><span class=n>next</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=kt>void</span><span class=w> </span><span class=nf>setNext</span><span class=p>(</span><span class=n>Node</span><span class=w> </span><span class=n>next</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>this</span><span class=p>.</span><span class=na>next</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>next</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=nf>Node</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=nf>Node</span><span class=p>(</span><span class=n>Integer</span><span class=w> </span><span class=n>value</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>this</span><span class=p>.</span><span class=na>value</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>value</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=kt>boolean</span><span class=w> </span><span class=nf>equals</span><span class=p>(</span><span class=n>Object</span><span class=w> </span><span class=n>o</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>if</span><span class=w> </span><span class=p>(</span><span class=k>this</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=n>o</span><span class=p>)</span><span class=w> </span><span class=k>return</span><span class=w> </span><span class=kc>true</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>if</span><span class=w> </span><span class=p>(</span><span class=n>o</span><span class=w> </span><span class=o>==</span><span class=w> </span><span class=kc>null</span><span class=w> </span><span class=o>||</span><span class=w> </span><span class=n>getClass</span><span class=p>()</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=n>o</span><span class=p>.</span><span class=na>getClass</span><span class=p>())</span><span class=w> </span><span class=k>return</span><span class=w> </span><span class=kc>false</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>Node</span><span class=w> </span><span class=n>node</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=p>(</span><span class=n>Node</span><span class=p>)</span><span class=w> </span><span class=n>o</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>return</span><span class=w> </span><span class=n>Objects</span><span class=p>.</span><span class=na>equals</span><span class=p>(</span><span class=n>value</span><span class=p>,</span><span class=w> </span><span class=n>node</span><span class=p>.</span><span class=na>value</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=nd>@Override</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=kd>public</span><span class=w> </span><span class=kt>int</span><span class=w> </span><span class=nf>hashCode</span><span class=p>()</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>return</span><span class=w> </span><span class=n>Objects</span><span class=p>.</span><span class=na>hash</span><span class=p>(</span><span class=n>value</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=n>Node</span><span class=w> </span><span class=nf>detect</span><span class=p>(</span><span class=n>Node</span><span class=w> </span><span class=n>start</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Node</span><span class=w> </span><span class=n>oriStart</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>start</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Node</span><span class=w> </span><span class=n>fast</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>start</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>Node</span><span class=w> </span><span class=n>slow</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>start</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>while</span><span class=p>(</span><span class=n>slow</span><span class=p>.</span><span class=na>equals</span><span class=p>(</span><span class=n>oriStart</span><span class=p>)</span><span class=w> </span><span class=o>||</span><span class=w> </span><span class=p>(</span><span class=o>!</span><span class=n>fast</span><span class=p>.</span><span class=na>equals</span><span class=p>(</span><span class=n>slow</span><span class=p>)</span><span class=w> </span><span class=o>&amp;&amp;</span><span class=w> </span><span class=n>slow</span><span class=p>.</span><span class=na>next</span><span class=w> </span><span class=o>!=</span><span class=w> </span><span class=kc>null</span><span class=p>))</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>fast</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>fast</span><span class=p>.</span><span class=na>next</span><span class=p>.</span><span class=na>next</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>slow</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>slow</span><span class=p>.</span><span class=na>next</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>if</span><span class=p>(</span><span class=n>fast</span><span class=p>.</span><span class=na>equals</span><span class=p>(</span><span class=n>slow</span><span class=p>))</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34; loop detected !!!&#34;</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>fast</span><span class=p>.</span><span class=na>getValue</span><span class=p>());</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>detectLoopStart</span><span class=p>(</span><span class=n>fast</span><span class=p>,</span><span class=w> </span><span class=n>oriStart</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>return</span><span class=w> </span><span class=n>fast</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>public</span><span class=w> </span><span class=n>Node</span><span class=w> </span><span class=nf>detectLoopStart</span><span class=p>(</span><span class=n>Node</span><span class=w> </span><span class=n>meet</span><span class=p>,</span><span class=w> </span><span class=n>Node</span><span class=w> </span><span class=n>start</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>while</span><span class=p>(</span><span class=o>!</span><span class=n>meet</span><span class=p>.</span><span class=na>equals</span><span class=p>(</span><span class=n>start</span><span class=p>))</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>meet</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>meet</span><span class=p>.</span><span class=na>next</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>start</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>start</span><span class=p>.</span><span class=na>next</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>System</span><span class=p>.</span><span class=na>out</span><span class=p>.</span><span class=na>println</span><span class=p>(</span><span class=s>&#34;found loop start : &#34;</span><span class=w> </span><span class=o>+</span><span class=w> </span><span class=n>meet</span><span class=p>.</span><span class=na>getValue</span><span class=p>());</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>return</span><span class=w> </span><span class=n>meet</span><span class=p>;</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><h1 id=如何在垂直分表环境下对某个字段做top>如何在垂直分表环境下对某个字段做top</h1><p>思路分两步，第一是map-reduce的思想，分10个表就开10个线程分别处理，每个线程中使用一个小根堆，小根堆在java里面的一个例子就是<code>TreeMap</code>，底层通过红黑树来实现。</p><p>数据过来的时候先判断堆是否满了，没满的话就直接添加到堆中。如果堆满了，与堆顶比较，如果比堆顶小则丢弃，如果比堆顶大就用这个值替换堆顶。
-大概的代码如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-java data-lang=java><span class=line><span class=cl><span class=n>TreeMap</span><span class=o>&lt;</span><span class=n>Integer</span><span class=p>,</span><span class=w> </span><span class=n>Integer</span><span class=o>&gt;</span><span class=w> </span><span class=n>treeMap</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=k>new</span><span class=w> </span><span class=n>TreeMap</span><span class=o>&lt;&gt;</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>for</span><span class=w> </span><span class=p>(</span><span class=kt>int</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>0</span><span class=p>;</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>1000</span><span class=p>;</span><span class=w> </span><span class=n>i</span><span class=o>++</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=k>if</span><span class=p>(</span><span class=n>treeMap</span><span class=p>.</span><span class=na>size</span><span class=p>()</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>10</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=n>treeMap</span><span class=p>.</span><span class=na>put</span><span class=p>(</span><span class=n>i</span><span class=p>,</span><span class=w> </span><span class=n>i</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=p>}</span><span class=w> </span><span class=k>else</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=n>Integer</span><span class=w> </span><span class=n>root</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=n>treeMap</span><span class=p>.</span><span class=na>firstKey</span><span class=p>();</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=k>if</span><span class=p>(</span><span class=n>root</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>i</span><span class=p>)</span><span class=w> </span><span class=p>{</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=n>treeMap</span><span class=p>.</span><span class=na>remove</span><span class=p>(</span><span class=n>root</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                    </span><span class=n>treeMap</span><span class=p>.</span><span class=na>put</span><span class=p>(</span><span class=n>i</span><span class=p>,</span><span class=w> </span><span class=n>i</span><span class=p>);</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>                </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=p>}</span><span class=w>
-</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
-</span></span></span></code></pre></td></tr></table></div></div><p>当时问我时间复杂度是多少，紧张了一下没好好想，其实最差情况就是 n/10<em>log10 + 100</em>log10 。
-主要是考察思路。</p><h1 id=还问了关于java异常处理的看法>还问了关于java异常处理的看法</h1><p>当时自己对异常的看法没有好好整理过，所以回答的比较粗糙，后来自己认真想了想，主要有几个点：</p><ul><li>具体明确：比如抛出的异常的信息应该包含可以追溯的详细堆栈，再比如对同一try块定义多个catch块，从而对每种异常分别进行恰当的处理</li><li>提早抛出：即迅速失败，可以有效避免不必要的对象构造或资源占用，比如文件或网络连接</li><li>延迟捕获：不要在还无能力处理这个异常的时候就捕获异常，你的程序要么可以从异常中有意义地恢复并继续下去，而不导致更 深入的错误；要么能够为用户提供明确的信息，包括引导他们从错误中恢复过来。如果你的方法无法胜任，那么就不要处理异常，把它留到后面捕获和在恰当的层面处理</li></ul><h1 id=mysql多栏索引的实现>mysql多栏索引的实现</h1><p>我只了解过单栏索引是通过B+树来实现的，猜测多栏索引也是通过B+树来做的，也没引发面试官后续可能的问题，有点遗憾。
-网上搜到的多栏索引的资料比较少，稍微列举一下：</p><p><a href=https://draveness.me/mysql-innodb>『浅入浅出』MySQL 和 InnoDB</a>
-<img src=/image/2018-05-04/2018-05-07-16-41-40.png alt></p><p><a href=https://www.zhihu.com/question/36996520>mysql索引最左匹配原则的理解?</a>
-<img src=/image/2018-05-04/2018-05-04-16-22-32.jpg alt></p><h1 id=关于分布式应用数据库记录锁竞争的问题>关于分布式应用数据库记录锁竞争的问题</h1><p>我回答的思路是根据场景来选择，如果大概率有竞争，可以通过<code>select ... for update</code>来加锁，如果小概率有竞争，可以通过添加乐观锁字段。面试官追问能否在不用redis等外部依赖的情况跨jvm实现，我回答不可以。希望大家有想法的可以指点一下。</p><p>目前大致就是这些，其他一些常规的问题就没有记录了。</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
-<span class=item-content>run</span></p><p class=copyright-item><span class=item-title>上次更新</span>
-<span class=item-content>2018-05-04</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/%E9%9D%A2%E8%AF%95/>面试</a></div><nav class=post-nav><a class=prev href=/post/job-interview-2018-2/><i class="iconfont icon-left"></i>
-<span class="prev-text nav-default">关于近期的面试情况-续</span>
-<span class="prev-text nav-mobile">上一篇</span>
-</a><a class=next href=/post/qcon-beijing-2018/><span class="next-text nav-default">有关“架构师”之二</span>
-<span class="next-text nav-mobile">下一篇</span>
-<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a><a href=https://github.com/suclogger class="iconfont icon-github" title=github></a><a href=https://www.runstrong.site/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
-</span><span class=division>|</span>
-<span class=theme-info>主题 -
-<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
-</span><span class=copyright-year>&copy;
-2017 -
-2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>关于近期的面试情况 - Run</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="run" /><meta name="description" content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.123.3 with theme even" />
+
+
+<link rel="canonical" href="https://run.notbyai.space/post/job-interview-2018/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="关于近期的面试情况" />
+<meta property="og:description" content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://run.notbyai.space/post/job-interview-2018/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2018-05-04T15:07:26+00:00" />
+<meta property="article:modified_time" content="2018-05-04T15:07:26+00:00" />
+
+<meta itemprop="name" content="关于近期的面试情况">
+<meta itemprop="description" content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心"><meta itemprop="datePublished" content="2018-05-04T15:07:26+00:00" />
+<meta itemprop="dateModified" content="2018-05-04T15:07:26+00:00" />
+<meta itemprop="wordCount" content="1576">
+<meta itemprop="keywords" content="面试," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="关于近期的面试情况"/>
+<meta name="twitter:description" content="记录一下最近面试遇到的一些问题。 Duboo的默认线程池大小 阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Run</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="https://haftbit.substack.com/">
+        <li class="mobile-menu-item">Readings</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Run</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://haftbit.substack.com/">Readings</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">关于近期的面试情况</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2018-05-04 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#duboo的默认线程池大小">Duboo的默认线程池大小</a></li>
+    <li><a href="#如何判断链表相交">如何判断链表相交</a></li>
+    <li><a href="#如何在垂直分表环境下对某个字段做top">如何在垂直分表环境下对某个字段做top</a></li>
+    <li><a href="#还问了关于java异常处理的看法">还问了关于java异常处理的看法</a></li>
+    <li><a href="#mysql多栏索引的实现">mysql多栏索引的实现</a></li>
+    <li><a href="#关于分布式应用数据库记录锁竞争的问题">关于分布式应用数据库记录锁竞争的问题</a></li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>记录一下最近面试遇到的一些问题。</p>
+<!-- more -->
+<h1 id="duboo的默认线程池大小">Duboo的默认线程池大小</h1>
+<p>阅读代码的时候没有注意到这一点，瞎猜了一下是CPU核数的2倍。答案是默认线程池核心线程数是200 。</p>
+<p>认真探究了一下，具体参考：<a href="http://ifeve.com/how-to-calculate-threadpool-size/">如何合理地估算线程池大小</a></p>
+<p>跟小马哥（桃谷）探讨这个问题，他的看法是：</p>
+<blockquote>
+<p>主要是因为如果 RPC 的设置为 处理器个数 x2 或 x4 的话，当并发请求非常高的时候，会出现线程池堵塞，换言之，大量的线程处于等待状态。所以 RPC 的并发数量很大，也就是另可让 CPU 时间片轮替，也不希望堵塞。不同框架的设值也不一定都一样，比如 HSF 就是 700。</p>
+</blockquote>
+<p>Dubbo是一个RPC框架，所以是IO密集型的任务，线程等待时间相对于CPU时间长很多，所以线程数可以设置较高，不过也是支持配置项定义的：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">FixedThreadPool</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">ThreadPool</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Executor</span><span class="w"> </span><span class="nf">getExecutor</span><span class="p">(</span><span class="n">URL</span><span class="w"> </span><span class="n">url</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">String</span><span class="w"> </span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">url</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="n">Constants</span><span class="p">.</span><span class="na">THREAD_NAME_KEY</span><span class="p">,</span><span class="w"> </span><span class="n">Constants</span><span class="p">.</span><span class="na">DEFAULT_THREAD_NAME</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">threads</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">url</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="n">Constants</span><span class="p">.</span><span class="na">THREADS_KEY</span><span class="p">,</span><span class="w"> </span><span class="n">Constants</span><span class="p">.</span><span class="na">DEFAULT_THREADS</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">queues</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">url</span><span class="p">.</span><span class="na">getParameter</span><span class="p">(</span><span class="n">Constants</span><span class="p">.</span><span class="na">QUEUES_KEY</span><span class="p">,</span><span class="w"> </span><span class="n">Constants</span><span class="p">.</span><span class="na">DEFAULT_QUEUES</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">ThreadPoolExecutor</span><span class="p">(</span><span class="n">threads</span><span class="p">,</span><span class="w"> </span><span class="n">threads</span><span class="p">,</span><span class="w"> </span><span class="n">0</span><span class="p">,</span><span class="w"> </span><span class="n">TimeUnit</span><span class="p">.</span><span class="na">MILLISECONDS</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">queues</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">SynchronousQueue</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;</span><span class="p">()</span><span class="w"> </span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                        </span><span class="p">(</span><span class="n">queues</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">0</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedBlockingQueue</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                                </span><span class="p">:</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">LinkedBlockingQueue</span><span class="o">&lt;</span><span class="n">Runnable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">queues</span><span class="p">)),</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">new</span><span class="w"> </span><span class="n">NamedThreadFactory</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">AbortPolicyWithReport</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">url</span><span class="p">));</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="如何判断链表相交">如何判断链表相交</h1>
+<p>面试官问的是判断链表正交，当时一脸懵逼，反问正交是什么意思，结果这个问题就被跳过了。
+判断链表正交可以通过将两个链表首尾相连后转为判断链表是否有环的问题。</p>
+<p>常用的思路是通过快慢指针来实现：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span><span class="lnt">38
+</span><span class="lnt">39
+</span><span class="lnt">40
+</span><span class="lnt">41
+</span><span class="lnt">42
+</span><span class="lnt">43
+</span><span class="lnt">44
+</span><span class="lnt">45
+</span><span class="lnt">46
+</span><span class="lnt">47
+</span><span class="lnt">48
+</span><span class="lnt">49
+</span><span class="lnt">50
+</span><span class="lnt">51
+</span><span class="lnt">52
+</span><span class="lnt">53
+</span><span class="lnt">54
+</span><span class="lnt">55
+</span><span class="lnt">56
+</span><span class="lnt">57
+</span><span class="lnt">58
+</span><span class="lnt">59
+</span><span class="lnt">60
+</span><span class="lnt">61
+</span><span class="lnt">62
+</span><span class="lnt">63
+</span><span class="lnt">64
+</span><span class="lnt">65
+</span><span class="lnt">66
+</span><span class="lnt">67
+</span><span class="lnt">68
+</span><span class="lnt">69
+</span><span class="lnt">70
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">LoopDetect</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">static</span><span class="w"> </span><span class="kd">class</span> <span class="nc">Node</span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">private</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="n">Integer</span><span class="w"> </span><span class="nf">getValue</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setValue</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">getNext</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">setNext</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">next</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">next</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="nf">Node</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="nf">Node</span><span class="p">(</span><span class="n">Integer</span><span class="w"> </span><span class="n">value</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">this</span><span class="p">.</span><span class="na">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="nf">equals</span><span class="p">(</span><span class="n">Object</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="k">this</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">o</span><span class="p">)</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">o</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="kc">null</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">getClass</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">o</span><span class="p">.</span><span class="na">getClass</span><span class="p">())</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">Node</span><span class="w"> </span><span class="n">node</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">Node</span><span class="p">)</span><span class="w"> </span><span class="n">o</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Objects</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">node</span><span class="p">.</span><span class="na">value</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nd">@Override</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="kd">public</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">hashCode</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">Objects</span><span class="p">.</span><span class="na">hash</span><span class="p">(</span><span class="n">value</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">detect</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">oriStart</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Node</span><span class="w"> </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">while</span><span class="p">(</span><span class="n">slow</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">oriStart</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">fast</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">slow</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">null</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">fast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">next</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">slow</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">slow</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">fast</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">slow</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&#34; loop detected !!!&#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">fast</span><span class="p">.</span><span class="na">getValue</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">detectLoopStart</span><span class="p">(</span><span class="n">fast</span><span class="p">,</span><span class="w"> </span><span class="n">oriStart</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">fast</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="nf">detectLoopStart</span><span class="p">(</span><span class="n">Node</span><span class="w"> </span><span class="n">meet</span><span class="p">,</span><span class="w"> </span><span class="n">Node</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">meet</span><span class="p">.</span><span class="na">equals</span><span class="p">(</span><span class="n">start</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">meet</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">meet</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">start</span><span class="p">.</span><span class="na">next</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">&#34;found loop start : &#34;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">meet</span><span class="p">.</span><span class="na">getValue</span><span class="p">());</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">meet</span><span class="p">;</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><h1 id="如何在垂直分表环境下对某个字段做top">如何在垂直分表环境下对某个字段做top</h1>
+<p>思路分两步，第一是map-reduce的思想，分10个表就开10个线程分别处理，每个线程中使用一个小根堆，小根堆在java里面的一个例子就是<code>TreeMap</code>，底层通过红黑树来实现。</p>
+<p>数据过来的时候先判断堆是否满了，没满的话就直接添加到堆中。如果堆满了，与堆顶比较，如果比堆顶小则丢弃，如果比堆顶大就用这个值替换堆顶。
+大概的代码如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-java" data-lang="java"><span class="line"><span class="cl"><span class="n">TreeMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="p">,</span><span class="w"> </span><span class="n">Integer</span><span class="o">&gt;</span><span class="w"> </span><span class="n">treeMap</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">TreeMap</span><span class="o">&lt;&gt;</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">1000</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="k">if</span><span class="p">(</span><span class="n">treeMap</span><span class="p">.</span><span class="na">size</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">10</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">treeMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="n">Integer</span><span class="w"> </span><span class="n">root</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">treeMap</span><span class="p">.</span><span class="na">firstKey</span><span class="p">();</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="k">if</span><span class="p">(</span><span class="n">root</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="n">treeMap</span><span class="p">.</span><span class="na">remove</span><span class="p">(</span><span class="n">root</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                    </span><span class="n">treeMap</span><span class="p">.</span><span class="na">put</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">                </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">            </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></td></tr></table>
+</div>
+</div><p>当时问我时间复杂度是多少，紧张了一下没好好想，其实最差情况就是 n/10<em>log10 + 100</em>log10 。
+主要是考察思路。</p>
+<h1 id="还问了关于java异常处理的看法">还问了关于java异常处理的看法</h1>
+<p>当时自己对异常的看法没有好好整理过，所以回答的比较粗糙，后来自己认真想了想，主要有几个点：</p>
+<ul>
+<li>具体明确：比如抛出的异常的信息应该包含可以追溯的详细堆栈，再比如对同一try块定义多个catch块，从而对每种异常分别进行恰当的处理</li>
+<li>提早抛出：即迅速失败，可以有效避免不必要的对象构造或资源占用，比如文件或网络连接</li>
+<li>延迟捕获：不要在还无能力处理这个异常的时候就捕获异常，你的程序要么可以从异常中有意义地恢复并继续下去，而不导致更 深入的错误；要么能够为用户提供明确的信息，包括引导他们从错误中恢复过来。如果你的方法无法胜任，那么就不要处理异常，把它留到后面捕获和在恰当的层面处理</li>
+</ul>
+<h1 id="mysql多栏索引的实现">mysql多栏索引的实现</h1>
+<p>我只了解过单栏索引是通过B+树来实现的，猜测多栏索引也是通过B+树来做的，也没引发面试官后续可能的问题，有点遗憾。
+网上搜到的多栏索引的资料比较少，稍微列举一下：</p>
+<p><a href="https://draveness.me/mysql-innodb">『浅入浅出』MySQL 和 InnoDB</a>
+<img src="/image/2018-05-04/2018-05-07-16-41-40.png" alt=""></p>
+<p><a href="https://www.zhihu.com/question/36996520">mysql索引最左匹配原则的理解?</a>
+<img src="/image/2018-05-04/2018-05-04-16-22-32.jpg" alt=""></p>
+<h1 id="关于分布式应用数据库记录锁竞争的问题">关于分布式应用数据库记录锁竞争的问题</h1>
+<p>我回答的思路是根据场景来选择，如果大概率有竞争，可以通过<code>select ... for update</code>来加锁，如果小概率有竞争，可以通过添加乐观锁字段。面试官追问能否在不用redis等外部依赖的情况跨jvm实现，我回答不可以。希望大家有想法的可以指点一下。</p>
+<p>目前大致就是这些，其他一些常规的问题就没有记录了。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">run</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2018-05-04
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/%E9%9D%A2%E8%AF%95/">面试</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/job-interview-2018-2/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">关于近期的面试情况-续</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/qcon-beijing-2018/">
+            <span class="next-text nav-default">有关“架构师”之二</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="suclogger/hugo-gitment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/suclogger" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/suclogger" class="iconfont icon-github" title="github"></a>
+  <a href="https://run.notbyai.space/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span>run</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

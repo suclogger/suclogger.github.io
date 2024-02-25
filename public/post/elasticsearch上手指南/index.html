@@ -1,148 +1,482 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>elasticsearch上手指南 - Run</title>
-<meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="run"><meta name=description content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安"><meta name=generator content="Hugo 0.123.3 with theme even"><link rel=canonical href=https://www.runstrong.site/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="elasticsearch上手指南"><meta property="og:description" content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安"><meta property="og:type" content="article"><meta property="og:url" content="https://www.runstrong.site/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"><meta property="article:section" content="post"><meta property="article:published_time" content="2016-06-10T19:09:26+00:00"><meta property="article:modified_time" content="2016-06-10T19:09:26+00:00"><meta itemprop=name content="elasticsearch上手指南"><meta itemprop=description content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安"><meta itemprop=datePublished content="2016-06-10T19:09:26+00:00"><meta itemprop=dateModified content="2016-06-10T19:09:26+00:00"><meta itemprop=wordCount content="1296"><meta itemprop=keywords content="elasticsearch,"><meta name=twitter:card content="summary"><meta name=twitter:title content="elasticsearch上手指南"><meta name=twitter:description content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Run</a></div><div class=mobile-navbar-icon><span></span>
-<span></span>
-<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=https://haftbit.substack.com/><li class=mobile-menu-item>Readings</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Run</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=https://haftbit.substack.com/>Readings</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>elasticsearch上手指南</h1><div class=post-meta><span class=post-time>2016-06-10</span><div class=post-category><a href=/categories/%E6%90%9C%E7%B4%A2/>搜索</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#centos上安装elasticsearch>CentOS上安装elasticsearch</a></li><li><a href=#创建一个文稿>创建一个文稿</a></li><li><a href=#开始搜索>开始搜索</a></li></ul></li></ul></nav></div></div><div class=post-content><h2 id=centos上安装elasticsearch>CentOS上安装elasticsearch</h2><p>首先需要JAVA环境，这里不再详述。
-在<a href=https://www.elastic.co/downloads/elasticsearch>官网下载页面</a>找到RMP包的下载路径，通过wget命令下载安装包到本地：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>wget</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>download</span><span class=o>.</span><span class=n>elastic</span><span class=o>.</span><span class=n>co</span><span class=o>/</span><span class=n>elasticsearch</span><span class=o>/</span><span class=n>release</span><span class=o>/</span><span class=n>org</span><span class=o>/</span><span class=n>elasticsearch</span><span class=o>/</span><span class=n>distribution</span><span class=o>/</span><span class=n>rpm</span><span class=o>/</span><span class=n>elasticsearch</span><span class=o>/</span><span class=mf>2.3</span><span class=o>.</span><span class=mi>3</span><span class=o>/</span><span class=n>elasticsearch</span><span class=o>-</span><span class=mf>2.3</span><span class=o>.</span><span class=mf>3.</span><span class=n>rpm</span>
-</span></span></code></pre></td></tr></table></div></div><p>执行安装</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo rpm -ivh elasticsearch-2.3.3.rpm
-</span></span></code></pre></td></tr></table></div></div><p>默认安装到<code>/usr/share/elasticsearch/</code>，配置文件在<code>/etc/elasticsearch</code>，init脚本在<code>/etc/init.d/elasticsearch</code>。
-添加为服务：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo systemctl enable elasticsearch.service
-</span></span></code></pre></td></tr></table></div></div><p>启动：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo /etc/init.d/elasticsearch start
-</span></span></code></pre></td></tr></table></div></div><p>查看：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>curl http://localhost:9200
-</span></span></code></pre></td></tr></table></div></div><h2 id=创建一个文稿>创建一个文稿</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>curl -XPUT &#39;localhost:9200/get-together/group/1?pretty&#39; -d &#39;{ &#34;name&#34;: &#34;Elasticsearch Denver&#34;, &#34;organizer&#34;: &#34;Lee&#34; }&#39;
-</span></span></code></pre></td></tr></table></div></div><p>可以看到返回信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{
-</span></span><span class=line><span class=cl>  &#34;_index&#34; : &#34;get-together&#34;,
-</span></span><span class=line><span class=cl>  &#34;_type&#34; : &#34;group&#34;,
-</span></span><span class=line><span class=cl>  &#34;_id&#34; : &#34;1&#34;,
-</span></span><span class=line><span class=cl>  &#34;_version&#34; : 1,
-</span></span><span class=line><span class=cl>  &#34;_shards&#34; : {
-</span></span><span class=line><span class=cl>    &#34;total&#34; : 2,
-</span></span><span class=line><span class=cl>    &#34;successful&#34; : 1,
-</span></span><span class=line><span class=cl>    &#34;failed&#34; : 0
-</span></span><span class=line><span class=cl>  },
-</span></span><span class=line><span class=cl>  &#34;created&#34; : true
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><p>Elasticsearch自动添加了<code>get-together</code>索引，并创建了一个到类型<code>group</code>的映射。
-当然你也可以手动创建一个索引：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>curl -XPUT &#39;localhost:9200/new-index&#39;
-</span></span></code></pre></td></tr></table></div></div><p>Elasticsearch自动将<code>name</code>和<code>organizer</code>检测为<code>string</code>类型，如果你又添加了一个文稿，包含除了<code>name</code>和 <code>organizer</code>的其他字段，Elasticsearch也会自动检测它的类型并添加到映射。
-可以查看这个映射的详细信息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>curl &#39;localhost:9200/get-together/_mapping/group?pretty
-</span></span><span class=line><span class=cl>{
-</span></span><span class=line><span class=cl>  &#34;get-together&#34; : {
-</span></span><span class=line><span class=cl>    &#34;mappings&#34; : {
-</span></span><span class=line><span class=cl>      &#34;group&#34; : {
-</span></span><span class=line><span class=cl>        &#34;properties&#34; : {
-</span></span><span class=line><span class=cl>          &#34;name&#34; : {
-</span></span><span class=line><span class=cl>            &#34;type&#34; : &#34;string&#34;
-</span></span><span class=line><span class=cl>          },
-</span></span><span class=line><span class=cl>          &#34;organizer&#34; : {
-</span></span><span class=line><span class=cl>            &#34;type&#34; : &#34;string&#34;
-</span></span><span class=line><span class=cl>          }
-</span></span><span class=line><span class=cl>        }
-</span></span><span class=line><span class=cl>      }
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>  }
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><h2 id=开始搜索>开始搜索</h2><p>添加一些示例文稿：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>git clone git@github.com:suclogger/elasticsearch-in-action.git
-</span></span><span class=line><span class=cl>sh elasticsearch-in-action/populate.sh
-</span></span></code></pre></td></tr></table></div></div><p>这个脚本会重建我们之前创建的<code>get-together</code>索引。
-一个简单的搜索：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>curl &#34;localhost:9200/get-together/group/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&#34;
-</span></span></code></pre></td></tr></table></div></div><p>curl请求的链接中，<code>get-together/group</code>指定了范围：<code>get-together</code>索引下的<code>group</code>类型。
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>elasticsearch上手指南 - Run</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="run" /><meta name="description" content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.123.3 with theme even" />
+
+
+<link rel="canonical" href="https://run.notbyai.space/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="elasticsearch上手指南" />
+<meta property="og:description" content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://run.notbyai.space/post/elasticsearch%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2016-06-10T19:09:26+00:00" />
+<meta property="article:modified_time" content="2016-06-10T19:09:26+00:00" />
+
+<meta itemprop="name" content="elasticsearch上手指南">
+<meta itemprop="description" content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安"><meta itemprop="datePublished" content="2016-06-10T19:09:26+00:00" />
+<meta itemprop="dateModified" content="2016-06-10T19:09:26+00:00" />
+<meta itemprop="wordCount" content="1296">
+<meta itemprop="keywords" content="elasticsearch," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="elasticsearch上手指南"/>
+<meta name="twitter:description" content="CentOS上安装elasticsearch 首先需要JAVA环境，这里不再详述。 在官网下载页面找到RMP包的下载路径，通过wget命令下载安"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Run</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="https://haftbit.substack.com/">
+        <li class="mobile-menu-item">Readings</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Run</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://haftbit.substack.com/">Readings</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">elasticsearch上手指南</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-06-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%90%9C%E7%B4%A2/"> 搜索 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#centos上安装elasticsearch">CentOS上安装elasticsearch</a></li>
+        <li><a href="#创建一个文稿">创建一个文稿</a></li>
+        <li><a href="#开始搜索">开始搜索</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <!-- abstract -->
+<!-- 开始正文 -->
+<h2 id="centos上安装elasticsearch">CentOS上安装elasticsearch</h2>
+<p>首先需要JAVA环境，这里不再详述。
+在<a href="https://www.elastic.co/downloads/elasticsearch">官网下载页面</a>找到RMP包的下载路径，通过wget命令下载安装包到本地：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">download</span><span class="o">.</span><span class="n">elastic</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">elasticsearch</span><span class="o">/</span><span class="n">release</span><span class="o">/</span><span class="n">org</span><span class="o">/</span><span class="n">elasticsearch</span><span class="o">/</span><span class="n">distribution</span><span class="o">/</span><span class="n">rpm</span><span class="o">/</span><span class="n">elasticsearch</span><span class="o">/</span><span class="mf">2.3</span><span class="o">.</span><span class="mi">3</span><span class="o">/</span><span class="n">elasticsearch</span><span class="o">-</span><span class="mf">2.3</span><span class="o">.</span><span class="mf">3.</span><span class="n">rpm</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>执行安装</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo rpm -ivh elasticsearch-2.3.3.rpm
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>默认安装到<code>/usr/share/elasticsearch/</code>，配置文件在<code>/etc/elasticsearch</code>，init脚本在<code>/etc/init.d/elasticsearch</code>。
+添加为服务：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo systemctl enable elasticsearch.service
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>启动：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">sudo /etc/init.d/elasticsearch start
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>查看：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">curl http://localhost:9200
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="创建一个文稿">创建一个文稿</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">curl -XPUT &#39;localhost:9200/get-together/group/1?pretty&#39; -d &#39;{ &#34;name&#34;: &#34;Elasticsearch Denver&#34;, &#34;organizer&#34;: &#34;Lee&#34; }&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>可以看到返回信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;_index&#34; : &#34;get-together&#34;,
+</span></span><span class="line"><span class="cl">  &#34;_type&#34; : &#34;group&#34;,
+</span></span><span class="line"><span class="cl">  &#34;_id&#34; : &#34;1&#34;,
+</span></span><span class="line"><span class="cl">  &#34;_version&#34; : 1,
+</span></span><span class="line"><span class="cl">  &#34;_shards&#34; : {
+</span></span><span class="line"><span class="cl">    &#34;total&#34; : 2,
+</span></span><span class="line"><span class="cl">    &#34;successful&#34; : 1,
+</span></span><span class="line"><span class="cl">    &#34;failed&#34; : 0
+</span></span><span class="line"><span class="cl">  },
+</span></span><span class="line"><span class="cl">  &#34;created&#34; : true
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Elasticsearch自动添加了<code>get-together</code>索引，并创建了一个到类型<code>group</code>的映射。
+当然你也可以手动创建一个索引：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">curl -XPUT &#39;localhost:9200/new-index&#39;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Elasticsearch自动将<code>name</code>和<code>organizer</code>检测为<code>string</code>类型，如果你又添加了一个文稿，包含除了<code>name</code>和 <code>organizer</code>的其他字段，Elasticsearch也会自动检测它的类型并添加到映射。
+可以查看这个映射的详细信息：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">curl &#39;localhost:9200/get-together/_mapping/group?pretty
+</span></span><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;get-together&#34; : {
+</span></span><span class="line"><span class="cl">    &#34;mappings&#34; : {
+</span></span><span class="line"><span class="cl">      &#34;group&#34; : {
+</span></span><span class="line"><span class="cl">        &#34;properties&#34; : {
+</span></span><span class="line"><span class="cl">          &#34;name&#34; : {
+</span></span><span class="line"><span class="cl">            &#34;type&#34; : &#34;string&#34;
+</span></span><span class="line"><span class="cl">          },
+</span></span><span class="line"><span class="cl">          &#34;organizer&#34; : {
+</span></span><span class="line"><span class="cl">            &#34;type&#34; : &#34;string&#34;
+</span></span><span class="line"><span class="cl">          }
+</span></span><span class="line"><span class="cl">        }
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="开始搜索">开始搜索</h2>
+<p>添加一些示例文稿：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">git clone git@github.com:suclogger/elasticsearch-in-action.git
+</span></span><span class="line"><span class="cl">sh elasticsearch-in-action/populate.sh
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这个脚本会重建我们之前创建的<code>get-together</code>索引。
+一个简单的搜索：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">curl &#34;localhost:9200/get-together/group/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>curl请求的链接中，<code>get-together/group</code>指定了范围：<code>get-together</code>索引下的<code>group</code>类型。
 常见的关键词格式是：<code>q=name:elasticsearch</code>，这里没有指定group下的某个参数，elasticsearch会默认指定为<code>q=_all:elasticsearch</code>来搜索所有参数字段。
-也可以通过<code>,</code>分隔来同时搜索多个类型，如：<code>curl "localhost:9200/get-together/group,event/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty"</code>，或者完全忽略类型部分来搜索所有类型：<code>curl "localhost:9200/get-together/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty"</code>。
-类似的，也可以通过<code>,</code>分隔来同时搜索多个索引，如：<code>curl "localhost:9200/get-together,other-index/_search\ ?q=elasticsearch&amp;pretty"</code>，当然这个请求会失败，因为我们还没创建<code>other-index</code>索引。也可以指定<code>_all</code>来搜索所有索引。
-返回的结果中：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span><span class=lnt>18
-</span><span class=lnt>19
-</span><span class=lnt>20
-</span><span class=lnt>21
-</span><span class=lnt>22
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{
-</span></span><span class=line><span class=cl>  &#34;took&#34; : 5,
-</span></span><span class=line><span class=cl>  &#34;timed_out&#34; : false,
-</span></span><span class=line><span class=cl>  &#34;_shards&#34; : {
-</span></span><span class=line><span class=cl>    &#34;total&#34; : 2,
-</span></span><span class=line><span class=cl>    &#34;successful&#34; : 2,
-</span></span><span class=line><span class=cl>    &#34;failed&#34; : 0
-</span></span><span class=line><span class=cl>  },
-</span></span><span class=line><span class=cl>  &#34;hits&#34; : {
-</span></span><span class=line><span class=cl>    &#34;total&#34; : 2,
-</span></span><span class=line><span class=cl>    &#34;max_score&#34; : 0.83339834,
-</span></span><span class=line><span class=cl>    &#34;hits&#34; : [ {
-</span></span><span class=line><span class=cl>      &#34;_index&#34; : &#34;get-together&#34;,
-</span></span><span class=line><span class=cl>      &#34;_type&#34; : &#34;group&#34;,
-</span></span><span class=line><span class=cl>      &#34;_id&#34; : &#34;2&#34;,
-</span></span><span class=line><span class=cl>      &#34;_score&#34; : 0.83339834,
-</span></span><span class=line><span class=cl>      &#34;fields&#34; : {
-</span></span><span class=line><span class=cl>        &#34;name&#34; : [ &#34;Elasticsearch Denver&#34; ]
-</span></span><span class=line><span class=cl>      }
-</span></span><span class=line><span class=cl>    } ]
-</span></span><span class=line><span class=cl>  }
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><p><code>took</code>表示查询耗时5ms，<code>timed_out</code>为false表示查询未超时（默认下查询永远不会超时，可以在curl链接后附带<code>&amp;timeout=3s</code>来指定超时时间为3s）</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
-<span class=item-content>run</span></p><p class=copyright-item><span class=item-title>上次更新</span>
-<span class=item-content>2016-06-10</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/elasticsearch/>elasticsearch</a></div><nav class=post-nav><a class=prev href=/post/elasticsearch%E4%B8%AD%E6%96%87%E7%A4%BE%E5%8C%BA20160618%E6%9D%AD%E5%B7%9E%E7%BA%BF%E4%B8%8B%E8%81%9A%E4%BC%9A%E7%BA%AA%E8%A6%81/><i class="iconfont icon-left"></i>
-<span class="prev-text nav-default">Elasticsearch中文社区20160618杭州线下聚会纪要</span>
-<span class="prev-text nav-mobile">上一篇</span>
-</a><a class=next href=/post/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E4%B8%8Abug%E7%9A%84%E8%A7%A3%E5%86%B3/><span class="next-text nav-default">记一个线上bug的解决</span>
-<span class="next-text nav-mobile">下一篇</span>
-<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a><a href=https://github.com/suclogger class="iconfont icon-github" title=github></a><a href=https://www.runstrong.site/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
-</span><span class=division>|</span>
-<span class=theme-info>主题 -
-<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
-</span><span class=copyright-year>&copy;
-2017 -
-2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>
+也可以通过<code>,</code>分隔来同时搜索多个类型，如：<code>curl &quot;localhost:9200/get-together/group,event/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</code>，或者完全忽略类型部分来搜索所有类型：<code>curl &quot;localhost:9200/get-together/_search?q=elasticsearch&amp;fields=name,location&amp;size=1&amp;pretty&quot;</code>。
+类似的，也可以通过<code>,</code>分隔来同时搜索多个索引，如：<code>curl &quot;localhost:9200/get-together,other-index/_search\ ?q=elasticsearch&amp;pretty&quot;</code>，当然这个请求会失败，因为我们还没创建<code>other-index</code>索引。也可以指定<code>_all</code>来搜索所有索引。
+返回的结果中：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">{
+</span></span><span class="line"><span class="cl">  &#34;took&#34; : 5,
+</span></span><span class="line"><span class="cl">  &#34;timed_out&#34; : false,
+</span></span><span class="line"><span class="cl">  &#34;_shards&#34; : {
+</span></span><span class="line"><span class="cl">    &#34;total&#34; : 2,
+</span></span><span class="line"><span class="cl">    &#34;successful&#34; : 2,
+</span></span><span class="line"><span class="cl">    &#34;failed&#34; : 0
+</span></span><span class="line"><span class="cl">  },
+</span></span><span class="line"><span class="cl">  &#34;hits&#34; : {
+</span></span><span class="line"><span class="cl">    &#34;total&#34; : 2,
+</span></span><span class="line"><span class="cl">    &#34;max_score&#34; : 0.83339834,
+</span></span><span class="line"><span class="cl">    &#34;hits&#34; : [ {
+</span></span><span class="line"><span class="cl">      &#34;_index&#34; : &#34;get-together&#34;,
+</span></span><span class="line"><span class="cl">      &#34;_type&#34; : &#34;group&#34;,
+</span></span><span class="line"><span class="cl">      &#34;_id&#34; : &#34;2&#34;,
+</span></span><span class="line"><span class="cl">      &#34;_score&#34; : 0.83339834,
+</span></span><span class="line"><span class="cl">      &#34;fields&#34; : {
+</span></span><span class="line"><span class="cl">        &#34;name&#34; : [ &#34;Elasticsearch Denver&#34; ]
+</span></span><span class="line"><span class="cl">      }
+</span></span><span class="line"><span class="cl">    } ]
+</span></span><span class="line"><span class="cl">  }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>took</code>表示查询耗时5ms，<code>timed_out</code>为false表示查询未超时（默认下查询永远不会超时，可以在curl链接后附带<code>&amp;timeout=3s</code>来指定超时时间为3s）</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">run</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2016-06-10
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elasticsearch/">elasticsearch</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/elasticsearch%E4%B8%AD%E6%96%87%E7%A4%BE%E5%8C%BA20160618%E6%9D%AD%E5%B7%9E%E7%BA%BF%E4%B8%8B%E8%81%9A%E4%BC%9A%E7%BA%AA%E8%A6%81/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">Elasticsearch中文社区20160618杭州线下聚会纪要</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E8%AE%B0%E4%B8%80%E4%B8%AA%E7%BA%BF%E4%B8%8Abug%E7%9A%84%E8%A7%A3%E5%86%B3/">
+            <span class="next-text nav-default">记一个线上bug的解决</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="suclogger/hugo-gitment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/suclogger" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/suclogger" class="iconfont icon-github" title="github"></a>
+  <a href="https://run.notbyai.space/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span>run</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>

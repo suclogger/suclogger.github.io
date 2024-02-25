@@ -1,145 +1,528 @@
-<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>基于RocketMQ的JAVA消息服务 - Run</title>
-<meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="run"><meta name=description content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J"><meta name=generator content="Hugo 0.123.3 with theme even"><link rel=canonical href=https://www.runstrong.site/post/%E5%9F%BA%E4%BA%8Erocketmq%E7%9A%84java%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="基于RocketMQ的JAVA消息服务"><meta property="og:description" content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J"><meta property="og:type" content="article"><meta property="og:url" content="https://www.runstrong.site/post/%E5%9F%BA%E4%BA%8Erocketmq%E7%9A%84java%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/"><meta property="article:section" content="post"><meta property="article:published_time" content="2017-08-10T11:07:33+00:00"><meta property="article:modified_time" content="2017-08-10T11:07:33+00:00"><meta itemprop=name content="基于RocketMQ的JAVA消息服务"><meta itemprop=description content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J"><meta itemprop=datePublished content="2017-08-10T11:07:33+00:00"><meta itemprop=dateModified content="2017-08-10T11:07:33+00:00"><meta itemprop=wordCount content="2510"><meta itemprop=keywords content="java,RocketMQ,"><meta name=twitter:card content="summary"><meta name=twitter:title content="基于RocketMQ的JAVA消息服务"><meta name=twitter:description content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Run</a></div><div class=mobile-navbar-icon><span></span>
-<span></span>
-<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=https://haftbit.substack.com/><li class=mobile-menu-item>Readings</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Run</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=https://haftbit.substack.com/>Readings</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>基于RocketMQ的JAVA消息服务</h1><div class=post-meta><span class=post-time>2017-08-10</span><div class=post-category><a href=/categories/%E7%BC%96%E7%A8%8B/>编程</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#java消息服务-jms基础>Java消息服务（ JMS）基础</a><ul><li><a href=#异构平台的通信和集成>异构平台的通信和集成</a></li><li><a href=#提升吞吐量缓解系统瓶颈>提升吞吐量，缓解系统瓶颈</a></li><li><a href=#异步>异步</a></li><li><a href=#敏捷和解耦>敏捷和解耦</a></li></ul></li><li><a href=#术语>术语</a><ul><li><a href=#通用术语>通用术语</a></li><li><a href=#rocketmq概念术语>RocketMQ概念术语</a></li><li><a href=#结构术语>结构术语</a></li><li><a href=#消费模式>消费模式</a></li><li><a href=#消息发送模式>消息发送模式</a></li></ul></li><li><a href=#使用场景>使用场景</a><ul><li><a href=#普通消息>普通消息</a></li><li><a href=#广播消息>广播消息</a></li><li><a href=#有序消息>有序消息</a></li><li><a href=#事务消息>事务消息</a></li></ul></li><li><a href=#部署和推荐姿势>部署和推荐姿势</a></li></ul></li></ul></nav></div></div><div class=post-content><p>基于RocketMQ的JAVA消息服务</p><h2 id=java消息服务-jms基础>Java消息服务（ JMS）基础</h2><blockquote><p>Java消息服务（Java Message Service，JMS）应用程序接口是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。 Java消息服务是一个与具体平台无关的API，绝大多数MOM提供商都对JMS提供支持。
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>基于RocketMQ的JAVA消息服务 - Run</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="run" /><meta name="description" content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.123.3 with theme even" />
+
+
+<link rel="canonical" href="https://run.notbyai.space/post/%E5%9F%BA%E4%BA%8Erocketmq%E7%9A%84java%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:title" content="基于RocketMQ的JAVA消息服务" />
+<meta property="og:description" content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://run.notbyai.space/post/%E5%9F%BA%E4%BA%8Erocketmq%E7%9A%84java%E6%B6%88%E6%81%AF%E6%9C%8D%E5%8A%A1/" /><meta property="article:section" content="post" />
+<meta property="article:published_time" content="2017-08-10T11:07:33+00:00" />
+<meta property="article:modified_time" content="2017-08-10T11:07:33+00:00" />
+
+<meta itemprop="name" content="基于RocketMQ的JAVA消息服务">
+<meta itemprop="description" content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J"><meta itemprop="datePublished" content="2017-08-10T11:07:33+00:00" />
+<meta itemprop="dateModified" content="2017-08-10T11:07:33+00:00" />
+<meta itemprop="wordCount" content="2510">
+<meta itemprop="keywords" content="java,RocketMQ," /><meta name="twitter:card" content="summary"/><meta name="twitter:title" content="基于RocketMQ的JAVA消息服务"/>
+<meta name="twitter:description" content="基于RocketMQ的JAVA消息服务 Java消息服务（ JMS）基础 Java消息服务（Java Message Service，JMS）应用程序接口是一个J"/>
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">Run</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="https://haftbit.substack.com/">
+        <li class="mobile-menu-item">Readings</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">Run</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://haftbit.substack.com/">Readings</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">基于RocketMQ的JAVA消息服务</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2017-08-10 </span>
+        <div class="post-category">
+            <a href="/categories/%E7%BC%96%E7%A8%8B/"> 编程 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#java消息服务-jms基础">Java消息服务（ JMS）基础</a>
+          <ul>
+            <li><a href="#异构平台的通信和集成">异构平台的通信和集成</a></li>
+            <li><a href="#提升吞吐量缓解系统瓶颈">提升吞吐量，缓解系统瓶颈</a></li>
+            <li><a href="#异步">异步</a></li>
+            <li><a href="#敏捷和解耦">敏捷和解耦</a></li>
+          </ul>
+        </li>
+        <li><a href="#术语">术语</a>
+          <ul>
+            <li><a href="#通用术语">通用术语</a></li>
+            <li><a href="#rocketmq概念术语">RocketMQ概念术语</a></li>
+            <li><a href="#结构术语">结构术语</a></li>
+            <li><a href="#消费模式">消费模式</a></li>
+            <li><a href="#消息发送模式">消息发送模式</a></li>
+          </ul>
+        </li>
+        <li><a href="#使用场景">使用场景</a>
+          <ul>
+            <li><a href="#普通消息">普通消息</a></li>
+            <li><a href="#广播消息">广播消息</a></li>
+            <li><a href="#有序消息">有序消息</a></li>
+            <li><a href="#事务消息">事务消息</a></li>
+          </ul>
+        </li>
+        <li><a href="#部署和推荐姿势">部署和推荐姿势</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>基于RocketMQ的JAVA消息服务</p>
+<!-- more -->
+<h2 id="java消息服务-jms基础">Java消息服务（ JMS）基础</h2>
+<blockquote>
+<p>Java消息服务（Java Message Service，JMS）应用程序接口是一个Java平台中关于面向消息中间件（MOM）的API，用于在两个应用程序之间，或分布式系统中发送消息，进行异步通信。 Java消息服务是一个与具体平台无关的API，绝大多数MOM提供商都对JMS提供支持。
 Java消息服务- 维基百科，自由的百科全书
-<a href=https://zh.wikipedia.org/zh-hans/Java>https://zh.wikipedia.org/zh-hans/Java</a>消息服务</p></blockquote><h3 id=异构平台的通信和集成>异构平台的通信和集成</h3><p>使用消息传送机制，可以向在完全不同的平台上实现的应用程序和系统请求调用服务。</p><p><img src=/image/2017-08-10-11-34-18.jpg alt></p><h3 id=提升吞吐量缓解系统瓶颈>提升吞吐量，缓解系统瓶颈</h3><p>与一个同步组件处理众多请求时，众多请求一个接一个地积聚阻塞不同，这时候请求会发送到一个消息传送系统， 该系统将该请求分发给多个消息侦听器组件。如此一来，就缓解了单独采用点对点同步连接带来的系统瓶颈，在某些情况下，甚至可以完全消除这些瓶颈。</p><p><img src=/image/2017-08-10-11-38-27.jpg alt></p><h3 id=异步>异步</h3><p>当执行长时间运行请求时，最终用户可以在系统上继续做其他工作。一旦该请求处理完毕，就立即告知最终用户，并将处理结果回传给最终用户。通过使用消息传送机制，最终用户就能够以更短的等待时间来完成更多的工作，使得最终用户拥有更高的生产率。</p><h3 id=敏捷和解耦>敏捷和解耦</h3><p>体系结构敏捷性是对不断变化的环境快速响应的能力。通过使用消息传送机制来抽象和去 耦组件，就能够快速地响应软件、硬件，甚至是业务的变化。</p><h2 id=术语>术语</h2><h3 id=通用术语>通用术语</h3><ul><li><strong>Message</strong>： 消息，包含消息头和消息体。<code>A message basically has two parts: a header and a payload. The header is comprised of special fields that are used to identify the message, declare attributes of the message, and provide information for routing.</code></li><li><strong>MessageProducer</strong> ： 生产者，<code>The MessageProducer is the base interface for the TopicPublisher and the QueueSender.</code></li><li><strong>MessageConsumer</strong>： 消费者， <code>The MessageConsumer is the base interface for the TopicSubscriber and the QueueReceiver.</code></li><li><strong>Topic</strong>： Topic用于标识消息服务上的一个物理主题，主题是消息发布和订阅的通道，<code>The Topic is an administered object that acts as a handle or identifier for an actual topic, called a physical topic, on the messaging server. A physical topic is a channel to which many clients can subscribe and publish. When a JMS client delivers a Message object to a topic, all the clients subscribed to that topic receive the Message.</code></li><li><strong>Queue</strong>：Queue用于标识消息服务上的一个物理队列，物理队列是消息发送和接收的通道，<code>The Queue is an administered object that acts as a handle or identifier for an actual queue, called a physical queue , on the messaging server. A physical queue is a channel through which many clients can receive and send messages.</code></li></ul><h3 id=rocketmq概念术语>RocketMQ概念术语</h3><ul><li><strong>Producer Group</strong>：标识发送同一类消息的Producer，通常发送逻辑一致。发送普通消息的时候，仅标识使用，并无特别用处</li><li><strong>Consumer Group</strong>：标识一类Consumer的集合名称，这类Consumer通常消费一类消息，且消费逻辑一致。同一个Consumer Group下的各个实例将共同消费topic的消息，起到负载均衡的作用。RocketMQ要求同一个Consumer Group的消费者必须要拥有相同的注册信息，即必须要听一样的topic(并且tag也一样)。</li><li><strong>Tag</strong>：消息的二级分类，同一个topic的消息虽然逻辑管理是一样的。但是消费topic1的时候，如果你订阅的时候指定的是tagA，那么tagB的消息将不会投递。</li><li><strong>Offset</strong>：消息的消费进度。RocketMQ中，有很多offset的概念。但通常我们只关心暴露到客户端的offset。一般我们不特指的话，就是指逻辑Message Queue下面的offset。消费进度以Consumer Group为粒度管理，不同Consumer Group之间消费进度彼此不受影响，即消息A被Consumer Group1消费过，也会再给Consumer Group2消费。每次消息消费成功后，这个offset在会先更新到内存，而后定时持久化。在集群消费模式下，会同步持久化到broker，而在广播模式下，则会持久化到本地文件。</li></ul><h3 id=结构术语>结构术语</h3><ul><li><strong>Broker</strong>：消息中转角色，负责存储消息，转发消息，一般也称为 Server。在 JMS 规范中称为 Provider。<code>A message server, also called a message router or broker, is responsible for delivering messages from one messaging client to other messaging clients.</code></li><li><strong>NameServer</strong>：寻址服务。用于把Broker的路由信息做聚合。客户端依靠Name Server决定去获取对应topic的路由信息，从而决定对哪些Broker做连接。</li></ul><p>逻辑结构：
-<img src=/image/2017-08-10-12-53-31.jpg alt></p><p>物理部署结构：
-<img src=/image/2017-08-10-12-54-59.jpg alt></p><h3 id=消费模式>消费模式</h3><ul><li><strong>集群消费CLUSTERING</strong>：一个Consumer Group中的各个Consumer实例分摊去消费消息，即一条消息只会投递到一个Consumer Group下面的一个实例，每个Consumer是平均分摊Message Queue的去做拉取消费。</li><li><strong>广播消费BROADCASTING</strong>：消息将对一个Consumer Group下的各个Consumer实例都投递一遍。即即使这些 Consumer 属于同一个Consumer Group，消息也会被Consumer Group 中的每个Consumer都消费一次，一个消费组下的每个消费者实例都获取到了topic下面的每个Message Queue去拉取消费。</li></ul><h3 id=消息发送模式>消息发送模式</h3><ul><li><strong>同步阻塞</strong>：消息到达broker之后才返回，对应<code>synSend</code>。</li><li><strong>异步回调</strong>：消息发送结束后触发回调，对应<code>asynSend</code>。</li><li><strong>发送即忘</strong>：只管发送，不管是否到达broker，对应<code>sendOneWay</code>。</li></ul><h2 id=使用场景>使用场景</h2><h3 id=普通消息>普通消息</h3><p>Producer：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>val message =  DemoMessage(&#34;suclogger&#34;, &#34;plain_message&#34;, &#34;syncSend&#34;)
-</span></span><span class=line><span class=cl>demoProducer.synSend(&#34;suclogger&#34;, &#34;&#34;, message)
-</span></span></code></pre></td></tr></table></div></div><p>Consumer:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span><span class=lnt>16
-</span><span class=lnt>17
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@MQConsumer(consumerGroup = &#34;camaro.mq.consumer&#34;, topic = &#34;suclogger&#34;)
-</span></span><span class=line><span class=cl>class DemoConsumer : AbstractMQPushConsumer&lt;DemoMessage&gt;() {
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    override fun process(message:DemoMessage) : Boolean {
-</span></span><span class=line><span class=cl>        println(message)
-</span></span><span class=line><span class=cl>        return true
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>@MQConsumer(consumerGroup = &#34;consumer_withtag_suclogger_local&#34;, topic = &#34;suclogger&#34;, tag = arrayOf(&#34;tagA&#34;, &#34;tagB&#34;))
-</span></span><span class=line><span class=cl>class DemoConsumerWithTag : AbstractMQPushConsumer&lt;DemoMessage&gt;() {
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    override fun process(message:DemoMessage) : Boolean {
-</span></span><span class=line><span class=cl>        println(message)
-</span></span><span class=line><span class=cl>        return true
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><h4 id=消息消费失败后重试>消息消费失败后重试</h4><p>消息消费返回false触发重试：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span><span class=lnt>8
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@MQConsumer(consumerGroup = &#34;camaro.mq.consumer&#34;, topic = &#34;suclogger&#34;)
-</span></span><span class=line><span class=cl>class DemoConsumer : AbstractMQPushConsumer&lt;DemoMessage&gt;() {
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>    override fun process(message:DemoMessage) : Boolean {
-</span></span><span class=line><span class=cl>        println(message)
-</span></span><span class=line><span class=cl>        return false
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><h3 id=广播消息>广播消息</h3><p>Producer：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    @Bean
-</span></span><span class=line><span class=cl>    fun broadcastMessage() = CommandLineRunner {
-</span></span><span class=line><span class=cl>        val message =  DemoMessage(&#34;suclogger&#34;, &#34;broadcast_message&#34;, &#34;oneway&#34;)
-</span></span><span class=line><span class=cl>        demoProducer.sendOneWay(&#34;suclogger-broadcast&#34;, &#34;&#34;, message)
-</span></span><span class=line><span class=cl>    }
-</span></span></code></pre></td></tr></table></div></div><p>Consumer：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
-</span><span class=lnt> 2
-</span><span class=lnt> 3
-</span><span class=lnt> 4
-</span><span class=lnt> 5
-</span><span class=lnt> 6
-</span><span class=lnt> 7
-</span><span class=lnt> 8
-</span><span class=lnt> 9
-</span><span class=lnt>10
-</span><span class=lnt>11
-</span><span class=lnt>12
-</span><span class=lnt>13
-</span><span class=lnt>14
-</span><span class=lnt>15
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@MQConsumer(topic = &#34;suclogger-broadcast&#34;, consumerGroup = &#34;consumer_broadcast_suclogger_local_b1&#34;, messageMode = &#34;BROADCASTING&#34;)
-</span></span><span class=line><span class=cl>class AnonmouseMessageConsumer : AbstractMQPushConsumer&lt;Any&gt;() {
-</span></span><span class=line><span class=cl>    override fun process(message: Any?): Boolean {
-</span></span><span class=line><span class=cl>        println(message.toString())
-</span></span><span class=line><span class=cl>        return true
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
-</span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl>@MQConsumer(topic = &#34;suclogger-broadcast&#34;, consumerGroup = &#34;consumer_broadcast_suclogger_local_b2&#34;, messageMode = &#34;BROADCASTING&#34;)
-</span></span><span class=line><span class=cl>class AnonmouseMessageConsumerOther : AbstractMQPushConsumer&lt;Any&gt;() {
-</span></span><span class=line><span class=cl>    override fun process(message: Any?): Boolean {
-</span></span><span class=line><span class=cl>        println(message.toString())
-</span></span><span class=line><span class=cl>        return true
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><h3 id=有序消息>有序消息</h3><p>最简单的方式：创建Topic的时候只选择包含一个queue。
-如果要增加吞吐量：发送消息的时候选择queue来实现部分有序。</p><p>Producer:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>    @Bean
-</span></span><span class=line><span class=cl>    fun orderMessage() = CommandLineRunner {
-</span></span><span class=line><span class=cl>        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 1&#34;, &#34;1&#34;)
-</span></span><span class=line><span class=cl>        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 2&#34;, &#34;2&#34;)
-</span></span><span class=line><span class=cl>        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 3&#34;, &#34;3&#34;)
-</span></span><span class=line><span class=cl>        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 4&#34;, &#34;4&#34;)
-</span></span><span class=line><span class=cl>    }
-</span></span></code></pre></td></tr></table></div></div><p>Consumer:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
-</span><span class=lnt>2
-</span><span class=lnt>3
-</span><span class=lnt>4
-</span><span class=lnt>5
-</span><span class=lnt>6
-</span><span class=lnt>7
-</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>@MQConsumer(consumerGroup = &#34;consumer_order_suclogger_local&#34;, topic = &#34;suclogger&#34;, consumeMode = &#34;ORDERLY&#34;)
-</span></span><span class=line><span class=cl>class DemoConsumerOther : AbstractMQPushConsumer&lt;Any&gt;() {
-</span></span><span class=line><span class=cl>    override fun process(message:Any) : Boolean {
-</span></span><span class=line><span class=cl>        println(message)
-</span></span><span class=line><span class=cl>        return true
-</span></span><span class=line><span class=cl>    }
-</span></span><span class=line><span class=cl>}
-</span></span></code></pre></td></tr></table></div></div><h3 id=事务消息>事务消息</h3><p>基于两阶段提交的思想：<a href=http://suclogger.me/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%BF%B7%E6%80%9D/>分布式系统设计迷思</a></p><p><img src=/image/2017-08-10-14-23-21.jpg alt></p><ul><li>事务回查逻辑不完整</li><li>下游事务不能失败</li></ul><p>预期发布：<a href=https://issues.apache.org/jira/browse/ROCKETMQ-123>issur</a></p><h2 id=部署和推荐姿势>部署和推荐姿势</h2><p><a href=http://suclogger.me/RocketMQ/>部署和推荐姿势</a></p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
-<span class=item-content>run</span></p><p class=copyright-item><span class=item-title>上次更新</span>
-<span class=item-content>2017-08-10</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/java/>java</a>
-<a href=/tags/rocketmq/>RocketMQ</a></div><nav class=post-nav><a class=prev href=/post/%E4%B8%80%E4%B8%AA%E6%89%93%E6%9D%82%E6%9E%B6%E6%9E%84%E5%B8%88%E7%9A%84%E7%88%AC%E8%99%AB%E6%97%A5%E5%B8%B8/><i class="iconfont icon-left"></i>
-<span class="prev-text nav-default">一个打杂架构师的爬虫日常</span>
-<span class="prev-text nav-mobile">上一篇</span>
-</a><a class=next href=/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/><span class="next-text nav-default">逆向之Funnel内购破解</span>
-<span class="next-text nav-mobile">下一篇</span>
-<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a><a href=https://github.com/suclogger class="iconfont icon-github" title=github></a><a href=https://www.runstrong.site/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
-</span><span class=division>|</span>
-<span class=theme-info>主题 -
-<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
-</span><span class=copyright-year>&copy;
-2017 -
-2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>
+<a href="https://zh.wikipedia.org/zh-hans/Java">https://zh.wikipedia.org/zh-hans/Java</a>消息服务</p>
+</blockquote>
+<h3 id="异构平台的通信和集成">异构平台的通信和集成</h3>
+<p>使用消息传送机制，可以向在完全不同的平台上实现的应用程序和系统请求调用服务。</p>
+<p><img src="/image/2017-08-10-11-34-18.jpg" alt=""></p>
+<h3 id="提升吞吐量缓解系统瓶颈">提升吞吐量，缓解系统瓶颈</h3>
+<p>与一个同步组件处理众多请求时，众多请求一个接一个地积聚阻塞不同，这时候请求会发送到一个消息传送系统， 该系统将该请求分发给多个消息侦听器组件。如此一来，就缓解了单独采用点对点同步连接带来的系统瓶颈，在某些情况下，甚至可以完全消除这些瓶颈。</p>
+<p><img src="/image/2017-08-10-11-38-27.jpg" alt=""></p>
+<h3 id="异步">异步</h3>
+<p>当执行长时间运行请求时，最终用户可以在系统上继续做其他工作。一旦该请求处理完毕，就立即告知最终用户，并将处理结果回传给最终用户。通过使用消息传送机制，最终用户就能够以更短的等待时间来完成更多的工作，使得最终用户拥有更高的生产率。</p>
+<h3 id="敏捷和解耦">敏捷和解耦</h3>
+<p>体系结构敏捷性是对不断变化的环境快速响应的能力。通过使用消息传送机制来抽象和去 耦组件，就能够快速地响应软件、硬件，甚至是业务的变化。</p>
+<h2 id="术语">术语</h2>
+<h3 id="通用术语">通用术语</h3>
+<ul>
+<li><strong>Message</strong>： 消息，包含消息头和消息体。<code>A message basically has two parts: a header and a payload. The header is comprised of special fields that are used to identify the message, declare attributes of the message, and provide information for routing.</code></li>
+<li><strong>MessageProducer</strong> ： 生产者，<code>The MessageProducer is the base interface for the TopicPublisher and the QueueSender.</code></li>
+<li><strong>MessageConsumer</strong>： 消费者， <code>The MessageConsumer is the base interface for the TopicSubscriber and the QueueReceiver.</code></li>
+<li><strong>Topic</strong>： Topic用于标识消息服务上的一个物理主题，主题是消息发布和订阅的通道，<code>The Topic is an administered object that acts as a handle or identifier for an actual topic, called a physical topic, on the messaging server. A physical topic is a channel to which many clients can subscribe and publish. When a JMS client delivers a Message object to a topic, all the clients subscribed to that topic receive the Message.</code></li>
+<li><strong>Queue</strong>：Queue用于标识消息服务上的一个物理队列，物理队列是消息发送和接收的通道，<code>The Queue is an administered object that acts as a handle or identifier for an actual queue, called a physical queue , on the messaging server. A physical queue is a channel through which many clients can receive and send messages.</code></li>
+</ul>
+<h3 id="rocketmq概念术语">RocketMQ概念术语</h3>
+<ul>
+<li><strong>Producer Group</strong>：标识发送同一类消息的Producer，通常发送逻辑一致。发送普通消息的时候，仅标识使用，并无特别用处</li>
+<li><strong>Consumer Group</strong>：标识一类Consumer的集合名称，这类Consumer通常消费一类消息，且消费逻辑一致。同一个Consumer Group下的各个实例将共同消费topic的消息，起到负载均衡的作用。RocketMQ要求同一个Consumer Group的消费者必须要拥有相同的注册信息，即必须要听一样的topic(并且tag也一样)。</li>
+<li><strong>Tag</strong>：消息的二级分类，同一个topic的消息虽然逻辑管理是一样的。但是消费topic1的时候，如果你订阅的时候指定的是tagA，那么tagB的消息将不会投递。</li>
+<li><strong>Offset</strong>：消息的消费进度。RocketMQ中，有很多offset的概念。但通常我们只关心暴露到客户端的offset。一般我们不特指的话，就是指逻辑Message Queue下面的offset。消费进度以Consumer Group为粒度管理，不同Consumer Group之间消费进度彼此不受影响，即消息A被Consumer Group1消费过，也会再给Consumer Group2消费。每次消息消费成功后，这个offset在会先更新到内存，而后定时持久化。在集群消费模式下，会同步持久化到broker，而在广播模式下，则会持久化到本地文件。</li>
+</ul>
+<h3 id="结构术语">结构术语</h3>
+<ul>
+<li><strong>Broker</strong>：消息中转角色，负责存储消息，转发消息，一般也称为 Server。在 JMS 规范中称为 Provider。<code>A message server, also called a message router or broker, is responsible for delivering messages from one messaging client to other messaging clients.</code></li>
+<li><strong>NameServer</strong>：寻址服务。用于把Broker的路由信息做聚合。客户端依靠Name Server决定去获取对应topic的路由信息，从而决定对哪些Broker做连接。</li>
+</ul>
+<p>逻辑结构：
+<img src="/image/2017-08-10-12-53-31.jpg" alt=""></p>
+<p>物理部署结构：
+<img src="/image/2017-08-10-12-54-59.jpg" alt=""></p>
+<h3 id="消费模式">消费模式</h3>
+<ul>
+<li><strong>集群消费CLUSTERING</strong>：一个Consumer Group中的各个Consumer实例分摊去消费消息，即一条消息只会投递到一个Consumer Group下面的一个实例，每个Consumer是平均分摊Message Queue的去做拉取消费。</li>
+<li><strong>广播消费BROADCASTING</strong>：消息将对一个Consumer Group下的各个Consumer实例都投递一遍。即即使这些 Consumer 属于同一个Consumer Group，消息也会被Consumer Group 中的每个Consumer都消费一次，一个消费组下的每个消费者实例都获取到了topic下面的每个Message Queue去拉取消费。</li>
+</ul>
+<h3 id="消息发送模式">消息发送模式</h3>
+<ul>
+<li><strong>同步阻塞</strong>：消息到达broker之后才返回，对应<code>synSend</code>。</li>
+<li><strong>异步回调</strong>：消息发送结束后触发回调，对应<code>asynSend</code>。</li>
+<li><strong>发送即忘</strong>：只管发送，不管是否到达broker，对应<code>sendOneWay</code>。</li>
+</ul>
+<h2 id="使用场景">使用场景</h2>
+<h3 id="普通消息">普通消息</h3>
+<p>Producer：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">val message =  DemoMessage(&#34;suclogger&#34;, &#34;plain_message&#34;, &#34;syncSend&#34;)
+</span></span><span class="line"><span class="cl">demoProducer.synSend(&#34;suclogger&#34;, &#34;&#34;, message)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Consumer:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@MQConsumer(consumerGroup = &#34;camaro.mq.consumer&#34;, topic = &#34;suclogger&#34;)
+</span></span><span class="line"><span class="cl">class DemoConsumer : AbstractMQPushConsumer&lt;DemoMessage&gt;() {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    override fun process(message:DemoMessage) : Boolean {
+</span></span><span class="line"><span class="cl">        println(message)
+</span></span><span class="line"><span class="cl">        return true
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">@MQConsumer(consumerGroup = &#34;consumer_withtag_suclogger_local&#34;, topic = &#34;suclogger&#34;, tag = arrayOf(&#34;tagA&#34;, &#34;tagB&#34;))
+</span></span><span class="line"><span class="cl">class DemoConsumerWithTag : AbstractMQPushConsumer&lt;DemoMessage&gt;() {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    override fun process(message:DemoMessage) : Boolean {
+</span></span><span class="line"><span class="cl">        println(message)
+</span></span><span class="line"><span class="cl">        return true
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="消息消费失败后重试">消息消费失败后重试</h4>
+<p>消息消费返回false触发重试：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@MQConsumer(consumerGroup = &#34;camaro.mq.consumer&#34;, topic = &#34;suclogger&#34;)
+</span></span><span class="line"><span class="cl">class DemoConsumer : AbstractMQPushConsumer&lt;DemoMessage&gt;() {
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">    override fun process(message:DemoMessage) : Boolean {
+</span></span><span class="line"><span class="cl">        println(message)
+</span></span><span class="line"><span class="cl">        return false
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="广播消息">广播消息</h3>
+<p>Producer：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    @Bean
+</span></span><span class="line"><span class="cl">    fun broadcastMessage() = CommandLineRunner {
+</span></span><span class="line"><span class="cl">        val message =  DemoMessage(&#34;suclogger&#34;, &#34;broadcast_message&#34;, &#34;oneway&#34;)
+</span></span><span class="line"><span class="cl">        demoProducer.sendOneWay(&#34;suclogger-broadcast&#34;, &#34;&#34;, message)
+</span></span><span class="line"><span class="cl">    }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Consumer：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@MQConsumer(topic = &#34;suclogger-broadcast&#34;, consumerGroup = &#34;consumer_broadcast_suclogger_local_b1&#34;, messageMode = &#34;BROADCASTING&#34;)
+</span></span><span class="line"><span class="cl">class AnonmouseMessageConsumer : AbstractMQPushConsumer&lt;Any&gt;() {
+</span></span><span class="line"><span class="cl">    override fun process(message: Any?): Boolean {
+</span></span><span class="line"><span class="cl">        println(message.toString())
+</span></span><span class="line"><span class="cl">        return true
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">@MQConsumer(topic = &#34;suclogger-broadcast&#34;, consumerGroup = &#34;consumer_broadcast_suclogger_local_b2&#34;, messageMode = &#34;BROADCASTING&#34;)
+</span></span><span class="line"><span class="cl">class AnonmouseMessageConsumerOther : AbstractMQPushConsumer&lt;Any&gt;() {
+</span></span><span class="line"><span class="cl">    override fun process(message: Any?): Boolean {
+</span></span><span class="line"><span class="cl">        println(message.toString())
+</span></span><span class="line"><span class="cl">        return true
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="有序消息">有序消息</h3>
+<p>最简单的方式：创建Topic的时候只选择包含一个queue。
+如果要增加吞吐量：发送消息的时候选择queue来实现部分有序。</p>
+<p>Producer:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">    @Bean
+</span></span><span class="line"><span class="cl">    fun orderMessage() = CommandLineRunner {
+</span></span><span class="line"><span class="cl">        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 1&#34;, &#34;1&#34;)
+</span></span><span class="line"><span class="cl">        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 2&#34;, &#34;2&#34;)
+</span></span><span class="line"><span class="cl">        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 3&#34;, &#34;3&#34;)
+</span></span><span class="line"><span class="cl">        demoProducer.sendOneWayOrderly(&#34;suclogger&#34;, &#34;&#34;, &#34;this is for 4&#34;, &#34;4&#34;)
+</span></span><span class="line"><span class="cl">    }
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Consumer:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">@MQConsumer(consumerGroup = &#34;consumer_order_suclogger_local&#34;, topic = &#34;suclogger&#34;, consumeMode = &#34;ORDERLY&#34;)
+</span></span><span class="line"><span class="cl">class DemoConsumerOther : AbstractMQPushConsumer&lt;Any&gt;() {
+</span></span><span class="line"><span class="cl">    override fun process(message:Any) : Boolean {
+</span></span><span class="line"><span class="cl">        println(message)
+</span></span><span class="line"><span class="cl">        return true
+</span></span><span class="line"><span class="cl">    }
+</span></span><span class="line"><span class="cl">}
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h3 id="事务消息">事务消息</h3>
+<p>基于两阶段提交的思想：<a href="http://suclogger.me/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%BF%B7%E6%80%9D/">分布式系统设计迷思</a></p>
+<p><img src="/image/2017-08-10-14-23-21.jpg" alt=""></p>
+<ul>
+<li>事务回查逻辑不完整</li>
+<li>下游事务不能失败</li>
+</ul>
+<p>预期发布：<a href="https://issues.apache.org/jira/browse/ROCKETMQ-123">issur</a></p>
+<h2 id="部署和推荐姿势">部署和推荐姿势</h2>
+<p><a href="http://suclogger.me/RocketMQ/">部署和推荐姿势</a></p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content">run</span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2017-08-10
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/java/">java</a>
+          <a href="/tags/rocketmq/">RocketMQ</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/%E4%B8%80%E4%B8%AA%E6%89%93%E6%9D%82%E6%9E%B6%E6%9E%84%E5%B8%88%E7%9A%84%E7%88%AC%E8%99%AB%E6%97%A5%E5%B8%B8/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">一个打杂架构师的爬虫日常</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/">
+            <span class="next-text nav-default">逆向之Funnel内购破解</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="suclogger/hugo-gitment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/suclogger" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/suclogger" class="iconfont icon-github" title="github"></a>
+  <a href="https://run.notbyai.space/index.xml" type="application/rss+xml" class="iconfont icon-rss" title="rss"></a>
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span>run</span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
