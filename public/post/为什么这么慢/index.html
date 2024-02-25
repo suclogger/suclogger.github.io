@@ -1,148 +1,13 @@
-<!doctype html><html lang=zh-cn>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>为什么这么慢？ - Run</title>
-<meta name=renderer content="webkit">
-<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta http-equiv=cache-control content="no-transform">
-<meta http-equiv=cache-control content="no-siteapp">
-<meta name=theme-color content="#f8f5ec">
-<meta name=msapplication-navbutton-color content="#f8f5ec">
-<meta name=apple-mobile-web-app-capable content="yes">
-<meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec">
-<meta name=author content="run"><meta name=description content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联">
-<meta name=generator content="Hugo 0.91.2 with theme even">
-<link rel=canonical href=https://run.notbyai.space/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/>
-<link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png>
-<link rel=manifest href=/manifest.json>
-<link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5>
-<link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous>
-<meta property="og:title" content="为什么这么慢？">
-<meta property="og:description" content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://run.notbyai.space/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/"><meta property="article:section" content="post">
-<meta property="article:published_time" content="2017-06-09T17:26:33+00:00">
-<meta property="article:modified_time" content="2017-06-09T17:26:33+00:00">
-<meta itemprop=name content="为什么这么慢？">
-<meta itemprop=description content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联"><meta itemprop=datePublished content="2017-06-09T17:26:33+00:00">
-<meta itemprop=dateModified content="2017-06-09T17:26:33+00:00">
-<meta itemprop=wordCount content="1583">
-<meta itemprop=keywords content="elasticsearch,java,"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="为什么这么慢？">
-<meta name=twitter:description content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
-<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]-->
-</head>
-<body>
-<div id=mobile-navbar class=mobile-navbar>
-<div class=mobile-header-logo>
-<a href=/ class=logo>Run</a>
-</div>
-<div class=mobile-navbar-icon>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>为什么这么慢？ - Run</title>
+<meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="run"><meta name=description content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联"><meta name=generator content="Hugo 0.123.3 with theme even"><link rel=canonical href=https://run.notbyai.space/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="为什么这么慢？"><meta property="og:description" content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联"><meta property="og:type" content="article"><meta property="og:url" content="https://run.notbyai.space/post/%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%99%E4%B9%88%E6%85%A2/"><meta property="article:section" content="post"><meta property="article:published_time" content="2017-06-09T17:26:33+00:00"><meta property="article:modified_time" content="2017-06-09T17:26:33+00:00"><meta itemprop=name content="为什么这么慢？"><meta itemprop=description content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联"><meta itemprop=datePublished content="2017-06-09T17:26:33+00:00"><meta itemprop=dateModified content="2017-06-09T17:26:33+00:00"><meta itemprop=wordCount content="1583"><meta itemprop=keywords content="elasticsearch,java,"><meta name=twitter:card content="summary"><meta name=twitter:title content="为什么这么慢？"><meta name=twitter:description content="昨天差点引发了一个严重线上bug，以此为记。 背景 我们现在采用的是logstash的jdbc插件同步mysql的数据。 这次上线的功能需要多关联"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Run</a></div><div class=mobile-navbar-icon><span></span>
 <span></span>
-<span></span>
-<span></span>
-</div>
-</div>
-<nav id=mobile-menu class="mobile-menu slideout-menu">
-<ul class=mobile-menu-list>
-<a href=/>
-<li class=mobile-menu-item>Home</li>
-</a><a href=/post/>
-<li class=mobile-menu-item>Archives</li>
-</a><a href=/tags/>
-<li class=mobile-menu-item>Tags</li>
-</a><a href=/categories/>
-<li class=mobile-menu-item>Categories</li>
-</a><a href=https://haftbit.substack.com/>
-<li class=mobile-menu-item>Readings</li>
-</a>
-</ul>
-</nav>
-<div class=container id=mobile-panel>
-<header id=header class=header>
-<div class=logo-wrapper>
-<a href=/ class=logo>Run</a>
-</div>
-<nav class=site-navbar>
-<ul id=menu class=menu>
-<li class=menu-item>
-<a class=menu-item-link href=/>Home</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/post/>Archives</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/tags/>Tags</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/categories/>Categories</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=https://haftbit.substack.com/>Readings</a>
-</li>
-</ul>
-</nav>
-</header>
-<main id=main class=main>
-<div class=content-wrapper>
-<div id=content class=content>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title>为什么这么慢？</h1>
-<div class=post-meta>
-<span class=post-time> 2017-06-09 </span>
-<div class=post-category>
-<a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
-</div>
-</div>
-</header>
-<div class=post-toc id=post-toc>
-<h2 class=post-toc-title>文章目录</h2>
-<div class="post-toc-content always-active">
-<nav id=TableOfContents>
-<ul>
-<li>
-<ul>
-<li><a href=#背景>背景</a></li>
-<li><a href=#现象>现象</a></li>
-<li><a href=#处理>处理</a>
-<ul>
-<li><a href=#tomcat启动慢>Tomcat启动慢</a></li>
-<li><a href=#创建索引慢数据库>创建索引慢：数据库</a></li>
-<li><a href=#创建索引慢el>创建索引慢：EL</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-<div class=post-content>
-<p>昨天差点引发了一个严重线上bug，以此为记。</p>
-<h2 id=背景>背景</h2>
-<p>我们现在采用的是logstash的jdbc插件同步mysql的数据。
-这次上线的功能需要多关联一张表查询数据进入索引，直接体现在logstash jdbc配置文件中定义的SQL多了一个left join。</p>
-<h2 id=现象>现象</h2>
-<p>应用发布之后，tomcat启动耗时很长时间，很<strong>慢</strong>。
-进入应用，索引重建后依照惯例执行了全量索引的logstash脚本，但是索引迟迟没有创建成功，很<strong>慢</strong>。</p>
-<h2 id=处理>处理</h2>
-<h3 id=tomcat启动慢>Tomcat启动慢</h3>
-<p>![](/image/login.dawanju.net - SecureCRT 2017-06-08 18-43-27.png)
-从日志中找到罪魁祸首：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [*,*] milliseconds.
-</code></pre></td></tr></table>
-</div>
-</div><p>当时因为一次打不开页面，做了多次刷新操作，生成session ID的过程一只阻塞到完成所有session ID的创建，耗时接近4分钟。
-<a href=https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source>Tomcat官方文档</a>也给出了说明：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=https://haftbit.substack.com/><li class=mobile-menu-item>Readings</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Run</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=https://haftbit.substack.com/>Readings</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>为什么这么慢？</h1><div class=post-meta><span class=post-time>2017-06-09</span><div class=post-category><a href=/categories/%E7%BC%96%E7%A8%8B/>编程</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#背景>背景</a></li><li><a href=#现象>现象</a></li><li><a href=#处理>处理</a><ul><li><a href=#tomcat启动慢>Tomcat启动慢</a></li><li><a href=#创建索引慢数据库>创建索引慢：数据库</a></li><li><a href=#创建索引慢el>创建索引慢：EL</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><p>昨天差点引发了一个严重线上bug，以此为记。</p><h2 id=背景>背景</h2><p>我们现在采用的是logstash的jdbc插件同步mysql的数据。
+这次上线的功能需要多关联一张表查询数据进入索引，直接体现在logstash jdbc配置文件中定义的SQL多了一个left join。</p><h2 id=现象>现象</h2><p>应用发布之后，tomcat启动耗时很长时间，很<strong>慢</strong>。
+进入应用，索引重建后依照惯例执行了全量索引的logstash脚本，但是索引迟迟没有创建成功，很<strong>慢</strong>。</p><h2 id=处理>处理</h2><h3 id=tomcat启动慢>Tomcat启动慢</h3><p>![](/image/login.dawanju.net - SecureCRT 2017-06-08 18-43-27.png)
+从日志中找到罪魁祸首：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [*,*] milliseconds.
+</span></span></code></pre></td></tr></table></div></div><p>当时因为一次打不开页面，做了多次刷新操作，生成session ID的过程一只阻塞到完成所有session ID的创建，耗时接近4分钟。
+<a href=https://wiki.apache.org/tomcat/HowTo/FasterStartUp#Entropy_Source>Tomcat官方文档</a>也给出了说明：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -151,199 +16,81 @@
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>Tomcat 7+ heavily relies on SecureRandom class to provide random values for its session ids and in other places. Depending on your JRE it can cause delays during startup if entropy source that is used to initialize SecureRandom is short of entropy. You will see warning in the logs when this happens, e.g.:
-
-&lt;DATE&gt; org.apache.catalina.util.SessionIdGenerator createSecureRandom
-INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [5172] milliseconds.
-There is a way to configure JRE to use a non-blocking entropy source by setting the following system property: -Djava.security.egd=file:/dev/./urandom
-
-Note the &#34;/./&#34; characters in the value. They are needed to work around known Oracle JRE bug #6202721. See also JDK Enhancement Proposal 123. It is known that implementation of SecureRandom was improved in Java 8 onwards.
-
-Also note that replacing the blocking entropy source (/dev/random) with a non-blocking one actually reduces security because you are getting less-random data. If you have a problem generating entropy on your server (which is common), consider looking into entropy-generating hardware products such as &#34;EntropyKey&#34;.
-</code></pre></td></tr></table>
-</div>
-</div><p>Tomcat也给出了解决方案：<strong>在启动的jvm参数中加入<code>-Djava.security.egd=file:/dev/./urandom</code></strong>，同时也警告说这种方式存在一些安全隐患。
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Tomcat 7+ heavily relies on SecureRandom class to provide random values for its session ids and in other places. Depending on your JRE it can cause delays during startup if entropy source that is used to initialize SecureRandom is short of entropy. You will see warning in the logs when this happens, e.g.:
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&lt;DATE&gt; org.apache.catalina.util.SessionIdGenerator createSecureRandom
+</span></span><span class=line><span class=cl>INFO: Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [5172] milliseconds.
+</span></span><span class=line><span class=cl>There is a way to configure JRE to use a non-blocking entropy source by setting the following system property: -Djava.security.egd=file:/dev/./urandom
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Note the &#34;/./&#34; characters in the value. They are needed to work around known Oracle JRE bug #6202721. See also JDK Enhancement Proposal 123. It is known that implementation of SecureRandom was improved in Java 8 onwards.
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Also note that replacing the blocking entropy source (/dev/random) with a non-blocking one actually reduces security because you are getting less-random data. If you have a problem generating entropy on your server (which is common), consider looking into entropy-generating hardware products such as &#34;EntropyKey&#34;.
+</span></span></code></pre></td></tr></table></div></div><p>Tomcat也给出了解决方案：<strong>在启动的jvm参数中加入<code>-Djava.security.egd=file:/dev/./urandom</code></strong>，同时也警告说这种方式存在一些安全隐患。
 添加jvm参数后启动就正常了：
-![](/image/login.dawanju.net - SecureCRT 2017-06-08 18-42-47.png)</p>
-<h3 id=创建索引慢数据库>创建索引慢：数据库</h3>
-<p>怀疑因为多关联了一张表导致数据库查询耗时增加，进入RDS监控查看发现CPU出现峰值：
-![](/image/RDS管理控制台 2017-06-08 20-04-51.png)</p>
-<p>结合之前RDS出现CPU飙升阿里工程师给出的解释：</p>
-<blockquote>
-<p>CPU高主要是由于这些慢查询导致，建议您先优化下这慢查询再观察下。</p>
-</blockquote>
-<p>（小插曲，惊觉配置文件中写入的数据库地址被从备库误写为主库）
+![](/image/login.dawanju.net - SecureCRT 2017-06-08 18-42-47.png)</p><h3 id=创建索引慢数据库>创建索引慢：数据库</h3><p>怀疑因为多关联了一张表导致数据库查询耗时增加，进入RDS监控查看发现CPU出现峰值：
+![](/image/RDS管理控制台 2017-06-08 20-04-51.png)</p><p>结合之前RDS出现CPU飙升阿里工程师给出的解释：</p><blockquote><p>CPU高主要是由于这些慢查询导致，建议您先优化下这慢查询再观察下。</p></blockquote><p>（小插曲，惊觉配置文件中写入的数据库地址被从备库误写为主库）
 第一时间通过mysql的<code>show processlist</code>找到创建索引的SQL进程执行<code>kill</code>，保障其他业务不受影响。
 然后，进入慢日志查询中，发现果然是创建索引的SQL执行时间超长，这条SQL执行时间长达492s：
 <img src=/image/2017-06-09-17-54-16.jpg alt>
 接着，分析sql，怀疑新关联的表没有为关联的字段创建索引，马上在这个字段上创建索引。
-随后创建索引，输出以下日志：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+随后创建索引，输出以下日志：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>[2017-06-08T19:36:22,802][INFO ][logstash.pipeline        ] Starting pipeline {&#34;id&#34;=&gt;&#34;main&#34;, &#34;pipeline.workers&#34;=&gt;2, &#34;pipeline.batch.size&#34;=&gt;125, &#34;pipeline.batch.delay&#34;=&gt;5
-[2017-06-08T19:36:22,850][INFO ][logstash.pipeline        ] Pipeline main started
-[2017-06-08T19:36:22,920][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=&gt;9600}
-[2017-06-08T19:36:32,053][INFO ][logstash.inputs.jdbc     ] (9.767000s) SELECT car.car_id AS car_id,
-...
-[2017-06-08T19:42:51,136][WARN ][logstash.agent           ] stopping pipeline {:id=&gt;&#34;main&#34;}
-</code></pre></td></tr></table>
-</div>
-</div><p>看到logstash的日志中，执行SQL的时间为<code>9.7s</code>，虽然时间略长，但是考虑到是多表关联+全表扫描，所以暂且任务数据库的问题已经处理完成。
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[2017-06-08T19:36:22,802][INFO ][logstash.pipeline        ] Starting pipeline {&#34;id&#34;=&gt;&#34;main&#34;, &#34;pipeline.workers&#34;=&gt;2, &#34;pipeline.batch.size&#34;=&gt;125, &#34;pipeline.batch.delay&#34;=&gt;5
+</span></span><span class=line><span class=cl>[2017-06-08T19:36:22,850][INFO ][logstash.pipeline        ] Pipeline main started
+</span></span><span class=line><span class=cl>[2017-06-08T19:36:22,920][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=&gt;9600}
+</span></span><span class=line><span class=cl>[2017-06-08T19:36:32,053][INFO ][logstash.inputs.jdbc     ] (9.767000s) SELECT car.car_id AS car_id,
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>[2017-06-08T19:42:51,136][WARN ][logstash.agent           ] stopping pipeline {:id=&gt;&#34;main&#34;}
+</span></span></code></pre></td></tr></table></div></div><p>看到logstash的日志中，执行SQL的时间为<code>9.7s</code>，虽然时间略长，但是考虑到是多表关联+全表扫描，所以暂且任务数据库的问题已经处理完成。
 但是还是没解决索引创建为什么这么慢的问题。
 单次全量耗时为6分20s，系统资源冗余较多。
-<img src=/image/2017-06-09-18-26-34.jpg alt></p>
-<h3 id=创建索引慢el>创建索引慢：EL</h3>
-<p>通过上面的日志输出看到logstash采用的是默认配置：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+<img src=/image/2017-06-09-18-26-34.jpg alt></p><h3 id=创建索引慢el>创建索引慢：EL</h3><p>通过上面的日志输出看到logstash采用的是默认配置：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>pipeline.workers =&gt; 2 // 并行的线程数
-pipeline.batch.size=&gt;125 // 单个线程单次处理的最大索引数
-pipeline.batch.delay=&gt;5 // 如果在这里定义的时间内没有达到最大索引数，也执行提交
-</code></pre></td></tr></table>
-</div>
-</div><p>更多配置项参见<a href=https://www.elastic.co/guide/en/logstash/current/logstash-settings-file.html>官网文档</a>。</p>
-<p>尝试更改配置为：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pipeline.workers =&gt; 2 // 并行的线程数
+</span></span><span class=line><span class=cl>pipeline.batch.size=&gt;125 // 单个线程单次处理的最大索引数
+</span></span><span class=line><span class=cl>pipeline.batch.delay=&gt;5 // 如果在这里定义的时间内没有达到最大索引数，也执行提交
+</span></span></code></pre></td></tr></table></div></div><p>更多配置项参见<a href=https://www.elastic.co/guide/en/logstash/current/logstash-settings-file.html>官网文档</a>。</p><p>尝试更改配置为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>pipeline.workers =&gt; 4 // 2*cpu
-pipeline.batch.size=&gt;20000
-pipeline.batch.delay=&gt;3
-</code></pre></td></tr></table>
-</div>
-</div><p>日志如下：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>pipeline.workers =&gt; 4 // 2*cpu
+</span></span><span class=line><span class=cl>pipeline.batch.size=&gt;20000
+</span></span><span class=line><span class=cl>pipeline.batch.delay=&gt;3
+</span></span></code></pre></td></tr></table></div></div><p>日志如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
 </span><span class=lnt>7
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>[2017-06-09T15:11:09,088][INFO ][logstash.pipeline        ] Starting pipeline {&#34;id&#34;=&gt;&#34;main&#34;, &#34;pipeline.workers&#34;=&gt;4, &#34;pipeline.batch.size&#34;=&gt;20000, &#34;pipeline.batch.delay&#34;=&gt;3, &#34;pipeline.max_inflight&#34;=&gt;80000}
-[2017-06-09T15:11:09,088][WARN ][logstash.pipeline        ] CAUTION: Recommended inflight events max exceeded! Logstash will run with up to 80000 events in memory in your current configuration. If your message sizes are large this may cause instability with the default heap size. Please consider setting a non-standard heap size, changing the batch size (currently 20000), or changing the number of pipeline workers (currently 4)
-[2017-06-09T15:11:09,109][INFO ][logstash.pipeline        ] Pipeline main started
-[2017-06-09T15:11:09,154][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=&gt;9601}
-[2017-06-09T15:11:18,651][INFO ][logstash.inputs.jdbc     ] (10.100000s) SELECT car.car_id AS car_id,
-...
-[2017-06-09T15:15:49,619][WARN ][logstash.agent           ] stopping pipeline {:id=&gt;&#34;main&#34;}
-</code></pre></td></tr></table>
-</div>
-</div><p>单次全量耗时4分30秒，docker容器显示的系统负载峰值（使用命令<code>docker stats</code>）：
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>[2017-06-09T15:11:09,088][INFO ][logstash.pipeline        ] Starting pipeline {&#34;id&#34;=&gt;&#34;main&#34;, &#34;pipeline.workers&#34;=&gt;4, &#34;pipeline.batch.size&#34;=&gt;20000, &#34;pipeline.batch.delay&#34;=&gt;3, &#34;pipeline.max_inflight&#34;=&gt;80000}
+</span></span><span class=line><span class=cl>[2017-06-09T15:11:09,088][WARN ][logstash.pipeline        ] CAUTION: Recommended inflight events max exceeded! Logstash will run with up to 80000 events in memory in your current configuration. If your message sizes are large this may cause instability with the default heap size. Please consider setting a non-standard heap size, changing the batch size (currently 20000), or changing the number of pipeline workers (currently 4)
+</span></span><span class=line><span class=cl>[2017-06-09T15:11:09,109][INFO ][logstash.pipeline        ] Pipeline main started
+</span></span><span class=line><span class=cl>[2017-06-09T15:11:09,154][INFO ][logstash.agent           ] Successfully started Logstash API endpoint {:port=&gt;9601}
+</span></span><span class=line><span class=cl>[2017-06-09T15:11:18,651][INFO ][logstash.inputs.jdbc     ] (10.100000s) SELECT car.car_id AS car_id,
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>[2017-06-09T15:15:49,619][WARN ][logstash.agent           ] stopping pipeline {:id=&gt;&#34;main&#34;}
+</span></span></code></pre></td></tr></table></div></div><p>单次全量耗时4分30秒，docker容器显示的系统负载峰值（使用命令<code>docker stats</code>）：
 <img src=/image/2017-06-09-18-27-35.jpg alt>
 对应的系统负载峰值（使用命令<code>vmstat -n 1</code>）：
 ![](/image/@iZ23qcuujszZ::tmp 2017-06-09 16-16-37.png)
 基本已经榨干了ecs的所有计算资源。
-尝试更多配置：</p>
-<table>
-<thead>
-<tr>
-<th>配置</th>
-<th>耗时</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>-w 4 -b 60000 -u 3</td>
-<td>4分25s</td>
-</tr>
-<tr>
-<td>-w 6 -b 20000 -u 3</td>
-<td>4分13s</td>
-</tr>
-</tbody>
-</table>
-<p>可以发现不管是提升worker数还是提升单次提交的数据，都无法继续提升性能，基本是这台2核ECS的极限了，而且同时ES的集群（2台2核4g）也出现了CPU的负载峰值：</p>
-<p><img src=/image/search_load.png alt></p>
-<p>看来在现有的计算资源之下，我们只能暂且容忍这么长的全量时间了，后面继续调整ES的配置，看看会不会有提升。</p>
-</div>
-<div class=post-copyright>
-<p class=copyright-item>
-<span class=item-title>文章作者</span>
-<span class=item-content>run</span>
-</p>
-<p class=copyright-item>
-<span class=item-title>上次更新</span>
-<span class=item-content>
-2017-06-09
-</span>
-</p>
-</div>
-<footer class=post-footer>
-<div class=post-tags>
-<a href=/tags/elasticsearch/>elasticsearch</a>
-<a href=/tags/java/>java</a>
-</div>
-<nav class=post-nav>
-<a class=prev href=/post/es%E4%BD%BF%E7%94%A8filebeat%E6%94%B6%E9%9B%86nginx%E6%97%A5%E5%BF%97/>
-<i class="iconfont icon-left"></i>
+尝试更多配置：</p><table><thead><tr><th>配置</th><th>耗时</th></tr></thead><tbody><tr><td>-w 4 -b 60000 -u 3</td><td>4分25s</td></tr><tr><td>-w 6 -b 20000 -u 3</td><td>4分13s</td></tr></tbody></table><p>可以发现不管是提升worker数还是提升单次提交的数据，都无法继续提升性能，基本是这台2核ECS的极限了，而且同时ES的集群（2台2核4g）也出现了CPU的负载峰值：</p><p><img src=/image/search_load.png alt></p><p>看来在现有的计算资源之下，我们只能暂且容忍这么长的全量时间了，后面继续调整ES的配置，看看会不会有提升。</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+<span class=item-content>run</span></p><p class=copyright-item><span class=item-title>上次更新</span>
+<span class=item-content>2017-06-09</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/elasticsearch/>elasticsearch</a>
+<a href=/tags/java/>java</a></div><nav class=post-nav><a class=prev href=/post/es%E4%BD%BF%E7%94%A8filebeat%E6%94%B6%E9%9B%86nginx%E6%97%A5%E5%BF%97/><i class="iconfont icon-left"></i>
 <span class="prev-text nav-default">ES使用filebeat收集nginx日志</span>
 <span class="prev-text nav-mobile">上一篇</span>
-</a>
-<a class=next href=/post/%E5%9C%A8java%E4%B8%AD%E6%89%A7%E8%A1%8Cshell/>
-<span class="next-text nav-default">在JAVA中执行shell</span>
+</a><a class=next href=/post/%E5%9C%A8java%E4%B8%AD%E6%89%A7%E8%A1%8Cshell/><span class="next-text nav-default">在JAVA中执行shell</span>
 <span class="next-text nav-mobile">下一篇</span>
-<i class="iconfont icon-right"></i>
-</a>
-</nav>
-</footer>
-</article>
-</div>
-<script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script>
-<noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript>
-</div>
-</main>
-<footer id=footer class=footer>
-<div class=social-links>
-<a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a>
-<a href=https://github.com/suclogger class="iconfont icon-github" title=github></a>
-<a href=https://run.notbyai.space/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a>
-</div>
-<div class=copyright>
-<span class=power-by>
-由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
-</span>
-<span class=division>|</span>
-<span class=theme-info>
-主题 -
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a><a href=https://github.com/suclogger class="iconfont icon-github" title=github></a><a href=https://run.notbyai.space/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
+</span><span class=division>|</span>
+<span class=theme-info>主题 -
 <a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
-</span>
-<span class=copyright-year>
-&copy;
+</span><span class=copyright-year>&copy;
 2017 -
-2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span>
-</span>
-</div>
-</footer>
-<div class=back-to-top id=back-to-top>
-<i class="iconfont icon-up"></i>
-</div>
-</div>
-<script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
-<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
-<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
-<script type=text/javascript src=/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js></script>
-</body>
-</html>
+2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>

@@ -1,177 +1,20 @@
-<!doctype html><html lang=zh-cn>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>RocketMQ - Run</title>
-<meta name=renderer content="webkit">
-<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta http-equiv=cache-control content="no-transform">
-<meta http-equiv=cache-control content="no-siteapp">
-<meta name=theme-color content="#f8f5ec">
-<meta name=msapplication-navbutton-color content="#f8f5ec">
-<meta name=apple-mobile-web-app-capable content="yes">
-<meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec">
-<meta name=author content="run"><meta name=description content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock">
-<meta name=generator content="Hugo 0.91.2 with theme even">
-<link rel=canonical href=https://run.notbyai.space/post/rocketmq/>
-<link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png>
-<link rel=manifest href=/manifest.json>
-<link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5>
-<link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous>
-<meta property="og:title" content="RocketMQ">
-<meta property="og:description" content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://run.notbyai.space/post/rocketmq/"><meta property="article:section" content="post">
-<meta property="article:published_time" content="2017-07-03T22:10:45+00:00">
-<meta property="article:modified_time" content="2017-07-03T22:10:45+00:00">
-<meta itemprop=name content="RocketMQ">
-<meta itemprop=description content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock"><meta itemprop=datePublished content="2017-07-03T22:10:45+00:00">
-<meta itemprop=dateModified content="2017-07-03T22:10:45+00:00">
-<meta itemprop=wordCount content="1380">
-<meta itemprop=keywords content="rocketmq,"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="RocketMQ">
-<meta name=twitter:description content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
-<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]-->
-</head>
-<body>
-<div id=mobile-navbar class=mobile-navbar>
-<div class=mobile-header-logo>
-<a href=/ class=logo>Run</a>
-</div>
-<div class=mobile-navbar-icon>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>RocketMQ - Run</title>
+<meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="run"><meta name=description content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock"><meta name=generator content="Hugo 0.123.3 with theme even"><link rel=canonical href=https://run.notbyai.space/post/rocketmq/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="RocketMQ"><meta property="og:description" content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock"><meta property="og:type" content="article"><meta property="og:url" content="https://run.notbyai.space/post/rocketmq/"><meta property="article:section" content="post"><meta property="article:published_time" content="2017-07-03T22:10:45+00:00"><meta property="article:modified_time" content="2017-07-03T22:10:45+00:00"><meta itemprop=name content="RocketMQ"><meta itemprop=description content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock"><meta itemprop=datePublished content="2017-07-03T22:10:45+00:00"><meta itemprop=dateModified content="2017-07-03T22:10:45+00:00"><meta itemprop=wordCount content="1379"><meta itemprop=keywords content="rocketmq,"><meta name=twitter:card content="summary"><meta name=twitter:title content="RocketMQ"><meta name=twitter:description content="介绍一下近期做的RocketMQ接入的工作。 docker 官方在external中提供了namesrv和brokr的标准镜像：rocketmq-dock"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Run</a></div><div class=mobile-navbar-icon><span></span>
 <span></span>
-<span></span>
-<span></span>
-</div>
-</div>
-<nav id=mobile-menu class="mobile-menu slideout-menu">
-<ul class=mobile-menu-list>
-<a href=/>
-<li class=mobile-menu-item>Home</li>
-</a><a href=/post/>
-<li class=mobile-menu-item>Archives</li>
-</a><a href=/tags/>
-<li class=mobile-menu-item>Tags</li>
-</a><a href=/categories/>
-<li class=mobile-menu-item>Categories</li>
-</a><a href=https://haftbit.substack.com/>
-<li class=mobile-menu-item>Readings</li>
-</a>
-</ul>
-</nav>
-<div class=container id=mobile-panel>
-<header id=header class=header>
-<div class=logo-wrapper>
-<a href=/ class=logo>Run</a>
-</div>
-<nav class=site-navbar>
-<ul id=menu class=menu>
-<li class=menu-item>
-<a class=menu-item-link href=/>Home</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/post/>Archives</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/tags/>Tags</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/categories/>Categories</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=https://haftbit.substack.com/>Readings</a>
-</li>
-</ul>
-</nav>
-</header>
-<main id=main class=main>
-<div class=content-wrapper>
-<div id=content class=content>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title>RocketMQ</h1>
-<div class=post-meta>
-<span class=post-time> 2017-07-03 </span>
-<div class=post-category>
-<a href=/categories/%E7%BC%96%E7%A8%8B/> 编程 </a>
-</div>
-</div>
-</header>
-<div class=post-toc id=post-toc>
-<h2 class=post-toc-title>文章目录</h2>
-<div class="post-toc-content always-active">
-<nav id=TableOfContents>
-<ul>
-<li>
-<ul>
-<li><a href=#docker>docker</a></li>
-<li><a href=#benchmark>benchmark</a></li>
-<li><a href=#starter>starter</a>
-<ul>
-<li><a href=#producer>producer</a></li>
-<li><a href=#consumer>consumer</a></li>
-</ul>
-</li>
-<li><a href=#console>console</a></li>
-<li><a href=#why>why</a>
-<ul>
-<li><a href=#why-not-ons>why not ONS</a></li>
-<li><a href=#why-rocketmq>why RocketMQ</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-<div class=post-content>
-<p>介绍一下近期做的RocketMQ接入的工作。</p>
-<h2 id=docker>docker</h2>
-<p>官方在external中提供了namesrv和brokr的标准镜像：<a href=http://https://github.com/apache/incubator-rocketmq-externals/tree/master/rocketmq-docker>rocketmq-docker</a>
-但是标准镜像的jvm启动参数是写死在<code>runserver.sh</code>和<code>runbroker.sh</code>中的：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>JAVA_OPT=&#34;${JAVA_OPT} -server -Xms4g -Xmx4g -Xmn2g -XX:PermSize=128m -XX:MaxPermSize=320m&#34;
-</code></pre></td></tr></table>
-</div>
-</div><p>定义在<code>JAVA_OPT</code>中会被后续的<code>-Xms4g -Xmx4g -Xmn2g</code>覆盖。所以需要修改一下Dockfile，使用<code>sed</code>命令替换：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>sed -i &#39;s/-Xm[sxn]..//g&#39; runbroker.sh \
-</code></pre></td></tr></table>
-</div>
-</div><p>因为是集群部署，还需要写入相关配置并将brokerId和brokerName透到参数中，以下为双主集群配置，其他配置同理：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=https://haftbit.substack.com/><li class=mobile-menu-item>Readings</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Run</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=https://haftbit.substack.com/>Readings</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>RocketMQ</h1><div class=post-meta><span class=post-time>2017-07-03</span><div class=post-category><a href=/categories/%E7%BC%96%E7%A8%8B/>编程</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><ul><li><a href=#docker>docker</a></li><li><a href=#benchmark>benchmark</a></li><li><a href=#starter>starter</a><ul><li><a href=#producer>producer</a></li><li><a href=#consumer>consumer</a></li></ul></li><li><a href=#console>console</a></li><li><a href=#why>why</a><ul><li><a href=#why-not-ons>why not ONS</a></li><li><a href=#why-rocketmq>why RocketMQ</a></li></ul></li></ul></li></ul></nav></div></div><div class=post-content><p>介绍一下近期做的RocketMQ接入的工作。</p><h2 id=docker>docker</h2><p>官方在external中提供了namesrv和brokr的标准镜像：<a href=http://https://github.com/apache/incubator-rocketmq-externals/tree/master/rocketmq-docker>rocketmq-docker</a>
+但是标准镜像的jvm启动参数是写死在<code>runserver.sh</code>和<code>runbroker.sh</code>中的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>JAVA_OPT=&#34;${JAVA_OPT} -server -Xms4g -Xmx4g -Xmn2g -XX:PermSize=128m -XX:MaxPermSize=320m&#34;
+</span></span></code></pre></td></tr></table></div></div><p>定义在<code>JAVA_OPT</code>中会被后续的<code>-Xms4g -Xmx4g -Xmn2g</code>覆盖。所以需要修改一下Dockfile，使用<code>sed</code>命令替换：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sed -i &#39;s/-Xm[sxn]..//g&#39; runbroker.sh \
+</span></span></code></pre></td></tr></table></div></div><p>因为是集群部署，还需要写入相关配置并将brokerId和brokerName透到参数中，以下为双主集群配置，其他配置同理：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>        &amp;&amp; echo -e &#34;brokerClusddrName=camaro\nbrokerId=0\ndeleddWhen=04\nfileReservedTime=48\nbrokerRole=ASYNC_MASTER\nflushDiskType=ASYNC_FLUSH&#34; &gt; broker.properties \
-        &amp;&amp; echo -e &#34;\nbrokerName=$BROKER_NAME&#34; &gt;&gt; broker.properties \
-        &amp;&amp; echo -e &#34;\nbrokerIP1=$BROKER_IP&#34; &gt;&gt; broker.properties \
-</code></pre></td></tr></table>
-</div>
-</div><p>如果需要自动创建Topic，还需要添加启动参数：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>autoCreateTopicEnable=true
-</code></pre></td></tr></table>
-</div>
-</div><p>可以使用compose组装nameserver和broker：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>        &amp;&amp; echo -e &#34;brokerClusddrName=camaro\nbrokerId=0\ndeleddWhen=04\nfileReservedTime=48\nbrokerRole=ASYNC_MASTER\nflushDiskType=ASYNC_FLUSH&#34; &gt; broker.properties \
+</span></span><span class=line><span class=cl>        &amp;&amp; echo -e &#34;\nbrokerName=$BROKER_NAME&#34; &gt;&gt; broker.properties \
+</span></span><span class=line><span class=cl>        &amp;&amp; echo -e &#34;\nbrokerIP1=$BROKER_IP&#34; &gt;&gt; broker.properties \
+</span></span></code></pre></td></tr></table></div></div><p>如果需要自动创建Topic，还需要添加启动参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>autoCreateTopicEnable=true
+</span></span></code></pre></td></tr></table></div></div><p>可以使用compose组装nameserver和broker：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -196,182 +39,61 @@
 </span><span class=lnt>23
 </span><span class=lnt>24
 </span><span class=lnt>25
-</span><span class=lnt>26
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>version: &#39;2&#39;
-services:
-  rocketmq-namesrv:
-    image: daocloud.io/maihaoche/rocketmq-namesrv:4.0.1
-    restart: always
-    network_mode: host
-    ports:
-    - 9876:9876
-    volumes:
-    - /root/logs:/opt/logs
-    - /root/store:/opt/store
-  rocketmq-broker:
-    image: daocloud.io/maihaoche/rocketmq-broker:4.0.1
-    restart: always
-    network_mode: host
-    ports:
-    - 10911:10911
-    - 10909:10909
-    volumes:
-    - /root/logs:/opt/logs
-    - /root/store:/opt/store
-    environment:
-    - BROKER_IP=172.21.10.101
-    - NAMESRV_ADDR=172.21.10.101:9876
-    - BROKER_NAME=broker-101
-
-</code></pre></td></tr></table>
-</div>
-</div><p>不同的机器可以通过修改compose文件中的<code>environment</code>参数进行部署。
-务必配置网络类型为host，否则会导致nameserver返回broker的docker0对应IP使客户端无法连接。</p>
-<h2 id=benchmark>benchmark</h2>
-<p>Broker和namesrv的jvm参数配置为<code>-Xms2g -Xmx2g -Xmn1g</code>，两台双主集群下跑benchmark。
-benchmark使用consumer和provider的jvm参数：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>-server -Xms1g -Xmx1g -Xmn256m -XX:PermSize=128m -XX:MaxPermSize=320m -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSInitiatingOccupancyFraction=70 -XX:+CMSParallelRemarkEnabled -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+CMSClassUnloadingEnabled -XX:SurvivorRatio=8 -XX:+DisableExplicitGC -verbose:gc -Xloggc:/dev/shm/rmq_srv_gc.log -XX:+PrintGCDetails -XX:-OmitStackTraceInFastThrow -XX:-UseLargePages -XX:+PerfDisableSharedMem
-</code></pre></td></tr></table>
-</div>
-</div><p>producer 64线程，消息体10K，TPS峰值为5,000左右：
-<img src=/image/benchmark-producer.png alt></p>
-<p>consumer 64 线程，消息体10K，TPS峰值为28,000：
-<img src=/image/benchmark-consumer.png alt></p>
-<h2 id=starter>starter</h2>
-<p>代码已经开源：<a href=https://github.com/maihaoche/rocketmq-spring-boot-starter>github</a>
-推荐姿势：</p>
-<h3 id=producer>producer</h3>
-<h4 id=pruducer>pruducer</h4>
-<p>我们将producer设计成了单例，你可以全局只继承一次AbstractMQProducer，然后用这个producer发送不同topic消息：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>AbstractMQProducer.synSend(String topic, Object msgObj)
-</code></pre></td></tr></table>
-</div>
-</div><p>当然，你可以定义多个类继承<code>AbstractMQProducer</code>，每个类都重写父类中的<code>getTopic()</code>方法，这样注入对应的bean就可以省去topic直接发送：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>AbstractMQProducer.sendMessage(Object msgObj)
-</code></pre></td></tr></table>
-</div>
-</div><h4 id=pruducergroup>pruducerGroup</h4>
-<p>因为producer的单例设计，我们推荐同一个应用所有消息采用同一个pruducerGroup，放在配置文件中。</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>version: &#39;2&#39;
+</span></span><span class=line><span class=cl>services:
+</span></span><span class=line><span class=cl>  rocketmq-namesrv:
+</span></span><span class=line><span class=cl>    image: daocloud.io/maihaoche/rocketmq-namesrv:4.0.1
+</span></span><span class=line><span class=cl>    restart: always
+</span></span><span class=line><span class=cl>    network_mode: host
+</span></span><span class=line><span class=cl>    ports:
+</span></span><span class=line><span class=cl>    - 9876:9876
+</span></span><span class=line><span class=cl>    volumes:
+</span></span><span class=line><span class=cl>    - /root/logs:/opt/logs
+</span></span><span class=line><span class=cl>    - /root/store:/opt/store
+</span></span><span class=line><span class=cl>  rocketmq-broker:
+</span></span><span class=line><span class=cl>    image: daocloud.io/maihaoche/rocketmq-broker:4.0.1
+</span></span><span class=line><span class=cl>    restart: always
+</span></span><span class=line><span class=cl>    network_mode: host
+</span></span><span class=line><span class=cl>    ports:
+</span></span><span class=line><span class=cl>    - 10911:10911
+</span></span><span class=line><span class=cl>    - 10909:10909
+</span></span><span class=line><span class=cl>    volumes:
+</span></span><span class=line><span class=cl>    - /root/logs:/opt/logs
+</span></span><span class=line><span class=cl>    - /root/store:/opt/store
+</span></span><span class=line><span class=cl>    environment:
+</span></span><span class=line><span class=cl>    - BROKER_IP=172.21.10.101
+</span></span><span class=line><span class=cl>    - NAMESRV_ADDR=172.21.10.101:9876
+</span></span><span class=line><span class=cl>    - BROKER_NAME=broker-101
+</span></span></code></pre></td></tr></table></div></div><p>不同的机器可以通过修改compose文件中的<code>environment</code>参数进行部署。
+务必配置网络类型为host，否则会导致nameserver返回broker的docker0对应IP使客户端无法连接。</p><h2 id=benchmark>benchmark</h2><p>Broker和namesrv的jvm参数配置为<code>-Xms2g -Xmx2g -Xmn1g</code>，两台双主集群下跑benchmark。
+benchmark使用consumer和provider的jvm参数：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>-</span><span class=n>server</span> <span class=o>-</span><span class=n>Xms1g</span> <span class=o>-</span><span class=n>Xmx1g</span> <span class=o>-</span><span class=n>Xmn256m</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=n>PermSize</span><span class=o>=</span><span class=mi>128</span><span class=n>m</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=n>MaxPermSize</span><span class=o>=</span><span class=mi>320</span><span class=n>m</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>+</span><span class=n>UseConcMarkSweepGC</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>+</span><span class=n>UseCMSCompactAtFullCollection</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=n>CMSInitiatingOccupancyFraction</span><span class=o>=</span><span class=mi>70</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>+</span><span class=n>CMSParallelRemarkEnabled</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=n>SoftRefLRUPolicyMSPerMB</span><span class=o>=</span><span class=mi>0</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>+</span><span class=n>CMSClassUnloadingEnabled</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=n>SurvivorRatio</span><span class=o>=</span><span class=mi>8</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>+</span><span class=n>DisableExplicitGC</span> <span class=o>-</span><span class=n>verbose</span><span class=p>:</span><span class=n>gc</span> <span class=o>-</span><span class=n>Xloggc</span><span class=p>:</span><span class=o>/</span><span class=n>dev</span><span class=o>/</span><span class=n>shm</span><span class=o>/</span><span class=n>rmq_srv_gc</span><span class=o>.</span><span class=n>log</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>+</span><span class=n>PrintGCDetails</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>-</span><span class=n>OmitStackTraceInFastThrow</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>-</span><span class=n>UseLargePages</span> <span class=o>-</span><span class=n>XX</span><span class=p>:</span><span class=o>+</span><span class=n>PerfDisableSharedMem</span>
+</span></span></code></pre></td></tr></table></div></div><p>producer 64线程，消息体10K，TPS峰值为5,000左右：
+<img src=/image/benchmark-producer.png alt></p><p>consumer 64 线程，消息体10K，TPS峰值为28,000：
+<img src=/image/benchmark-consumer.png alt></p><h2 id=starter>starter</h2><p>代码已经开源：<a href=https://github.com/maihaoche/rocketmq-spring-boot-starter>github</a>
+推荐姿势：</p><h3 id=producer>producer</h3><h4 id=pruducer>pruducer</h4><p>我们将producer设计成了单例，你可以全局只继承一次AbstractMQProducer，然后用这个producer发送不同topic消息：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>AbstractMQProducer.synSend(String topic, Object msgObj)
+</span></span></code></pre></td></tr></table></div></div><p>当然，你可以定义多个类继承<code>AbstractMQProducer</code>，每个类都重写父类中的<code>getTopic()</code>方法，这样注入对应的bean就可以省去topic直接发送：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>AbstractMQProducer.sendMessage(Object msgObj)
+</span></span></code></pre></td></tr></table></div></div><h4 id=pruducergroup>pruducerGroup</h4><p>因为producer的单例设计，我们推荐同一个应用所有消息采用同一个pruducerGroup，放在配置文件中。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>camaro:
-  mq:
-    name-server-address: 172.21.10.101:9876;172.21.10.111:9876
-    producer-group: local_pufang_producer
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=consumer>consumer</h3>
-<p>不同consumerGroup都有自己的topic消费位点记录，所以同一条消息在不同consumerGroup中都可以被消费一次，相应的，同一条消息在同一个consumerGroup中只能消费一次。</p>
-<p>在某些极端情况下，同一条消息在同一个consumerGroup中会被多次消费，所以消费代码要做到幂等。</p>
-<h2 id=console>console</h2>
-<p>我们还基于开源的 <a href=https://github.com/apache/incubator-rocketmq-externals/tree/master/rocketmq-console>console</a> 项目做了一层kotlin封装，展示效果采用<a href=https://github.com/maihaoche/muu>muu</a>：</p>
-<p><img src=/image/2017-07-04-00-24-34.jpg alt></p>
-<h2 id=why>why</h2>
-<p>到最后说几句为什么做这件事情。</p>
-<h3 id=why-not-ons>why not ONS</h3>
-<p>平时在用ONS的过程中都遇到过难以调试的困扰，消息不知道发了没有，消息不知道被谁消费了等等问题，归根结底主要有以下原因：</p>
-<ol>
-<li>由于我们采用的都是公网的ons，消息服务之间无法做到物理隔离;</li>
-<li>问题排查，topic维护需要繁琐的子账号授权，大量的人肉运维；</li>
-<li>ons是根据topic来计费，我们单topic的消息量是很少的，使用ons非常的不经济。</li>
-</ol>
-<h3 id=why-rocketmq>why RocketMQ</h3>
-<p>直接促成我们使用RocketMQ的是上上周的OSC上RocketMQ的宣讲，主要有以下优点：</p>
-<ol>
-<li>国产</li>
-<li>支持消息追溯</li>
-<li>支持广播</li>
-<li>有较好的console和运维终端</li>
-<li>可以比较好的保留我们现有的ons使用习惯</li>
-</ol>
-</div>
-<div class=post-copyright>
-<p class=copyright-item>
-<span class=item-title>文章作者</span>
-<span class=item-content>run</span>
-</p>
-<p class=copyright-item>
-<span class=item-title>上次更新</span>
-<span class=item-content>
-2017-07-03
-</span>
-</p>
-</div>
-<footer class=post-footer>
-<div class=post-tags>
-<a href=/tags/rocketmq/>rocketmq</a>
-</div>
-<nav class=post-nav>
-<a class=prev href=/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/>
-<i class="iconfont icon-left"></i>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>camaro:
+</span></span><span class=line><span class=cl>  mq:
+</span></span><span class=line><span class=cl>    name-server-address: 172.21.10.101:9876;172.21.10.111:9876
+</span></span><span class=line><span class=cl>    producer-group: local_pufang_producer
+</span></span></code></pre></td></tr></table></div></div><h3 id=consumer>consumer</h3><p>不同consumerGroup都有自己的topic消费位点记录，所以同一条消息在不同consumerGroup中都可以被消费一次，相应的，同一条消息在同一个consumerGroup中只能消费一次。</p><p>在某些极端情况下，同一条消息在同一个consumerGroup中会被多次消费，所以消费代码要做到幂等。</p><h2 id=console>console</h2><p>我们还基于开源的 <a href=https://github.com/apache/incubator-rocketmq-externals/tree/master/rocketmq-console>console</a> 项目做了一层kotlin封装，展示效果采用<a href=https://github.com/maihaoche/muu>muu</a>：</p><p><img src=/image/2017-07-04-00-24-34.jpg alt></p><h2 id=why>why</h2><p>到最后说几句为什么做这件事情。</p><h3 id=why-not-ons>why not ONS</h3><p>平时在用ONS的过程中都遇到过难以调试的困扰，消息不知道发了没有，消息不知道被谁消费了等等问题，归根结底主要有以下原因：</p><ol><li>由于我们采用的都是公网的ons，消息服务之间无法做到物理隔离;</li><li>问题排查，topic维护需要繁琐的子账号授权，大量的人肉运维；</li><li>ons是根据topic来计费，我们单topic的消息量是很少的，使用ons非常的不经济。</li></ol><h3 id=why-rocketmq>why RocketMQ</h3><p>直接促成我们使用RocketMQ的是上上周的OSC上RocketMQ的宣讲，主要有以下优点：</p><ol><li>国产</li><li>支持消息追溯</li><li>支持广播</li><li>有较好的console和运维终端</li><li>可以比较好的保留我们现有的ons使用习惯</li></ol></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+<span class=item-content>run</span></p><p class=copyright-item><span class=item-title>上次更新</span>
+<span class=item-content>2017-07-03</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/rocketmq/>rocketmq</a></div><nav class=post-nav><a class=prev href=/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/><i class="iconfont icon-left"></i>
 <span class="prev-text nav-default">逆向之Funnel内购破解</span>
 <span class="prev-text nav-mobile">上一篇</span>
-</a>
-<a class=next href=/post/kotlin-%E5%88%9D%E6%81%8B%E7%9A%84%E6%84%9F%E8%A7%89/>
-<span class="next-text nav-default">Kotlin:初恋的感觉</span>
+</a><a class=next href=/post/kotlin-%E5%88%9D%E6%81%8B%E7%9A%84%E6%84%9F%E8%A7%89/><span class="next-text nav-default">Kotlin:初恋的感觉</span>
 <span class="next-text nav-mobile">下一篇</span>
-<i class="iconfont icon-right"></i>
-</a>
-</nav>
-</footer>
-</article>
-</div>
-<script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script>
-<noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript>
-</div>
-</main>
-<footer id=footer class=footer>
-<div class=social-links>
-<a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a>
-<a href=https://github.com/suclogger class="iconfont icon-github" title=github></a>
-<a href=https://run.notbyai.space/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a>
-</div>
-<div class=copyright>
-<span class=power-by>
-由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
-</span>
-<span class=division>|</span>
-<span class=theme-info>
-主题 -
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a><a href=https://github.com/suclogger class="iconfont icon-github" title=github></a><a href=https://run.notbyai.space/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
+</span><span class=division>|</span>
+<span class=theme-info>主题 -
 <a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
-</span>
-<span class=copyright-year>
-&copy;
+</span><span class=copyright-year>&copy;
 2017 -
-2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span>
-</span>
-</div>
-</footer>
-<div class=back-to-top id=back-to-top>
-<i class="iconfont icon-up"></i>
-</div>
-</div>
-<script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
-<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
-<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
-<script type=text/javascript src=/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js></script>
-</body>
-</html>
+2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>

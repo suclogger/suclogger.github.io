@@ -1,213 +1,25 @@
-<!doctype html><html lang=zh-cn>
-<head>
-<meta charset=utf-8>
-<meta http-equiv=x-ua-compatible content="IE=edge,chrome=1">
-<title>买好车搜索的Elasticsearch实践：初体验 - Run</title>
-<meta name=renderer content="webkit">
-<meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1">
-<meta http-equiv=cache-control content="no-transform">
-<meta http-equiv=cache-control content="no-siteapp">
-<meta name=theme-color content="#f8f5ec">
-<meta name=msapplication-navbutton-color content="#f8f5ec">
-<meta name=apple-mobile-web-app-capable content="yes">
-<meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec">
-<meta name=author content="run"><meta name=description content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费">
-<meta name=generator content="Hugo 0.91.2 with theme even">
-<link rel=canonical href=https://run.notbyai.space/post/%E4%B9%B0%E5%A5%BD%E8%BD%A6%E6%90%9C%E7%B4%A2%E7%9A%84elasticsearch%E5%AE%9E%E8%B7%B5%E5%88%9D%E4%BD%93%E9%AA%8C/>
-<link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png>
-<link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png>
-<link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png>
-<link rel=manifest href=/manifest.json>
-<link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5>
-<link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet>
-<link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous>
-<meta property="og:title" content="买好车搜索的Elasticsearch实践：初体验">
-<meta property="og:description" content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费">
-<meta property="og:type" content="article">
-<meta property="og:url" content="https://run.notbyai.space/post/%E4%B9%B0%E5%A5%BD%E8%BD%A6%E6%90%9C%E7%B4%A2%E7%9A%84elasticsearch%E5%AE%9E%E8%B7%B5%E5%88%9D%E4%BD%93%E9%AA%8C/"><meta property="article:section" content="post">
-<meta property="article:published_time" content="2016-06-23T23:45:33+00:00">
-<meta property="article:modified_time" content="2016-06-23T23:45:33+00:00">
-<meta itemprop=name content="买好车搜索的Elasticsearch实践：初体验">
-<meta itemprop=description content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费"><meta itemprop=datePublished content="2016-06-23T23:45:33+00:00">
-<meta itemprop=dateModified content="2016-06-23T23:45:33+00:00">
-<meta itemprop=wordCount content="8336">
-<meta itemprop=keywords content="elasticsearch,"><meta name=twitter:card content="summary">
-<meta name=twitter:title content="买好车搜索的Elasticsearch实践：初体验">
-<meta name=twitter:description content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script>
-<script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]-->
-</head>
-<body>
-<div id=mobile-navbar class=mobile-navbar>
-<div class=mobile-header-logo>
-<a href=/ class=logo>Run</a>
-</div>
-<div class=mobile-navbar-icon>
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>买好车搜索的Elasticsearch实践：初体验 - Run</title>
+<meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content="run"><meta name=description content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费"><meta name=generator content="Hugo 0.123.3 with theme even"><link rel=canonical href=https://run.notbyai.space/post/%E4%B9%B0%E5%A5%BD%E8%BD%A6%E6%90%9C%E7%B4%A2%E7%9A%84elasticsearch%E5%AE%9E%E8%B7%B5%E5%88%9D%E4%BD%93%E9%AA%8C/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:title" content="买好车搜索的Elasticsearch实践：初体验"><meta property="og:description" content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费"><meta property="og:type" content="article"><meta property="og:url" content="https://run.notbyai.space/post/%E4%B9%B0%E5%A5%BD%E8%BD%A6%E6%90%9C%E7%B4%A2%E7%9A%84elasticsearch%E5%AE%9E%E8%B7%B5%E5%88%9D%E4%BD%93%E9%AA%8C/"><meta property="article:section" content="post"><meta property="article:published_time" content="2016-06-23T23:45:33+00:00"><meta property="article:modified_time" content="2016-06-23T23:45:33+00:00"><meta itemprop=name content="买好车搜索的Elasticsearch实践：初体验"><meta itemprop=description content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费"><meta itemprop=datePublished content="2016-06-23T23:45:33+00:00"><meta itemprop=dateModified content="2016-06-23T23:45:33+00:00"><meta itemprop=wordCount content="8335"><meta itemprop=keywords content="elasticsearch,"><meta name=twitter:card content="summary"><meta name=twitter:title content="买好车搜索的Elasticsearch实践：初体验"><meta name=twitter:description content="回顾历史 直到今天，卖好车App的搜索依然采用的是阿里云的opensearch，先来说说使用过程中的痛点。 阿里云OpenSearch的痛点 收费"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>Run</a></div><div class=mobile-navbar-icon><span></span>
 <span></span>
-<span></span>
-<span></span>
-</div>
-</div>
-<nav id=mobile-menu class="mobile-menu slideout-menu">
-<ul class=mobile-menu-list>
-<a href=/>
-<li class=mobile-menu-item>Home</li>
-</a><a href=/post/>
-<li class=mobile-menu-item>Archives</li>
-</a><a href=/tags/>
-<li class=mobile-menu-item>Tags</li>
-</a><a href=/categories/>
-<li class=mobile-menu-item>Categories</li>
-</a><a href=https://haftbit.substack.com/>
-<li class=mobile-menu-item>Readings</li>
-</a>
-</ul>
-</nav>
-<div class=container id=mobile-panel>
-<header id=header class=header>
-<div class=logo-wrapper>
-<a href=/ class=logo>Run</a>
-</div>
-<nav class=site-navbar>
-<ul id=menu class=menu>
-<li class=menu-item>
-<a class=menu-item-link href=/>Home</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/post/>Archives</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/tags/>Tags</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=/categories/>Categories</a>
-</li><li class=menu-item>
-<a class=menu-item-link href=https://haftbit.substack.com/>Readings</a>
-</li>
-</ul>
-</nav>
-</header>
-<main id=main class=main>
-<div class=content-wrapper>
-<div id=content class=content>
-<article class=post>
-<header class=post-header>
-<h1 class=post-title>买好车搜索的Elasticsearch实践：初体验</h1>
-<div class=post-meta>
-<span class=post-time> 2016-06-23 </span>
-<div class=post-category>
-<a href=/categories/%E6%90%9C%E7%B4%A2/> 搜索 </a>
-</div>
-</div>
-</header>
-<div class=post-toc id=post-toc>
-<h2 class=post-toc-title>文章目录</h2>
-<div class="post-toc-content always-active">
-<nav id=TableOfContents>
-<ul>
-<li><a href=#回顾历史>回顾历史</a>
-<ul>
-<li><a href=#阿里云opensearch的痛点>阿里云OpenSearch的痛点</a>
-<ul>
-<li><a href=#收费>收费</a></li>
-<li><a href=#重建索引的速度非常慢>重建索引的速度非常慢</a></li>
-<li><a href=#黑盒不可见不可控>黑盒，不可见，不可控</a></li>
-</ul>
-</li>
-<li><a href=#过去做过的努力>过去做过的努力</a>
-<ul>
-<li><a href=#同义词>同义词</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href=#elasticsearch>Elasticsearch</a>
-<ul>
-<li><a href=#基本的概念>基本的概念</a>
-<ul>
-<li><a href=#倒排索引--inverted-indexing>倒排索引 ： inverted indexing</a></li>
-<li><a href=#相关度计算--tfidf>相关度计算 ： TF/IDF</a></li>
-</ul>
-</li>
-<li><a href=#显著的提升>显著的提升</a>
-<ul>
-<li><a href=#索引创建速度>索引创建速度</a></li>
-<li><a href=#准实时查询>准实时查询</a></li>
-<li><a href=#准确可控的分词>准确，可控的分词</a></li>
-<li><a href=#排序的优化>排序的优化</a></li>
-<li><a href=#筛选功能的优化>筛选功能的优化</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href=#infiniti--the-future>infiniti : the future</a>
-<ul>
-<li><a href=#实时添加索引>实时添加索引</a></li>
-<li><a href=#定时重建索引>定时重建索引</a></li>
-<li><a href=#同义词和词典的维护>同义词和词典的维护</a></li>
-<li><a href=#备份和恢复>备份和恢复</a></li>
-<li><a href=#数据分析>数据分析</a></li>
-</ul>
-</li>
-</ul>
-</nav>
-</div>
-</div>
-<div class=post-content>
-<h1 id=回顾历史>回顾历史</h1>
-<p>直到今天，卖好车App的搜索依然采用的是阿里云的<code>opensearch</code>，先来说说使用过程中的痛点。</p>
-<h2 id=阿里云opensearch的痛点>阿里云OpenSearch的痛点</h2>
-<h3 id=收费>收费</h3>
-<p>索引自创建完成就开始计费，就算或者没有新数据需要进入索引，依然在被收费。</p>
-<h3 id=重建索引的速度非常慢>重建索引的速度非常慢</h3>
-<p>1W条记录，每条记录5个20字符以内字段，重建一次索引需要半个小时。</p>
-<h3 id=黑盒不可见不可控>黑盒，不可见，不可控</h3>
-<h4 id=分词的不可控>分词的不可控</h4>
-<p>分词是搜索中最重要的一个环节，在索引创建和搜索关键词的产生中都起了决定性的作用。
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=https://haftbit.substack.com/><li class=mobile-menu-item>Readings</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>Run</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=https://haftbit.substack.com/>Readings</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title>买好车搜索的Elasticsearch实践：初体验</h1><div class=post-meta><span class=post-time>2016-06-23</span><div class=post-category><a href=/categories/%E6%90%9C%E7%B4%A2/>搜索</a></div></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents><ul><li><a href=#回顾历史>回顾历史</a><ul><li><a href=#阿里云opensearch的痛点>阿里云OpenSearch的痛点</a><ul><li><a href=#收费>收费</a></li><li><a href=#重建索引的速度非常慢>重建索引的速度非常慢</a></li><li><a href=#黑盒不可见不可控>黑盒，不可见，不可控</a></li></ul></li><li><a href=#过去做过的努力>过去做过的努力</a><ul><li><a href=#同义词>同义词</a></li></ul></li></ul></li><li><a href=#elasticsearch>Elasticsearch</a><ul><li><a href=#基本的概念>基本的概念</a><ul><li><a href=#倒排索引--inverted-indexing>倒排索引 ： inverted indexing</a></li><li><a href=#相关度计算--tfidf>相关度计算 ： TF/IDF</a></li></ul></li><li><a href=#显著的提升>显著的提升</a><ul><li><a href=#索引创建速度>索引创建速度</a></li><li><a href=#准实时查询>准实时查询</a></li><li><a href=#准确可控的分词>准确，可控的分词</a></li><li><a href=#排序的优化>排序的优化</a></li><li><a href=#筛选功能的优化>筛选功能的优化</a></li></ul></li></ul></li><li><a href=#infiniti--the-future>infiniti : the future</a><ul><li><a href=#实时添加索引>实时添加索引</a></li><li><a href=#定时重建索引>定时重建索引</a></li><li><a href=#同义词和词典的维护>同义词和词典的维护</a></li><li><a href=#备份和恢复>备份和恢复</a></li><li><a href=#数据分析>数据分析</a></li></ul></li></ul></nav></div></div><div class=post-content><h1 id=回顾历史>回顾历史</h1><p>直到今天，卖好车App的搜索依然采用的是阿里云的<code>opensearch</code>，先来说说使用过程中的痛点。</p><h2 id=阿里云opensearch的痛点>阿里云OpenSearch的痛点</h2><h3 id=收费>收费</h3><p>索引自创建完成就开始计费，就算或者没有新数据需要进入索引，依然在被收费。</p><h3 id=重建索引的速度非常慢>重建索引的速度非常慢</h3><p>1W条记录，每条记录5个20字符以内字段，重建一次索引需要半个小时。</p><h3 id=黑盒不可见不可控>黑盒，不可见，不可控</h3><h4 id=分词的不可控>分词的不可控</h4><p>分词是搜索中最重要的一个环节，在索引创建和搜索关键词的产生中都起了决定性的作用。
 但是OpenSearch没有提供接口返回分词的结果，也没有文档解释分词原理，我们输入了一个词，只能期待他能返回我们想要的结果，但是往往并不是。
 比如输入<code>北京宝达</code>，OpenSearch替我们做了一些分词之后出来的结果如下：
 <img src="/image/8df3e6e2de2fb132c165498fb4f87ee8.png?r=27" alt>
-但是我们想要搜的<code>北京宝达</code>这家公司在20条之后才出现。我们无法控制OpenSearch不对宝达这两个字不要分词。</p>
-<h4 id=不支持同义词无法自定义停用词>不支持同义词，无法自定义停用词</h4>
-<p>同义词顾名思义，我搜索<code>番茄</code>，应该把<code>西红柿</code>也返回给我，我搜索<code>拓爷</code>，应该把<code>黄拓</code>也返回给我，在车系里面比较典型的例子是<code>霸道</code>和<code>普拉多</code>。
-![](/image/2016-06-25 18-00-09.jpg)</p>
-<p>但是OpenSearch并不支持同义词的配置。</p>
-<p>停用词是类似语气词【<code>啊</code>，<code>哦</code>，<code>啦</code>】，介词【<code>从</code>，<code>在</code>，<code>跟</code>，】等等无语意需要在分词的过程中过滤的词语，但是很遗憾OpenSearch并没有告诉我们哪些被他过滤了，我们也无法自己添加需要的过滤词语。
-<img src="/image/0bc30cd3cd513ce4b7ba0888641cb6d2.png?r=23" alt></p>
-<h4 id=检索方式的不可控>检索方式的不可控</h4>
-<p>OpenSearch对搜索默认进行了分词，但必须全部都匹配才返回搜索结果。如果我想要分词结果中任一条匹配即返回，OpenSearch是无法满足的。</p>
-<p>以上的组合会带来许许多多错误结果，而且这些错误我们只能猜测，根本无法调试。
-举一个比较极端的例子，假如我输入了 <code>宝马北京</code>， OpenSearch替我分词为【<code>宝</code>，<code>马北</code>，<code>京</code>】，而且他的检索规则是这些分词结果都要得到匹配，那么很显然我们得不到我们想要的结果。因为<code>宝马</code>在品牌字段，<code>北京</code>在车源字段，马和北在创建索引时是不可能得到组合的。</p>
-<h4 id=返回结果的排序不可控>返回结果的排序不可控</h4>
-<p>作为一个商业搜索，用户对于他出现在搜索中的位置是很在意的，但是OpenSearch只能简单的通过字段的升降序方式排序。之前有一个需求是认证商家要展示在非认证商家之前，好，我们通过<code>is_verify</code>这个字段降序排了一把，结果1个月前的一个认证商家的可能是已经无效的车源数据，依然排在辛辛苦苦天天更新车源的一个非认证商家的前面，这个会严重打击商家的活跃积极性。后来我们又改了回来，只能根据更新时间排序，认证商家的车源即使发布时间很接近也会被排在后面。
+但是我们想要搜的<code>北京宝达</code>这家公司在20条之后才出现。我们无法控制OpenSearch不对宝达这两个字不要分词。</p><h4 id=不支持同义词无法自定义停用词>不支持同义词，无法自定义停用词</h4><p>同义词顾名思义，我搜索<code>番茄</code>，应该把<code>西红柿</code>也返回给我，我搜索<code>拓爷</code>，应该把<code>黄拓</code>也返回给我，在车系里面比较典型的例子是<code>霸道</code>和<code>普拉多</code>。
+![](/image/2016-06-25 18-00-09.jpg)</p><p>但是OpenSearch并不支持同义词的配置。</p><p>停用词是类似语气词【<code>啊</code>，<code>哦</code>，<code>啦</code>】，介词【<code>从</code>，<code>在</code>，<code>跟</code>，】等等无语意需要在分词的过程中过滤的词语，但是很遗憾OpenSearch并没有告诉我们哪些被他过滤了，我们也无法自己添加需要的过滤词语。
+<img src="/image/0bc30cd3cd513ce4b7ba0888641cb6d2.png?r=23" alt></p><h4 id=检索方式的不可控>检索方式的不可控</h4><p>OpenSearch对搜索默认进行了分词，但必须全部都匹配才返回搜索结果。如果我想要分词结果中任一条匹配即返回，OpenSearch是无法满足的。</p><p>以上的组合会带来许许多多错误结果，而且这些错误我们只能猜测，根本无法调试。
+举一个比较极端的例子，假如我输入了 <code>宝马北京</code>， OpenSearch替我分词为【<code>宝</code>，<code>马北</code>，<code>京</code>】，而且他的检索规则是这些分词结果都要得到匹配，那么很显然我们得不到我们想要的结果。因为<code>宝马</code>在品牌字段，<code>北京</code>在车源字段，马和北在创建索引时是不可能得到组合的。</p><h4 id=返回结果的排序不可控>返回结果的排序不可控</h4><p>作为一个商业搜索，用户对于他出现在搜索中的位置是很在意的，但是OpenSearch只能简单的通过字段的升降序方式排序。之前有一个需求是认证商家要展示在非认证商家之前，好，我们通过<code>is_verify</code>这个字段降序排了一把，结果1个月前的一个认证商家的可能是已经无效的车源数据，依然排在辛辛苦苦天天更新车源的一个非认证商家的前面，这个会严重打击商家的活跃积极性。后来我们又改了回来，只能根据更新时间排序，认证商家的车源即使发布时间很接近也会被排在后面。
 <img src="/image/c38c6187f7ca7c26b3fbf4b939a0ee20.png?r=27" alt>
 还有一点就是搜索结果的公平性：目前我输入<code>宝马</code>，结果中出来的前11条都是<code>北京腾达庆红汽车销售服务有限公司</code>的车源，这样对于其他车商显然是不公平的，换句话说，我们应该对提供同一个商品的不同商家在展示结果上做一定程度的打散。
-<img src="/image/7b78e4bb2921ef91db207d2fa58354e0.png?r=20" alt><img src="/image/7b78e4bb2921ef91db207d2fa58354e0.png?r=20" alt><img src="/image/7b78e4bb2921ef91db207d2fa58354e0.png?r=20" alt><img src="/image/7e861836715dbbab710087159cccccbb.png?r=20" alt></p>
-<h2 id=过去做过的努力>过去做过的努力</h2>
-<h3 id=同义词>同义词</h3>
-<p>OpenSearch的分词是不可信任的，所以我们在拿到用户输入的关键字之后，先到我们的同义词表进行检索，将匹配上的关键字转为更精确的搜索条件。比如我的同义词表定义了一项：宝马 => brandId=11，用户输入宝马之后，处理之后进入OpenSearch的是brandId为11这个条件。</p>
-<p>这个折衷的方案存在很多严重的缺陷：</p>
-<h4 id=语义丢失>语义丢失</h4>
-<p>假如有一家公司名字叫做：<code>杭州红宝马汽车销售有限公司</code>，他们老板输入了<code>红宝马</code>三个字，想要看一下他们公司的车，但是很遗憾，经过我们的同义词，<code>红</code>=>colorId=1，<code>宝马</code>=>brandId=11，进入了OpenSearch，显然这个老板永远也看不到他想要的结果。
-再比如之前出现过的一种情况，用户输入<code>奔驰GL</code>，他可能想搜中规的<code>奔驰GL车系</code>，也可能想搜平行进口的<code>奔驰GL400</code>，<code>奔驰GL500</code>等等的<code>奔驰GL</code>开头的车系，由于同义词定义了<code>奔驰GL</code>指向<code>奔驰GL车系</code>，导致用户搜不到平行进口的几个车系的车。</p>
-<h4 id=同义词提取问题>同义词提取问题</h4>
-<p>默认是通过空格划分提取同义词，但是如果用户输入的若干关键字未通过空格划分，会导致同义词完全匹配不上。
+<img src="/image/7b78e4bb2921ef91db207d2fa58354e0.png?r=20" alt><img src="/image/7b78e4bb2921ef91db207d2fa58354e0.png?r=20" alt><img src="/image/7b78e4bb2921ef91db207d2fa58354e0.png?r=20" alt><img src="/image/7e861836715dbbab710087159cccccbb.png?r=20" alt></p><h2 id=过去做过的努力>过去做过的努力</h2><h3 id=同义词>同义词</h3><p>OpenSearch的分词是不可信任的，所以我们在拿到用户输入的关键字之后，先到我们的同义词表进行检索，将匹配上的关键字转为更精确的搜索条件。比如我的同义词表定义了一项：宝马 => brandId=11，用户输入宝马之后，处理之后进入OpenSearch的是brandId为11这个条件。</p><p>这个折衷的方案存在很多严重的缺陷：</p><h4 id=语义丢失>语义丢失</h4><p>假如有一家公司名字叫做：<code>杭州红宝马汽车销售有限公司</code>，他们老板输入了<code>红宝马</code>三个字，想要看一下他们公司的车，但是很遗憾，经过我们的同义词，<code>红</code>=>colorId=1，<code>宝马</code>=>brandId=11，进入了OpenSearch，显然这个老板永远也看不到他想要的结果。
+再比如之前出现过的一种情况，用户输入<code>奔驰GL</code>，他可能想搜中规的<code>奔驰GL车系</code>，也可能想搜平行进口的<code>奔驰GL400</code>，<code>奔驰GL500</code>等等的<code>奔驰GL</code>开头的车系，由于同义词定义了<code>奔驰GL</code>指向<code>奔驰GL车系</code>，导致用户搜不到平行进口的几个车系的车。</p><h4 id=同义词提取问题>同义词提取问题</h4><p>默认是通过空格划分提取同义词，但是如果用户输入的若干关键字未通过空格划分，会导致同义词完全匹配不上。
 比如输入<code>霸道红</code>，可以看到虽然后台配置了<code>霸道</code>与<code>普拉多</code>是同义词，但是用户输入时没有通过空格分隔，这里并没有出来<code>普拉多</code>。
-<img src="/image/f418bc2c0cd5cb45138b6af3e61adfd9.png?r=30" alt></p>
-<h4 id=维护同义词成本>维护同义词成本</h4>
-<p>根据车系总量是1600条左右，车系的同义词就需要大于1600条，再加上颜色，区域，车规的同义词，同义词的数量对于人肉处理来说已经很庞大了（目前是2500条左右），出现新的意外情况都需要通过同义词排查，维护同义词。</p>
-<p>![](/image/2016-06-25 17-51-39.jpg)</p>
-<h4 id=检索效率>检索效率</h4>
-<p>用户输入的<strong>一个</strong>词，我们通过猜测，将这个词转换成了<strong>多个</strong>词或者<strong>多个</strong>查询条件，很影响查询的效率。
+<img src="/image/f418bc2c0cd5cb45138b6af3e61adfd9.png?r=30" alt></p><h4 id=维护同义词成本>维护同义词成本</h4><p>根据车系总量是1600条左右，车系的同义词就需要大于1600条，再加上颜色，区域，车规的同义词，同义词的数量对于人肉处理来说已经很庞大了（目前是2500条左右），出现新的意外情况都需要通过同义词排查，维护同义词。</p><p>![](/image/2016-06-25 17-51-39.jpg)</p><h4 id=检索效率>检索效率</h4><p>用户输入的<strong>一个</strong>词，我们通过猜测，将这个词转换成了<strong>多个</strong>词或者<strong>多个</strong>查询条件，很影响查询的效率。
 比如用户输入了<code>宝马5</code>，我们可能就需要把查询条件转化为：<code>宝马x5</code> || <code>宝马x5（平行进口）</code> || <code>宝马5系</code> || <code>宝马m5</code> || <code>宝马x5 m</code> &mldr;.
 目前我们是有200多条同一个关键词匹配多条记录的同义词，最多的有十几条：
-![](/image/2016-06-25 18-46-31.jpg)</p>
-<p>总的来说，我们想方设法在逻辑层修修补补，而OpenSearch扮演的角色充其量是一个首尾模糊like查询速度比较快的mysql而已。</p>
-<h1 id=elasticsearch>Elasticsearch</h1>
-<p>Elasticsearch是一个基于<code>Lucene</code>的开源，分布式全文检索引擎。<a href=https://github.com/elastic/elasticsearch>Github</a></p>
-<h2 id=基本的概念>基本的概念</h2>
-<h3 id=倒排索引--inverted-indexing>倒排索引 ： inverted indexing</h3>
-<p>Lucene采用倒排索引（inverted indexing）的方式创建索引。
+![](/image/2016-06-25 18-46-31.jpg)</p><p>总的来说，我们想方设法在逻辑层修修补补，而OpenSearch扮演的角色充其量是一个首尾模糊like查询速度比较快的mysql而已。</p><h1 id=elasticsearch>Elasticsearch</h1><p>Elasticsearch是一个基于<code>Lucene</code>的开源，分布式全文检索引擎。<a href=https://github.com/elastic/elasticsearch>Github</a></p><h2 id=基本的概念>基本的概念</h2><h3 id=倒排索引--inverted-indexing>倒排索引 ： inverted indexing</h3><p>Lucene采用倒排索引（inverted indexing）的方式创建索引。
 例如，每一篇文章都包含若干tag，通过反向创建索引，如果需要找出包含某个tag的文章，就无需遍历所有文章进行寻找。
-![](/image/2016-06-26 00-45-56.jpg)</p>
-<h3 id=相关度计算--tfidf>相关度计算 ： TF/IDF</h3>
-<p>Elasticsearch采用TF/IDF来计算文档与查询内容的的相关度。TF/IDF指的是<code>term frequency–inverse document frequency</code>，即出现频度-在倒排索引中的频度。可以简单的认为，查询关键字在一个文档中出现的次数越多，而且这个关键字在全部结果中出现的次数越少，这个文档的相关性就越强。
+![](/image/2016-06-26 00-45-56.jpg)</p><h3 id=相关度计算--tfidf>相关度计算 ： TF/IDF</h3><p>Elasticsearch采用TF/IDF来计算文档与查询内容的的相关度。TF/IDF指的是<code>term frequency–inverse document frequency</code>，即出现频度-在倒排索引中的频度。可以简单的认为，查询关键字在一个文档中出现的次数越多，而且这个关键字在全部结果中出现的次数越少，这个文档的相关性就越强。
 TF很直观就不解释了，IDF这个也不难理解，他表示一个在所有文档中出现次数越少的词，越有助于我们定位用户想要的查询结果。
 好比你到一家鱼铺去买鱼，你跟老板说你要一条<code>鱼</code>，他根本不知道你想要的是什么，因为几乎所有的鱼名字都带有<code>鱼</code>，即<code>鱼</code>在所有记录中出现的次数很多。但如果你跟老板说你要一条<code>鲫鱼</code>，老板马上就会给你捞一条鲫鱼，因为<code>鲫</code>这个字在记录中只出现了一次，这个词的匹配理应给这个记录带来很高的加分。
 再举个例子：
@@ -218,64 +30,26 @@ TF很直观就不解释了，IDF这个也不难理解，他表示一个在所有
 而有关<code>宝马</code>的部分显示：
 <code>4.177803 = idf(docFreq=4484, maxDocs=107613)</code>
 即<code>x6</code>这个词在全部<code>107613</code>个文档中出现了<code>4484</code>次，IDF得分是<code>4.177803</code>。
-![](/image/2016-06-26 01-26-57.jpg?r=63)</p>
-<p>Elasticsearch还给我们提供了很多方式来影响某条记录的最终得分从而影响结果的展示顺序，后面我们会具体讲到。</p>
-<h2 id=显著的提升>显著的提升</h2>
-<p>历史中的问题在Elasticsearch中都得到了比较完美的解决。</p>
-<h3 id=索引创建速度>索引创建速度</h3>
-<p>![](/image/2016-06-27 00-13-22.jpg)
-![](/image/2016-06-27 00-13-38.jpg)</p>
-<p>如图所示，<strong>20W</strong>条记录，每条记录包含<strong>55</strong>个字段，从创建数据库连接到索引建立完成，耗时不到3分钟。</p>
-<h3 id=准实时查询>准实时查询</h3>
-<p>添加到索引的记录可以实时被检索到。
+![](/image/2016-06-26 01-26-57.jpg?r=63)</p><p>Elasticsearch还给我们提供了很多方式来影响某条记录的最终得分从而影响结果的展示顺序，后面我们会具体讲到。</p><h2 id=显著的提升>显著的提升</h2><p>历史中的问题在Elasticsearch中都得到了比较完美的解决。</p><h3 id=索引创建速度>索引创建速度</h3><p>![](/image/2016-06-27 00-13-22.jpg)
+![](/image/2016-06-27 00-13-38.jpg)</p><p>如图所示，<strong>20W</strong>条记录，每条记录包含<strong>55</strong>个字段，从创建数据库连接到索引建立完成，耗时不到3分钟。</p><h3 id=准实时查询>准实时查询</h3><p>添加到索引的记录可以实时被检索到。
 目前采用的方式是通过<code>elasticsearch-jdbc</code>每隔10s从mysql中拉一次数据（是否采集通过gmt_modify判断），同步到<code>elasticseach</code>的索引中，所以一条记录从产生到可以响应查询的延时最差情况下是<code>10s + mysql查询耗时 + elasticsearch创建耗时 + 网络传输耗时</code>，一般不会超过15s。
 ![](/image/2016-06-26 01-49-12.jpg)
-存在的问题：</p>
-<ol>
-<li>需要定时轮询</li>
-<li>对时间准确的依赖</li>
-<li>多数据源的配置很麻烦</li>
-<li>实时性不够完美</li>
-</ol>
-<p>更好的方式：
-![](/image/2016-06-26 01-53-59.jpg)</p>
-<blockquote>
-<p>图片 from 卢栋@杭州码耘网络 Elasticsearch-jdbc介绍及基于binlog增量同步方案</p>
-</blockquote>
-<h3 id=准确可控的分词>准确，可控的分词</h3>
-<p>在Elasticsearch中，这个过程称为<code>Analyze</code>，我们平时说的<code>分词</code>其实只涵盖了其中的<code>Tokanizer</code>部分，这里姑且用<code>Elasticsearch分词</code>来指代一下整个<code>Analyze</code>过程。
+存在的问题：</p><ol><li>需要定时轮询</li><li>对时间准确的依赖</li><li>多数据源的配置很麻烦</li><li>实时性不够完美</li></ol><p>更好的方式：
+![](/image/2016-06-26 01-53-59.jpg)</p><blockquote><p>图片 from 卢栋@杭州码耘网络 Elasticsearch-jdbc介绍及基于binlog增量同步方案</p></blockquote><h3 id=准确可控的分词>准确，可控的分词</h3><p>在Elasticsearch中，这个过程称为<code>Analyze</code>，我们平时说的<code>分词</code>其实只涵盖了其中的<code>Tokanizer</code>部分，这里姑且用<code>Elasticsearch分词</code>来指代一下整个<code>Analyze</code>过程。
 Elasticsearch分词的整个过程如下：
-![](/image/2016-06-26 02-13-50.jpg)</p>
-<p>包含了<strong>多个character filter -> 一个tokenizer -> 多个token filter</strong>。
+![](/image/2016-06-26 02-13-50.jpg)</p><p>包含了<strong>多个character filter -> 一个tokenizer -> 多个token filter</strong>。
 其中：
 <code>character filter</code>在文档被进行分词之前对文档进行处理，官方定义了3个character filter，包含html字符的转义，根据正则替换特定字符，根据映射替换字符。
 <code>tokenizer</code>就是我们常说的分词了，用于将文档转为一个个token，这些token会被通过上文中的<code>inverted indexing</code>的方式创建索引。
-<code>token filter</code>用于分词器产生的token的处理，如添加同义词，过滤停用词，更细粒度划分等等。官方提供了许多非常实用的实现 ：<a href=https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenfilters.html>analysis-tokenfilters</a>。</p>
-<p>在这一步我们做了许多的优化，主要包含了：</p>
-<h4 id=同义词-1>同义词</h4>
-<p>注意这里的同义词的概念与之前很不一样。
+<code>token filter</code>用于分词器产生的token的处理，如添加同义词，过滤停用词，更细粒度划分等等。官方提供了许多非常实用的实现 ：<a href=https://www.elastic.co/guide/en/elasticsearch/reference/current/analysis-tokenfilters.html>analysis-tokenfilters</a>。</p><p>在这一步我们做了许多的优化，主要包含了：</p><h4 id=同义词-1>同义词</h4><p>注意这里的同义词的概念与之前很不一样。
 原来的同义词是在搜索的时候处理关键字：
-![](/image/2016-06-26 02-48-29.jpg)</p>
-<p>现在我们通过定义不同的<code>Elasticsearch分词</code>过程，只在添加索引记录时处理同义词：
-![](/image/2016-06-26 02-57-27.jpg)</p>
-<p>更好的方案：
+![](/image/2016-06-26 02-48-29.jpg)</p><p>现在我们通过定义不同的<code>Elasticsearch分词</code>过程，只在添加索引记录时处理同义词：
+![](/image/2016-06-26 02-57-27.jpg)</p><p>更好的方案：
 不仅在创建索引时添加同义词，而且根据用户的查询分析，在用户检索时添加同义词并赋予权重：
-![](/image/2016-06-26 03-27-27.jpg?r=81)</p>
-<blockquote>
-<p>图片 from 洪斌@有赞 ：有赞搜索引擎实践</p>
-</blockquote>
-<h4 id=词库维护>词库维护</h4>
-<p>在词库里面定义的词条，在分词过程中会被拆分为一个token，这样处理可以避免一些不必要的拆分导致搜索出现意外的结果。
+![](/image/2016-06-26 03-27-27.jpg?r=81)</p><blockquote><p>图片 from 洪斌@有赞 ：有赞搜索引擎实践</p></blockquote><h4 id=词库维护>词库维护</h4><p>在词库里面定义的词条，在分词过程中会被拆分为一个token，这样处理可以避免一些不必要的拆分导致搜索出现意外的结果。
 比如我们定义<code>宝马</code>为一个词条，在查询的过程中，<code>宝马</code>不会被进一步拆分为<code>宝</code>和<code>马</code>，从而搜出来<code>宝奥马汽车销售有限公司</code>这种结果。
 但是过多这样处理也是有风险的，比如我们定义了一条<code>x6 m</code>的词条，搜索的时候分词成<code>x6 m</code>，导致搜不出来<code>宝马X6 16款 3.0T M运动</code>这样的车。反而<code>x6m</code>能被分成<code>x6</code>和<code>m</code>，从而可以搜到这辆车。
-目前我们定义的同义词包含常用词约40W条，自定义词条：品牌名，车系名，车系名中去除品牌名的部分（负面效果比较大，打算去掉），省市县3级名称，车规名，内饰、外观颜色名，年款 共约1w条。</p>
-<h4 id=停用词>停用词</h4>
-<p>对分词产生的结果进行过滤，目前主要过滤了空格，<code>色</code>等。</p>
-<h4 id=指导价寻车>指导价寻车</h4>
-<p>需求是根据指导价的4位数字获取匹配指导价，比如：用户输入<code>2486</code>，需要匹配到指导价为<code>24.86万</code>的车，输入<code>1110</code>，需要匹配到指导价为<code>11.1万</code>的车。处理的方法是添加了两个根据正则匹配的<code>token filter</code>：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+目前我们定义的同义词包含常用词约40W条，自定义词条：品牌名，车系名，车系名中去除品牌名的部分（负面效果比较大，打算去掉），省市县3级名称，车规名，内饰、外观颜色名，年款 共约1w条。</p><h4 id=停用词>停用词</h4><p>对分词产生的结果进行过滤，目前主要过滤了空格，<code>色</code>等。</p><h4 id=指导价寻车>指导价寻车</h4><p>需求是根据指导价的4位数字获取匹配指导价，比如：用户输入<code>2486</code>，需要匹配到指导价为<code>24.86万</code>的车，输入<code>1110</code>，需要匹配到指导价为<code>11.1万</code>的车。处理的方法是添加了两个根据正则匹配的<code>token filter</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -284,182 +58,92 @@ Elasticsearch分词的整个过程如下：
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>char_filter :
-      price_patern :
-        type: pattern_replace
-        pattern: (\d{1,4})\.(\d{1,2})万
-        replacement: $1$2
-      price_patern2:
-        type: pattern_replace
-        pattern: (\d{1,4})\.(\d{1})万
-        replacement: $1 $2 0
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=排序的优化>排序的优化</h3>
-<p>在对查询结果进行排序的时候，已经不再是简单的存在与否的问题，而是查询结果与查询条件之间有多相关的问题。
-Elasticsearch中的相关度基于<code>score</code>来衡量。</p>
-<h4 id=tf-term-frequency>TF ：Term Frequency</h4>
-<p>关键字在某个文档出现的次数越多，得分越高：
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>char_filter :
+</span></span><span class=line><span class=cl>      price_patern :
+</span></span><span class=line><span class=cl>        type: pattern_replace
+</span></span><span class=line><span class=cl>        pattern: (\d{1,4})\.(\d{1,2})万
+</span></span><span class=line><span class=cl>        replacement: $1$2
+</span></span><span class=line><span class=cl>      price_patern2:
+</span></span><span class=line><span class=cl>        type: pattern_replace
+</span></span><span class=line><span class=cl>        pattern: (\d{1,4})\.(\d{1})万
+</span></span><span class=line><span class=cl>        replacement: $1 $2 0
+</span></span></code></pre></td></tr></table></div></div><h3 id=排序的优化>排序的优化</h3><p>在对查询结果进行排序的时候，已经不再是简单的存在与否的问题，而是查询结果与查询条件之间有多相关的问题。
+Elasticsearch中的相关度基于<code>score</code>来衡量。</p><h4 id=tf-term-frequency>TF ：Term Frequency</h4><p>关键字在某个文档出现的次数越多，得分越高：
 ![](/image/2016-06-26 14-14-06.jpg)
-实际的计算公式为 ： <strong>tf(t in d) = √frequency</strong></p>
-<h4 id=idf--inverse-document-frequency>IDF ： Inverse Document Frequency</h4>
-<p>某个关键字在全部文档中出现的次数越多，他的TF得分的权重就越低。
+实际的计算公式为 ： <strong>tf(t in d) = √frequency</strong></p><h4 id=idf--inverse-document-frequency>IDF ： Inverse Document Frequency</h4><p>某个关键字在全部文档中出现的次数越多，他的TF得分的权重就越低。
 比如在下面3句话中搜索 <code>the elasticsearch</code>：
 ![](/image/2016-06-26 14-23-35.jpg)
 假如没出现一次计1分，如果不考虑IDF，每句话的TF得分都是一样的 2 分。
-通过Inverse Document计算IDF ：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+通过Inverse Document计算IDF ：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>Token        |      Sentence    | IDF
-the        |      1，2，3      |  3
-elasticsearch        |      1，2 |  2
-</code></pre></td></tr></table>
-</div>
-</div><p>计算IDF后，第一句话的得分与第二句话的得分一致：1/2 + 1/3 = 5/6，第三句话的得分是2/3。
-实际的计算公式为 ： <strong>idf(t) = 1 + log ( numDocs / (docFreq + 1))</strong></p>
-<h4 id=field-length-norm>field-length norm</h4>
-<p>字段长度归约，同一个文档中存在的总token数量越少，匹配到查询token的得分就越高。
-实际的计算公式为：<strong>norm(d) = 1 / √numTerms</strong></p>
-<h4 id=tfidf>TF/IDF</h4>
-<p>lucene基于TF/IDF的<code>score</code>计算公式如下 ：</p>
-<blockquote>
-<p>score(q,d) = queryNorm(q) · coord(q,d) · ∑ (tf(t in d) · idf(t)² · t.getBoost()· norm(t,d) ) (t in q)
-<a href=https://www.elastic.co/guide/en/elasticsearch/guide/current/practical-scoring-function.html#query-norm>practical-scoring-function</a></p>
-</blockquote>
-<p>当然你还可以指定其他的相关度计算方法：</p>
-<ul>
-<li>Okapi BM25</li>
-<li>Divergence from randomness, or DFR similarity</li>
-<li>Information based, or IB similarity</li>
-<li>LM Dirichlet similarity</li>
-<li>LM Jelinek Mercer similarity</li>
-</ul>
-<p>![](/image/2016-06-26 15-06-58.jpg)</p>
-<h4 id=通过给字段设置boost影响score>通过给字段设置boost影响score</h4>
-<p>现有的查询是到多个字段中寻找匹配的。
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>Token        |      Sentence    | IDF
+</span></span><span class=line><span class=cl>the        |      1，2，3      |  3
+</span></span><span class=line><span class=cl>elasticsearch        |      1，2 |  2
+</span></span></code></pre></td></tr></table></div></div><p>计算IDF后，第一句话的得分与第二句话的得分一致：1/2 + 1/3 = 5/6，第三句话的得分是2/3。
+实际的计算公式为 ： <strong>idf(t) = 1 + log ( numDocs / (docFreq + 1))</strong></p><h4 id=field-length-norm>field-length norm</h4><p>字段长度归约，同一个文档中存在的总token数量越少，匹配到查询token的得分就越高。
+实际的计算公式为：<strong>norm(d) = 1 / √numTerms</strong></p><h4 id=tfidf>TF/IDF</h4><p>lucene基于TF/IDF的<code>score</code>计算公式如下 ：</p><blockquote><p>score(q,d) = queryNorm(q) · coord(q,d) · ∑ (tf(t in d) · idf(t)² · t.getBoost()· norm(t,d) ) (t in q)
+<a href=https://www.elastic.co/guide/en/elasticsearch/guide/current/practical-scoring-function.html#query-norm>practical-scoring-function</a></p></blockquote><p>当然你还可以指定其他的相关度计算方法：</p><ul><li>Okapi BM25</li><li>Divergence from randomness, or DFR similarity</li><li>Information based, or IB similarity</li><li>LM Dirichlet similarity</li><li>LM Jelinek Mercer similarity</li></ul><p>![](/image/2016-06-26 15-06-58.jpg)</p><h4 id=通过给字段设置boost影响score>通过给字段设置boost影响score</h4><p>现有的查询是到多个字段中寻找匹配的。
 比如我们搜索<code>北京</code>，<code>北京</code>这个关键字同时存在于<code>品牌</code>，<code>车系</code>，<code>车型</code>，<code>厂商</code>，<code>车源所在地</code>等字段中，如果我们想让<code>品牌</code>匹配上<code>北京</code>的结果出现在靠前的位置，我们可以通过给<code>品牌</code>这个字段设置一定的查询时提升（boost）。
 代码：
 ![](/image/2016-06-26 15-15-05.jpg)
 explain：
-![](/image/2016-06-26 15-16-16.jpg)</p>
-<h4 id=function-score-query>function score query</h4>
-<p>除了通过boost影响文本相关度的得分，我们还可以通过自定义函数的形式影响最终的得分，elsticsearch为我们提供了<code>function score query</code>来自定义我们的函数：<a href=https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-function-score-query.html>function-score-query</a>。</p>
-<h5 id=认证商家的提升>认证商家的提升</h5>
-<p>如果一条车源是认证商家发布的，<code>is_verify</code>字段为1，否则为0。
-通过<code>fieldValueFactorFunction</code>来处理<code>is_verify</code>字段，将这个字段的值作为函数的输入：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+![](/image/2016-06-26 15-16-16.jpg)</p><h4 id=function-score-query>function score query</h4><p>除了通过boost影响文本相关度的得分，我们还可以通过自定义函数的形式影响最终的得分，elsticsearch为我们提供了<code>function score query</code>来自定义我们的函数：<a href=https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-function-score-query.html>function-score-query</a>。</p><h5 id=认证商家的提升>认证商家的提升</h5><p>如果一条车源是认证商家发布的，<code>is_verify</code>字段为1，否则为0。
+通过<code>fieldValueFactorFunction</code>来处理<code>is_verify</code>字段，将这个字段的值作为函数的输入：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>FieldValueFactorFunctionBuilder verifyScore = ScoreFunctionBuilders.fieldValueFactorFunction(&#34;is_verify&#34;);
-verifyScore.factor(1.5f);// 字段的值乘上1.5 
-verifyScore.missing(0)；// 若字段为空返回0
-verifyScore.setWeight(getRedisOrDefault(WeightEnum.VERIFY.getKey(), 1));// 设置权重
-</code></pre></td></tr></table>
-</div>
-</div><h5 id=是否手工发布的处理>是否手工发布的处理</h5>
-<p>如果一条车源是手工发布发布的，<code>is_induce</code>字段为0，否则为1。
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>FieldValueFactorFunctionBuilder verifyScore = ScoreFunctionBuilders.fieldValueFactorFunction(&#34;is_verify&#34;);
+</span></span><span class=line><span class=cl>verifyScore.factor(1.5f);// 字段的值乘上1.5 
+</span></span><span class=line><span class=cl>verifyScore.missing(0)；// 若字段为空返回0
+</span></span><span class=line><span class=cl>verifyScore.setWeight(getRedisOrDefault(WeightEnum.VERIFY.getKey(), 1));// 设置权重
+</span></span></code></pre></td></tr></table></div></div><h5 id=是否手工发布的处理>是否手工发布的处理</h5><p>如果一条车源是手工发布发布的，<code>is_induce</code>字段为0，否则为1。
 通过定义一个线性函数（<code>inear</code>）来处理<code>is_induce</code>字段：
 函数：
 ![](/image/2016-06-26 15-35-22.jpg)
-代码：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>LinearDecayFunctionBuilder induceScore = ScoreFunctionBuilders.linearDecayFunction(&#34;is_induce&#34;, 0, 1);
-induceScore.setWeight(getRedisOrDefault(WeightEnum.INDUCE.getKey(), 1));
-</code></pre></td></tr></table>
-</div>
-</div><p>结果就是输入0返回1，输入1返回0。
-是否电议也是同样的处理方式。</p>
-<h5 id=更新时间的处理>更新时间的处理</h5>
-<p>更新时间的处理就不是单纯的线性关系，而更像一个梯形的函数：
-![](/image/2016-06-26 15-45-31.jpg)</p>
-<p>一天内发布的车源得分0.6，一天以外的的车源得分以0.6的速度衰减：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>LinearDecayFunctionBuilder induceScore = ScoreFunctionBuilders.linearDecayFunction(&#34;is_induce&#34;, 0, 1);
+</span></span><span class=line><span class=cl>induceScore.setWeight(getRedisOrDefault(WeightEnum.INDUCE.getKey(), 1));
+</span></span></code></pre></td></tr></table></div></div><p>结果就是输入0返回1，输入1返回0。
+是否电议也是同样的处理方式。</p><h5 id=更新时间的处理>更新时间的处理</h5><p>更新时间的处理就不是单纯的线性关系，而更像一个梯形的函数：
+![](/image/2016-06-26 15-45-31.jpg)</p><p>一天内发布的车源得分0.6，一天以外的的车源得分以0.6的速度衰减：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>LinearDecayFunctionBuilder updateDateScore = ScoreFunctionBuilders.linearDecayFunction(&#34;modify&#34;,&#34;1d&#34;);
-updateDateScore.setOffset(&#34;2d&#34;);
-updateDateScore.setDecay(0.6);
-updateDateScore.setWeight(getRedisOrDefault(WeightEnum.DATE.getKey(), 1));
-</code></pre></td></tr></table>
-</div>
-</div><h5 id=结果打散>结果打散</h5>
-<p>通过random_score来获取一个随机的分数，这个分数可以基于一个特定的数字（用户的sessionid）产生，确保同一个session获取的随机分是一致的，不会出现翻页后结果错乱的问题。</p>
-<h4 id=组合>组合</h4>
-<p><code>function score</code>设置的多个函数的结果可以通过下列形式进行组合（<code>score_mode</code>）：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>LinearDecayFunctionBuilder updateDateScore = ScoreFunctionBuilders.linearDecayFunction(&#34;modify&#34;,&#34;1d&#34;);
+</span></span><span class=line><span class=cl>updateDateScore.setOffset(&#34;2d&#34;);
+</span></span><span class=line><span class=cl>updateDateScore.setDecay(0.6);
+</span></span><span class=line><span class=cl>updateDateScore.setWeight(getRedisOrDefault(WeightEnum.DATE.getKey(), 1));
+</span></span></code></pre></td></tr></table></div></div><h5 id=结果打散>结果打散</h5><p>通过random_score来获取一个随机的分数，这个分数可以基于一个特定的数字（用户的sessionid）产生，确保同一个session获取的随机分是一致的，不会出现翻页后结果错乱的问题。</p><h4 id=组合>组合</h4><p><code>function score</code>设置的多个函数的结果可以通过下列形式进行组合（<code>score_mode</code>）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
 </span><span class=lnt>7
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>运算符| 操作
-multiply   |   （默认）得分进行乘积运算
-sum   |   求和
-avg   |   平均
-first   |   取第一个函数结果
-max   |   取最大
-min   |   取最小
-</code></pre></td></tr></table>
-</div>
-</div><p>组合的时候可以通过设置<code>weight</code>权重来控制每个函数对结果的影响。</p>
-<p><code>function score</code>的最终结果可以通过下列形式组合到TF/IDF得分上（<code>boost_mode</code>）：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>运算符| 操作
+</span></span><span class=line><span class=cl>multiply   |   （默认）得分进行乘积运算
+</span></span><span class=line><span class=cl>sum   |   求和
+</span></span><span class=line><span class=cl>avg   |   平均
+</span></span><span class=line><span class=cl>first   |   取第一个函数结果
+</span></span><span class=line><span class=cl>max   |   取最大
+</span></span><span class=line><span class=cl>min   |   取最小
+</span></span></code></pre></td></tr></table></div></div><p>组合的时候可以通过设置<code>weight</code>权重来控制每个函数对结果的影响。</p><p><code>function score</code>的最终结果可以通过下列形式组合到TF/IDF得分上（<code>boost_mode</code>）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
 </span><span class=lnt>6
 </span><span class=lnt>7
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>运算符| 操作
-multiply   |   （默认）得分进行乘积运算
-replace | 仅使用function score query的得分，忽略TF/IDF得分
-sum   |   求和
-avg   |   平均
-max   |   取最大
-min   |   取最小
-</code></pre></td></tr></table>
-</div>
-</div><p>目前采用的方式是：<code>score_mode</code>=sum，<code>boost_mode</code>=multiply，主要基于以下考虑：</p>
-<ul>
-<li>我们自定义function中存在输出为0的函数，比如控制<code>is_verify</code>的函数，如果函数之间的组合采用乘积的形式会抹去其他函数的作用，所以使用求和方式比较合适。</li>
-<li>相关度的得分没有做归一化处理，分散在0~10之间，所以与function score query的得分进行组合使用乘积比较合理。</li>
-</ul>
-<h4 id=读懂得分>读懂得分</h4>
-<p>以下是输入<code>宝马 中规</code>出来结果第一条的得分：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>运算符| 操作
+</span></span><span class=line><span class=cl>multiply   |   （默认）得分进行乘积运算
+</span></span><span class=line><span class=cl>replace | 仅使用function score query的得分，忽略TF/IDF得分
+</span></span><span class=line><span class=cl>sum   |   求和
+</span></span><span class=line><span class=cl>avg   |   平均
+</span></span><span class=line><span class=cl>max   |   取最大
+</span></span><span class=line><span class=cl>min   |   取最小
+</span></span></code></pre></td></tr></table></div></div><p>目前采用的方式是：<code>score_mode</code>=sum，<code>boost_mode</code>=multiply，主要基于以下考虑：</p><ul><li>我们自定义function中存在输出为0的函数，比如控制<code>is_verify</code>的函数，如果函数之间的组合采用乘积的形式会抹去其他函数的作用，所以使用求和方式比较合适。</li><li>相关度的得分没有做归一化处理，分散在0~10之间，所以与function score query的得分进行组合使用乘积比较合理。</li></ul><h4 id=读懂得分>读懂得分</h4><p>以下是输入<code>宝马 中规</code>出来结果第一条的得分：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -528,90 +212,80 @@ min   |   取最小
 </span><span class=lnt>67
 </span><span class=lnt>68
 </span><span class=lnt>69
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>  1.7160147 = function score, product of:
-  0.8580074 = sum of:
-    0.8580074 = sum of:
-      0.36771744 = max of:
-        0.18385872 = weight(model_name:宝马 in 30025) [PerFieldSimilarity], result of:
-          0.18385872 = score(doc=30025,freq=1.0), product of:
-            0.23471184 = queryWeight, product of:
-              2.0 = boost
-              4.177803 = idf(docFreq=4484, maxDocs=107613)
-              0.028090343 = queryNorm
-            0.78333807 = fieldWeight in 30025, product of:
-              1.0 = tf(freq=1.0), with freq of:
-                1.0 = termFreq=1.0
-              4.177803 = idf(docFreq=4484, maxDocs=107613)
-              0.1875 = fieldNorm(doc=30025)
-        0.36771744 = weight(series_name:宝马 in 30025) [PerFieldSimilarity], result of:
-          0.36771744 = score(doc=30025,freq=1.0), product of:
-            0.23471184 = queryWeight, product of:
-              2.0 = boost
-              4.177803 = idf(docFreq=4484, maxDocs=107613)
-              0.028090343 = queryNorm
-            1.5666761 = fieldWeight in 30025, product of:
-              1.0 = tf(freq=1.0), with freq of:
-                1.0 = termFreq=1.0
-              4.177803 = idf(docFreq=4484, maxDocs=107613)
-              0.375 = fieldNorm(doc=30025)
-      0.49028993 = max of:
-        0.49028993 = weight(spec_name:中规 in 30025) [PerFieldSimilarity], result of:
-          0.49028993 = score(doc=30025,freq=1.0), product of:
-            0.23471184 = queryWeight, product of:
-              2.0 = boost
-              4.177803 = idf(docFreq=4484, maxDocs=107613)
-              0.028090343 = queryNorm
-            2.0889015 = fieldWeight in 30025, product of:
-              1.0 = tf(freq=1.0), with freq of:
-                1.0 = termFreq=1.0
-              4.177803 = idf(docFreq=4484, maxDocs=107613)
-              0.5 = fieldNorm(doc=30025)
-    0.0 = match on required clause, product of:
-      0.0 = # clause
-      0.028090343 = #is_deleted:  #sku_status: , product of:
-        1.0 = boost
-        0.028090343 = queryNorm
-  2.0 = min of:
-    2.0 = function score, score mode [sum]
-      0.0 = function score, product of:
-        1.0 = match filter: *:*
-        0.0 = product of:
-          0.0 = field value function: none(doc[&#39;is_verify&#39;].value?:0.0 * factor=1.5)
-          0.0 = weight
-      0.0 = function score, product of:
-        1.0 = match filter: *:*
-        0.0 = product of:
-          0.0 = Function for field modify:
-            0.0 = max(0.0, ((2.16E8 - MIN[Math.max(Math.abs(1.46647956E12(=doc value) - 1.466928806432E12(=origin))) - 1.728E8(=offset), 0)])/2.16E8)
-          1.0 = weight
-      1.0 = function score, product of:
-        1.0 = match filter: *:*
-        1.0 = product of:
-          1.0 = Function for field is_dianyi:
-            1.0 = max(0.0, ((2.0 - MIN[Math.max(Math.abs(0.0(=doc value) - 0.0(=origin))) - 0.0(=offset), 0)])/2.0)
-          1.0 = weight
-      1.0 = function score, product of:
-        1.0 = match filter: *:*
-        1.0 = product of:
-          1.0 = Function for field is_induce:
-            1.0 = max(0.0, ((2.0 - MIN[Math.max(Math.abs(0.0(=doc value) - 0.0(=origin))) - 0.0(=offset), 0)])/2.0)
-          1.0 = weight
-    3.4028235E38 = maxBoost
-</code></pre></td></tr></table>
-</div>
-</div><h3 id=筛选功能的优化>筛选功能的优化</h3>
-<h4 id=筛选条件的获取>筛选条件的获取</h4>
-<p>目前我们获取筛选条件的方式是通过<code>select distinct()</code>的方式。
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>  1.7160147 = function score, product of:
+</span></span><span class=line><span class=cl>  0.8580074 = sum of:
+</span></span><span class=line><span class=cl>    0.8580074 = sum of:
+</span></span><span class=line><span class=cl>      0.36771744 = max of:
+</span></span><span class=line><span class=cl>        0.18385872 = weight(model_name:宝马 in 30025) [PerFieldSimilarity], result of:
+</span></span><span class=line><span class=cl>          0.18385872 = score(doc=30025,freq=1.0), product of:
+</span></span><span class=line><span class=cl>            0.23471184 = queryWeight, product of:
+</span></span><span class=line><span class=cl>              2.0 = boost
+</span></span><span class=line><span class=cl>              4.177803 = idf(docFreq=4484, maxDocs=107613)
+</span></span><span class=line><span class=cl>              0.028090343 = queryNorm
+</span></span><span class=line><span class=cl>            0.78333807 = fieldWeight in 30025, product of:
+</span></span><span class=line><span class=cl>              1.0 = tf(freq=1.0), with freq of:
+</span></span><span class=line><span class=cl>                1.0 = termFreq=1.0
+</span></span><span class=line><span class=cl>              4.177803 = idf(docFreq=4484, maxDocs=107613)
+</span></span><span class=line><span class=cl>              0.1875 = fieldNorm(doc=30025)
+</span></span><span class=line><span class=cl>        0.36771744 = weight(series_name:宝马 in 30025) [PerFieldSimilarity], result of:
+</span></span><span class=line><span class=cl>          0.36771744 = score(doc=30025,freq=1.0), product of:
+</span></span><span class=line><span class=cl>            0.23471184 = queryWeight, product of:
+</span></span><span class=line><span class=cl>              2.0 = boost
+</span></span><span class=line><span class=cl>              4.177803 = idf(docFreq=4484, maxDocs=107613)
+</span></span><span class=line><span class=cl>              0.028090343 = queryNorm
+</span></span><span class=line><span class=cl>            1.5666761 = fieldWeight in 30025, product of:
+</span></span><span class=line><span class=cl>              1.0 = tf(freq=1.0), with freq of:
+</span></span><span class=line><span class=cl>                1.0 = termFreq=1.0
+</span></span><span class=line><span class=cl>              4.177803 = idf(docFreq=4484, maxDocs=107613)
+</span></span><span class=line><span class=cl>              0.375 = fieldNorm(doc=30025)
+</span></span><span class=line><span class=cl>      0.49028993 = max of:
+</span></span><span class=line><span class=cl>        0.49028993 = weight(spec_name:中规 in 30025) [PerFieldSimilarity], result of:
+</span></span><span class=line><span class=cl>          0.49028993 = score(doc=30025,freq=1.0), product of:
+</span></span><span class=line><span class=cl>            0.23471184 = queryWeight, product of:
+</span></span><span class=line><span class=cl>              2.0 = boost
+</span></span><span class=line><span class=cl>              4.177803 = idf(docFreq=4484, maxDocs=107613)
+</span></span><span class=line><span class=cl>              0.028090343 = queryNorm
+</span></span><span class=line><span class=cl>            2.0889015 = fieldWeight in 30025, product of:
+</span></span><span class=line><span class=cl>              1.0 = tf(freq=1.0), with freq of:
+</span></span><span class=line><span class=cl>                1.0 = termFreq=1.0
+</span></span><span class=line><span class=cl>              4.177803 = idf(docFreq=4484, maxDocs=107613)
+</span></span><span class=line><span class=cl>              0.5 = fieldNorm(doc=30025)
+</span></span><span class=line><span class=cl>    0.0 = match on required clause, product of:
+</span></span><span class=line><span class=cl>      0.0 = # clause
+</span></span><span class=line><span class=cl>      0.028090343 = #is_deleted:  #sku_status: , product of:
+</span></span><span class=line><span class=cl>        1.0 = boost
+</span></span><span class=line><span class=cl>        0.028090343 = queryNorm
+</span></span><span class=line><span class=cl>  2.0 = min of:
+</span></span><span class=line><span class=cl>    2.0 = function score, score mode [sum]
+</span></span><span class=line><span class=cl>      0.0 = function score, product of:
+</span></span><span class=line><span class=cl>        1.0 = match filter: *:*
+</span></span><span class=line><span class=cl>        0.0 = product of:
+</span></span><span class=line><span class=cl>          0.0 = field value function: none(doc[&#39;is_verify&#39;].value?:0.0 * factor=1.5)
+</span></span><span class=line><span class=cl>          0.0 = weight
+</span></span><span class=line><span class=cl>      0.0 = function score, product of:
+</span></span><span class=line><span class=cl>        1.0 = match filter: *:*
+</span></span><span class=line><span class=cl>        0.0 = product of:
+</span></span><span class=line><span class=cl>          0.0 = Function for field modify:
+</span></span><span class=line><span class=cl>            0.0 = max(0.0, ((2.16E8 - MIN[Math.max(Math.abs(1.46647956E12(=doc value) - 1.466928806432E12(=origin))) - 1.728E8(=offset), 0)])/2.16E8)
+</span></span><span class=line><span class=cl>          1.0 = weight
+</span></span><span class=line><span class=cl>      1.0 = function score, product of:
+</span></span><span class=line><span class=cl>        1.0 = match filter: *:*
+</span></span><span class=line><span class=cl>        1.0 = product of:
+</span></span><span class=line><span class=cl>          1.0 = Function for field is_dianyi:
+</span></span><span class=line><span class=cl>            1.0 = max(0.0, ((2.0 - MIN[Math.max(Math.abs(0.0(=doc value) - 0.0(=origin))) - 0.0(=offset), 0)])/2.0)
+</span></span><span class=line><span class=cl>          1.0 = weight
+</span></span><span class=line><span class=cl>      1.0 = function score, product of:
+</span></span><span class=line><span class=cl>        1.0 = match filter: *:*
+</span></span><span class=line><span class=cl>        1.0 = product of:
+</span></span><span class=line><span class=cl>          1.0 = Function for field is_induce:
+</span></span><span class=line><span class=cl>            1.0 = max(0.0, ((2.0 - MIN[Math.max(Math.abs(0.0(=doc value) - 0.0(=origin))) - 0.0(=offset), 0)])/2.0)
+</span></span><span class=line><span class=cl>          1.0 = weight
+</span></span><span class=line><span class=cl>    3.4028235E38 = maxBoost
+</span></span></code></pre></td></tr></table></div></div><h3 id=筛选功能的优化>筛选功能的优化</h3><h4 id=筛选条件的获取>筛选条件的获取</h4><p>目前我们获取筛选条件的方式是通过<code>select distinct()</code>的方式。
 比如搜索<code>宝马</code>，如果想要获取搜索结果中所有的车规种类，需要进行一次<code>select distinct(spec) from table where keyword='宝马'</code>查询。
 每次查询都需要额外对 <code>车规</code>， <code>车系</code>， <code>外观颜色</code> 字段分别做一次select distinct查询，才能获取所有的筛选条件。
-<img src="/image/3c42bee4bb90aeb97db515565372e391.png?r=33" alt></p>
-<p>elasticsearch为我们提供了<code>聚合（aggregation）</code>功能，可以在返回查询结果的同时，返回指定字段（可多个）的所有聚合结果。
-如选择<code>车规</code>和<code>外观颜色</code>进行聚合：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+<img src="/image/3c42bee4bb90aeb97db515565372e391.png?r=33" alt></p><p>elasticsearch为我们提供了<code>聚合（aggregation）</code>功能，可以在返回查询结果的同时，返回指定字段（可多个）的所有聚合结果。
+如选择<code>车规</code>和<code>外观颜色</code>进行聚合：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -632,37 +306,28 @@ min   |   取最小
 </span><span class=lnt>19
 </span><span class=lnt>20
 </span><span class=lnt>21
-</span><span class=lnt>22
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>POST /car4/car/_search
-{
-  &#34;query&#34;: {
-    &#34;match_all&#34;: {
-    }
-  },
-  &#34;size&#34;: 1, 
-  &#34;aggs&#34;: {
-    &#34;spec&#34;: {
-      &#34;terms&#34;: {
-        &#34;field&#34;: &#34;spec_name.raw&#34;,
-        &#34;size&#34;: 2
-      }
-    },
-    &#34;color&#34; : {
-      &#34;terms&#34;: {
-      &#34;field&#34;: &#34;outer_color_name.raw&#34;,
-      &#34;size&#34;: 2
-    }}
-  }
-}
-
-</code></pre></td></tr></table>
-</div>
-</div><p>查询结果：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>POST /car4/car/_search
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  &#34;query&#34;: {
+</span></span><span class=line><span class=cl>    &#34;match_all&#34;: {
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>  },
+</span></span><span class=line><span class=cl>  &#34;size&#34;: 1, 
+</span></span><span class=line><span class=cl>  &#34;aggs&#34;: {
+</span></span><span class=line><span class=cl>    &#34;spec&#34;: {
+</span></span><span class=line><span class=cl>      &#34;terms&#34;: {
+</span></span><span class=line><span class=cl>        &#34;field&#34;: &#34;spec_name.raw&#34;,
+</span></span><span class=line><span class=cl>        &#34;size&#34;: 2
+</span></span><span class=line><span class=cl>      }
+</span></span><span class=line><span class=cl>    },
+</span></span><span class=line><span class=cl>    &#34;color&#34; : {
+</span></span><span class=line><span class=cl>      &#34;terms&#34;: {
+</span></span><span class=line><span class=cl>      &#34;field&#34;: &#34;outer_color_name.raw&#34;,
+</span></span><span class=line><span class=cl>      &#34;size&#34;: 2
+</span></span><span class=line><span class=cl>    }}
+</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>查询结果：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
 </span><span class=lnt>  2
 </span><span class=lnt>  3
 </span><span class=lnt>  4
@@ -766,135 +431,119 @@ min   |   取最小
 </span><span class=lnt>102
 </span><span class=lnt>103
 </span><span class=lnt>104
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>{
-  &#34;took&#34;: 21,
-  &#34;timed_out&#34;: false,
-  &#34;_shards&#34;: {
-    &#34;total&#34;: 1,
-    &#34;successful&#34;: 1,
-    &#34;failed&#34;: 0
-  },
-  &#34;hits&#34;: {
-    &#34;total&#34;: 201211,
-    &#34;max_score&#34;: 1,
-    &#34;hits&#34;: [
-      {
-        &#34;_index&#34;: &#34;car4&#34;,
-        &#34;_type&#34;: &#34;car&#34;,
-        &#34;_id&#34;: &#34;282884&#34;,
-        &#34;_score&#34;: 1,
-        &#34;_source&#34;: {
-          &#34;car_id&#34;: 282884,
-          &#34;seller_id&#34;: 32,
-          &#34;series_name&#34;: null,
-          &#34;model_name&#34;: null,
-          &#34;custom_model&#34;: &#34;17款 GLS450&#34;,
-          &#34;inner_color_name&#34;: &#34;黑&#34;,
-          &#34;outer_color_name&#34;: &#34;黑&#34;,
-          &#34;send_city&#34;: null,
-          &#34;seller_price&#34;: 115000000,
-          &#34;corp_name&#34;: &#34;精英（大连）汽车贸易有限公司&#34;,
-          &#34;spec_name&#34;: &#34;平行进口&#34;,
-          &#34;spec&#34;: 7,
-          &#34;is_induce&#34;: 1,
-          &#34;is_verify&#34;: 1,
-          &#34;modify&#34;: &#34;2016-05-30T21:24:56.000+08:00&#34;,
-          &#34;gmt_create&#34;: &#34;2016-05-12T19:55:46.000+08:00&#34;,
-          &#34;price_adjust_way&#34;: 1,
-          &#34;inner_color_id&#34;: -1,
-          &#34;outer_color_id&#34;: -1,
-          &#34;car_source&#34;: 0,
-          &#34;car_type&#34;: 3,
-          &#34;series_id&#34;: 2002,
-          &#34;brand_id&#34;: 14,
-          &#34;model_id&#34;: -1,
-          &#34;configure&#34;: &#34;17款，大窗，P01，19轮，防盗螺丝，氙灯，灰色顶篷，二排易入，照明脚踏，后娱预留，车道包，停车辅助包&#34;,
-          &#34;car_area&#34;: null,
-          &#34;car_status&#34;: &#34;2016/7/30预计到港&#34;,
-          &#34;reach_date&#34;: null,
-          &#34;formalities_status&#34;: null,
-          &#34;sku_status&#34;: 1,
-          &#34;invoice_price&#34;: null,
-          &#34;car_unique&#34;: &#34;7615&#34;,
-          &#34;img_url&#34;: null,
-          &#34;benchmark&#34;: null,
-          &#34;fuel&#34;: 1,
-          &#34;quantity&#34;: 1,
-          &#34;insurance&#34;: null,
-          &#34;remark&#34;: null,
-          &#34;sanbao&#34;: null,
-          &#34;custom_formality&#34;: null,
-          &#34;custom_area&#34;: null,
-          &#34;config_price&#34;: null,
-          &#34;by_template&#34;: 0,
-          &#34;price_adjust_val&#34;: &#34;-1&#34;,
-          &#34;is_dianyi&#34;: 0,
-          &#34;ext_id&#34;: null,
-          &#34;creator&#34;: 78,
-          &#34;guide_price&#34;: null,
-          &#34;guide_price_na&#34;: null,
-          &#34;is_deleted&#34;: 1,
-          &#34;send_city_pre&#34;: null
-        }
-      }
-    ]
-  },
-  &#34;aggregations&#34;: {
-    &#34;color&#34;: {
-      &#34;doc_count_error_upper_bound&#34;: 0,
-      &#34;sum_other_doc_count&#34;: 97885,
-      &#34;buckets&#34;: [
-        {
-          &#34;key&#34;: &#34;白&#34;,
-          &#34;doc_count&#34;: 54875
-        },
-        {
-          &#34;key&#34;: &#34;黑&#34;,
-          &#34;doc_count&#34;: 48376
-        }
-      ]
-    },
-    &#34;spec&#34;: {
-      &#34;doc_count_error_upper_bound&#34;: 0,
-      &#34;sum_other_doc_count&#34;: 55099,
-      &#34;buckets&#34;: [
-        {
-          &#34;key&#34;: &#34;中规&#34;,
-          &#34;doc_count&#34;: 121437
-        },
-        {
-          &#34;key&#34;: &#34;国产&#34;,
-          &#34;doc_count&#34;: 24675
-        }
-      ]
-    }
-  }
-}
-</code></pre></td></tr></table>
-</div>
-</div><h4 id=筛选条件的构建>筛选条件的构建</h4>
-<p>限于目前客户端的显示，查询条件需要通过后台返回<code>id+name</code>的形式来构建查询条件，但是如果通过聚合来实现筛选，只能返回聚合字段的值。
-比如要创建车规的筛选条件，就需要通过车规id（spec_id）或者车规名字（spec_name）来进行聚合。如果通过车规id（spec_id）来聚合，返回的结果就是：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  &#34;took&#34;: 21,
+</span></span><span class=line><span class=cl>  &#34;timed_out&#34;: false,
+</span></span><span class=line><span class=cl>  &#34;_shards&#34;: {
+</span></span><span class=line><span class=cl>    &#34;total&#34;: 1,
+</span></span><span class=line><span class=cl>    &#34;successful&#34;: 1,
+</span></span><span class=line><span class=cl>    &#34;failed&#34;: 0
+</span></span><span class=line><span class=cl>  },
+</span></span><span class=line><span class=cl>  &#34;hits&#34;: {
+</span></span><span class=line><span class=cl>    &#34;total&#34;: 201211,
+</span></span><span class=line><span class=cl>    &#34;max_score&#34;: 1,
+</span></span><span class=line><span class=cl>    &#34;hits&#34;: [
+</span></span><span class=line><span class=cl>      {
+</span></span><span class=line><span class=cl>        &#34;_index&#34;: &#34;car4&#34;,
+</span></span><span class=line><span class=cl>        &#34;_type&#34;: &#34;car&#34;,
+</span></span><span class=line><span class=cl>        &#34;_id&#34;: &#34;282884&#34;,
+</span></span><span class=line><span class=cl>        &#34;_score&#34;: 1,
+</span></span><span class=line><span class=cl>        &#34;_source&#34;: {
+</span></span><span class=line><span class=cl>          &#34;car_id&#34;: 282884,
+</span></span><span class=line><span class=cl>          &#34;seller_id&#34;: 32,
+</span></span><span class=line><span class=cl>          &#34;series_name&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;model_name&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;custom_model&#34;: &#34;17款 GLS450&#34;,
+</span></span><span class=line><span class=cl>          &#34;inner_color_name&#34;: &#34;黑&#34;,
+</span></span><span class=line><span class=cl>          &#34;outer_color_name&#34;: &#34;黑&#34;,
+</span></span><span class=line><span class=cl>          &#34;send_city&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;seller_price&#34;: 115000000,
+</span></span><span class=line><span class=cl>          &#34;corp_name&#34;: &#34;精英（大连）汽车贸易有限公司&#34;,
+</span></span><span class=line><span class=cl>          &#34;spec_name&#34;: &#34;平行进口&#34;,
+</span></span><span class=line><span class=cl>          &#34;spec&#34;: 7,
+</span></span><span class=line><span class=cl>          &#34;is_induce&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;is_verify&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;modify&#34;: &#34;2016-05-30T21:24:56.000+08:00&#34;,
+</span></span><span class=line><span class=cl>          &#34;gmt_create&#34;: &#34;2016-05-12T19:55:46.000+08:00&#34;,
+</span></span><span class=line><span class=cl>          &#34;price_adjust_way&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;inner_color_id&#34;: -1,
+</span></span><span class=line><span class=cl>          &#34;outer_color_id&#34;: -1,
+</span></span><span class=line><span class=cl>          &#34;car_source&#34;: 0,
+</span></span><span class=line><span class=cl>          &#34;car_type&#34;: 3,
+</span></span><span class=line><span class=cl>          &#34;series_id&#34;: 2002,
+</span></span><span class=line><span class=cl>          &#34;brand_id&#34;: 14,
+</span></span><span class=line><span class=cl>          &#34;model_id&#34;: -1,
+</span></span><span class=line><span class=cl>          &#34;configure&#34;: &#34;17款，大窗，P01，19轮，防盗螺丝，氙灯，灰色顶篷，二排易入，照明脚踏，后娱预留，车道包，停车辅助包&#34;,
+</span></span><span class=line><span class=cl>          &#34;car_area&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;car_status&#34;: &#34;2016/7/30预计到港&#34;,
+</span></span><span class=line><span class=cl>          &#34;reach_date&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;formalities_status&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;sku_status&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;invoice_price&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;car_unique&#34;: &#34;7615&#34;,
+</span></span><span class=line><span class=cl>          &#34;img_url&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;benchmark&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;fuel&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;quantity&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;insurance&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;remark&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;sanbao&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;custom_formality&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;custom_area&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;config_price&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;by_template&#34;: 0,
+</span></span><span class=line><span class=cl>          &#34;price_adjust_val&#34;: &#34;-1&#34;,
+</span></span><span class=line><span class=cl>          &#34;is_dianyi&#34;: 0,
+</span></span><span class=line><span class=cl>          &#34;ext_id&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;creator&#34;: 78,
+</span></span><span class=line><span class=cl>          &#34;guide_price&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;guide_price_na&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;is_deleted&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;send_city_pre&#34;: null
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>      }
+</span></span><span class=line><span class=cl>    ]
+</span></span><span class=line><span class=cl>  },
+</span></span><span class=line><span class=cl>  &#34;aggregations&#34;: {
+</span></span><span class=line><span class=cl>    &#34;color&#34;: {
+</span></span><span class=line><span class=cl>      &#34;doc_count_error_upper_bound&#34;: 0,
+</span></span><span class=line><span class=cl>      &#34;sum_other_doc_count&#34;: 97885,
+</span></span><span class=line><span class=cl>      &#34;buckets&#34;: [
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>          &#34;key&#34;: &#34;白&#34;,
+</span></span><span class=line><span class=cl>          &#34;doc_count&#34;: 54875
+</span></span><span class=line><span class=cl>        },
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>          &#34;key&#34;: &#34;黑&#34;,
+</span></span><span class=line><span class=cl>          &#34;doc_count&#34;: 48376
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>      ]
+</span></span><span class=line><span class=cl>    },
+</span></span><span class=line><span class=cl>    &#34;spec&#34;: {
+</span></span><span class=line><span class=cl>      &#34;doc_count_error_upper_bound&#34;: 0,
+</span></span><span class=line><span class=cl>      &#34;sum_other_doc_count&#34;: 55099,
+</span></span><span class=line><span class=cl>      &#34;buckets&#34;: [
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>          &#34;key&#34;: &#34;中规&#34;,
+</span></span><span class=line><span class=cl>          &#34;doc_count&#34;: 121437
+</span></span><span class=line><span class=cl>        },
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>          &#34;key&#34;: &#34;国产&#34;,
+</span></span><span class=line><span class=cl>          &#34;doc_count&#34;: 24675
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>      ]
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h4 id=筛选条件的构建>筛选条件的构建</h4><p>限于目前客户端的显示，查询条件需要通过后台返回<code>id+name</code>的形式来构建查询条件，但是如果通过聚合来实现筛选，只能返回聚合字段的值。
+比如要创建车规的筛选条件，就需要通过车规id（spec_id）或者车规名字（spec_name）来进行聚合。如果通过车规id（spec_id）来聚合，返回的结果就是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>spec_id=1,count=10;
-spec_id=2,count=20;
-...
-</code></pre></td></tr></table>
-</div>
-</div><p>这样的结果，如果通过车规名字（spec_name）来聚合，同样只能返回以spec_name划分的数量。如果我同时需要id和name，就需要自己再进行翻译处理。</p>
-<p>在客户端逻辑不变的前提下，想出了一种解决的方式：每次聚合的同时取一条<code>tophit</code>，以这条tophit的id或者name来构建筛选条件。
-查询条件：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>spec_id=1,count=10;
+</span></span><span class=line><span class=cl>spec_id=2,count=20;
+</span></span><span class=line><span class=cl>...
+</span></span></code></pre></td></tr></table></div></div><p>这样的结果，如果通过车规名字（spec_name）来聚合，同样只能返回以spec_name划分的数量。如果我同时需要id和name，就需要自己再进行翻译处理。</p><p>在客户端逻辑不变的前提下，想出了一种解决的方式：每次聚合的同时取一条<code>tophit</code>，以这条tophit的id或者name来构建筛选条件。
+查询条件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
 </span><span class=lnt> 2
 </span><span class=lnt> 3
 </span><span class=lnt> 4
@@ -927,47 +576,40 @@ spec_id=2,count=20;
 </span><span class=lnt>31
 </span><span class=lnt>32
 </span><span class=lnt>33
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>POST /car4/car/_search
-{
-  &#34;query&#34;: {
-    &#34;match_all&#34;: {
-    }
-  },
-  &#34;size&#34;: 1, 
-  &#34;aggs&#34;: {
-    &#34;spec&#34;: {
-      &#34;terms&#34;: {
-        &#34;field&#34;: &#34;spec_name.raw&#34;,
-        &#34;size&#34;: 2
-      },
-            &#34;aggs&#34;: {
-                &#34;top_tag_hits&#34;: {
-                    &#34;top_hits&#34;: {
-                        &#34;sort&#34;: [
-                            {
-                                &#34;spec&#34;: {
-                                    &#34;order&#34;: &#34;desc&#34;
-                                }
-                            }
-                        ],
-                        &#34;_source&#34;: {
-                            &#34;include&#34;: [
-                                &#34;spec&#34;
-                            ]
-                        },
-                        &#34;size&#34; : 1
-                    }
-                }
-            }
-    }
-</code></pre></td></tr></table>
-</div>
-</div><p>返回结果：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>POST /car4/car/_search
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  &#34;query&#34;: {
+</span></span><span class=line><span class=cl>    &#34;match_all&#34;: {
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>  },
+</span></span><span class=line><span class=cl>  &#34;size&#34;: 1, 
+</span></span><span class=line><span class=cl>  &#34;aggs&#34;: {
+</span></span><span class=line><span class=cl>    &#34;spec&#34;: {
+</span></span><span class=line><span class=cl>      &#34;terms&#34;: {
+</span></span><span class=line><span class=cl>        &#34;field&#34;: &#34;spec_name.raw&#34;,
+</span></span><span class=line><span class=cl>        &#34;size&#34;: 2
+</span></span><span class=line><span class=cl>      },
+</span></span><span class=line><span class=cl>            &#34;aggs&#34;: {
+</span></span><span class=line><span class=cl>                &#34;top_tag_hits&#34;: {
+</span></span><span class=line><span class=cl>                    &#34;top_hits&#34;: {
+</span></span><span class=line><span class=cl>                        &#34;sort&#34;: [
+</span></span><span class=line><span class=cl>                            {
+</span></span><span class=line><span class=cl>                                &#34;spec&#34;: {
+</span></span><span class=line><span class=cl>                                    &#34;order&#34;: &#34;desc&#34;
+</span></span><span class=line><span class=cl>                                }
+</span></span><span class=line><span class=cl>                            }
+</span></span><span class=line><span class=cl>                        ],
+</span></span><span class=line><span class=cl>                        &#34;_source&#34;: {
+</span></span><span class=line><span class=cl>                            &#34;include&#34;: [
+</span></span><span class=line><span class=cl>                                &#34;spec&#34;
+</span></span><span class=line><span class=cl>                            ]
+</span></span><span class=line><span class=cl>                        },
+</span></span><span class=line><span class=cl>                        &#34;size&#34; : 1
+</span></span><span class=line><span class=cl>                    }
+</span></span><span class=line><span class=cl>                }
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>    }
+</span></span></code></pre></td></tr></table></div></div><p>返回结果：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
 </span><span class=lnt>  2
 </span><span class=lnt>  3
 </span><span class=lnt>  4
@@ -1097,145 +739,137 @@ spec_id=2,count=20;
 </span><span class=lnt>128
 </span><span class=lnt>129
 </span><span class=lnt>130
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>{
-  &#34;took&#34;: 19,
-  &#34;timed_out&#34;: false,
-  &#34;_shards&#34;: {
-    &#34;total&#34;: 1,
-    &#34;successful&#34;: 1,
-    &#34;failed&#34;: 0
-  },
-  &#34;hits&#34;: {
-    &#34;total&#34;: 201211,
-    &#34;max_score&#34;: 1,
-    &#34;hits&#34;: [
-      {
-        &#34;_index&#34;: &#34;car4&#34;,
-        &#34;_type&#34;: &#34;car&#34;,
-        &#34;_id&#34;: &#34;282884&#34;,
-        &#34;_score&#34;: 1,
-        &#34;_source&#34;: {
-          &#34;car_id&#34;: 282884,
-          &#34;seller_id&#34;: 32,
-          &#34;series_name&#34;: null,
-          &#34;model_name&#34;: null,
-          &#34;custom_model&#34;: &#34;17款 GLS450&#34;,
-          &#34;inner_color_name&#34;: &#34;黑&#34;,
-          &#34;outer_color_name&#34;: &#34;黑&#34;,
-          &#34;send_city&#34;: null,
-          &#34;seller_price&#34;: 115000000,
-          &#34;corp_name&#34;: &#34;精英（大连）汽车贸易有限公司&#34;,
-          &#34;spec_name&#34;: &#34;平行进口&#34;,
-          &#34;spec&#34;: 7,
-          &#34;is_induce&#34;: 1,
-          &#34;is_verify&#34;: 1,
-          &#34;modify&#34;: &#34;2016-05-30T21:24:56.000+08:00&#34;,
-          &#34;gmt_create&#34;: &#34;2016-05-12T19:55:46.000+08:00&#34;,
-          &#34;price_adjust_way&#34;: 1,
-          &#34;inner_color_id&#34;: -1,
-          &#34;outer_color_id&#34;: -1,
-          &#34;car_source&#34;: 0,
-          &#34;car_type&#34;: 3,
-          &#34;series_id&#34;: 2002,
-          &#34;brand_id&#34;: 14,
-          &#34;model_id&#34;: -1,
-          &#34;configure&#34;: &#34;17款，大窗，P01，19轮，防盗螺丝，氙灯，灰色顶篷，二排易入，照明脚踏，后娱预留，车道包，停车辅助包&#34;,
-          &#34;car_area&#34;: null,
-          &#34;car_status&#34;: &#34;2016/7/30预计到港&#34;,
-          &#34;reach_date&#34;: null,
-          &#34;formalities_status&#34;: null,
-          &#34;sku_status&#34;: 1,
-          &#34;invoice_price&#34;: null,
-          &#34;car_unique&#34;: &#34;7615&#34;,
-          &#34;img_url&#34;: null,
-          &#34;benchmark&#34;: null,
-          &#34;fuel&#34;: 1,
-          &#34;quantity&#34;: 1,
-          &#34;insurance&#34;: null,
-          &#34;remark&#34;: null,
-          &#34;sanbao&#34;: null,
-          &#34;custom_formality&#34;: null,
-          &#34;custom_area&#34;: null,
-          &#34;config_price&#34;: null,
-          &#34;by_template&#34;: 0,
-          &#34;price_adjust_val&#34;: &#34;-1&#34;,
-          &#34;is_dianyi&#34;: 0,
-          &#34;ext_id&#34;: null,
-          &#34;creator&#34;: 78,
-          &#34;guide_price&#34;: null,
-          &#34;guide_price_na&#34;: null,
-          &#34;is_deleted&#34;: 1,
-          &#34;send_city_pre&#34;: null
-        }
-      }
-    ]
-  },
-  &#34;aggregations&#34;: {
-    &#34;spec&#34;: {
-      &#34;doc_count_error_upper_bound&#34;: 0,
-      &#34;sum_other_doc_count&#34;: 55099,
-      &#34;buckets&#34;: [
-        {
-          &#34;key&#34;: &#34;中规&#34;,
-          &#34;doc_count&#34;: 121437,
-          &#34;top_tag_hits&#34;: {
-            &#34;hits&#34;: {
-              &#34;total&#34;: 121437,
-              &#34;max_score&#34;: null,
-              &#34;hits&#34;: [
-                {
-                  &#34;_index&#34;: &#34;car4&#34;,
-                  &#34;_type&#34;: &#34;car&#34;,
-                  &#34;_id&#34;: &#34;284668&#34;,
-                  &#34;_score&#34;: null,
-                  &#34;_source&#34;: {
-                    &#34;spec&#34;: 1
-                  },
-                  &#34;sort&#34;: [
-                    1
-                  ]
-                }
-              ]
-            }
-          }
-        },
-        {
-          &#34;key&#34;: &#34;国产&#34;,
-          &#34;doc_count&#34;: 24675,
-          &#34;top_tag_hits&#34;: {
-            &#34;hits&#34;: {
-              &#34;total&#34;: 24675,
-              &#34;max_score&#34;: null,
-              &#34;hits&#34;: [
-                {
-                  &#34;_index&#34;: &#34;car4&#34;,
-                  &#34;_type&#34;: &#34;car&#34;,
-                  &#34;_id&#34;: &#34;262165&#34;,
-                  &#34;_score&#34;: null,
-                  &#34;_source&#34;: {
-                    &#34;spec&#34;: 0
-                  },
-                  &#34;sort&#34;: [
-                    0
-                  ]
-                }
-              ]
-            }
-          }
-        }
-      ]
-    }
-  }
-}
-</code></pre></td></tr></table>
-</div>
-</div><h4 id=筛选的实现>筛选的实现</h4>
-<p>在查询时添加fllter：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>  &#34;took&#34;: 19,
+</span></span><span class=line><span class=cl>  &#34;timed_out&#34;: false,
+</span></span><span class=line><span class=cl>  &#34;_shards&#34;: {
+</span></span><span class=line><span class=cl>    &#34;total&#34;: 1,
+</span></span><span class=line><span class=cl>    &#34;successful&#34;: 1,
+</span></span><span class=line><span class=cl>    &#34;failed&#34;: 0
+</span></span><span class=line><span class=cl>  },
+</span></span><span class=line><span class=cl>  &#34;hits&#34;: {
+</span></span><span class=line><span class=cl>    &#34;total&#34;: 201211,
+</span></span><span class=line><span class=cl>    &#34;max_score&#34;: 1,
+</span></span><span class=line><span class=cl>    &#34;hits&#34;: [
+</span></span><span class=line><span class=cl>      {
+</span></span><span class=line><span class=cl>        &#34;_index&#34;: &#34;car4&#34;,
+</span></span><span class=line><span class=cl>        &#34;_type&#34;: &#34;car&#34;,
+</span></span><span class=line><span class=cl>        &#34;_id&#34;: &#34;282884&#34;,
+</span></span><span class=line><span class=cl>        &#34;_score&#34;: 1,
+</span></span><span class=line><span class=cl>        &#34;_source&#34;: {
+</span></span><span class=line><span class=cl>          &#34;car_id&#34;: 282884,
+</span></span><span class=line><span class=cl>          &#34;seller_id&#34;: 32,
+</span></span><span class=line><span class=cl>          &#34;series_name&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;model_name&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;custom_model&#34;: &#34;17款 GLS450&#34;,
+</span></span><span class=line><span class=cl>          &#34;inner_color_name&#34;: &#34;黑&#34;,
+</span></span><span class=line><span class=cl>          &#34;outer_color_name&#34;: &#34;黑&#34;,
+</span></span><span class=line><span class=cl>          &#34;send_city&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;seller_price&#34;: 115000000,
+</span></span><span class=line><span class=cl>          &#34;corp_name&#34;: &#34;精英（大连）汽车贸易有限公司&#34;,
+</span></span><span class=line><span class=cl>          &#34;spec_name&#34;: &#34;平行进口&#34;,
+</span></span><span class=line><span class=cl>          &#34;spec&#34;: 7,
+</span></span><span class=line><span class=cl>          &#34;is_induce&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;is_verify&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;modify&#34;: &#34;2016-05-30T21:24:56.000+08:00&#34;,
+</span></span><span class=line><span class=cl>          &#34;gmt_create&#34;: &#34;2016-05-12T19:55:46.000+08:00&#34;,
+</span></span><span class=line><span class=cl>          &#34;price_adjust_way&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;inner_color_id&#34;: -1,
+</span></span><span class=line><span class=cl>          &#34;outer_color_id&#34;: -1,
+</span></span><span class=line><span class=cl>          &#34;car_source&#34;: 0,
+</span></span><span class=line><span class=cl>          &#34;car_type&#34;: 3,
+</span></span><span class=line><span class=cl>          &#34;series_id&#34;: 2002,
+</span></span><span class=line><span class=cl>          &#34;brand_id&#34;: 14,
+</span></span><span class=line><span class=cl>          &#34;model_id&#34;: -1,
+</span></span><span class=line><span class=cl>          &#34;configure&#34;: &#34;17款，大窗，P01，19轮，防盗螺丝，氙灯，灰色顶篷，二排易入，照明脚踏，后娱预留，车道包，停车辅助包&#34;,
+</span></span><span class=line><span class=cl>          &#34;car_area&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;car_status&#34;: &#34;2016/7/30预计到港&#34;,
+</span></span><span class=line><span class=cl>          &#34;reach_date&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;formalities_status&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;sku_status&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;invoice_price&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;car_unique&#34;: &#34;7615&#34;,
+</span></span><span class=line><span class=cl>          &#34;img_url&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;benchmark&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;fuel&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;quantity&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;insurance&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;remark&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;sanbao&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;custom_formality&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;custom_area&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;config_price&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;by_template&#34;: 0,
+</span></span><span class=line><span class=cl>          &#34;price_adjust_val&#34;: &#34;-1&#34;,
+</span></span><span class=line><span class=cl>          &#34;is_dianyi&#34;: 0,
+</span></span><span class=line><span class=cl>          &#34;ext_id&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;creator&#34;: 78,
+</span></span><span class=line><span class=cl>          &#34;guide_price&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;guide_price_na&#34;: null,
+</span></span><span class=line><span class=cl>          &#34;is_deleted&#34;: 1,
+</span></span><span class=line><span class=cl>          &#34;send_city_pre&#34;: null
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>      }
+</span></span><span class=line><span class=cl>    ]
+</span></span><span class=line><span class=cl>  },
+</span></span><span class=line><span class=cl>  &#34;aggregations&#34;: {
+</span></span><span class=line><span class=cl>    &#34;spec&#34;: {
+</span></span><span class=line><span class=cl>      &#34;doc_count_error_upper_bound&#34;: 0,
+</span></span><span class=line><span class=cl>      &#34;sum_other_doc_count&#34;: 55099,
+</span></span><span class=line><span class=cl>      &#34;buckets&#34;: [
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>          &#34;key&#34;: &#34;中规&#34;,
+</span></span><span class=line><span class=cl>          &#34;doc_count&#34;: 121437,
+</span></span><span class=line><span class=cl>          &#34;top_tag_hits&#34;: {
+</span></span><span class=line><span class=cl>            &#34;hits&#34;: {
+</span></span><span class=line><span class=cl>              &#34;total&#34;: 121437,
+</span></span><span class=line><span class=cl>              &#34;max_score&#34;: null,
+</span></span><span class=line><span class=cl>              &#34;hits&#34;: [
+</span></span><span class=line><span class=cl>                {
+</span></span><span class=line><span class=cl>                  &#34;_index&#34;: &#34;car4&#34;,
+</span></span><span class=line><span class=cl>                  &#34;_type&#34;: &#34;car&#34;,
+</span></span><span class=line><span class=cl>                  &#34;_id&#34;: &#34;284668&#34;,
+</span></span><span class=line><span class=cl>                  &#34;_score&#34;: null,
+</span></span><span class=line><span class=cl>                  &#34;_source&#34;: {
+</span></span><span class=line><span class=cl>                    &#34;spec&#34;: 1
+</span></span><span class=line><span class=cl>                  },
+</span></span><span class=line><span class=cl>                  &#34;sort&#34;: [
+</span></span><span class=line><span class=cl>                    1
+</span></span><span class=line><span class=cl>                  ]
+</span></span><span class=line><span class=cl>                }
+</span></span><span class=line><span class=cl>              ]
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>          }
+</span></span><span class=line><span class=cl>        },
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>          &#34;key&#34;: &#34;国产&#34;,
+</span></span><span class=line><span class=cl>          &#34;doc_count&#34;: 24675,
+</span></span><span class=line><span class=cl>          &#34;top_tag_hits&#34;: {
+</span></span><span class=line><span class=cl>            &#34;hits&#34;: {
+</span></span><span class=line><span class=cl>              &#34;total&#34;: 24675,
+</span></span><span class=line><span class=cl>              &#34;max_score&#34;: null,
+</span></span><span class=line><span class=cl>              &#34;hits&#34;: [
+</span></span><span class=line><span class=cl>                {
+</span></span><span class=line><span class=cl>                  &#34;_index&#34;: &#34;car4&#34;,
+</span></span><span class=line><span class=cl>                  &#34;_type&#34;: &#34;car&#34;,
+</span></span><span class=line><span class=cl>                  &#34;_id&#34;: &#34;262165&#34;,
+</span></span><span class=line><span class=cl>                  &#34;_score&#34;: null,
+</span></span><span class=line><span class=cl>                  &#34;_source&#34;: {
+</span></span><span class=line><span class=cl>                    &#34;spec&#34;: 0
+</span></span><span class=line><span class=cl>                  },
+</span></span><span class=line><span class=cl>                  &#34;sort&#34;: [
+</span></span><span class=line><span class=cl>                    0
+</span></span><span class=line><span class=cl>                  ]
+</span></span><span class=line><span class=cl>                }
+</span></span><span class=line><span class=cl>              ]
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>          }
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>      ]
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>  }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h4 id=筛选的实现>筛选的实现</h4><p>在查询时添加fllter：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
@@ -1244,112 +878,36 @@ spec_id=2,count=20;
 </span><span class=lnt>7
 </span><span class=lnt>8
 </span><span class=lnt>9
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>&#34;filter&#34;: {
-            &#34;bool&#34;: {
-              &#34;must&#34;: {
-                &#34;term&#34;: {
-                  &#34;is_deleted&#34;: &#34;0&#34;
-                }
-              }
-            }
-          }
-</code></pre></td></tr></table>
-</div>
-</div><p>代码：</p>
-<div class=highlight><div class=chroma>
-<table class=lntable><tr><td class=lntd>
-<pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&#34;filter&#34;: {
+</span></span><span class=line><span class=cl>            &#34;bool&#34;: {
+</span></span><span class=line><span class=cl>              &#34;must&#34;: {
+</span></span><span class=line><span class=cl>                &#34;term&#34;: {
+</span></span><span class=line><span class=cl>                  &#34;is_deleted&#34;: &#34;0&#34;
+</span></span><span class=line><span class=cl>                }
+</span></span><span class=line><span class=cl>              }
+</span></span><span class=line><span class=cl>            }
+</span></span><span class=line><span class=cl>          }
+</span></span></code></pre></td></tr></table></div></div><p>代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
 </span><span class=lnt>2
 </span><span class=lnt>3
 </span><span class=lnt>4
 </span><span class=lnt>5
-</span></code></pre></td>
-<td class=lntd>
-<pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>BoolQueryBuilder innerBool = QueryBuilders.boolQuery();
-innerBool.must(QueryBuilders.termQuery(&#34;is_deleted&#34;, 0));
-BoolQueryBuilder filteredQueryuery = QueryBuilders.boolQuery();
-filteredQueryuery.filter(innerBool);
-filteredQueryuery.must(mqb);
-</code></pre></td></tr></table>
-</div>
-</div><h1 id=infiniti--the-future>infiniti : the future</h1>
-<h2 id=实时添加索引>实时添加索引</h2>
-<p>cannel，rocketMQ（ONS，kafuka），otter</p>
-<h2 id=定时重建索引>定时重建索引</h2>
-<p>通过alias无缝切换</p>
-<h2 id=同义词和词典的维护>同义词和词典的维护</h2>
-<p>redis，http</p>
-<h2 id=备份和恢复>备份和恢复</h2>
-<p>nas</p>
-<h2 id=数据分析>数据分析</h2>
-<p>hadoop，spark，hive，Hbase</p>
-</div>
-<div class=post-copyright>
-<p class=copyright-item>
-<span class=item-title>文章作者</span>
-<span class=item-content>run</span>
-</p>
-<p class=copyright-item>
-<span class=item-title>上次更新</span>
-<span class=item-content>
-2016-06-23
-</span>
-</p>
-</div>
-<footer class=post-footer>
-<div class=post-tags>
-<a href=/tags/elasticsearch/>elasticsearch</a>
-</div>
-<nav class=post-nav>
-<a class=prev href=/post/spring%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/>
-<i class="iconfont icon-left"></i>
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>BoolQueryBuilder innerBool = QueryBuilders.boolQuery();
+</span></span><span class=line><span class=cl>innerBool.must(QueryBuilders.termQuery(&#34;is_deleted&#34;, 0));
+</span></span><span class=line><span class=cl>BoolQueryBuilder filteredQueryuery = QueryBuilders.boolQuery();
+</span></span><span class=line><span class=cl>filteredQueryuery.filter(innerBool);
+</span></span><span class=line><span class=cl>filteredQueryuery.must(mqb);
+</span></span></code></pre></td></tr></table></div></div><h1 id=infiniti--the-future>infiniti : the future</h1><h2 id=实时添加索引>实时添加索引</h2><p>cannel，rocketMQ（ONS，kafuka），otter</p><h2 id=定时重建索引>定时重建索引</h2><p>通过alias无缝切换</p><h2 id=同义词和词典的维护>同义词和词典的维护</h2><p>redis，http</p><h2 id=备份和恢复>备份和恢复</h2><p>nas</p><h2 id=数据分析>数据分析</h2><p>hadoop，spark，hive，Hbase</p></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+<span class=item-content>run</span></p><p class=copyright-item><span class=item-title>上次更新</span>
+<span class=item-content>2016-06-23</span></p></div><footer class=post-footer><div class=post-tags><a href=/tags/elasticsearch/>elasticsearch</a></div><nav class=post-nav><a class=prev href=/post/spring%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/><i class="iconfont icon-left"></i>
 <span class="prev-text nav-default">谈谈spring中的循环依赖问题</span>
 <span class="prev-text nav-mobile">上一篇</span>
-</a>
-<a class=next href=/post/%E6%82%9F%E7%A9%BA%E4%BC%A0%E6%9C%89%E6%84%9F/>
-<span class="next-text nav-default">《悟空传》有感</span>
+</a><a class=next href=/post/%E6%82%9F%E7%A9%BA%E4%BC%A0%E6%9C%89%E6%84%9F/><span class="next-text nav-default">《悟空传》有感</span>
 <span class="next-text nav-mobile">下一篇</span>
-<i class="iconfont icon-right"></i>
-</a>
-</nav>
-</footer>
-</article>
-</div>
-<script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script>
-<noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript>
-</div>
-</main>
-<footer id=footer class=footer>
-<div class=social-links>
-<a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a>
-<a href=https://github.com/suclogger class="iconfont icon-github" title=github></a>
-<a href=https://run.notbyai.space/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a>
-</div>
-<div class=copyright>
-<span class=power-by>
-由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
-</span>
-<span class=division>|</span>
-<span class=theme-info>
-主题 -
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a><a href=https://github.com/suclogger class="iconfont icon-github" title=github></a><a href=https://run.notbyai.space/index.xml type=application/rss+xml class="iconfont icon-rss" title=rss></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
+</span><span class=division>|</span>
+<span class=theme-info>主题 -
 <a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
-</span>
-<span class=copyright-year>
-&copy;
+</span><span class=copyright-year>&copy;
 2017 -
-2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span>
-</span>
-</div>
-</footer>
-<div class=back-to-top id=back-to-top>
-<i class="iconfont icon-up"></i>
-</div>
-</div>
-<script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script>
-<script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script>
-<script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script>
-<script type=text/javascript src=/js/main.min.c99b103c33d1539acf3025e1913697534542c4a5aa5af0ccc20475ed2863603b.js></script>
-</body>
-</html>
+2024<span class=heart><i class="iconfont icon-heart"></i></span><span>run</span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>
