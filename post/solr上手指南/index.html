@@ -1,0 +1,76 @@
+<!doctype html><html lang=zh-cn><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge,chrome=1"><title>- To Mars</title>
+<meta name=renderer content="webkit"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><meta http-equiv=Cache-Control content="no-transform"><meta http-equiv=Cache-Control content="no-siteapp"><meta name=theme-color content="#f8f5ec"><meta name=msapplication-navbutton-color content="#f8f5ec"><meta name=apple-mobile-web-app-capable content="yes"><meta name=apple-mobile-web-app-status-bar-style content="#f8f5ec"><meta name=author content><meta name=description content="title: solr上手指南
+date: 2016-04-23 22:10:59
+tags: [solr]
+categories: 搜索
+通过homebrew安装solr:
+1 brew install solr 安装在/usr/local/Cellar/solr/下对应版本号的目录
+"><meta name=generator content="Hugo 0.139.3 with theme even"><link rel=canonical href=https://www.tomars.cv/post/solr%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=manifest href=/manifest.json><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link href=/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css rel=stylesheet><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin=anonymous><meta property="og:url" content="https://www.tomars.cv/post/solr%E4%B8%8A%E6%89%8B%E6%8C%87%E5%8D%97/"><meta property="og:site_name" content="To Mars"><meta property="og:title" content="To Mars"><meta property="og:description" content="title: solr上手指南
+date: 2016-04-23 22:10:59
+tags: [solr]
+categories: 搜索
+通过homebrew安装solr:
+1 brew install solr 安装在/usr/local/Cellar/solr/下对应版本号的目录"><meta property="og:locale" content="zh_cn"><meta property="og:type" content="article"><meta property="article:section" content="post"><meta itemprop=name content="To Mars"><meta itemprop=description content="title: solr上手指南
+date: 2016-04-23 22:10:59
+tags: [solr]
+categories: 搜索
+通过homebrew安装solr:
+1 brew install solr 安装在/usr/local/Cellar/solr/下对应版本号的目录"><meta itemprop=wordCount content="1130"><meta name=twitter:card content="summary"><meta name=twitter:title content="To Mars"><meta name=twitter:description content="title: solr上手指南
+date: 2016-04-23 22:10:59
+tags: [solr]
+categories: 搜索
+通过homebrew安装solr:
+1 brew install solr 安装在/usr/local/Cellar/solr/下对应版本号的目录"><!--[if lte IE 9]><script src=https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js></script><![endif]--><!--[if lt IE 9]><script src=https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js></script><script src=https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js></script><![endif]--></head><body><div id=mobile-navbar class=mobile-navbar><div class=mobile-header-logo><a href=/ class=logo>To Mars</a></div><div class=mobile-navbar-icon><span></span>
+<span></span>
+<span></span></div></div><nav id=mobile-menu class="mobile-menu slideout-menu"><ul class=mobile-menu-list><a href=/><li class=mobile-menu-item>Home</li></a><a href=/post/><li class=mobile-menu-item>Archives</li></a><a href=/tags/><li class=mobile-menu-item>Tags</li></a><a href=/categories/><li class=mobile-menu-item>Categories</li></a><a href=https://haftbit.substack.com/><li class=mobile-menu-item>Readings</li></a></ul></nav><div class=container id=mobile-panel><header id=header class=header><div class=logo-wrapper><a href=/ class=logo>To Mars</a></div><nav class=site-navbar><ul id=menu class=menu><li class=menu-item><a class=menu-item-link href=/>Home</a></li><li class=menu-item><a class=menu-item-link href=/post/>Archives</a></li><li class=menu-item><a class=menu-item-link href=/tags/>Tags</a></li><li class=menu-item><a class=menu-item-link href=/categories/>Categories</a></li><li class=menu-item><a class=menu-item-link href=https://haftbit.substack.com/>Readings</a></li></ul></nav></header><main id=main class=main><div class=content-wrapper><div id=content class=content><article class=post><header class=post-header><h1 class=post-title></h1><div class=post-meta><span class=post-time>0001-01-01</span></div></header><div class=post-toc id=post-toc><h2 class=post-toc-title>文章目录</h2><div class="post-toc-content always-active"><nav id=TableOfContents></nav></div></div><div class=post-content><p>title: solr上手指南</p><p>date: 2016-04-23 22:10:59</p><p>tags: [solr]</p><p>categories: 搜索</p><hr><ol><li><p>通过homebrew安装solr:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>brew install solr
+</span></span></code></pre></td></tr></table></div></div><p>安装在<code>/usr/local/Cellar/solr/</code>下对应版本号的目录</p></li><li><p>启动solr cloud:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>solr start -e cloud -noprompt
+</span></span></code></pre></td></tr></table></div></div><p><del>或者solr单个节点:</del></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>solr start
+</span></span></code></pre></td></tr></table></div></div><p>启动后通过访问:http://localhost:8983/solr/#/~cloud 可以看到系统拓扑图:
+<img src=/image/B30F4FC6D27D77B47CEF0E3E8241C4E4.jpg alt="2016-04-12 at 下午9.20.jpg"></p></li><li><p>导入数据
+3.1 导入富文本文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>post -c gettingstarted /usr/local/Cellar/solr/5.5.0/libexec/docs/
+</span></span></code></pre></td></tr></table></div></div><p>以上命令将导入solr目录下的示例数据文件夹包含的富文本文件.
+导入之后,就可以通过访问solr的搜索界面:http://localhost:8983/solr/#/gettingstarted_shard1_replica2/query 进行搜索:
+<img src=/image/62A148F2E36F570A76B83CF1E9AA8998.jpg alt="2016-04-12 at 下午9.34.jpg">
+3.2 通过solr xml格式文件导入数据
+solr xml文件的定义参见:<a href=https://cwiki.apache.org/confluence/display/solr/Uploading+Data+with+Index+Handlers#UploadingDatawithIndexHandlers-XMLFormattedIndexUpdates>apache wiki</a>
+导入示例文件命令为:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>post -c gettingstarted example/exampledocs/*.xml
+</span></span></code></pre></td></tr></table></div></div><p>通过访问:http://localhost:8983/solr/gettingstarted/browse 可以看到当前已导入的文件列表,同样可以通过搜索界面进行搜索.
+3.3 通过json格式文件导入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>post -c gettingstarted example/exampledocs/books.json
+</span></span></code></pre></td></tr></table></div></div><p>3.4 通过csv格式文件导入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>post -c gettingstarted example/exampledocs/books.csv
+</span></span></code></pre></td></tr></table></div></div><p>3.5 其他导入方式
+通过DIH从数据库导入,使用SolrJ插件通过java等基于jvm的代码导入,使用Admin UI &mldr;</p></li><li><p>通过关键词进行搜索
+4.1 单个条件搜索
+通过替换搜索界面中q的默认值:<code>*:*</code>为&rsquo;foudation&rsquo;或者访问地址:http://localhost:8983/solr/gettingstarted/select?wt=json&amp;indent=true&amp;q=foundation 可以得到搜索结果.
+<strong>访问搜索界面需要执行sharding,但是请求搜索结果可以忽略</strong>
+可以看到返回的结果几乎包含了所有的记录,因为刚才的搜索包含了所有的字段,通过将q设置为<code>name:foudation</code>可以仅仅搜索<code>name</code>属性中中包含foudation的记录,同理可以试试q设置为<code>cat:software</code>搜索cat属性中包含software的记录.
+4.2 词组搜索
+例如需要搜索<code>CAS latency</code>,在搜索界面中可以直接录入<code>CAS latency</code>,但是如果通过url,需要将空格替换为<code>+</code>.
+<img src=/image/64ACBB392AD1C988DBDBBE74381E0896.jpg alt="2016-04-12 at 下午10.17.jpg">
+4.3 组合搜索条件
+需要条件出现使用<code>+</code>,需要条件不出现使用<code>-</code>
+例如:http://localhost:8983/solr/gettingstarted/select?wt=json&amp;indent=true&amp;q=%2Bone+%2Bthree 这个链接搜索包含one但是不包含three的记录
+4.4 更多
+访问<a href=https://cwiki.apache.org/confluence/display/solr/Searching>apache wiki</a>获取更多有关搜索的细节.</p></li><li><p>清理
+到现在我们已经大致接触了solr,要将solr恢复到初始状态,执行以下命令:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>bin/solr stop -all ; rm -Rf example/cloud/
+</span></span></code></pre></td></tr></table></div></div></li></ol></div><div class=post-copyright><p class=copyright-item><span class=item-title>文章作者</span>
+<span class=item-content></span></p><p class=copyright-item><span class=item-title>上次更新</span>
+<span class=item-content>0001-01-01</span></p></div><footer class=post-footer><nav class=post-nav><a class=prev href=/post/%E4%BA%BA%E7%9A%AE%E8%AE%BA%E8%AF%AD%E6%9C%89%E6%84%9F/><i class="iconfont icon-left"></i>
+<span class="prev-text nav-default">《人皮论语》有感</span>
+<span class="prev-text nav-mobile">上一篇</span>
+</a><a class=next href=/post/spring-boot%E7%9B%B8%E5%85%B3%E5%8F%8Adubbo%E9%9B%86%E6%88%90/><span class="next-text nav-default"></span>
+<span class="next-text nav-mobile">下一篇</span>
+<i class="iconfont icon-right"></i></a></nav></footer></article></div><script src=https://utteranc.es/client.js repo=suclogger/hugo-gitment issue-term=pathname theme=github-light crossorigin=anonymous async></script><noscript>Please enable JavaScript to view the <a href=https://github.com/utterance>comments powered by utterances.</a></noscript></div></main><footer id=footer class=footer><div class=social-links><a href=https://twitter.com/suclogger class="iconfont icon-twitter" title=twitter></a><a href=https://github.com/suclogger class="iconfont icon-github" title=github></a></div><div class=copyright><span class=power-by>由 <a class=hexo-link href=https://gohugo.io>Hugo</a> 强力驱动
+</span><span class=division>|</span>
+<span class=theme-info>主题 -
+<a class=theme-link href=https://github.com/olOwOlo/hugo-theme-even>Even</a>
+</span><span class=copyright-year>&copy;
+2017 -
+2024<span class=heart><i class="iconfont icon-heart"></i></span><span></span></span></div></footer><div class=back-to-top id=back-to-top><i class="iconfont icon-up"></i></div></div><script src=https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin=anonymous></script><script src=https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin=anonymous></script><script type=text/javascript src=/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js></script></body></html>
