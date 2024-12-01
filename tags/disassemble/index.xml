@@ -1,1 +1,58 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Disassemble on To Mars</title><link>https://www.tomars.cv/tags/disassemble/</link><description>Recent content in Disassemble on To Mars</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Wed, 05 Jul 2017 01:02:23 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/disassemble/index.xml" rel="self" type="application/rss+xml"/><item><title>逆向之Funnel内购破解</title><link>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/</link><pubDate>Wed, 05 Jul 2017 01:02:23 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/</guid><description>记Funnel的内购破解。 最近学英语用Funnel听国外新闻。 Funnel 包含一个 25 元的内购，解锁后可以开启自动播放和连播功能。 IAP的通用破解此处不</description></item><item><title>逆向之钉钉消息和Ding已读反馈的拦截</title><link>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8B%E9%92%89%E9%92%89%E6%B6%88%E6%81%AF%E5%92%8Cding%E5%B7%B2%E8%AF%BB%E5%8F%8D%E9%A6%88%E7%9A%84%E6%8B%A6%E6%88%AA/</link><pubDate>Wed, 14 Jun 2017 23:29:29 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8B%E9%92%89%E9%92%89%E6%B6%88%E6%81%AF%E5%92%8Cding%E5%B7%B2%E8%AF%BB%E5%8F%8D%E9%A6%88%E7%9A%84%E6%8B%A6%E6%88%AA/</guid><description>有没有那么些时候，你就想假装在别处。 环境准备 依照用到的顺序如下： Tool Usage Clutch 砸壳 Hopper Disassembler v4 反编译，静态分析 Flipboard FLEX Loader 视图分析 lldb + debugserver 断点， 调试 Flex 3 Tweak 首先是砸</description></item><item><title>记一次反编译过程（二）</title><link>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/</link><pubDate>Fri, 28 Oct 2016 21:53:37 +0000</pubDate><guid>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/</guid><description>此文不涉及任何道义和伦理的讨论 距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。 这个APP包含a</description></item><item><title>记一次反编译过程</title><link>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/</link><pubDate>Sun, 25 Sep 2016 19:43:27 +0000</pubDate><guid>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/</guid><description>此文不涉及任何道义和伦理的讨论 尝试旧版本APP，查看对应的旧版本接口是否加密 安卓的历史版本可以通过hiapk下载，资源的链接一般类似这种形式</description></item><item><title>逆向解除TextNut内购限制</title><link>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E8%A7%A3%E9%99%A4textnut%E5%86%85%E8%B4%AD%E9%99%90%E5%88%B6/</link><pubDate>Sun, 15 May 2016 11:41:07 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E8%A7%A3%E9%99%A4textnut%E5%86%85%E8%B4%AD%E9%99%90%E5%88%B6/</guid><description>看到少数派的微博上推荐了一款markdown编辑器，体验了一下觉得不错，但是有未内购只能创建2个文件夹的限制，遂尝试通过逆向解除限制。 半年前</description></item><item><title>打开了新世界的大门：Hopper Disassembler</title><link>https://www.tomars.cv/post/%E6%89%93%E5%BC%80%E4%BA%86%E6%96%B0%E4%B8%96%E7%95%8C%E7%9A%84%E5%A4%A7%E9%97%A8hopper-disassembler/</link><pubDate>Fri, 13 May 2016 22:45:28 +0000</pubDate><guid>https://www.tomars.cv/post/%E6%89%93%E5%BC%80%E4%BA%86%E6%96%B0%E4%B8%96%E7%95%8C%E7%9A%84%E5%A4%A7%E9%97%A8hopper-disassembler/</guid><description>在@bleedfly的影响下，也想自己动手玩一下逆向。 记录一下第一个逆向的app ： Interface Inspector 的过程。 使用工具：Hopper Disassembler Version 3.9.15 ，Hex Fiend Version 2.1.2 (200) 逆</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Disassemble on To Mars</title><link>https://www.tomars.cv/tags/disassemble/</link><description>Recent content in Disassemble on To Mars</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Wed, 05 Jul 2017 01:02:23 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/disassemble/index.xml" rel="self" type="application/rss+xml"/><item><title>逆向之Funnel内购破解</title><link>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/</link><pubDate>Wed, 05 Jul 2017 01:02:23 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8Bfunnel%E5%86%85%E8%B4%AD%E7%A0%B4%E8%A7%A3/</guid><description>&lt;p>记Funnel的内购破解。&lt;/p>
+&lt;!-- more -->
+&lt;p>最近学英语用&lt;a href="https://itunes.apple.com/cn/app/funnel/id964666344">Funnel&lt;/a>听国外新闻。
+Funnel 包含一个 25 元的内购，解锁后可以开启自动播放和连播功能。
+IAP的通用破解此处不表，Funnel多做了一步二次校验：&lt;/p></description></item><item><title>逆向之钉钉消息和Ding已读反馈的拦截</title><link>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8B%E9%92%89%E9%92%89%E6%B6%88%E6%81%AF%E5%92%8Cding%E5%B7%B2%E8%AF%BB%E5%8F%8D%E9%A6%88%E7%9A%84%E6%8B%A6%E6%88%AA/</link><pubDate>Wed, 14 Jun 2017 23:29:29 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E4%B9%8B%E9%92%89%E9%92%89%E6%B6%88%E6%81%AF%E5%92%8Cding%E5%B7%B2%E8%AF%BB%E5%8F%8D%E9%A6%88%E7%9A%84%E6%8B%A6%E6%88%AA/</guid><description>&lt;p>有没有那么些时候，你就想假装在别处。&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="环境准备">环境准备&lt;/h2>
+&lt;p>依照用到的顺序如下：&lt;/p>
+&lt;table>
+ &lt;thead>
+ &lt;tr>
+ &lt;th>Tool&lt;/th>
+ &lt;th>Usage&lt;/th>
+ &lt;/tr>
+ &lt;/thead>
+ &lt;tbody>
+ &lt;tr>
+ &lt;td>Clutch&lt;/td>
+ &lt;td>砸壳&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Hopper Disassembler v4&lt;/td>
+ &lt;td>反编译，静态分析&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Flipboard FLEX Loader&lt;/td>
+ &lt;td>视图分析&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>lldb + debugserver&lt;/td>
+ &lt;td>断点， 调试&lt;/td>
+ &lt;/tr>
+ &lt;tr>
+ &lt;td>Flex 3&lt;/td>
+ &lt;td>Tweak&lt;/td>
+ &lt;/tr>
+ &lt;/tbody>
+&lt;/table>
+&lt;p>首先是砸壳，细节不表，有个trick就是先使用mac端itunes下载应用同步到手机后砸壳，这样可以同时得到&lt;code>arm v7&lt;/code>和&lt;code>AArch64&lt;/code>版本，32位反编译后的代码可读性高，64位用于读取偏移量设置断点。&lt;/p></description></item><item><title>记一次反编译过程（二）</title><link>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/</link><pubDate>Fri, 28 Oct 2016 21:53:37 +0000</pubDate><guid>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B%E4%BA%8C/</guid><description>&lt;!-- abstract -->
+&lt;!-- 开始正文 -->
+&lt;p>&lt;strong>此文不涉及任何道义和伦理的讨论&lt;/strong>&lt;/p>
+&lt;p>距离上一次做反编译已经一个月过去了，这次要解开另一个谜题，也算是多了解一个接口加密的设计方案。&lt;/p></description></item><item><title>记一次反编译过程</title><link>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/</link><pubDate>Sun, 25 Sep 2016 19:43:27 +0000</pubDate><guid>https://www.tomars.cv/post/%E8%AE%B0%E4%B8%80%E6%AC%A1%E5%8F%8D%E7%BC%96%E8%AF%91%E8%BF%87%E7%A8%8B/</guid><description>&lt;!-- abstract -->
+&lt;!-- 开始正文 -->
+&lt;p>&lt;strong>此文不涉及任何道义和伦理的讨论&lt;/strong>&lt;/p>
+&lt;h2 id="尝试旧版本app查看对应的旧版本接口是否加密">尝试旧版本APP，查看对应的旧版本接口是否加密&lt;/h2>
+&lt;p>安卓的历史版本可以通过&lt;a href="http://apk.hiapk.com">hiapk&lt;/a>下载，资源的链接一般类似这种形式： &lt;a href="http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805">http://apk.hiapk.com/appinfo/com.maihaoche.bentley/1050805&lt;/a>，最后的数字用于标识不同的版本号。
+IOS的历史版本可以通过itunes下载，只需修改请求中携带的版本号即可下载不同版本，具体参见：&lt;a href="http://bbs.itools.cn/thread-93616-1-1.html">iTunes下载 App Store 任意历史版本应用&lt;/a>。&lt;/p></description></item><item><title>逆向解除TextNut内购限制</title><link>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E8%A7%A3%E9%99%A4textnut%E5%86%85%E8%B4%AD%E9%99%90%E5%88%B6/</link><pubDate>Sun, 15 May 2016 11:41:07 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%86%E5%90%91%E8%A7%A3%E9%99%A4textnut%E5%86%85%E8%B4%AD%E9%99%90%E5%88%B6/</guid><description>&lt;p>看到少数派的&lt;a href="http://weibo.com/sspaime">微博&lt;/a>上推荐了一款markdown编辑器，体验了一下觉得不错，但是有未内购只能创建2个文件夹的限制，遂尝试通过逆向解除限制。&lt;/p>
+&lt;!-- more -->
+&lt;blockquote>
+&lt;p>半年前写这篇文章的时候，因为软件作者的抗议和谐了文章内容，现在将内容放出。 -20161216&lt;/p>
+&lt;/blockquote>
+&lt;p>使用工具：Hopper Disassembler，
+逆向App：TextNut&lt;/p></description></item><item><title>打开了新世界的大门：Hopper Disassembler</title><link>https://www.tomars.cv/post/%E6%89%93%E5%BC%80%E4%BA%86%E6%96%B0%E4%B8%96%E7%95%8C%E7%9A%84%E5%A4%A7%E9%97%A8hopper-disassembler/</link><pubDate>Fri, 13 May 2016 22:45:28 +0000</pubDate><guid>https://www.tomars.cv/post/%E6%89%93%E5%BC%80%E4%BA%86%E6%96%B0%E4%B8%96%E7%95%8C%E7%9A%84%E5%A4%A7%E9%97%A8hopper-disassembler/</guid><description>&lt;!-- abstract -->
+&lt;!-- 开始正文 -->
+&lt;p>在&lt;a href="https://twitter.com/bleedfly">@bleedfly&lt;/a>的影响下，也想自己动手玩一下逆向。
+记录一下第一个逆向的app ： &lt;code>Interface Inspector&lt;/code> 的过程。&lt;/p>
+&lt;p>使用工具：&lt;code>Hopper Disassembler&lt;/code> Version 3.9.15 ，&lt;code>Hex Fiend&lt;/code> Version 2.1.2 (200)
+逆向APP：&lt;code>Interface Inspector&lt;/code> Version 2.2 (17)&lt;/p></description></item></channel></rss>

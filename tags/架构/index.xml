@@ -1,1 +1,16 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>架构 on To Mars</title><link>https://www.tomars.cv/tags/%E6%9E%B6%E6%9E%84/</link><description>Recent content in 架构 on To Mars</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Apr 2018 22:05:25 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/%E6%9E%B6%E6%9E%84/index.xml" rel="self" type="application/rss+xml"/><item><title>有关“架构师”之二</title><link>https://www.tomars.cv/post/qcon-beijing-2018/</link><pubDate>Mon, 23 Apr 2018 22:05:25 +0000</pubDate><guid>https://www.tomars.cv/post/qcon-beijing-2018/</guid><description>谈谈这几天参加QCon后的感想。 稍作总结 从架构分组的上一篇文章：有关“架构师”到现在已经一年有余，这一年写的文章很少。固然有一些客观的不可抗</description></item><item><title>有关“架构师”</title><link>https://www.tomars.cv/post/%E6%9C%89%E5%85%B3%E6%9E%B6%E6%9E%84%E5%B8%88/</link><pubDate>Sun, 16 Oct 2016 16:45:28 +0000</pubDate><guid>https://www.tomars.cv/post/%E6%9C%89%E5%85%B3%E6%9E%B6%E6%9E%84%E5%B8%88/</guid><description>昨天参加了云栖社区开发者技术峰会——架构专场，会议议程包含了分布式系统，容器，混合云，机器学习中蕴含的架构思想。 这是架构师最好的时代。物联网</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>架构 on To Mars</title><link>https://www.tomars.cv/tags/%E6%9E%B6%E6%9E%84/</link><description>Recent content in 架构 on To Mars</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Mon, 23 Apr 2018 22:05:25 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/%E6%9E%B6%E6%9E%84/index.xml" rel="self" type="application/rss+xml"/><item><title>有关“架构师”之二</title><link>https://www.tomars.cv/post/qcon-beijing-2018/</link><pubDate>Mon, 23 Apr 2018 22:05:25 +0000</pubDate><guid>https://www.tomars.cv/post/qcon-beijing-2018/</guid><description>&lt;p>谈谈这几天参加QCon后的感想。&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="稍作总结">稍作总结&lt;/h2>
+&lt;p>从&lt;a href="http://suclogger.me/categories/%E6%9E%B6%E6%9E%84/">架构&lt;/a>分组的上一篇文章：&lt;a href="http://suclogger.me/%E6%9C%89%E5%85%B3%E2%80%9C%E6%9E%B6%E6%9E%84%E5%B8%88%E2%80%9D/">有关“架构师”&lt;/a>到现在已经一年有余，这一年写的文章很少。固然有一些客观的不可抗力原因，但是还有一些需要反思。&lt;/p>
+&lt;p>为什么写的文章变少？&lt;/p>
+&lt;ol>
+&lt;li>没有时间写&lt;/li>
+&lt;li>没有内容可写 -&amp;gt; 没有投入更多的时间钻研技术&lt;/li>
+&lt;/ol>
+&lt;p>时间投入到哪里了？&lt;/p>
+&lt;ol>
+&lt;li>与编程无关的其他低投入，高刺激的事情上&lt;/li>
+&lt;li>陪伴身边的人&lt;/li>
+&lt;/ol>
+&lt;p>为什么编程对自己的刺激感下降 -&amp;gt; &lt;strong>缺乏成就感&lt;/strong>&lt;/p></description></item><item><title>有关“架构师”</title><link>https://www.tomars.cv/post/%E6%9C%89%E5%85%B3%E6%9E%B6%E6%9E%84%E5%B8%88/</link><pubDate>Sun, 16 Oct 2016 16:45:28 +0000</pubDate><guid>https://www.tomars.cv/post/%E6%9C%89%E5%85%B3%E6%9E%B6%E6%9E%84%E5%B8%88/</guid><description>&lt;p>昨天参加了云栖社区开发者技术峰会——架构专场，会议议程包含了分布式系统，容器，混合云，机器学习中蕴含的架构思想。
+这是架构师最好的时代。物联网、移动、云计算、大数据、人工智能等等新兴领域，都包含着背后架构师的思想、设计、技能和经验。&lt;/p></description></item></channel></rss>

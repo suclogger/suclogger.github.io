@@ -1,1 +1,40 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>并发 on To Mars</title><link>https://www.tomars.cv/tags/%E5%B9%B6%E5%8F%91/</link><description>Recent content in 并发 on To Mars</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 03 Nov 2016 22:51:13 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml"/><item><title>并发下的Base64解码问题</title><link>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</link><pubDate>Thu, 03 Nov 2016 22:51:13 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</guid><description>上一篇文章中介绍的接口加密方案上线至今已有月余，考虑到加密后影响业务的风险以及用户的升级体验，近两个版本采用了明文和密文并存的灰度升级方式，</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>并发 on To Mars</title><link>https://www.tomars.cv/tags/%E5%B9%B6%E5%8F%91/</link><description>Recent content in 并发 on To Mars</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 03 Nov 2016 22:51:13 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/%E5%B9%B6%E5%8F%91/index.xml" rel="self" type="application/rss+xml"/><item><title>并发下的Base64解码问题</title><link>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</link><pubDate>Thu, 03 Nov 2016 22:51:13 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</guid><description>&lt;p>&lt;a href="http://suclogger.tech/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/">上一篇文章&lt;/a>中介绍的接口加密方案上线至今已有月余，考虑到加密后影响业务的风险以及用户的升级体验，近两个版本采用了明文和密文并存的灰度升级方式，这次发布的版本中决定完全移除明文请求，所以看了一眼近一个月加密逻辑中记录的日志，发现了一些问题。&lt;/p>
+&lt;!-- more -->
+&lt;p>在日志中存在很多以下报错信息：
+&lt;img src="https://www.tomars.cv/image/2016-11-03-23-31-03.jpg" alt="">&lt;/p>
+&lt;p>&lt;img src="https://www.tomars.cv/image/2016-11-03-23-35-33.jpg" alt="">&lt;/p>
+&lt;p>错误最终从RSA解密方法中抛出，错误类型有：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">javax.crypto.BadPaddingException: data hash wrong
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_10]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也有：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">org.bouncycastle.crypto.DataLengthException: input too large for RSA cipher.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.engines.RSACoreEngine.convertInput(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.engines.RSAEngine.processBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.encodings.OAEPEncoding.decodeBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.encodings.OAEPEncoding.processBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_10]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>处理密文的切面中代码逻辑大致如下：&lt;/p></description></item></channel></rss>

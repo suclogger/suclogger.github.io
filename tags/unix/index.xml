@@ -1,1 +1,26 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UNIX on To Mars</title><link>https://www.tomars.cv/tags/unix/</link><description>Recent content in UNIX on To Mars</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Sun, 17 May 2020 10:30:31 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/unix/index.xml" rel="self" type="application/rss+xml"/><item><title>UNIX网络编程学习笔记（三）</title><link>https://www.tomars.cv/post/unix-network-program-3/</link><pubDate>Sun, 17 May 2020 10:30:31 +0000</pubDate><guid>https://www.tomars.cv/post/unix-network-program-3/</guid><description>UNIX网络编程学习笔记（三） 大纲 ![](/image/2020-05-17/UNIX网络编程 第三章.png) 习题 “3.1 为什么诸如套接字地</description></item><item><title>UNIX网络编程学习笔记（二）</title><link>https://www.tomars.cv/post/unix-network-program-2/</link><pubDate>Mon, 11 May 2020 03:45:52 +0000</pubDate><guid>https://www.tomars.cv/post/unix-network-program-2/</guid><description>UNIX网络编程学习笔记（二） 大纲 习题 “2.1 我们已经提到IPv4（IP版本4）和IPv6（版本6）。IP版本5情况如何，IP版本0、1、2</description></item><item><title>UNIX网络编程学习笔记（一）</title><link>https://www.tomars.cv/post/unix-network-program-1/</link><pubDate>Sun, 10 May 2020 18:41:48 +0000</pubDate><guid>https://www.tomars.cv/post/unix-network-program-1/</guid><description>UNIX网络编程学习笔记（一） 大纲 习题 1.1 “按1.9节未尾的步骤找出你自己的网络拓扑的信息” 主要包含两个基本命令：netstat和ifconf</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UNIX on To Mars</title><link>https://www.tomars.cv/tags/unix/</link><description>Recent content in UNIX on To Mars</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Sun, 17 May 2020 10:30:31 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/unix/index.xml" rel="self" type="application/rss+xml"/><item><title>UNIX网络编程学习笔记（三）</title><link>https://www.tomars.cv/post/unix-network-program-3/</link><pubDate>Sun, 17 May 2020 10:30:31 +0000</pubDate><guid>https://www.tomars.cv/post/unix-network-program-3/</guid><description>&lt;p>UNIX网络编程学习笔记（三）&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="大纲">大纲&lt;/h2>
+&lt;p>![](/image/2020-05-17/UNIX网络编程 第三章.png)&lt;/p>
+&lt;h2 id="习题">习题&lt;/h2>
+&lt;h3 id="31为什么诸如套接字地址结构的长度之类的值-结果参数要用指针来传递">“3.1　为什么诸如套接字地址结构的长度之类的值-结果参数要用指针来传递？”&lt;/h3>
+&lt;p>之所以需要通过指针来传递，是因为这个参数同时扮演了两个角色：入参和出参。
+作为入参，应用程序告诉内核需要操作的空间大小，避免写越界。
+作为出参，内核高速应用程序实际写入的空间大小，从而控制应用程序行为。&lt;/p></description></item><item><title>UNIX网络编程学习笔记（二）</title><link>https://www.tomars.cv/post/unix-network-program-2/</link><pubDate>Mon, 11 May 2020 03:45:52 +0000</pubDate><guid>https://www.tomars.cv/post/unix-network-program-2/</guid><description>&lt;p>UNIX网络编程学习笔记（二）&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="大纲">大纲&lt;/h2>
+&lt;p>&lt;img src="https://www.tomars.cv/image/2020-05-11/%E7%AC%AC%E4%BA%8C%E7%AB%A0.png" alt="">&lt;/p>
+&lt;h2 id="习题">习题&lt;/h2>
+&lt;h3 id="21我们已经提到ipv4ip版本4和ipv6版本6ip版本5情况如何ip版本012和3又是什么">“2.1　我们已经提到IPv4（IP版本4）和IPv6（版本6）。IP版本5情况如何，IP版本0、1、2和3又是什么？”&lt;/h3>
+&lt;p>参考：
+&lt;a href="https://www.heficed.com/blog/ip-address-evolution-ipv4-vs-ipv6-has-ipv5-gone-missing">https://www.heficed.com/blog/ip-address-evolution-ipv4-vs-ipv6-has-ipv5-gone-missing&lt;/a>
+&lt;a href="https://blog.alertlogic.com/blog/where-is-ipv1,-2,-3,and-5/">https://blog.alertlogic.com/blog/where-is-ipv1,-2,-3,and-5/&lt;/a>&lt;/p></description></item><item><title>UNIX网络编程学习笔记（一）</title><link>https://www.tomars.cv/post/unix-network-program-1/</link><pubDate>Sun, 10 May 2020 18:41:48 +0000</pubDate><guid>https://www.tomars.cv/post/unix-network-program-1/</guid><description>&lt;p>UNIX网络编程学习笔记（一）&lt;/p>
+&lt;!-- more -->
+&lt;h2 id="大纲">大纲&lt;/h2>
+&lt;p>&lt;img src="https://www.tomars.cv/image/2020-05-10/%E7%AC%AC%E4%B8%80%E7%AB%A0.png" alt="">&lt;/p>
+&lt;h2 id="习题">习题&lt;/h2>
+&lt;h3 id="11-按19节未尾的步骤找出你自己的网络拓扑的信息">1.1 “按1.9节未尾的步骤找出你自己的网络拓扑的信息”&lt;/h3>
+&lt;p>主要包含两个基本命令：netstat和ifconfig
+netstat -i提供网络接口的信息。我们还指定-n标志以输出数值地址，而不是试图把它们反向解析成名字。
+可以看到本机是支持IPV6协议的。
+&lt;img src="https://www.tomars.cv/image/2020-05-10/2020-05-10-18-52-06.jpg" alt="">&lt;/p></description></item></channel></rss>

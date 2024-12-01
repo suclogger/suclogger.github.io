@@ -1,1 +1,108 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>加密 on To Mars</title><link>https://www.tomars.cv/tags/%E5%8A%A0%E5%AF%86/</link><description>Recent content in 加密 on To Mars</description><generator>Hugo -- gohugo.io</generator><language>zh-cn</language><lastBuildDate>Thu, 03 Nov 2016 22:51:13 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/%E5%8A%A0%E5%AF%86/index.xml" rel="self" type="application/rss+xml"/><item><title>并发下的Base64解码问题</title><link>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</link><pubDate>Thu, 03 Nov 2016 22:51:13 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</guid><description>上一篇文章中介绍的接口加密方案上线至今已有月余，考虑到加密后影响业务的风险以及用户的升级体验，近两个版本采用了明文和密文并存的灰度升级方式，</description></item><item><title>通过Wireshark看MIM攻击</title><link>https://www.tomars.cv/post/%E9%80%9A%E8%BF%87wireshark%E7%9C%8Bmim%E6%94%BB%E5%87%BB/</link><pubDate>Tue, 18 Oct 2016 22:41:14 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%9A%E8%BF%87wireshark%E7%9C%8Bmim%E6%94%BB%E5%87%BB/</guid><description>本文中，服务端IP地址是120.55.246.173，移动端（我的手机）的IP地址是192.168.1.226，中间人（我的电脑）的IP地址</description></item><item><title>应用接口的安全方案设计（二）</title><link>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%BA%8C/</link><pubDate>Fri, 14 Oct 2016 00:17:27 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%BA%8C/</guid><description>在上一篇文章中我说到：HTTPS是不安全的，因为存在MIM攻击。但是随着了解的深入，发现这个认识是有问题的，正确的认识应当是：HTTPS的设</description></item><item><title>应用接口的安全方案设计</title><link>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/</link><pubDate>Fri, 23 Sep 2016 18:42:22 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/</guid><description>鉴于当前日益严峻的行业竞争和用户的安全忧虑，我司近期上线了对全接口的安全监控，以下记录了方案设计过程中的一些想法。 HTTPS安全吗？ HTTP</description></item><item><title>AES和RSA的JavaScript实现</title><link>https://www.tomars.cv/post/aes%E5%92%8Crsa%E7%9A%84javascript%E5%AE%9E%E7%8E%B0/</link><pubDate>Mon, 12 Sep 2016 01:30:28 +0000</pubDate><guid>https://www.tomars.cv/post/aes%E5%92%8Crsa%E7%9A%84javascript%E5%AE%9E%E7%8E%B0/</guid><description>创建node工程 新建node工程，导入crypto-js和crypto-browserify的npm包。 代码如下： 1 2 3 4 5 6 7 8 9 10 11 12 13</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>加密 on To Mars</title><link>https://www.tomars.cv/tags/%E5%8A%A0%E5%AF%86/</link><description>Recent content in 加密 on To Mars</description><generator>Hugo</generator><language>zh-cn</language><lastBuildDate>Thu, 03 Nov 2016 22:51:13 +0000</lastBuildDate><atom:link href="https://www.tomars.cv/tags/%E5%8A%A0%E5%AF%86/index.xml" rel="self" type="application/rss+xml"/><item><title>并发下的Base64解码问题</title><link>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</link><pubDate>Thu, 03 Nov 2016 22:51:13 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%B9%B6%E5%8F%91%E4%B8%8B%E7%9A%84base64%E8%A7%A3%E7%A0%81%E9%97%AE%E9%A2%98/</guid><description>&lt;p>&lt;a href="http://suclogger.tech/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/">上一篇文章&lt;/a>中介绍的接口加密方案上线至今已有月余，考虑到加密后影响业务的风险以及用户的升级体验，近两个版本采用了明文和密文并存的灰度升级方式，这次发布的版本中决定完全移除明文请求，所以看了一眼近一个月加密逻辑中记录的日志，发现了一些问题。&lt;/p>
+&lt;!-- more -->
+&lt;p>在日志中存在很多以下报错信息：
+&lt;img src="https://www.tomars.cv/image/2016-11-03-23-31-03.jpg" alt="">&lt;/p>
+&lt;p>&lt;img src="https://www.tomars.cv/image/2016-11-03-23-35-33.jpg" alt="">&lt;/p>
+&lt;p>错误最终从RSA解密方法中抛出，错误类型有：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">javax.crypto.BadPaddingException: data hash wrong
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_10]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>也有：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt">1
+&lt;/span>&lt;span class="lnt">2
+&lt;/span>&lt;span class="lnt">3
+&lt;/span>&lt;span class="lnt">4
+&lt;/span>&lt;span class="lnt">5
+&lt;/span>&lt;span class="lnt">6
+&lt;/span>&lt;span class="lnt">7
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-fallback" data-lang="fallback">&lt;span class="line">&lt;span class="cl">org.bouncycastle.crypto.DataLengthException: input too large for RSA cipher.
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.engines.RSACoreEngine.convertInput(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.engines.RSAEngine.processBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.encodings.OAEPEncoding.decodeBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.crypto.encodings.OAEPEncoding.processBlock(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at org.bouncycastle.jce.provider.JCERSACipher.engineDoFinal(Unknown Source) ~[bcprov-jdk14-138.jar:1.38.0]
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">	at javax.crypto.Cipher.doFinal(Cipher.java:2145) ~[na:1.7.0_10]
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>处理密文的切面中代码逻辑大致如下：&lt;/p></description></item><item><title>通过Wireshark看MIM攻击</title><link>https://www.tomars.cv/post/%E9%80%9A%E8%BF%87wireshark%E7%9C%8Bmim%E6%94%BB%E5%87%BB/</link><pubDate>Tue, 18 Oct 2016 22:41:14 +0000</pubDate><guid>https://www.tomars.cv/post/%E9%80%9A%E8%BF%87wireshark%E7%9C%8Bmim%E6%94%BB%E5%87%BB/</guid><description>&lt;!-- abstract -->
+&lt;!-- 开始正文 -->
+&lt;p>本文中，服务端IP地址是&lt;code>120.55.246.173&lt;/code>，移动端（我的手机）的IP地址是&lt;code>192.168.1.226&lt;/code>，中间人（我的电脑）的IP地址是&lt;code>192.168.1.158&lt;/code>，电脑通过Charles监听8888端口，转发移动端发来的数据包。&lt;/p></description></item><item><title>应用接口的安全方案设计（二）</title><link>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%BA%8C/</link><pubDate>Fri, 14 Oct 2016 00:17:27 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1%E4%BA%8C/</guid><description>&lt;!-- abstract -->
+&lt;!-- 开始正文 -->
+&lt;p>在&lt;a href="http://suclogger.tech/2016/09/23/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/">上一篇&lt;/a>文章中我说到：HTTPS是不安全的，因为存在MIM攻击。但是随着了解的深入，发现这个认识是有问题的，正确的认识应当是：&lt;strong>HTTPS的设计是安全的，只是错误的用法导致了MIM攻击&lt;/strong>。&lt;/p>
+&lt;p>关于SSL/TLS协议运行机制，阮一峰的&lt;a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html">博客文章&lt;/a>做了很好的介绍。&lt;/p>
+&lt;p>稍加了解，可以发现，其实上一篇文章中的设计就是参照了SSL/TLS协议运行机制，混合了非对称加密和对称加密，有几点需要注意：&lt;/p></description></item><item><title>应用接口的安全方案设计</title><link>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/</link><pubDate>Fri, 23 Sep 2016 18:42:22 +0000</pubDate><guid>https://www.tomars.cv/post/%E5%BA%94%E7%94%A8%E6%8E%A5%E5%8F%A3%E7%9A%84%E5%AE%89%E5%85%A8%E6%96%B9%E6%A1%88%E8%AE%BE%E8%AE%A1/</guid><description>&lt;!-- abstract -->
+&lt;!-- 开始正文 -->
+&lt;p>鉴于当前日益严峻的行业竞争和用户的安全忧虑，我司近期上线了对全接口的安全监控，以下记录了方案设计过程中的一些想法。&lt;/p>
+&lt;h2 id="https安全吗">HTTPS安全吗？&lt;/h2>
+&lt;p>HTTPS可以在一定程度上隐藏接口调用的路径和参数，但是如果使用不当，依然会暴露在&lt;a href="https://zh.wikipedia.org/zh-cn/%E4%B8%AD%E9%97%B4%E4%BA%BA%E6%94%BB%E5%87%BB">MIM攻击&lt;/a>下，现在流行的网络调试工具都可以支持MIM。如Charles：&lt;/p></description></item><item><title>AES和RSA的JavaScript实现</title><link>https://www.tomars.cv/post/aes%E5%92%8Crsa%E7%9A%84javascript%E5%AE%9E%E7%8E%B0/</link><pubDate>Mon, 12 Sep 2016 01:30:28 +0000</pubDate><guid>https://www.tomars.cv/post/aes%E5%92%8Crsa%E7%9A%84javascript%E5%AE%9E%E7%8E%B0/</guid><description>&lt;!-- abstract -->
+&lt;!-- 开始正文 -->
+&lt;h2 id="创建node工程">创建node工程&lt;/h2>
+&lt;p>新建node工程，导入&lt;code>crypto-js&lt;/code>和&lt;code>crypto-browserify&lt;/code>的npm包。
+代码如下：&lt;/p>
+&lt;div class="highlight">&lt;div class="chroma">
+&lt;table class="lntable">&lt;tr>&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code>&lt;span class="lnt"> 1
+&lt;/span>&lt;span class="lnt"> 2
+&lt;/span>&lt;span class="lnt"> 3
+&lt;/span>&lt;span class="lnt"> 4
+&lt;/span>&lt;span class="lnt"> 5
+&lt;/span>&lt;span class="lnt"> 6
+&lt;/span>&lt;span class="lnt"> 7
+&lt;/span>&lt;span class="lnt"> 8
+&lt;/span>&lt;span class="lnt"> 9
+&lt;/span>&lt;span class="lnt">10
+&lt;/span>&lt;span class="lnt">11
+&lt;/span>&lt;span class="lnt">12
+&lt;/span>&lt;span class="lnt">13
+&lt;/span>&lt;span class="lnt">14
+&lt;/span>&lt;span class="lnt">15
+&lt;/span>&lt;span class="lnt">16
+&lt;/span>&lt;span class="lnt">17
+&lt;/span>&lt;span class="lnt">18
+&lt;/span>&lt;span class="lnt">19
+&lt;/span>&lt;span class="lnt">20
+&lt;/span>&lt;span class="lnt">21
+&lt;/span>&lt;span class="lnt">22
+&lt;/span>&lt;span class="lnt">23
+&lt;/span>&lt;/code>&lt;/pre>&lt;/td>
+&lt;td class="lntd">
+&lt;pre tabindex="0" class="chroma">&lt;code class="language-gdscript3" data-lang="gdscript3">&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">CryptoJS&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;crypto-js&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">crypto&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">require&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s1">&amp;#39;crypto-browserify&amp;#39;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;16位密钥&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">rsaKeyStr&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;&amp;#39;&lt;/span>&lt;span class="n">RSA公钥&lt;/span>&lt;span class="s1">&amp;#39;;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">rsaBuffer&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">new&lt;/span> &lt;span class="n">Buffer&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">//&lt;/span> &lt;span class="err">使用&lt;/span>&lt;span class="n">RSA公钥加密AES的密钥&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">cryptedData&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">crypto&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">publicEncrypt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">rsaKeyStr&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="n">rsaBuffer&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">//&lt;/span>&lt;span class="err">定义向量&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">iv&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="s1">&amp;#39;qwertyuiasdfghjk&amp;#39;&lt;/span>&lt;span class="p">;&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">key&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">CryptoJS&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enc&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Utf8&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">key&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">iv&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">CryptoJS&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">enc&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Utf8&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">parse&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">iv&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="o">//&lt;/span>&lt;span class="err">使用&lt;/span>&lt;span class="n">AES加密加密内容&lt;/span>&lt;span class="err">，这里用&lt;/span>&lt;span class="n">new&lt;/span> &lt;span class="ne">Object&lt;/span> &lt;span class="err">代替&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">encrypted&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">CryptoJS&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">AES&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">encrypt&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">JSON&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">stringify&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="n">new&lt;/span> &lt;span class="ne">Object&lt;/span>&lt;span class="p">(),&lt;/span> &lt;span class="n">key&lt;/span>&lt;span class="p">,&lt;/span> &lt;span class="p">{&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">iv&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">iv&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">mode&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CryptoJS&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">mode&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">CBC&lt;/span>&lt;span class="p">,&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">padding&lt;/span>&lt;span class="p">:&lt;/span> &lt;span class="n">CryptoJS&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">pad&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">Pkcs7&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="p">});&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl">
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="k">var&lt;/span> &lt;span class="n">encryptedObj&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">new&lt;/span> &lt;span class="ne">Object&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">encryptedObj&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">mhcParams&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">encrypted&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">toString&lt;/span>&lt;span class="p">();&lt;/span>
+&lt;/span>&lt;/span>&lt;span class="line">&lt;span class="cl"> &lt;span class="n">encryptedObj&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">mhcToken&lt;/span> &lt;span class="o">=&lt;/span> &lt;span class="n">cryptedData&lt;/span>&lt;span class="o">.&lt;/span>&lt;span class="n">toString&lt;/span>&lt;span class="p">(&lt;/span>&lt;span class="s2">&amp;#34;base64&amp;#34;&lt;/span>&lt;span class="p">);&lt;/span>
+&lt;/span>&lt;/span>&lt;/code>&lt;/pre>&lt;/td>&lt;/tr>&lt;/table>
+&lt;/div>
+&lt;/div>&lt;p>注意有一个坑：
+&lt;code>crypto.publicEncrypt(public_key, buffer)&lt;/code>传入的&lt;code>public_key&lt;/code>参数可以是一个Object，** If public_key is a string, it is treated as the key with no passphrase and will use RSA_PKCS1_OAEP_PADDING** ：如果是个string，默认采用&lt;code>RSA_PKCS1_OAEP_PADDING&lt;/code>的padding方式。&lt;/p></description></item></channel></rss>

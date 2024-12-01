@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>MySQL到Elasticsearch的同步之路 - To Mars</title>
+  <meta name="renderer" content="webkit" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+<meta name="theme-color" content="#f8f5ec" />
+<meta name="msapplication-navbutton-color" content="#f8f5ec">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="#f8f5ec">
+
+
+<meta name="author" content="" /><meta name="description" content="六个月前写买好车搜索的Elasticsearch实践：初体验这篇文章的时候，我司刚刚迁移到Elasticserach，六个月之后的今天跟我最开始什么都不懂的时候搭起来的架构还是一模一样，这几天稍微有点时间，将Elasticsearch升级到了5.0.2，顺便整理了一下架构。 这一篇主要记录搜索与数据库同步的一些变化。
+洪荒时代 Elasticsearch 2.0 之前，同步数据到Elasticsearch的功能由一个官方提供的插件（plugin）占领：river。通过实现不同的river插件，可以将数据从数据库，消息队列，nosql等等同步到Elasticsearch中，比如：elasticsearch-river-rabbitmq、elasticsearch-river-couchdb等等。 以plugin方式运行的形式如图： 可以看到，插件与Elasticsearch运行在同一个jvm上，显然这会导致一系列的问题，正如Deprecating Rivers中所说：
+" />
+
+
+
+
+
+
+<meta name="generator" content="Hugo 0.139.3 with theme even" />
+
+
+<link rel="canonical" href="http://localhost:1313/post/mysql%E5%88%B0elasticsearch%E7%9A%84%E5%90%8C%E6%AD%A5%E4%B9%8B%E8%B7%AF/" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/manifest.json">
+<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
+
+
+<link href="/sass/main.min.f92fd13721ddf72129410fd8250e73152cc6f2438082b6c0208dc24ee7c13fc4.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.css" integrity="sha256-7TyXnr2YU040zfSP+rEcz29ggW4j56/ujTPwjMzyqFY=" crossorigin="anonymous">
+
+
+<meta property="og:url" content="http://localhost:1313/post/mysql%E5%88%B0elasticsearch%E7%9A%84%E5%90%8C%E6%AD%A5%E4%B9%8B%E8%B7%AF/">
+  <meta property="og:site_name" content="To Mars">
+  <meta property="og:title" content="MySQL到Elasticsearch的同步之路">
+  <meta property="og:description" content="六个月前写买好车搜索的Elasticsearch实践：初体验这篇文章的时候，我司刚刚迁移到Elasticserach，六个月之后的今天跟我最开始什么都不懂的时候搭起来的架构还是一模一样，这几天稍微有点时间，将Elasticsearch升级到了5.0.2，顺便整理了一下架构。 这一篇主要记录搜索与数据库同步的一些变化。
+洪荒时代 Elasticsearch 2.0 之前，同步数据到Elasticsearch的功能由一个官方提供的插件（plugin）占领：river。通过实现不同的river插件，可以将数据从数据库，消息队列，nosql等等同步到Elasticsearch中，比如：elasticsearch-river-rabbitmq、elasticsearch-river-couchdb等等。 以plugin方式运行的形式如图： 可以看到，插件与Elasticsearch运行在同一个jvm上，显然这会导致一系列的问题，正如Deprecating Rivers中所说：">
+  <meta property="og:locale" content="zh_cn">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="post">
+    <meta property="article:published_time" content="2016-12-11T13:25:50+00:00">
+    <meta property="article:modified_time" content="2016-12-11T13:25:50+00:00">
+    <meta property="article:tag" content="Elasticsearch">
+    <meta property="article:tag" content="Logstash">
+
+  <meta itemprop="name" content="MySQL到Elasticsearch的同步之路">
+  <meta itemprop="description" content="六个月前写买好车搜索的Elasticsearch实践：初体验这篇文章的时候，我司刚刚迁移到Elasticserach，六个月之后的今天跟我最开始什么都不懂的时候搭起来的架构还是一模一样，这几天稍微有点时间，将Elasticsearch升级到了5.0.2，顺便整理了一下架构。 这一篇主要记录搜索与数据库同步的一些变化。
+洪荒时代 Elasticsearch 2.0 之前，同步数据到Elasticsearch的功能由一个官方提供的插件（plugin）占领：river。通过实现不同的river插件，可以将数据从数据库，消息队列，nosql等等同步到Elasticsearch中，比如：elasticsearch-river-rabbitmq、elasticsearch-river-couchdb等等。 以plugin方式运行的形式如图： 可以看到，插件与Elasticsearch运行在同一个jvm上，显然这会导致一系列的问题，正如Deprecating Rivers中所说：">
+  <meta itemprop="datePublished" content="2016-12-11T13:25:50+00:00">
+  <meta itemprop="dateModified" content="2016-12-11T13:25:50+00:00">
+  <meta itemprop="wordCount" content="2735">
+  <meta itemprop="keywords" content="Elasticsearch,Logstash">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="MySQL到Elasticsearch的同步之路">
+  <meta name="twitter:description" content="六个月前写买好车搜索的Elasticsearch实践：初体验这篇文章的时候，我司刚刚迁移到Elasticserach，六个月之后的今天跟我最开始什么都不懂的时候搭起来的架构还是一模一样，这几天稍微有点时间，将Elasticsearch升级到了5.0.2，顺便整理了一下架构。 这一篇主要记录搜索与数据库同步的一些变化。
+洪荒时代 Elasticsearch 2.0 之前，同步数据到Elasticsearch的功能由一个官方提供的插件（plugin）占领：river。通过实现不同的river插件，可以将数据从数据库，消息队列，nosql等等同步到Elasticsearch中，比如：elasticsearch-river-rabbitmq、elasticsearch-river-couchdb等等。 以plugin方式运行的形式如图： 可以看到，插件与Elasticsearch运行在同一个jvm上，显然这会导致一系列的问题，正如Deprecating Rivers中所说：">
+
+<!--[if lte IE 9]>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/classlist/1.1.20170427/classList.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+  <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+<![endif]-->
+
+</head>
+<body>
+  <div id="mobile-navbar" class="mobile-navbar">
+  <div class="mobile-header-logo">
+    <a href="/" class="logo">To Mars</a>
+  </div>
+  <div class="mobile-navbar-icon">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+</div>
+<nav id="mobile-menu" class="mobile-menu slideout-menu">
+  <ul class="mobile-menu-list">
+    <a href="/">
+        <li class="mobile-menu-item">Home</li>
+      </a><a href="/post/">
+        <li class="mobile-menu-item">Archives</li>
+      </a><a href="/tags/">
+        <li class="mobile-menu-item">Tags</li>
+      </a><a href="/categories/">
+        <li class="mobile-menu-item">Categories</li>
+      </a><a href="https://haftbit.substack.com/">
+        <li class="mobile-menu-item">Readings</li>
+      </a>
+  </ul>
+
+  
+
+
+</nav>
+
+  <div class="container" id="mobile-panel">
+    <header id="header" class="header">
+        <div class="logo-wrapper">
+  <a href="/" class="logo">To Mars</a>
+</div>
+
+
+
+
+
+<nav class="site-navbar">
+  <ul id="menu" class="menu">
+    <li class="menu-item">
+        <a class="menu-item-link" href="/">Home</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/post/">Archives</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/tags/">Tags</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="/categories/">Categories</a>
+      </li><li class="menu-item">
+        <a class="menu-item-link" href="https://haftbit.substack.com/">Readings</a>
+      </li>
+  </ul>
+</nav>
+
+    </header>
+
+    <main id="main" class="main">
+      <div class="content-wrapper">
+        <div id="content" class="content">
+          <article class="post">
+    
+    <header class="post-header">
+      <h1 class="post-title">MySQL到Elasticsearch的同步之路</h1>
+
+      <div class="post-meta">
+        <span class="post-time"> 2016-12-11 </span>
+        <div class="post-category">
+            <a href="/categories/%E6%90%9C%E7%B4%A2/"> 搜索 </a>
+            </div>
+        
+      </div>
+    </header>
+
+    <div class="post-toc" id="post-toc">
+  <h2 class="post-toc-title">文章目录</h2>
+  <div class="post-toc-content always-active">
+    <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#洪荒时代">洪荒时代</a></li>
+        <li><a href="#elasticsearch-jdbc">Elasticsearch-JDBC</a>
+          <ul>
+            <li><a href="#不支持多数据源">不支持多数据源</a></li>
+            <li><a href="#sql以json形式保存因此不能带有特殊字符">SQL以json形式保存，因此不能带有特殊字符</a></li>
+            <li><a href="#内存泄露问题">内存泄露问题</a></li>
+            <li><a href="#数据缺失问题">数据缺失问题</a></li>
+          </ul>
+        </li>
+        <li><a href="#logstash">Logstash</a>
+          <ul>
+            <li><a href="#为什么不用logstash">为什么不用Logstash？</a></li>
+            <li><a href="#为什么要用logstash呢">为什么要用Logstash呢？</a></li>
+            <li><a href="#迁移到logstash">迁移到Logstash</a></li>
+          </ul>
+        </li>
+        <li><a href="#其他">其他</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+  </div>
+</div>
+    <div class="post-content">
+      <p>六个月前写<a href="http://suclogger.me/%E4%B9%B0%E5%A5%BD%E8%BD%A6%E6%90%9C%E7%B4%A2%E7%9A%84Elasticsearch%E5%AE%9E%E8%B7%B5%EF%BC%9A%E5%88%9D%E4%BD%93%E9%AA%8C/">买好车搜索的Elasticsearch实践：初体验</a>这篇文章的时候，我司刚刚迁移到Elasticserach，六个月之后的今天跟我最开始什么都不懂的时候搭起来的架构还是一模一样，这几天稍微有点时间，将Elasticsearch升级到了5.0.2，顺便整理了一下架构。
+这一篇主要记录搜索与数据库同步的一些变化。</p>
+<!-- more -->
+<h2 id="洪荒时代">洪荒时代</h2>
+<p>Elasticsearch 2.0 之前，同步数据到Elasticsearch的功能由一个官方提供的插件（plugin）占领：river。通过实现不同的river插件，可以将数据从数据库，消息队列，nosql等等同步到Elasticsearch中，比如：<a href="https://github.com/elastic/elasticsearch-river-rabbitmq">elasticsearch-river-rabbitmq</a>、<a href="https://github.com/elastic/elasticsearch-river-couchdb">elasticsearch-river-couchdb</a>等等。
+以plugin方式运行的形式如图：
+<img src="/image/2016-12-11-13-39-47.jpg" alt="">
+可以看到，插件与Elasticsearch运行在同一个jvm上，显然这会导致一系列的问题，正如<a href="https://www.elastic.co/blog/deprecating-rivers">Deprecating Rivers</a>中所说：</p>
+<blockquote>
+<p>What was the problem we were witnessing? Cluster stability. You see, by their nature, rivers deal with external systems, and those external systems require external libraries to work with. Those are great to use, but they come with an overhead. Part of it is built in overhead, things like additional memory usage, more sockets, file descriptors and so on. Others, sadly, are bugs.</p>
+</blockquote>
+<p>插件的运行机制将外部数据和其他运行库的不稳定性引入了Elasticsearch，所以Elasticsearch官方从 Elasticsearch 2.0 开始去除了这一方式的支持，转而推荐<code>getting data to Elasticsearch from &quot;outside&quot; the cluster</code>即从集群外部将数据导入Elasticsearch的方式。</p>
+<h2 id="elasticsearch-jdbc">Elasticsearch-JDBC</h2>
+<p><a href="https://github.com/jprante/elasticsearch-jdbc">elasticsearch-jdbc</a>无疑是Elasticsearch 5.0 之前最炙手可热的数据库同步方案，他的优势是开源，用java语言编写，配置化。这也是我司最早时候采用的方案。
+Elasticsearch-JDBC不可否认也存在一些不足，主要有：</p>
+<h3 id="不支持多数据源">不支持多数据源</h3>
+<p>需要对源代码做一些hack</p>
+<h3 id="sql以json形式保存因此不能带有特殊字符">SQL以json形式保存，因此不能带有特殊字符</h3>
+<p>比如有一句SQL：<code>select replace(columnA, '.' ,'' ) from dual</code>，需要改造成基于ASCII编码的格式：<code>select replace(columnA, 0x2E, '') from dual</code></p>
+<h3 id="内存泄露问题">内存泄露问题</h3>
+<p>Elasticsearch-JDBC在使用过程中会出现OOM的问题，特别是在<code>interval</code>设得很短的时候，解决的方式可以参考这个<a href="https://github.com/jprante/elasticsearch-jdbc/issues/842">issue</a>。</p>
+<h3 id="数据缺失问题">数据缺失问题</h3>
+<p>脚本读取的是从库，主从同步需要一定时间，如果数据写入了，但是未及时同步到从库，就会导致中间一些数据丢失，可以用一个简单粗暴的方式解决，就是每次运行读取（上次执行时间 - 30S ）这个时间点之后更新的数据，这里不用考虑重复的问题，因为同样的ID在Elasticsearch中会自动转为update：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">select * from dual where time &gt; date_sub(?, interval 30 SECOND)
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>最终线上的增量同步脚本如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span><span class="lnt">34
+</span><span class="lnt">35
+</span><span class="lnt">36
+</span><span class="lnt">37
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nv">DIR</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span> <span class="nb">cd</span> <span class="s2">&#34;</span><span class="k">$(</span> dirname <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">&#34;</span> <span class="k">)</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">pwd</span> <span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl"><span class="nv">bin</span><span class="o">=</span><span class="si">${</span><span class="nv">DIR</span><span class="si">}</span>
+</span></span><span class="line"><span class="cl"><span class="nv">lib</span><span class="o">=</span><span class="si">${</span><span class="nv">DIR</span><span class="si">}</span>/../../lib
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">{
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;type&#34; : &#34;jdbc&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">    &#34;jdbc&#34; : {
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;url&#34; : &#34;jdbc:mysql://www.maihaoche.com/&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;statefile&#34; : &#34;statefile.json&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;schedule&#34; : &#34;0/5 * * ? * *&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;user&#34; : &#34;mhc&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;password&#34; : &#34;mhc&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;sql&#34; : [{
+</span></span></span><span class="line"><span class="cl"><span class="s1">                &#34;statement&#34;: &#34;select * from dual where modified &gt;= date_sub(?, interval 30 SECOND)&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">                &#34;parameter&#34;: [&#34;$metrics.lastexecutionstart&#34;]}
+</span></span></span><span class="line"><span class="cl"><span class="s1">            ],
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;index&#34; : &#34;*&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;type&#34; : &#34;*&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;metrics&#34;: {
+</span></span></span><span class="line"><span class="cl"><span class="s1">            &#34;enabled&#34; : true,
+</span></span></span><span class="line"><span class="cl"><span class="s1">            &#34;interval&#34; : &#34;1&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        },
+</span></span></span><span class="line"><span class="cl"><span class="s1">        &#34;elasticsearch&#34; : {
+</span></span></span><span class="line"><span class="cl"><span class="s1">             &#34;cluster&#34; : &#34;*&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">             &#34;host&#34; : &#34;*&#34;,
+</span></span></span><span class="line"><span class="cl"><span class="s1">             &#34;port&#34; : 9300
+</span></span></span><span class="line"><span class="cl"><span class="s1">        } 
+</span></span></span><span class="line"><span class="cl"><span class="s1">      }
+</span></span></span><span class="line"><span class="cl"><span class="s1">}
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;</span> <span class="p">|</span> java <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">lib</span><span class="si">}</span><span class="s2">/*&#34;</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -Dlog4j.configurationFile<span class="o">=</span><span class="si">${</span><span class="nv">bin</span><span class="si">}</span>/car.xml <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    org.xbib.tools.Runner <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    org.xbib.tools.JDBCImporter
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>虽然很简陋，但是也矜矜业业运行了半年时间没出过问题，可以作为迅速上线的一个方式。</p>
+<p>同样的，作为开源软件的劣势就是很难及时跟上Elasticsearch的更新步伐，Elasticsearch-JDBC暂时还不支持Elasticsearch 5.0，具体可以跟踪这个<a href="https://github.com/jprante/elasticsearch-jdbc/issues/915">issue</a>。</p>
+<h2 id="logstash">Logstash</h2>
+<h3 id="为什么不用logstash">为什么不用Logstash？</h3>
+<p>正如Elasticsearch-JDBC的作者@jprante 所说：</p>
+<blockquote>
+<p>I have only a rough idea about Logstash JDBC and how it works, it seems to use the JRuby features for JDBC. Not sure how Ruby interferes in such a process when SQL database types are mapped by JDBC types, then mapped to Java, then to Ruby, then to JSON, then indexed in ES and then back to an application, but there might be shortcomings. SQL to JDBC to Java is already a challenge on its own.</p>
+</blockquote>
+<p>Logstash基于Ruby语言，Logstash JDBC采用JDBC的java驱动，意味着，数据从数据库到Elasticsearch经历了JDBC -&gt; JAVA -&gt; Ruby -&gt; JSON -&gt; ES，越多的步骤意味着越多出错的概率，为何不采用更为稳定和直接的JDBC -&gt; JAVA -&gt; ES呢？这也是Elasticsearch-JDBC将会继续维护的原因。</p>
+<h3 id="为什么要用logstash呢">为什么要用Logstash呢？</h3>
+<h4 id="支持elasticsearch-50-而且有官方支持">支持Elasticsearch 5.0， 而且有官方支持</h4>
+<h4 id="便于日后扩展输入和输出">便于日后扩展输入和输出</h4>
+<p>Logstash提供了很多很多的输入输出插件的支持</p>
+<h4 id="logstash-jdbc更快">Logstash JDBC更快</h4>
+<p>根据我在测试环境的观察，11W条记录相同类型的索引，Elasticsearch-JDBC完成索引耗时90S，Logstash-JDBC只需要50S。</p>
+<h4 id="占用系统资源更少">占用系统资源更少</h4>
+<p>根据我在测试环境的观察：
+Elasticsearch-JDBC的系统资源使用：
+<img src="/image/2016-12-11-15-02-39.jpg" alt="">
+Logstash-JDBC的系统资源使用：
+<img src="/image/2016-12-11-15-00-03.jpg" alt=""></p>
+<h3 id="迁移到logstash">迁移到Logstash</h3>
+<p>具体可以参考官方的文档：<a href="https://www.elastic.co/guide/en/logstash/5.0/plugins-inputs-jdbc.html">jdbc</a>
+和官方的使用案例：<a href="https://www.elastic.co/blog/logstash-jdbc-input-plugin">INSERT INTO LOGSTASH SELECT DATA FROM DATABASE</a></p>
+<p>主要有下面几个技巧</p>
+<h4 id="sql剥离">SQL剥离</h4>
+<p>当然可以将SQL直接写入配置文件的<code>statement</code>配置项，但是会遇到与Elasticsearch-JDBC中同样遇到的特殊字符的问题和文本编码的问题。
+更好的方式是将查询脚本存放在一个单独的SQL文件中，通过指定<code>statement_filepath</code>配置项来定位。</p>
+<h4 id="时区指定">时区指定</h4>
+<p>如果不定义<code>jdbc_default_timezone</code>配置项，你的执行时间可能会受到系统环境的影响。这个配置项需要输入<code>UTC</code>中定义的时区，详见：<a href="https://en.wikipedia.org/wiki/List_of_tz_database_time_zones">wikipedia</a></p>
+<h4 id="保存上一次执行的进度">保存上一次执行的进度</h4>
+<p>如果你的增量依赖于数据库的某个字段（比如自增的ID），可以配置：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">use_column_value =&gt; true
+</span></span><span class="line"><span class="cl">tracking_column =&gt; id
+</span></span><span class="line"><span class="cl">last_run_metadata_path =&gt; &#34;&#39;$DIR&#39;/.logstash_jdbc_last_run&#34;
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>Lostash会将上一次导入数据的最大id存放在<code>.logstash_jdbc_last_run</code>文件中。
+如果增量脚本是基于时间戳，则无需配置<code>use_column_value</code>。
+使用的方式都是一样的，在SQL中使用<code>:sql_last_value</code>来引用先前的执行结果。</p>
+<p>最终线上的增量同步脚本如下：</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="cp">#!/bin/sh
+</span></span></span><span class="line"><span class="cl"><span class="cp"></span>
+</span></span><span class="line"><span class="cl"><span class="nv">indexname</span><span class="o">=</span><span class="nv">$1</span>
+</span></span><span class="line"><span class="cl"><span class="nv">DIR</span><span class="o">=</span><span class="s2">&#34;</span><span class="k">$(</span> <span class="nb">cd</span> <span class="s2">&#34;</span><span class="k">$(</span> dirname <span class="s2">&#34;</span><span class="si">${</span><span class="nv">BASH_SOURCE</span><span class="p">[0]</span><span class="si">}</span><span class="s2">&#34;</span> <span class="k">)</span><span class="s2">&#34;</span> <span class="o">&amp;&amp;</span> <span class="nb">pwd</span> <span class="k">)</span><span class="s2">&#34;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s1">&#39;
+</span></span></span><span class="line"><span class="cl"><span class="s1">input {
+</span></span></span><span class="line"><span class="cl"><span class="s1">    jdbc {
+</span></span></span><span class="line"><span class="cl"><span class="s1">        jdbc_driver_library =&gt; &#34;/*/mysql-connector-java-5.1.40-bin.jar&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        jdbc_driver_class =&gt; &#34;com.mysql.jdbc.Driver&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        jdbc_connection_string =&gt; &#34;jdbc:mysql://www.maihaoche.comm/&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        jdbc_user =&gt; &#34;mhc&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        jdbc_password =&gt; &#34;mhc&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        schedule =&gt; &#34;*/5 * * * * *&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        statement_filepath =&gt; &#34;&#39;</span><span class="nv">$DIR</span><span class="s1">&#39;/confs/mhc.sql&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        jdbc_default_timezone =&gt; &#34;Asia/Shanghai&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        last_run_metadata_path =&gt; &#34;&#39;</span><span class="nv">$DIR</span><span class="s1">&#39;/.logstash_jdbc_last_run_car&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }
+</span></span></span><span class="line"><span class="cl"><span class="s1">}
+</span></span></span><span class="line"><span class="cl"><span class="s1">output {
+</span></span></span><span class="line"><span class="cl"><span class="s1">    elasticsearch {
+</span></span></span><span class="line"><span class="cl"><span class="s1">        index =&gt; &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        document_type =&gt; &#34;*&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        document_id =&gt; &#34;%{id}&#34;
+</span></span></span><span class="line"><span class="cl"><span class="s1">        hosts =&gt; [&#34;*:9300&#34;]
+</span></span></span><span class="line"><span class="cl"><span class="s1">    }
+</span></span></span><span class="line"><span class="cl"><span class="s1">}
+</span></span></span><span class="line"><span class="cl"><span class="s1">&#39;</span> &gt; /*/<span class="nv">$indexname</span>.conf
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">/*/logstash/bin/logstash -f /*/logstash/bin/confs/<span class="nv">$indexname</span>.conf
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h2 id="其他">其他</h2>
+<p>当然，从数据库同步到Elasticsearch还有很多更好的方式，比如</p>
+<ul>
+<li>解析数据库的binlog</li>
+<li>直接通过hadoop构造lusence索引推送到Elasticsearch
+等等，可以参见<a href="http://suclogger.me/Elasticsearch%E4%B8%AD%E6%96%87%E7%A4%BE%E5%8C%BA20160618%E6%9D%AD%E5%B7%9E%E7%BA%BF%E4%B8%8B%E8%81%9A%E4%BC%9A%E7%BA%AA%E8%A6%81/">Elasticsearch中文社区20160618杭州线下聚会纪要</a></li>
+</ul>
+<p>这些方式可以解决<strong>数据库物理删除同步到Elasticsearch</strong>的痛点。
+但是更好的方式意味着更高的开发成本，希望日后可以有时间实现。</p>
+<p>binlog这里不得不吐槽一下阿里云的RDS，如果自定开通binlog订阅则无法使用阿里云的DTS，如果要使用DTS必须使用阿里云提供的付费binlog订阅服务。
+不得不感慨，<strong>这是一个最好的时代，也是一个最坏的时代</strong>。</p>
+
+    </div>
+
+    <div class="post-copyright">
+  <p class="copyright-item">
+    <span class="item-title">文章作者</span>
+    <span class="item-content"></span>
+  </p>
+  <p class="copyright-item">
+    <span class="item-title">上次更新</span>
+    <span class="item-content">
+        2016-12-11
+        
+    </span>
+  </p>
+  
+  
+</div>
+<footer class="post-footer">
+      <div class="post-tags">
+          <a href="/tags/elasticsearch/">elasticsearch</a>
+          <a href="/tags/logstash/">logstash</a>
+          </div>
+      <nav class="post-nav">
+        <a class="prev" href="/post/https%E4%B9%8B%E6%AE%87%E7%BB%95%E8%BF%87%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84ssl%E8%AF%81%E4%B9%A6%E7%BB%91%E5%AE%9A/">
+            <i class="iconfont icon-left"></i>
+            <span class="prev-text nav-default">HTTPS之殇：绕过客户端的SSL证书绑定</span>
+            <span class="prev-text nav-mobile">上一篇</span>
+          </a>
+        <a class="next" href="/post/%E5%88%86%E5%B8%83%E5%BC%8F%E7%B3%BB%E7%BB%9F%E8%AE%BE%E8%AE%A1%E8%BF%B7%E6%80%9D%E4%BA%8C/">
+            <span class="next-text nav-default">分布式系统设计迷思（二）</span>
+            <span class="next-text nav-mobile">下一篇</span>
+            <i class="iconfont icon-right"></i>
+          </a>
+      </nav>
+    </footer>
+  </article>
+        </div>
+        
+
+  
+
+  
+    <script src="https://utteranc.es/client.js"
+            repo="suclogger/hugo-gitment"
+            issue-term="pathname"
+            theme="github-light"
+            crossorigin="anonymous"
+            async>
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://github.com/utterance">comments powered by utterances.</a></noscript>
+
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="social-links">
+      <a href="https://twitter.com/suclogger" class="iconfont icon-twitter" title="twitter"></a>
+      <a href="https://github.com/suclogger" class="iconfont icon-github" title="github"></a>
+  
+</div>
+
+<div class="copyright">
+  <span class="power-by">
+    由 <a class="hexo-link" href="https://gohugo.io">Hugo</a> 强力驱动
+  </span>
+  <span class="division">|</span>
+  <span class="theme-info">
+    主题 - 
+    <a class="theme-link" href="https://github.com/olOwOlo/hugo-theme-even">Even</a>
+  </span>
+
+  
+
+  <span class="copyright-year">
+    &copy; 
+    2017 - 
+    2024<span class="heart"><i class="iconfont icon-heart"></i></span><span></span>
+  </span>
+</div>
+
+    </footer>
+
+    <div class="back-to-top" id="back-to-top">
+      <i class="iconfont icon-up"></i>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/slideout@1.0.1/dist/slideout.min.js" integrity="sha256-t+zJ/g8/KXIJMjSVQdnibt4dlaDxc9zXr/9oNPeWqdg=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.1.20/dist/jquery.fancybox.min.js" integrity="sha256-XVLffZaxoWfGUEbdzuLi7pwaUJv1cecsQJQqGLe7axY=" crossorigin="anonymous"></script>
+
+
+
+<script type="text/javascript" src="/js/main.min.4ae89da218555efa0e7093a20b92017d2e1202b66fff9fc2edf4cb8d44b44c6e.js"></script>
+
+
+
+
+
+
+
+
+</body>
+</html>
